@@ -1,4 +1,4 @@
-package io.hashed.wallet.hashed_wallet
+package io.hashed.wallet
 
 import io.flutter.embedding.android.FlutterActivity
 
