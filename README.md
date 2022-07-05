@@ -1,5 +1,7 @@
 # Hashed Wallet
 
+Based on Seeds Light Wallet
+
 ## Getting Started
 
 ```
