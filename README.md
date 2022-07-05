@@ -6,7 +6,7 @@ Based on Seeds Light Wallet
 
 ```
 git clone [this repo]
-cd hashed_wallet
+cd hashed-wallet
 flutter pub get
 flutter run
 ```
