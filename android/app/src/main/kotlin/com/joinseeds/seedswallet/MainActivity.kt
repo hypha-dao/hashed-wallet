@@ -1,4 +1,4 @@
-package com.joinseeds.seedswallet
+package io.hashed.wallet
 
 import android.util.Log
 import android.webkit.WebStorage

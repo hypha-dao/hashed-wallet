@@ -1,95 +1,40 @@
 {
   "project_info": {
-    "project_number": "366914936426",
-    "firebase_url": "https://seeds-77371.firebaseio.com",
-    "project_id": "seeds-77371",
-    "storage_bucket": "seeds-77371.appspot.com"
+    "project_number": "600701240811",
+    "project_id": "hashed-wallet",
+    "storage_bucket": "hashed-wallet.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:7d2393ccb8b3bdda1a3413",
+        "mobilesdk_app_id": "1:600701240811:android:d678c0e2b53a96ceb8c5ae",
         "android_client_info": {
           "package_name": "com.joinseeds.seedswallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "366914936426-kn6vumn468dl6vc1rdp9ircp6v9ehufg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.joinseeds.seedswallet",
-            "certificate_hash": "ada86e0a7e0067084ed872e08681b2104aaf5270"
-          }
-        },
-        {
-          "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
+          "client_id": "600701240811-u0ii3uta2bnlm84io1rdd3h2da9pdq9n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZXBIoUmP6kWF0rDoT13EI0FaAqh_nGdw"
+          "current_key": "AIzaSyBGgQFU_BZZgICKaJBpbSSSr1y17AaC7U8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
+              "client_id": "600701240811-u0ii3uta2bnlm84io1rdd3h2da9pdq9n.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "366914936426-eop45t8oepqu48v4fsp8frgqo0h0fmqd.apps.googleusercontent.com",
+              "client_id": "600701240811-9lsnppa1e6nega3ciah6pb3ql9bdhlmj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.joinseeds.seedslight",
-                "app_store_id": "1507143650"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:389b18d13a862a531a3413",
-        "android_client_info": {
-          "package_name": "com.joinseeds.wallet"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "366914936426-k4i8n24qb9eu1ug0cqs0rcfvc3pq1fh3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.joinseeds.wallet",
-            "certificate_hash": "1d4a3d87c78e5d83f8b7c7fb5240f10fe072132f"
-          }
-        },
-        {
-          "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAZXBIoUmP6kWF0rDoT13EI0FaAqh_nGdw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "366914936426-eop45t8oepqu48v4fsp8frgqo0h0fmqd.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.joinseeds.seedslight",
-                "app_store_id": "1507143650"
+                "bundle_id": "io.hashed.hyphawallet"
               }
             }
           ]
