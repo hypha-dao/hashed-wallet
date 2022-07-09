@@ -63,8 +63,14 @@ dependencies:
   geocoding: ^2.0.2
   permission_handler: ^9.2.0
   json_schema2: ^2.0.2
+  jaguar: ^3.0.12
+  aes_ecb_pkcs5_flutter: ^0.1.2
+  get_storage: ^2.0.3
+  flutter_inappwebview: ^5.4.3+7
 
 dev_dependencies:
+  build_runner: ^2.0.0
+  json_serializable: ^6.0.0
   flutter_test:
     sdk: flutter
   test: any
@@ -192,6 +198,7 @@ flutter:
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
+    - assets/polkadot/main.js
     # assets end
 
   fonts:
