@@ -35,13 +35,15 @@ class CurrencyInfoCard extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          if((tokenBalance.token.usecases?.contains('experimental')) ?? false) Container(
-            width: 128,
-            height: 128,
-            decoration: const BoxDecoration(
-              image: DecorationImage(image: AssetImage('assets/images/wallet/currency_info_cards/experimental.png'), fit: BoxFit.fill),
+          if ((tokenBalance.token.usecases?.contains('experimental')) ?? false)
+            Container(
+              width: 128,
+              height: 128,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/wallet/currency_info_cards/experimental.png'), fit: BoxFit.fill),
+              ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
             child: Column(
@@ -53,14 +55,6 @@ class CurrencyInfoCard extends StatelessWidget {
                       child: Text(
                         tokenBalance.token.name,
                         style: Theme.of(context).textTheme.headline7.copyWith(color: textColor),
-                      ),
-                    ),
-                    if((tokenBalance.token.usecases?.contains(TokenModel.seedsEcosysUsecase)) ?? false) Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: const DecorationImage(image: AssetImage(seedsEcosysSymbol), fit: BoxFit.fill),
                       ),
                     ),
                     Container(
