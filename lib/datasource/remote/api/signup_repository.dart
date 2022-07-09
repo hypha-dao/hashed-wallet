@@ -1,45 +1,15 @@
+// ignore_for_file: directives_ordering
+
 import 'package:async/async.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart_ecc/eosdart_ecc.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
-import 'package:seeds/datasource/remote/model/invite_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 
-class SignupRepository extends EosRepository with NetworkRepository {
-  Future<Result> findInvite(String inviteHash) async {
-    final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
-
-    final request = createRequest(
-        code: account_join,
-        scope: account_join,
-        table: tableInvites,
-        lowerBound: inviteHash,
-        upperBound: inviteHash,
-        indexPosition: 2,
-        keyType: 'sha256');
-
-    return http
-        .post(Uri.parse(inviteURL), headers: headers, body: request)
-        .then(
-          (http.Response response) => mapHttpResponse(response, (dynamic body) {
-            final rows = body['rows'];
-            if (rows.isNotEmpty) {
-              return InviteModel.fromJson(rows.first);
-            } else {
-              throw Exception('empty result at $inviteURL');
-            }
-          }),
-        )
-        .catchError((error) => mapHttpError(error));
-  }
-
+class SignupRepository extends EosRepository with HttpRepository {
   Future<Result> unpackDynamicLink(String scannedLink) async {
     final PendingDynamicLinkData? unpackedLink =
         await FirebaseDynamicLinks.instance.getDynamicLink(Uri.parse(scannedLink));
@@ -84,15 +54,13 @@ class SignupRepository extends EosRepository with NetworkRepository {
   }) async {
     final EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
-    final applicationAccount = onboardingAccountName;
-
     final actions = <Action>[
       Action()
-        ..account = applicationAccount
-        ..name = actionNameAcceptnew
+        ..account = onboardingAccountName
+        ..name = SeedsEosAction.actionNameAcceptnew.value
         ..authorization = <Authorization>[
           Authorization()
-            ..actor = applicationAccount
+            ..actor = onboardingAccountName
             ..permission = permissionApplication
         ]
         ..data = {

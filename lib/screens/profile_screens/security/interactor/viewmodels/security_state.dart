@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'security_bloc.dart';
 
 enum CurrentChoice { initial, passcodeCard, biometricCard }
 enum GuardiansStatus { active, inactive, readyToActivate }
 
-/// STATE
 class SecurityState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
@@ -15,6 +13,7 @@ class SecurityState extends Equatable {
   final bool? isSecurePasscode;
   final bool? isSecureBiometric;
   final GuardiansStatus? guardiansStatus;
+  final bool shouldShowExportRecoveryPhrase;
 
   const SecurityState({
     required this.pageState,
@@ -26,6 +25,7 @@ class SecurityState extends Equatable {
     this.isSecurePasscode,
     this.isSecureBiometric,
     this.guardiansStatus,
+    required this.shouldShowExportRecoveryPhrase,
   });
 
   @override
@@ -39,6 +39,7 @@ class SecurityState extends Equatable {
         isSecurePasscode,
         isSecureBiometric,
         guardiansStatus,
+        shouldShowExportRecoveryPhrase,
       ];
 
   SecurityState copyWith({
@@ -51,6 +52,7 @@ class SecurityState extends Equatable {
     bool? isSecurePasscode,
     bool? isSecureBiometric,
     GuardiansStatus? guardiansStatus,
+    bool? shouldShowExportRecoveryPhrase,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,
@@ -62,14 +64,15 @@ class SecurityState extends Equatable {
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
       guardiansStatus: guardiansStatus ?? this.guardiansStatus,
+      shouldShowExportRecoveryPhrase: shouldShowExportRecoveryPhrase ?? this.shouldShowExportRecoveryPhrase,
     );
   }
 
-  factory SecurityState.initial() {
-    return const SecurityState(
-      pageState: PageState.initial,
-      currentChoice: CurrentChoice.initial,
-      hasNotification: false,
-    );
+  factory SecurityState.initial(bool shouldShowRecoveryWordsFeature) {
+    return SecurityState(
+        pageState: PageState.initial,
+        currentChoice: CurrentChoice.initial,
+        hasNotification: false,
+        shouldShowExportRecoveryPhrase: shouldShowRecoveryWordsFeature);
   }
 }

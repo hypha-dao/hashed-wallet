@@ -1,5 +1,5 @@
-import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_state.dart';
-import 'package:seeds/components/amount_entry/interactor/viewmodels/page_command.dart';
+import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
+import 'package:seeds/components/amount_entry/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -9,7 +9,6 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 class AmountChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
-    print("quantity: $parsedQuantity");
     final selectedFiat = settingsStorage.selectedFiatCurrency;
 
     TokenDataModel? tokenAmount;
@@ -17,9 +16,9 @@ class AmountChangeMapper extends StateMapper {
 
     if (currentState.currentCurrencyInput == CurrencyInput.fiat) {
       fiatAmount = FiatDataModel(parsedQuantity, fiatSymbol: settingsStorage.selectedFiatCurrency);
-      tokenAmount = currentState.ratesState.fiatToToken(fiatAmount, settingsStorage.selectedToken.symbol);
+      tokenAmount = currentState.ratesState.fiatToToken(fiatAmount, currentState.tokenAmount.id!);
     } else {
-      tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+      tokenAmount = currentState.tokenAmount.copyWith(parsedQuantity);
       fiatAmount = currentState.ratesState.tokenToFiat(tokenAmount, selectedFiat);
     }
 

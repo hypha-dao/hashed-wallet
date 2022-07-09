@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class BiometricEnabledDialog extends StatelessWidget {
-  const BiometricEnabledDialog({Key? key}) : super(key: key);
+  const BiometricEnabledDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
-      singleLargeButtonTitle: 'Got it, thanks!'.i18n,
+      singleLargeButtonTitle: context.loc.securityBiometricEnabledConfirmationButtonTitle,
       children: [
-        Text('Touch ID/ Face ID'.i18n, style: Theme.of(context).textTheme.button1),
+        Text(context.loc.securityBiometricEnabledTitle, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 24.0),
         Text(
-          'When Touch ID/Face ID has been set up, any biometric saved in your device will be able to login into the Seeds Light Wallet. You will not be able to use this feature for transactions.'
-              .i18n,
+          context.loc.securityBiometricEnabledDescription,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle2,
         ),

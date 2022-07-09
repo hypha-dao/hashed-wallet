@@ -1,139 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/components/send_loading_indicator.dart';
-import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/components/error_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/components/send_loading_indicator.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/components/transaction_details.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/send_confirmation_bloc.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_events.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
-import 'package:seeds/utils/cap_utils.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
-/// SendConfirmation SCREEN
 class SendConfirmationScreen extends StatelessWidget {
-  const SendConfirmationScreen({Key? key}) : super(key: key);
+  const SendConfirmationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SendConfirmationArguments arguments =
-        ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
-
+    final arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
     return BlocProvider(
-      create: (_) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
-      child: Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
-        )),
-        body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (BuildContext context, SendConfirmationState state) {
-            final pageCommand = state.pageCommand;
-            if (pageCommand is ShowTransferSuccess) {
-              showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button
-                builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
-                  onCloseButtonPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  },
-                  pageCommand: pageCommand,
-                ),
-              );
-            } else if (pageCommand is ShowTransactionSuccess) {
-              showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button
-                builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
-                  transaction: pageCommand.transactionModel,
-                  onCloseButtonPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  },
-                ),
-              );
-            }
-          },
-          child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
-            builder: (context, SendConfirmationState state) {
-              switch (state.pageState) {
-                case PageState.initial:
-                  return const SizedBox.shrink();
-                case PageState.loading:
-                  return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
-                case PageState.failure:
-                  return const FullPageErrorIndicator();
-                case PageState.success:
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            children: <Widget>[
-                              TransactionDetails(
-                                /// This needs to change to use the token icon. right now its hard coded to seeds
-                                image: SvgPicture.asset("assets/images/seeds_logo.svg"),
-                                title: state.actionName.inCaps,
-                                beneficiary: state.account,
-                              ),
-                              const SizedBox(height: 42),
-                              Column(
-                                children: <Widget>[
-                                  ...state.lineItems
-                                      .map(
-                                        (e) => Padding(
-                                          padding: const EdgeInsets.only(top: 16),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text(
-                                                e.label!,
-                                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                                              ),
-                                              Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
+      create: (_) => SendConfirmationBloc(arguments)..add(const OnInitValidations()),
+      child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
+        builder: (context, state) {
+          return WillPopScope(
+            onWillPop: () async {
+              // Clear deeplink on navigate back (i.e. cancel confirm link)
+              BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
+              Navigator.of(context).pop(state.transactionResult);
+              return true;
+            },
+            child: Scaffold(
+              appBar: AppBar(title: const Text('Back')),
+              body: BlocConsumer<SendConfirmationBloc, SendConfirmationState>(
+                listenWhen: (_, current) => current.pageCommand != null,
+                listener: (context, state) {
+                  final pageCommand = state.pageCommand;
+                  // Clear deeplink despite the submit result
+                  BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
+                  if (pageCommand is ShowTransferSuccess) {
+                    Navigator.of(context).pop(state.transactionResult);
+                    if (pageCommand.shouldShowInAppReview) {
+                      InAppReview.instance.requestReview();
+                      settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
+                    }
+                    SendTransactionSuccessDialog.fromPageCommand(pageCommand).show(context);
+                  } else if (pageCommand is ShowTransactionSuccess) {
+                    Navigator.of(context).pop(state.transactionResult);
+                    GenericTransactionSuccessDialog(pageCommand.transactionModel).show(context);
+                  } else if (pageCommand is ShowFailedTransactionReason) {
+                    ErrorDialog(
+                      title: pageCommand.title,
+                      details: pageCommand.details,
+                      onRightButtonPressed: () {
+                        final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                        BlocProvider.of<SendConfirmationBloc>(context).add(OnSendTransactionButtonPressed(rates));
+                      },
+                    ).show(context);
+                  } else if (pageCommand is ShowInvalidTransactionReason) {
+                    eventBus.fire(ShowSnackBar(pageCommand.reason));
+                  }
+                },
+                builder: (context, state) {
+                  switch (state.pageState) {
+                    case PageState.loading:
+                      return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
+                    case PageState.failure:
+                      return FullPageErrorIndicator(errorMessage: state.errorMessage);
+                    case PageState.success:
+                      return SafeArea(
+                        minimum: const EdgeInsets.all(horizontalEdgePadding),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView(
+                                padding: const EdgeInsets.only(bottom: 24),
+                                shrinkWrap: true,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 32.0, top: 20),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(24),
+                                      decoration:
+                                          const BoxDecoration(color: AppColors.darkGreen2, shape: BoxShape.circle),
+                                      child: SvgPicture.asset("assets/images/seeds_logo.svg"),
+                                    ),
+                                  ),
+                                  for (final i in state.transaction.actions) TransactionActionCard(i)
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: FlatButtonLong(
+                                enabled: state.invalidTransaction == InvalidTransaction.none,
+                                title: context.loc.transferConfirmationButton,
+                                onPressed: () {
+                                  final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                                  BlocProvider.of<SendConfirmationBloc>(context)
+                                      .add(OnSendTransactionButtonPressed(rates));
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: FlatButtonLong(
-                          title: 'Confirm and Send'.i18n,
-                          onPressed: () {
-                            final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                            BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent(rates));
-                          },
-                        ),
-                      ),
-                    ],
-                  );
-                default:
-                  return const SizedBox.shrink();
-              }
-            },
-          ),
-        ),
+                      );
+                    default:
+                      return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }

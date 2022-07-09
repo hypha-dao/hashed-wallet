@@ -1,17 +1,18 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/selectable_text_with_links.dart';
-import 'package:url_launcher/url_launcher.dart' as launcher;
-import 'package:flutter/gestures.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/selectable_text_with_links.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
+import 'package:seeds/utils/cap_utils.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class ProposalDetailsMiddle extends StatelessWidget {
-  const ProposalDetailsMiddle({Key? key}) : super(key: key);
+  const ProposalDetailsMiddle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +78,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                               ),
                               const SizedBox(height: 10.0),
                               Row(
-                                children: [
-                                  Text(state.creator!.nickname ?? '', style: Theme.of(context).textTheme.subtitle2)
-                                ],
+                                children: [Text(state.creator!.nickname, style: Theme.of(context).textTheme.subtitle2)],
                               ),
                             ],
                           ),
@@ -96,35 +95,51 @@ class ProposalDetailsMiddle extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Recipient: %s '.i18n.fill([(state.proposals[state.currentIndex].recipient)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Requested: %s '.i18n.fill([(state.proposals[state.currentIndex].quantity)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Type: %s '.i18n.fill([
-                      if (state.proposals[state.currentIndex].campaignType == 'alliance')
-                        "Alliance".i18n
-                      else
-                        "Campaign".i18n
-                    ]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
+                  if (state.proposals[state.currentIndex].stage.isEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Setting: %s '.i18n.fill([(state.proposals[state.currentIndex].settingName)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'New Value: %s'.i18n.fill([(state.proposals[state.currentIndex].settingValue)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                      ],
+                    ),
+                  if (state.proposals[state.currentIndex].stage.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Recipient: %s '.i18n.fill([(state.proposals[state.currentIndex].recipient)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Requested: %s '.i18n.fill([(state.proposals[state.currentIndex].quantity)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Type: %s '.i18n.fill([state.proposals[state.currentIndex].campaignType.i18n.inCaps]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status.inCaps)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage.inCaps)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: 8),
                   RichText(
                     text: TextSpan(
@@ -138,8 +153,8 @@ class ProposalDetailsMiddle extends StatelessWidget {
                           style: Theme.of(context).textTheme.subtitle3LightGreen6,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
-                              if (await launcher.canLaunch(state.proposals[state.currentIndex].url)) {
-                                await launcher.launch(state.proposals[state.currentIndex].url);
+                              if (await launcher.canLaunchUrl(Uri.parse(state.proposals[state.currentIndex].url))) {
+                                await launcher.launchUrl(Uri.parse(state.proposals[state.currentIndex].url));
                               } else {
                                 // TODO(Raul): listener snack
                                 // print("Couldn't open this url".i18n);

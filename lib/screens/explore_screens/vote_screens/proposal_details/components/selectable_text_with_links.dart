@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const String _urlPattern =
     r"((https?:www\.)|(https?:\/\/)|(www\.))?[\w/\-?=%.][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?";
@@ -22,7 +22,7 @@ class SelectableTextWithLinks extends StatelessWidget {
   final String text;
   final TextStyle? style;
 
-  const SelectableTextWithLinks(this.text, {Key? key, this.style}) : super(key: key);
+  const SelectableTextWithLinks(this.text, {super.key, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class SelectableTextWithLinks extends StatelessWidget {
   }
 
   Future<void> _openUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }

@@ -1,25 +1,27 @@
 import 'package:async/async.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/datasource/remote/model/organization_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
 import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
-class ProfileRepository extends NetworkRepository with EosRepository {
-  Future<Result> getProfile(String accountName) {
+class ProfileRepository extends HttpRepository with EosRepository {
+  Future<Result<ProfileModel>> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
     final request = createRequest(
-      code: account_accounts,
-      scope: account_accounts,
-      table: tableUsers,
+      code: SeedsCode.accountAccounts,
+      scope: SeedsCode.accountAccounts.value,
+      table: SeedsTable.tableUsers,
       lowerBound: accountName,
       upperBound: accountName,
     );
@@ -27,13 +29,33 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
             headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> updateProfile({
+  // TODO(Raul): Unify this code with _getAccountPermissions in guardians repo
+  // Returns the first active key permission - String
+  Future<Result> getAccountPublicKey(String accountName) async {
+    print('[http] getAccountPublicKey');
+
+    final url = Uri.parse('$host/v1/chain/get_account');
+    final body = '{ "account_name": "$accountName" }';
+
+    return http
+        .post(url, headers: headers, body: body)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              final List<dynamic> allAccounts = body['permissions'].toList();
+              final permissions = allAccounts.map((item) => Permission.fromJson(item)).toList();
+              final Permission activePermission = permissions.firstWhere((element) => element.permName == "active");
+              final RequiredAuth? activeAuth = activePermission.requiredAuth;
+              return activeAuth?.keys?.first?.key;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result<TransactionResponse>> updateProfile({
     required String nickname,
     required String image,
     required String story,
@@ -46,8 +68,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_accounts
-        ..name = actionNameUpdate
+        ..account = SeedsCode.accountAccounts.value
+        ..name = SeedsEosAction.actionNameUpdate.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -67,17 +89,17 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> getScore({
+  Future<Result<ScoreModel>> getScore({
     required String account,
-    String contractName = account_harvest,
+    SeedsCode contractName = SeedsCode.accountHarvest,
     String? scope,
-    required String tableName,
+    required SeedsTable tableName,
     String fieldName = "rank",
   }) async {
     print('[http] get score $account $tableName');
@@ -86,7 +108,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final request = createRequest(
       code: contractName,
-      scope: scope ?? contractName,
+      scope: scope ?? contractName.value,
       table: tableName,
       lowerBound: account,
       upperBound: account,
@@ -94,19 +116,19 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(scoreURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<ScoreModel>(response, (dynamic body) {
               return ScoreModel.fromJson(json: body, fieldName: fieldName);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getReferredAccounts(String accountName) {
+  Future<Result<ReferredAccounts>> getReferredAccounts(String accountName) {
     print('[http] get Referred Accounts $accountName');
 
     final request = createRequest(
-      code: account_accounts,
-      scope: account_accounts,
-      table: tableRefs,
+      code: SeedsCode.accountAccounts,
+      scope: SeedsCode.accountAccounts.value,
+      table: SeedsTable.tableRefs,
       lowerBound: accountName,
       upperBound: accountName,
       indexPosition: 2,
@@ -116,19 +138,19 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
             headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<ReferredAccounts>(response, (dynamic body) {
               return ReferredAccounts.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> plantSeeds({required double amount, required String accountName}) async {
+  Future<Result<TransactionResponse>> plantSeeds({required double amount, required String accountName}) async {
     print('[eos] plant seeds ($amount)');
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_token
-        ..name = actionNameTransfer
+        ..account = SeedsCode.accountToken.value
+        ..name = SeedsEosAction.actionNameTransfer.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -136,7 +158,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': account_harvest,
+          'to': SeedsCode.accountHarvest.value,
           'quantity': '${amount.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         }
@@ -144,29 +166,88 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> makeCitizen(String accountName) async {
+  Future<Result<TransactionResponse>> unplantSeeds({required double amount, required String accountName}) async {
+    print('[eos] unplant seeds ($amount)');
+
+    final transaction = buildFreeTransaction([
+      Action()
+        ..account = SeedsCode.accountHarvest.value
+        ..name = SeedsEosAction.actionNameUnplant.value
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permissionActive
+        ]
+        ..data = {
+          'from': accountName,
+          'quantity': '${amount.toStringAsFixed(4)} $currencySeedsCode',
+        }
+    ], accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  /// This claims unplanted Seeds that are ready to be sent back to the user
+  /// Each time a user unplants, a new unplant request is created, with a new request ID
+  /// This allows to claim on any number of refunds. The chain will decide how much is ready
+  /// to be unplanted and send the funds back to the user.
+  Future<Result<TransactionResponse>> claimRefund({required String accountName, required List<int> requestIds}) async {
+    print('[eos] claimrefund from: $accountName $requestIds');
+
+    final transaction = buildFreeTransaction(
+        List.from(requestIds.map(
+          (id) => Action()
+            ..account = SeedsCode.accountHarvest.value
+            ..name = SeedsEosAction.actionNameClaimRefund.value
+            ..authorization = [
+              Authorization()
+                ..actor = accountName
+                ..permission = permissionActive
+            ]
+            ..data = {
+              'from': accountName,
+              'request_id': '$id',
+            },
+        )),
+        accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  Future<Result<TransactionResponse>> makeCitizen(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: true, isCitizen: true);
   }
 
-  Future<Result> makeResident(String accountName) async {
+  Future<Result<TransactionResponse>> makeResident(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: true, isCitizen: false);
   }
 
-  Future<Result> canCitizen(String accountName) async {
+  Future<Result<TransactionResponse>> canCitizen(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: false, isCitizen: true);
   }
 
-  Future<Result> canResident(String accountName) async {
+  Future<Result<TransactionResponse>> canResident(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: false, isCitizen: false);
   }
 
-  Future<Result> citizenshipAction({required String accountName, required bool isMake, required bool isCitizen}) async {
+  Future<Result<TransactionResponse>> citizenshipAction(
+      {required String accountName, required bool isMake, required bool isCitizen}) async {
     final String isMakeText = isMake ? "make" : "can";
     final String isCitizenText = isMake ? "citizen" : "resident";
 
@@ -174,15 +255,15 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final actionName = isMake
         ? isCitizen
-            ? actionNameMakecitizen
-            : actionNameMakeresident
+            ? SeedsEosAction.actionNameMakecitizen.value
+            : SeedsEosAction.actionNameMakeresident.value
         : isCitizen
-            ? actionNameCakecitizen
-            : actionNameCanresident;
+            ? SeedsEosAction.actionNameCakecitizen.value
+            : SeedsEosAction.actionNameCanresident.value;
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_accounts
+        ..account = SeedsCode.accountAccounts.value
         ..name = actionName
         ..authorization = [
           Authorization()
@@ -196,14 +277,14 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
   /// Not being used for the moment
-  Future<Result> isDHOMember(String accountName) {
+  Future<Result<bool>> isDHOMember(String accountName) {
     print('[http] is $accountName DHO member');
 
     final request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
@@ -211,8 +292,29 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
             headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<bool>(response, (dynamic body) {
               return (body['rows'] as List).isNotEmpty;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result<List<OrganizationModel>>> getOrganizationAccount(String accountName) {
+    print('[http] get organization account');
+
+    final request = createRequest(
+      code: SeedsCode.accountOrgs,
+      scope: SeedsCode.accountOrgs.value,
+      lowerBound: accountName,
+      upperBound: accountName,
+      table: SeedsTable.tableOrganization,
+      limit: 10,
+    );
+
+    return http
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<List<OrganizationModel>>(response, (dynamic body) {
+              final List<dynamic> allAccounts = body['rows'].toList();
+              return allAccounts.map((i) => OrganizationModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

@@ -40,6 +40,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600701240811:android:60e8e7a8786d326bb8c5ae",
+        "android_client_info": {
+          "package_name": "io.hashed.wallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600701240811-u0ii3uta2bnlm84io1rdd3h2da9pdq9n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGgQFU_BZZgICKaJBpbSSSr1y17AaC7U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600701240811-u0ii3uta2bnlm84io1rdd3h2da9pdq9n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "600701240811-9lsnppa1e6nega3ciah6pb3ql9bdhlmj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.hashed.hyphawallet"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

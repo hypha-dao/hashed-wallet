@@ -5,15 +5,15 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_list_widget.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
-import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 
 class MyGuardiansTab extends StatelessWidget {
-  const MyGuardiansTab({Key? key}) : super(key: key);
+  const MyGuardiansTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,30 @@ class MyGuardiansTab extends StatelessWidget {
             } else {
               final List<Widget> items = [];
 
+              items.add(StreamBuilder<bool>(
+                  stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,
+                  builder: (context, isGuardiansInitialized) {
+                    if (shouldShowReadyToActivateGuardiansButton(isGuardiansInitialized, alreadyGuardians)) {
+                      return Center(
+                          child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: MaterialButton(
+                          color: AppColors.green1,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                          onPressed: () {
+                            BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [const Text("Activate "), const Icon(Icons.shield), const Text(" Guardians")],
+                          ),
+                        ),
+                      ));
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }));
+
               items.add(Expanded(
                   child: MyGuardiansListWidget(
                 currentUserId: settingsStorage.accountName,
@@ -41,7 +65,7 @@ class MyGuardiansTab extends StatelessWidget {
               if (alreadyGuardians.length < 3) {
                 items.add(
                   Padding(
-                    padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 100),
+                    padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 20),
                     child: Center(
                       child: Text(
                         "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key".i18n,
@@ -55,17 +79,11 @@ class MyGuardiansTab extends StatelessWidget {
                 items.add(StreamBuilder<bool>(
                     stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,
                     builder: (context, isGuardiansInitialized) {
-                      if (isGuardiansInitialized.hasData) {
-                        if (isGuardiansInitialized.data!) {
-                          return Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Text("Your guardians are active!".i18n),
-                          );
-                        } else {
-                          BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
-
-                          return const SizedBox.shrink();
-                        }
+                      if (isGuardiansInitialized.hasData && isGuardiansInitialized.data!) {
+                        return Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Text("Your guardians are active!".i18n),
+                        );
                       } else {
                         return const SizedBox.shrink();
                       }
@@ -78,5 +96,10 @@ class MyGuardiansTab extends StatelessWidget {
             return const FullPageLoadingIndicator();
           }
         });
+  }
+
+  bool shouldShowReadyToActivateGuardiansButton(
+      AsyncSnapshot<bool> isGuardiansInitialized, Iterable<GuardianModel> alreadyGuardians) {
+    return isGuardiansInitialized.hasData && !isGuardiansInitialized.data! && alreadyGuardians.length >= 3;
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 
 class AlertInputValue extends StatelessWidget {
   final String text;
   final bool isVisible;
 
-  const AlertInputValue(this.text, {Key? key, required this.isVisible}) : super(key: key);
+  const AlertInputValue(this.text, {super.key, required this.isVisible});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/components/dots_indicator.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class OnboardingDialogDoubleAction extends StatelessWidget {
@@ -14,15 +14,14 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
   final String rightButtonTitle;
 
   const OnboardingDialogDoubleAction(
-      {Key? key,
+      {super.key,
       required this.indexDialong,
       required this.image,
       required this.description,
       this.onRightButtonTab,
       this.onLeftButtonTab,
       required this.rightButtonTitle,
-      required this.leftButtonTitle})
-      : super(key: key);
+      required this.leftButtonTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +46,7 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
             DotsIndicator(
               dotsCount: 4,
               position: indexDialong.toDouble() - 1,
-              decorator: const DotsDecorator(
-                spacing: EdgeInsets.all(2.0),
-                size: Size(10.0, 2.0),
-                shape: Border(),
-                color: AppColors.grey3,
-                activeColor: AppColors.green1,
-                activeSize: Size(18.0, 2.0),
-                activeShape: Border(),
-              ),
+              decorator: DotsDecorator.copyWith(color: AppColors.grey3),
             ),
             const SizedBox(height: 30),
             Container(

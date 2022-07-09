@@ -1,10 +1,11 @@
-include: package:pedantic/analysis_options.1.9.0.yaml
+include: package:lint/analysis_options.yaml
 
 analyzer:
   strong-mode:
     implicit-casts: true
     implicit-dynamic: true
   errors:
+    avoid_print: ignore
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning
     # treat missing returns as a warning (not a hint)
@@ -33,13 +34,13 @@ linter:
     # - always_put_required_named_parameters_first # we prefer having parameters in the same order as fields https://github.com/flutter/flutter/issues/10219
     always_require_non_null_named_parameters: true
     always_specify_types: false
-    # - always_use_package_imports # we do this commonly
+    always_use_package_imports: true
     annotate_overrides: true
     # - avoid_annotating_with_dynamic # conflicts with always_specify_types
     avoid_bool_literals_in_conditional_expressions: true
     # - avoid_catches_without_on_clauses # we do this commonly
     # - avoid_catching_errors # we do this commonly
-    avoid_classes_with_only_static_members: false # <---Gery check it when you have time I think is a really good one.
+    avoid_classes_with_only_static_members: false # <---Routes and AppColors classes are exceptions
     # - avoid_double_and_int_checks # only useful when targeting JS runtime
     avoid_dynamic_calls: false # <--this is a good one to check in future
     avoid_empty_else: true
@@ -61,7 +62,7 @@ linter:
     # - avoid_returning_null_for_future # not yet tested
     avoid_returning_null_for_void: true
     # - avoid_returning_this # there are plenty of valid reasons to return this
-    # - avoid_setters_without_getters # not yet tested
+    avoid_setters_without_getters: true
     avoid_shadowing_type_parameters: true
     avoid_single_cascade_in_expression_statements: true
     avoid_slow_async_io: true
@@ -80,9 +81,10 @@ linter:
     cast_nullable_to_non_nullable: true
     # - close_sinks # not reliable enough
     # - comment_references # blocked on https://github.com/flutter/flutter/issues/20765
-    # - constant_identifier_names # needs an opt-out https://github.com/dart-lang/linter/issues/204
+    constant_identifier_names: true
     control_flow_in_finally: true
     # - curly_braces_in_flow_control_structures # not required by flutter style
+    depend_on_referenced_packages: false
     # - diagnostic_describe_all_properties # not yet tested
     directives_ordering: true
     # - do_not_use_environment # we do this commonly
@@ -129,7 +131,7 @@ linter:
     prefer_const_constructors_in_immutables: true
     prefer_const_declarations: false
     prefer_const_literals_to_create_immutables: false
-    # - prefer_constructors_over_static_methods # far too many false positives
+    prefer_constructors_over_static_methods: true
     prefer_contains: true
     # - prefer_double_quotes # opposite of prefer_single_quotes
     prefer_equal_for_default_values: true
@@ -161,6 +163,7 @@ linter:
     provide_deprecation_message: true
     # - public_member_api_docs # enabled on a case-by-case basis; see e.g. packages/analysis_options.yaml
     recursive_getters: true
+    require_trailing_commas: false
     sized_box_for_whitespace: false
     slash_for_doc_comments: true
     sort_child_properties_last: true
@@ -172,7 +175,7 @@ linter:
     tighten_type_of_initializing_formals: true
     # - type_annotate_public_apis # subset of always_specify_types
     type_init_formals: true
-    # - unawaited_futures # too many false positives
+    unawaited_futures: true
     unnecessary_await_in_return: true
     unnecessary_brace_in_string_interps: true
     unnecessary_const: true

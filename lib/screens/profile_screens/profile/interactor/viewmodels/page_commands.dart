@@ -1,11 +1,14 @@
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 
 class ShowLogoutDialog extends PageCommand {}
 
-class ShowCitizenshipUpgradeSuccess extends PageCommand {
-  final bool isResident;
+class ShowLogoutRecoveryPhraseDialog extends PageCommand {}
 
-  ShowCitizenshipUpgradeSuccess(this.isResident);
+class ShowCitizenshipUpgradeSuccess extends PageCommand {
+  final ProfileStatus status;
+
+  ShowCitizenshipUpgradeSuccess(this.status);
 }
 
 class ShowProcessingCitizenshipUpgrade extends PageCommand {}

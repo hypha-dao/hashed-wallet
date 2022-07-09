@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerCircle extends StatelessWidget {
   final double size;
 
-  const ShimmerCircle(this.size, {Key? key}) : super(key: key);
+  const ShimmerCircle(this.size, {super.key});
 
   @override
   Widget build(BuildContext context) {

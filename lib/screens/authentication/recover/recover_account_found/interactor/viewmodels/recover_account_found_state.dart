@@ -1,31 +1,29 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
+part of 'recover_account_found_bloc.dart';
 
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
-  final String? errorMessage;
+  final RecoverAccountFoundError? error;
   final String userAccount;
   final Uri? linkToActivateGuardians;
   final List<String> alreadySignedGuardians;
-  final List<MemberModel> userGuardiansData;
+  final List<ProfileModel> userGuardiansData;
   final int confirmedGuardianSignatures;
   final RecoveryStatus recoveryStatus;
-  final int timeLockSeconds;
+  final int timeLockExpirySeconds;
   final CurrentRemainingTime? currentRemainingTime;
   final PageCommand? pageCommand;
+
+  int get timeRemaining => timeLockExpirySeconds - DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
   const RecoverAccountFoundState({
     required this.pageState,
     required this.linkToActivateGuardians,
     required this.userGuardiansData,
-    this.errorMessage,
+    this.error,
     required this.confirmedGuardianSignatures,
     required this.recoveryStatus,
     required this.alreadySignedGuardians,
-    required this.timeLockSeconds,
+    required this.timeLockExpirySeconds,
     this.currentRemainingTime,
     required this.userAccount,
     this.pageCommand,
@@ -36,25 +34,26 @@ class RecoverAccountFoundState extends Equatable {
         pageState,
         linkToActivateGuardians,
         userGuardiansData,
-        errorMessage,
+        error,
         confirmedGuardianSignatures,
         recoveryStatus,
         alreadySignedGuardians,
-        timeLockSeconds,
+        timeLockExpirySeconds,
         userAccount,
         pageCommand,
+        currentRemainingTime,
       ];
 
   RecoverAccountFoundState copyWith({
     PageState? pageState,
     Uri? linkToActivateGuardians,
     List<String>? userGuardians,
-    List<MemberModel>? userGuardiansData,
-    String? errorMessage,
+    List<ProfileModel>? userGuardiansData,
+    RecoverAccountFoundError? error,
     int? confirmedGuardianSignatures,
     List<String>? alreadySignedGuardians,
     RecoveryStatus? recoveryStatus,
-    int? timeLockSeconds,
+    int? timeLockExpirySeconds,
     CurrentRemainingTime? currentRemainingTime,
     PageCommand? pageCommand,
   }) {
@@ -62,11 +61,11 @@ class RecoverAccountFoundState extends Equatable {
       pageState: pageState ?? this.pageState,
       linkToActivateGuardians: linkToActivateGuardians ?? this.linkToActivateGuardians,
       userGuardiansData: userGuardiansData ?? this.userGuardiansData,
-      errorMessage: errorMessage,
+      error: error,
       confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
       recoveryStatus: recoveryStatus ?? this.recoveryStatus,
       alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
-      timeLockSeconds: timeLockSeconds ?? this.timeLockSeconds,
+      timeLockExpirySeconds: timeLockExpirySeconds ?? this.timeLockExpirySeconds,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
       userAccount: userAccount,
       pageCommand: pageCommand,
@@ -79,16 +78,16 @@ class RecoverAccountFoundState extends Equatable {
       linkToActivateGuardians: null,
       userGuardiansData: [],
       confirmedGuardianSignatures: 0,
-      recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
+      recoveryStatus: RecoveryStatus.waitingForGuardiansToSign,
       alreadySignedGuardians: [],
-      timeLockSeconds: 0,
+      timeLockExpirySeconds: 0,
       userAccount: userAccount,
     );
   }
 }
 
 enum RecoveryStatus {
-  WAITING_FOR_GUARDIANS_TO_SIGN,
-  WAITING_FOR_24_HOUR_COOL_PERIOD,
-  READY_TO_CLAIM_ACCOUNT,
+  waitingForGuardiansToSign,
+  waitingFor24HourCoolPeriod,
+  readyToClaimAccount,
 }

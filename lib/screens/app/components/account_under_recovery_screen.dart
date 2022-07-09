@@ -1,15 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/app_event.dart';
 import 'package:seeds/i18n/app/app.i18.dart';
+import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 
 class AccountUnderRecoveryScreen extends StatelessWidget {
-  const AccountUnderRecoveryScreen({Key? key}) : super(key: key);
+  const AccountUnderRecoveryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +15,7 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           singleLargeButtonTitle: 'Cancel Recovery'.i18n,
-          onSingleLargeButtonPressed: () async {
+          onSingleLargeButtonPressed: () {
             BlocProvider.of<AppBloc>(context).add(const OnStopGuardianActiveRecoveryTapped());
           },
           children: [
@@ -28,10 +26,7 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
                 color: AppColors.white,
                 borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
                 image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/guardians/guardian_shield.png',
-                    ),
-                    fit: BoxFit.fitWidth),
+                    image: AssetImage('assets/images/guardians/guardian_shield.png'), fit: BoxFit.fitWidth),
               ),
             ),
             const SizedBox(height: 20),

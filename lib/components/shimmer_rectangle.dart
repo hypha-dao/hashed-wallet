@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerRectangle extends StatelessWidget {
   final Size size;
   final double radius;
 
-  const ShimmerRectangle({Key? key, required this.size, this.radius = 4}) : super(key: key);
+  const ShimmerRectangle({super.key, required this.size, this.radius = 4});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/current_remaining_time.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
 ///Seconds in a day
 const int _daySecond = 60 * 60 * 24;
@@ -12,9 +12,11 @@ const int _hourSecond = 60 * 60;
 const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
-  VoteState mapResultToState(VoteState currentState, int remainingTime) {
-    int days = 0, hours = 0, min = 0;
-    int remainingTimeStamp = (remainingTime - DateTime.now().millisecondsSinceEpoch) ~/ 1000;
+  VoteState mapResultToState(VoteState currentState) {
+    int days = 0;
+    int hours = 0;
+    int min = 0;
+    int remainingTimeStamp = (currentState.cycleEndTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000;
 
     ///Calculate the number of days remaining.
     if (remainingTimeStamp >= _daySecond) {
@@ -40,7 +42,6 @@ class RemainingTimeStateMapper {
 
     return currentState.copyWith(
       pageState: PageState.success,
-      remainingTimeStamp: remainingTime,
       currentRemainingTime: CurrentRemainingTime(
         days: days,
         hours: hours,

@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBGgQFU_BZZgICKaJBpbSSSr1y17AaC7U8',
-    appId: '1:600701240811:android:d678c0e2b53a96ceb8c5ae',
+    appId: '1:600701240811:android:60e8e7a8786d326bb8c5ae',
     messagingSenderId: '600701240811',
     projectId: 'hashed-wallet',
     storageBucket: 'hashed-wallet.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDjVI1fXj8NVgV7p26jTx0TP3DIfYP6CQM',
-    appId: '1:600701240811:ios:28f3b537a6a745f5b8c5ae',
+    appId: '1:600701240811:ios:cd1348affa9281e3b8c5ae',
     messagingSenderId: '600701240811',
     projectId: 'hashed-wallet',
     storageBucket: 'hashed-wallet.appspot.com',
-    iosClientId: '600701240811-trv9cs3kif47u5ekbq3koqupf4bvvmij.apps.googleusercontent.com',
-    iosBundleId: 'com.joinseeds.seedslight',
+    iosClientId: '600701240811-6ap6tnsmbqv72k6kbd3hgub3lp40juge.apps.googleusercontent.com',
+    iosBundleId: 'io.hashed.wallet',
   );
 }

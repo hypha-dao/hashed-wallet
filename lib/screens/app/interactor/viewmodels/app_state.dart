@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'app_bloc.dart';
 
-/// STATE
 class AppState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
@@ -51,7 +47,7 @@ class AppState extends Equatable {
 
   factory AppState.initial(GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen) {
     return AppState(
-      pageState: PageState.initial,
+      pageState: PageState.loading,
       index: 0,
       hasNotification: false,
       showGuardianRecoveryAlert: false,
