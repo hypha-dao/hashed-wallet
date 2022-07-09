@@ -1,18 +1,40 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
+part of 'contribution_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class ContributionEvent extends Equatable {
   const ContributionEvent();
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class SetScores extends ContributionEvent {
   final ScoresViewModel? score;
+
   const SetScores({required this.score});
+
   @override
   String toString() => 'SetScores { score: $score }';
+}
+
+class FetchScores extends ContributionEvent {
+  const FetchScores();
+
+  @override
+  String toString() => 'FetchScores';
+}
+
+class ShowScoreDetails extends ContributionEvent {
+  final ScoreType scoreType;
+
+  const ShowScoreDetails(this.scoreType);
+
+  @override
+  String toString() => 'ShowScoreDetails {scoreType: $scoreType}';
+}
+
+class ClearContributionPageCommand extends ContributionEvent {
+  const ClearContributionPageCommand();
+
+  @override
+  String toString() => 'ClearContributionPageCommand';
 }

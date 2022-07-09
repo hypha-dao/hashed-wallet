@@ -1,14 +1,12 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
-import 'package:collection/collection.dart';
+part of 'token_balances_bloc.dart';
 
 class TokenBalancesState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final List<TokenBalanceViewModel> availableTokens;
   final int selectedIndex;
+
+  TokenBalanceViewModel get selectedToken => availableTokens[selectedIndex];
 
   const TokenBalancesState({
     required this.pageState,
@@ -37,10 +35,10 @@ class TokenBalancesState extends Equatable {
   }
 
   factory TokenBalancesState.initial() {
-    return const TokenBalancesState(
+    return TokenBalancesState(
       selectedIndex: 0,
       pageState: PageState.initial,
-      availableTokens: [TokenBalanceViewModel(SeedsToken, null)],
+      availableTokens: [TokenBalanceViewModel(seedsToken, null)],
     );
   }
 }

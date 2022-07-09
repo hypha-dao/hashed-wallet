@@ -1,23 +1,33 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/utils/string_extension.dart';
 
 class InviteModel extends Equatable {
-  final int? inviteId;
-  final String? transferQuantity;
-  final String? sowQuantity;
-  final String? sponsor;
+  final int inviteId;
+  final String transferQuantity;
+  final String sowQuantity;
+  final String sponsor;
   final String? account;
-  final String? inviteHash;
-  final String? inviteSecret;
+  final String inviteHash;
+  final String inviteSecret;
 
   const InviteModel({
-    this.inviteId,
-    this.transferQuantity,
-    this.sowQuantity,
-    this.sponsor,
+    required this.inviteId,
+    required this.transferQuantity,
+    required this.sowQuantity,
+    required this.sponsor,
     this.account,
-    this.inviteHash,
-    this.inviteSecret,
+    required this.inviteHash,
+    required this.inviteSecret,
   });
+
+  bool get isClaimed => !account.isNullOrEmpty;
+
+  double get inviteTotalAmount => transferQuantity.quantityAsDouble + sowQuantity.quantityAsDouble;
+
+  /// Returns the rounded amount in seeds with its symbol Ex: 10.00 SEEDS
+  String get seedsFormattedInviteTotalAmount => '${inviteTotalAmount.seedsFormatted} $currencySeedsCode';
 
   factory InviteModel.fromJson(Map<String, dynamic> json) {
     return InviteModel(

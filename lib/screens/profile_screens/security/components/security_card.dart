@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/components/divider_jungle.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/components/notification_badge.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 
 /// SECURITY CARD
 class SecurityCard extends StatelessWidget {
@@ -24,14 +24,13 @@ class SecurityCard extends StatelessWidget {
   final bool hasNotification;
 
   const SecurityCard(
-      {Key? key,
+      {super.key,
       required this.icon,
       required this.title,
       this.description = '',
       this.titleWidget,
       this.onTap,
-      this.hasNotification = false})
-      : super(key: key);
+      this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {

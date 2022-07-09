@@ -1,19 +1,18 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/authentication/login.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
-/// Login SCREEN
+const int _approxWidgetHeight = 450;
+
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  static const int approxWidgetHeight = 450;
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,56 +27,65 @@ class LoginScreen extends StatelessWidget {
             if (settingsStorage.inRecoveryMode) {
               NavigationService.of(context).navigateTo(Routes.recoverAccountFound, settingsStorage.accountName);
             } else {
-              NavigationService.of(context).navigateTo(Routes.recoverAccount);
+              NavigationService.of(context).navigateTo(Routes.recoverAccountSearch);
             }
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Lost your key?".i18n, style: Theme.of(context).textTheme.subtitle2),
-              Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1),
-              Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
+              Text(context.loc.loginRecoverAccountActionSegment1, style: Theme.of(context).textTheme.subtitle2),
+              Text(context.loc.loginRecoverAccountActionLink,
+                  style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1),
+              Text(context.loc.loginRecoverAccountActionSegment2, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: max(0, min(height * 0.4, height - approxWidgetHeight)),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  image: AssetImage("assets/images/login/background.png"),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: max(0, min(height * 0.4, height - _approxWidgetHeight)),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(fit: BoxFit.fitWidth, image: AssetImage("assets/images/login/background.png")),
                 ),
               ),
-            ),
-            SvgPicture.asset("assets/images/login/seeds_light_wallet_logo.svg"),
-            const SizedBox(height: 80),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("First time here?".i18n, style: Theme.of(context).textTheme.subtitle2),
-                  const SizedBox(height: 10),
-                  FlatButtonLong(
-                    onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
-                    title: "Claim invite code".i18n,
-                  ),
-                  const SizedBox(height: 40),
-                  Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
-                  const SizedBox(height: 10),
-                  FlatButtonLongOutlined(
-                    onPressed: () => NavigationService.of(context).navigateTo(Routes.importKey),
-                    title: "Import private key".i18n,
-                  )
-                ],
+              SvgPicture.asset("assets/images/login/seeds_light_wallet_logo.svg"),
+              const SizedBox(height: 80),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(context.loc.loginFirstTimeHere, style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(height: 10),
+                    FlatButtonLong(
+                      onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
+                      title: context.loc.loginClaimInviteCodeButtonTitle,
+                    ),
+                    const SizedBox(height: 40),
+                    Text(context.loc.loginAlreadyHaveAnAccount, style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(height: 10),
+                    FlatButtonLongOutlined(
+                      onPressed: () {
+                        /// We use remoteConfigurations directly here because this page doesnt have blocs.
+                        /// !!!Please do not copy this pattern!!!
+                        if (remoteConfigurations.featureFlagExportRecoveryPhraseEnabled) {
+                          NavigationService.of(context).navigateTo(Routes.importWords);
+                        } else {
+                          NavigationService.of(context).navigateTo(Routes.importKey);
+                        }
+                      },
+                      title: context.loc.loginImportAccountButtonTitle,
+                    )
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 80),
-          ],
+              const SizedBox(height: 80),
+            ],
+          ),
         ),
       ),
     );

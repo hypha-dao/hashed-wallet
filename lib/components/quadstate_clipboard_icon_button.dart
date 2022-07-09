@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 
 class QuadStateClipboardIconButton extends StatelessWidget {
   final VoidCallback onClear;
@@ -9,13 +9,13 @@ class QuadStateClipboardIconButton extends StatelessWidget {
   final bool isLoading;
 
   const QuadStateClipboardIconButton({
-    Key? key,
+    super.key,
     required this.onClear,
     this.onPaste,
     required this.isChecked,
     required this.canClear,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

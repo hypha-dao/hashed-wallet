@@ -1,23 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+import 'package:seeds/images/vote/category_label.dart';
 import 'package:seeds/images/vote/double_sided_arrow.dart';
-import 'package:seeds/images/vote/proposal_category.dart';
 import 'package:seeds/images/vote/triangle_pass_value.dart';
 import 'package:seeds/images/vote/votes_down_arrow.dart';
 import 'package:seeds/images/vote/votes_up_arrow.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/vote_amount_label.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
+import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/utils/cap_utils.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import 'vote_amount_label/vote_amount_label.dart';
-
 class ProposalCard extends StatefulWidget {
-  final ProposalModel proposal;
+  final ProposalViewModel proposal;
   final VoidCallback onTap;
 
-  const ProposalCard({Key? key, required this.proposal, required this.onTap}) : super(key: key);
+  const ProposalCard({super.key, required this.proposal, required this.onTap});
 
   @override
   _ProposalCardState createState() => _ProposalCardState();
@@ -117,11 +117,8 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                   ),
                                   LayoutBuilder(
                                     builder: (_, constrains) {
-                                      // If voice needed > total show 100% else show percent.
-                                      // triangle position - triangle middle width - left margin
-                                      final leftPadding = widget.proposal.total < widget.proposal.voiceNeeded
-                                          ? constrains.maxWidth - 6 - 16
-                                          : constrains.maxWidth * widget.proposal.voiceNeededBarPercent - 6 - 16;
+                                      // leftPadding = unity triangle position - triangle middle width - left margin
+                                      final leftPadding = constrains.maxWidth * unityThreshold - 6 - 16;
                                       return Padding(
                                         padding: EdgeInsets.only(left: leftPadding, top: 20),
                                         child: const CustomPaint(size: Size(12, 8), painter: TrianglePassValue()),
@@ -153,7 +150,8 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                               ),
                                               Flexible(
                                                 child: Text(
-                                                    '${'In favour'.i18n}${': ${widget.proposal.favourPercent}'}',
+                                                    context.loc
+                                                        .proposalVotesInFavourPercent(widget.proposal.favourPercent),
                                                     style: Theme.of(context).textTheme.subtitle3Green),
                                               ),
                                             ],
@@ -164,7 +162,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Flexible(
-                                                child: Text('${'Votes'.i18n}${': ${widget.proposal.total}'}',
+                                                child: Text(context.loc.proposalVotesTotal(widget.proposal.total),
                                                     style: Theme.of(context).textTheme.subtitle3Opacity),
                                               ),
                                             ],
@@ -186,7 +184,9 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                                 ),
                                               ),
                                               Flexible(
-                                                child: Text('${'Against'.i18n}${': ${widget.proposal.againstPercent}'}',
+                                                child: Text(
+                                                    context.loc
+                                                        .proposalVotesAgainstPercent(widget.proposal.againstPercent),
                                                     style: Theme.of(context).textTheme.subtitle3LightGreen6),
                                               ),
                                             ],
@@ -213,18 +213,19 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
             child: Row(
               children: [
                 CustomPaint(
-                  painter: const ProposalCategory(),
+                  painter: const CategoryLabel(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                    child: Text(widget.proposal.campaignTypeLabel.i18n, style: Theme.of(context).textTheme.subtitle2),
+                    child: Text(widget.proposal.proposalCategory.localizedDescription(context).inCaps,
+                        style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
               ],
             ),
           ),
           if (widget.proposal.stage != 'staged')
-            Positioned(top: 10.0, right: 26.0, child: VoteAmountLabel(widget.proposal.id)),
-          if (widget.proposal.stage == 'done')
+            Positioned(top: 10.0, right: 26.0, child: VoteAmountLabel(widget.proposal)),
+          if (widget.proposal.stage == 'done' || widget.proposal.stage.isEmpty)
             Positioned(
               top: 10.0,
               left: 26.0,
@@ -232,8 +233,12 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                 decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(6.0)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: Text(widget.proposal.status.toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen),
+                  child: Text(
+                    widget.proposal.localizedStatus(context).toUpperCase(),
+                    style: widget.proposal.status == 'rejected'
+                        ? Theme.of(context).textTheme.subtitle3OpacityEmphasisRed
+                        : Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen,
+                  ),
                 ),
               ),
             )

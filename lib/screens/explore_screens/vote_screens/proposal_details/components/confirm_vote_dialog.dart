@@ -5,14 +5,13 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
 
 class ConfirmVoteDialog extends StatelessWidget {
-  const ConfirmVoteDialog({Key? key}) : super(key: key);
+  const ConfirmVoteDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
       leftButtonTitle: 'Cancel'.i18n,
-      onLeftButtonPressed: () => Navigator.of(context).pop(),
       rightButtonTitle: 'Confirm'.i18n,
       onRightButtonPressed: () => Navigator.of(context).pop(true),
       children: [

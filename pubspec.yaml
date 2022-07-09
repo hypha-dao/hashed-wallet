@@ -1,10 +1,10 @@
-name: hashed_wallet
-description: Hashed Wallet
+name: seeds
+description: SEEDS Wallet
 
-version: 1.0.0+1
+version: 2.9.1+81
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 analyzer:
   enable-experiment: extension-methods
@@ -14,61 +14,62 @@ publish_to: none
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.0.0
-  equatable: ^2.0.0
-  url_launcher: ^6.0.3
+  flutter_bloc: ^8.0.1
+  equatable: ^2.0.3
+  url_launcher: ^6.1.0
   step_progress_indicator: ^1.0.1
   uni_links: ^0.5.1
   intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
-  i18n_extension: ^4.0.0
-  http: ^0.13.1
-  shared_preferences: ^2.0.5
-  flutter_secure_storage: ^4.1.0
-  local_auth: ^1.1.1
-  timeago: ^3.0.2
-  cached_network_image: ^3.0.0
-  passcode_screen: ^2.0.0
-  flutter_svg: ^0.22.0
-  firebase_dynamic_links: ^2.0.7
-  firebase_messaging: ^10.0.0
-  firebase_core: ^1.0.2
-  firebase_storage: ^10.0.2
-  cloud_firestore: ^2.2.1
-  firebase_remote_config: ^0.10.0+1
+  i18n_extension: ^5.0.0
+  http: ^0.13.4
+  shared_preferences: ^2.0.9
+  flutter_secure_storage: ^5.0.2
+  local_auth: ^2.0.1
+  timeago: ^3.1.0
+  cached_network_image: ^3.2.1
+  flutter_svg: ^1.0.3
+  firebase_dynamic_links: ^3.0.1
+  firebase_messaging: ^11.1.0
+  firebase_core: ^1.10.0
+  firebase_storage: ^10.1.0
+  cloud_firestore: ^3.1.0
+  firebase_remote_config: ^0.11.0+2
+  geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
-  share: ^2.0.1
-  provider: ^5.0.0
-  image_cropper: ^1.4.1
+  share: ^2.0.4
+  image_cropper: ^2.0.3 
   carousel_slider: ^4.0.0
-  dots_indicator: ^2.0.0
-  permission_handler: ^8.0.1
   qr_flutter: ^4.0.0
-  image_picker: ^0.8.2
-  eosdart:
-    git: 
-      url: https://github.com/JoinSEEDS/eosdart.git
-      ref: flutter_2_nns
-  dart_esr:
-    git:
-      url: https://github.com/JoinSEEDS/dart-esr.git
-      ref: flutter_2_nns
-
-  pedantic: ^1.11.1
-  qr_code_scanner: ^0.4.0
+  image_picker: ^0.8.5+3
+  qr_code_scanner: ^1.0.0
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
-  lottie: ^1.0.1
-  hive: ^2.0.4
+  lottie: ^1.2.1
+  hive: ^2.0.6
   hive_flutter: ^1.1.0
+  palette_generator: ^0.3.2
+  webview_flutter: ^3.0.0
+  in_app_review: ^2.0.3
+  json_annotation: ^4.4.0
+  bs58check: ^1.0.2
+  pointycastle: ^3.4.0
+  hdkey: ^0.0.1
+  package_info_plus: ^1.3.0
+  flutterfire_installations: ^0.1.0
+  google_maps_flutter: ^2.1.1
+  geolocator: ^8.2.0
+  geocoding: ^2.0.2
+  permission_handler: ^9.2.0
+  json_schema2: ^2.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
   mockito: ^5.0.7
-  change_app_package_name: ^1.1.0
+  lint: ^1.7.2
 
 flutter_icons:
   android: "app_icon"
@@ -77,6 +78,7 @@ flutter_icons:
 
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
     # assets begin
@@ -130,8 +132,16 @@ flutter:
     - assets/images/navigation_bar/wallet_selected.svg
     - assets/images/navigation_bar/user_profile_selected.svg
     - assets/images/explore/hypha_dho_card.jpg
-    - assets/images/explore/get_seeds_card.jpg
+    - assets/images/explore/get_seeds_card.png
+    - assets/images/explore/delegate.svg
+    - assets/images/explore/marker_location.svg
+    - assets/images/explore/introducing_delegate.png
+    - assets/images/explore/swap_leaves_left.png
+    - assets/images/explore/swap_leaves_rigth.png
     - assets/images/wallet/arrow_up.svg
+    - assets/images/wallet/share_transaction_id.svg
+    - assets/images/wallet/leaves_bttm_left.png
+    - assets/images/wallet/leaves_bttm_right.png
     - assets/images/wallet/arrow_down.svg
     - assets/images/wallet/app_bar/appbar_icon.svg
     - assets/images/wallet/app_bar/scan_qr_code_icon.svg
@@ -148,6 +158,10 @@ flutter:
     - assets/images/wallet/currency_info_cards/hypha/logo.jpg
     - assets/images/wallet/currency_info_cards/stars/background.jpg
     - assets/images/wallet/currency_info_cards/stars/logo.jpg
+    - assets/images/wallet/currency_info_cards/tlos/background.png
+    - assets/images/wallet/currency_info_cards/tlos/logo.png
+    - assets/images/wallet/currency_info_cards/seeds/seeds_check_transp.png
+    - assets/images/wallet/currency_info_cards/experimental.png
     - assets/images/profile/lotus.svg
     - assets/images/profile/logout_icon.svg
     - assets/images/profile/contribution_icon.svg
@@ -163,16 +177,21 @@ flutter:
     - assets/images/contribution/community.svg
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
+    - assets/images/contribution/contribution_detail/petals_left.png
+    - assets/images/contribution/contribution_detail/petals_right.png
     - assets/images/seeds_logo.svg
     - assets/images/login/background.png
     - assets/images/login/seeds_light_wallet_logo.svg
     - assets/images/receive/receive_input_seeds.svg
     - assets/images/receive/merchant.svg
     - assets/images/currency_switch_button.svg
+    - assets/images/send/telos_logo.png
     - assets/images/transfer/seeds_icon.svg
     - assets/images/transfer/arrow_up.svg
     - assets/animations/forest.json
     - assets/animations/send_animation.json
+    - assets/images/google/powered_by_google_on_white.png
+    - assets/images/google/powered_by_google_on_non_white.png
     # assets end
 
   fonts:

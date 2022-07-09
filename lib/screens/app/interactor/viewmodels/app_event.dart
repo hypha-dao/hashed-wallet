@@ -1,15 +1,17 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+part of 'app_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class AppEvent extends Equatable {
   const AppEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
+}
+
+class OnAppMounted extends AppEvent {
+  const OnAppMounted();
+
+  @override
+  String toString() => 'OnAppMounted';
 }
 
 class ShouldShowNotificationBadge extends AppEvent {
@@ -51,6 +53,12 @@ class OnApproveGuardianRecoveryTapped extends AppEvent {
 
   const OnApproveGuardianRecoveryTapped(this.data);
 
+  @override
+  String toString() => 'OnApproveGuardianRecoveryTapped';
+}
+
+class OnDeepRegionReceived extends AppEvent {
+  const OnDeepRegionReceived();
   @override
   String toString() => 'OnApproveGuardianRecoveryTapped';
 }

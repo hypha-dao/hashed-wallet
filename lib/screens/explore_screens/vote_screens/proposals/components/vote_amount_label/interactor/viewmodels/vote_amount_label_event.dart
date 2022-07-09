@@ -1,17 +1,17 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'vote_amount_label_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class VoteAmountLabelEvent extends Equatable {
   const VoteAmountLabelEvent();
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadVoteAmount extends VoteAmountLabelEvent {
-  final int proposalId;
-  const LoadVoteAmount(this.proposalId);
+  final ProposalViewModel proposal;
+
+  const LoadVoteAmount(this.proposal);
+
   @override
-  String toString() => 'LoadVoteAmount { proposalId $proposalId }';
+  String toString() => 'LoadVoteAmount { proposal $proposal }';
 }

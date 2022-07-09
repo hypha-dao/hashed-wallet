@@ -1,13 +1,12 @@
 import 'package:flutter/services.dart' show PlatformException;
-import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:seeds/screens/authentication/verification/interactor/model/auth_commands.dart';
-import 'package:seeds/screens/authentication/verification/interactor/model/auth_type.dart';
+import 'package:local_auth_android/types/auth_messages_android.dart';
+import 'package:local_auth_ios/types/auth_messages_ios.dart';
 
 class BiometricsService {
   final LocalAuthentication _localAuth;
 
-  BiometricsService(LocalAuthentication localAuth) : _localAuth = localAuth;
+  const BiometricsService(this._localAuth);
 
   Future<bool> checkBiometrics() async {
     try {
@@ -27,16 +26,16 @@ class BiometricsService {
     }
   }
 
-  Future<bool> authenticate(AuthenticateCmd cmd) async {
-    AndroidAuthMessages androidAuthStrings;
-    switch (cmd.type) {
-      case AuthType.fingerprint:
+  Future<bool> authenticateBiometric(BiometricType type) async {
+    late AndroidAuthMessages androidAuthStrings;
+    switch (type) {
+      case BiometricType.fingerprint:
         androidAuthStrings = const AndroidAuthMessages(
           biometricHint: 'Biometrics',
           signInTitle: "Fingerprint Authentication",
         );
         break;
-      case AuthType.face:
+      case BiometricType.face:
         androidAuthStrings = const AndroidAuthMessages(
           biometricHint: "Biometrics",
           signInTitle: "Face Authentication",
@@ -49,14 +48,16 @@ class BiometricsService {
           );
         }
     }
-
     try {
       return _localAuth.authenticate(
-          biometricOnly: true,
-          androidAuthStrings: androidAuthStrings,
-          localizedReason: 'Use your device to authenticate',
+        localizedReason: 'Use your device to authenticate',
+        authMessages: [const IOSAuthMessages(), androidAuthStrings],
+        options: const AuthenticationOptions(
           useErrorDialogs: false,
-          stickyAuth: true);
+          stickyAuth: true,
+          biometricOnly: true,
+        ),
+      );
     } on PlatformException catch (e) {
       print(e);
       return Future.error(e);
@@ -71,4 +72,36 @@ class BiometricsService {
       return Future.error(e);
     }
   }
+}
+
+enum BiometricAuthStatus {
+  initial,
+
+  /// Biomtric authenticacion was succesful
+  authorized,
+
+  /// Biomtric authenticacion was fail
+  unauthorized,
+
+  /// Indicates that the user has not yet configured a passcode (iOS) or
+  /// PIN/pattern/password (Android) on the device.
+  passcodeNotSet,
+
+  /// Indicates the user has not enrolled any fingerprints on the device.
+  notEnrolled,
+
+  /// Indicates the device does not have a Touch ID/fingerprint scanner.
+  notAvailable,
+
+  /// Indicates the device operating system is not iOS or Android.
+  otherOperatingSystem,
+
+  /// Indicates the API lock out due to too many attempts.
+  lockedOut,
+
+  /// Indicates the API being disabled due to too many lock outs.
+  /// Strong authentication like PIN/Pattern/Password is required to unlock.
+  permanentlyLockedOut,
+
+  unknown
 }

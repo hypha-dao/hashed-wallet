@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/components/circular_progress_item.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/profile_avatar.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:seeds/components/circular_progress_item.dart';
 import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
+import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_bloc.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ResidentView extends StatefulWidget {
-  const ResidentView({Key? key}) : super(key: key);
+  const ResidentView({super.key});
 
   @override
   _ResidentViewState createState() => _ResidentViewState();
@@ -22,14 +22,18 @@ class ResidentView extends StatefulWidget {
 
 class _ResidentViewState extends State<ResidentView> with TickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _timeLineAnimation,
-      _reputationAnimation,
-      _residentsAnimation,
-      _ageAnimation,
-      _seedsAnimation,
-      _transactionsAnimation,
-      _visitorsAnimation;
-  int _timeLine = 0, _reputation = 0, _residents = 0, _age = 0, _seeds = 0, _transactions = 0, _visitors = 0;
+  late Animation<double> _timeLineAnimation;
+  late Animation<double> _reputationAnimation;
+  late Animation<double> _citizenCeremonyAnimation;
+  late Animation<double> _ageAnimation;
+  late Animation<double> _seedsAnimation;
+  late Animation<double> _transactionsAnimation;
+  int _timeLine = 0;
+  int _reputation = 0;
+  int _citizenCeremony = 0;
+  int _age = 0;
+  int _seeds = 0;
+  int _transactions = 0;
 
   @override
   void initState() {
@@ -53,20 +57,19 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
           ..addListener(() {
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
-        _reputationAnimation =
-            Tween<double>(begin: 0, end: state.score!.reputationScore?.toDouble()).animate(_controller)
-              ..addListener(() {
-                setState(() => _reputation = _reputationAnimation.value.toInt());
-              });
-        _residentsAnimation = Tween<double>(begin: 0, end: state.invitedResidents!.toDouble()).animate(_controller)
+        _reputationAnimation = Tween<double>(begin: 0, end: state.reputationScore?.toDouble() ?? 0).animate(_controller)
           ..addListener(() {
-            setState(() => _residents = _residentsAnimation.value.toInt() * 100);
+            setState(() => _reputation = _reputationAnimation.value.toInt());
+          });
+        _citizenCeremonyAnimation = Tween<double>(begin: 0, end: state.citizenCeremony!.toDouble()).animate(_controller)
+          ..addListener(() {
+            setState(() => _citizenCeremony = _citizenCeremonyAnimation.value.toInt() * 100);
           });
         _ageAnimation = Tween<double>(begin: 0, end: state.profile!.accountAge.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _age = _ageAnimation.value.toInt());
           });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds?.toDouble()).animate(_controller)
+        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
@@ -75,10 +78,6 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });
-        _visitorsAnimation = Tween<double>(begin: 0, end: state.invitedVisitors!.toDouble()).animate(_controller)
-          ..addListener(() {
-            setState(() => _visitors = _visitorsAnimation.value.toInt() * 100);
-          });
         _controller.forward();
       },
       builder: (context, state) {
@@ -106,7 +105,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          state.profile!.nickname ?? '',
+                          state.profile!.nickname,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         const SizedBox(height: 8.0),
@@ -158,63 +157,53 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                   childAspectRatio: 0.8,
                   children: <Widget>[
                     CircularProgressItem(
+                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
+                      totalStep: citizenRequiredCitizenVouched * 100,
+                      currentStep: _citizenCeremony,
+                      circleRadius: 30,
+                      title: 'Citizen Ceremony'.i18n,
+                      titleStyle: Theme.of(context).textTheme.subtitle3,
+                      rate: _citizenCeremony == citizenRequiredCitizenVouched ? 'Passed' : 'Waiting',
+                      rateStyle: Theme.of(context).textTheme.subtitle1!,
+                    ),
+                    CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/reputation.svg'),
-                      totalStep: citizen_required_reputation,
+                      totalStep: citizenRequiredReputation,
                       currentStep: _reputation,
                       circleRadius: 30,
                       title: 'Reputation Score'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '$_reputation/$citizen_required_reputation',
-                      rateStyle: Theme.of(context).textTheme.subtitle1!,
-                    ),
-                    CircularProgressItem(
-                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                      totalStep: citizen_required_residents_invited * 100,
-                      currentStep: _residents,
-                      circleRadius: 30,
-                      title: 'Residents Invited'.i18n,
-                      titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_residents ~/ 100}/$citizen_required_residents_invited',
+                      rate: '$_reputation/$citizenRequiredReputation',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                     CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/age.svg'),
-                      totalStep: citizen_required_account_age,
+                      totalStep: citizenRequiredAccountAge,
                       currentStep: _age,
                       circleRadius: 30,
                       title: 'Account Age'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '$_age/$citizen_required_account_age',
+                      rate: '$_age/$citizenRequiredAccountAge',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                     CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/planted.svg'),
-                      totalStep: citizen_required_planted_seeds,
+                      totalStep: citizenRequiredPlantedSeeds,
                       currentStep: _seeds,
                       circleRadius: 30,
                       title: 'Planted Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '$_seeds/$citizen_required_planted_seeds',
+                      rate: '$_seeds/$citizenRequiredPlantedSeeds',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                     CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/transaction.svg'),
-                      totalStep: citizen_required_seeds_transactions,
+                      totalStep: citizenRequiredSeedsTransactions,
                       currentStep: _transactions,
                       circleRadius: 30,
                       title: 'Transactions with Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '$_transactions/$citizen_required_seeds_transactions',
-                      rateStyle: Theme.of(context).textTheme.subtitle1!,
-                    ),
-                    CircularProgressItem(
-                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                      totalStep: citizen_required_visitors_invited,
-                      currentStep: _visitors ~/ 100,
-                      circleRadius: 30,
-                      title: 'Invited Users'.i18n,
-                      titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_visitors ~/ 100}/$citizen_required_visitors_invited',
+                      rate: '$_transactions/$citizenRequiredSeedsTransactions',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                   ],

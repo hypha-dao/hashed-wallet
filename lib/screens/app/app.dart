@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
-import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/components/snack_bar_info.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/app/app.i18.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/app/components/account_under_recovery_screen.dart';
 import 'package:seeds/screens/app/components/guardian_approve_or_deny_recovery_screen.dart';
+import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/app/interactor/viewmodels/app_screen_item.dart';
+import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
+import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
+import 'package:seeds/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   _AppState createState() => _AppState();
@@ -33,14 +36,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
       iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
-      screen: const Wallet(),
+      screen: const WalletScreen(),
       index: 0,
     ),
     AppScreenItem(
       title: "Explore".i18n,
       icon: 'assets/images/navigation_bar/explore.svg',
       iconSelected: 'assets/images/navigation_bar/explore_selected.svg',
-      screen: const Ecosystem(),
+      screen: const ExploreScreen(),
       index: 1,
     ),
     AppScreenItem(
@@ -53,16 +56,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   ];
   final PageController _pageController = PageController();
   late AppBloc _appBloc;
-  late GlobalKey<NavigatorState> _navigatorKey;
   late ConnectionNotifier _connectionNotifier;
 
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context));
+    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context))..add(const OnAppMounted());
     _connectionNotifier = ConnectionNotifier()..discoverEndpoints();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -71,10 +73,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.paused:
-        // Enable the flag that indicates is in OnResumeAuth
-        BlocProvider.of<AuthenticationBloc>(context).add(const InitOnResumeAuth());
-        // Navigate to verification screen (verify mode) on app resume
-        Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
         break;
       case AppLifecycleState.resumed:
         _connectionNotifier.discoverEndpoints();
@@ -87,30 +85,37 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _navigatorKey = NavigationService.of(context).appNavigatorKey;
     return BlocProvider(
       create: (_) => _appBloc,
       child: Scaffold(
         body: BlocConsumer<AppBloc, AppState>(
           listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
+          listener: (context, state) async {
             final pageCommand = state.pageCommand;
             _appBloc.add(ClearAppPageCommand());
             if (pageCommand is BottomBarNavigateToIndex) {
               _pageController.jumpToPage(pageCommand.index);
             } else if (pageCommand is ShowErrorMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is ShowMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              eventBus.fire(ShowSnackBar(pageCommand.message));
+            } else if (pageCommand is NavigateToRoute) {
+              await NavigationService.of(context).navigateTo(pageCommand.route);
             } else if (pageCommand is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              if (pageCommand is NavigateToSendConfirmation) {
+                await NavigationService.of(context)
+                    .navigateTo(Routes.verificationUnpoppable)
+                    .then((_) => NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments));
+              } else {
+                await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              }
             }
           },
           builder: (context, state) {
@@ -162,55 +167,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           },
         ),
       ),
-    );
-  }
-}
-
-extension NavigatorStateExtension on NavigatorState {
-  /// Navigate only if the new route is not the same as the current one
-  void pushNamedIfNotCurrent(String routeName, {Object? arguments}) {
-    if (!isCurrent(routeName)) {
-      pushNamed(routeName, arguments: arguments);
-    }
-  }
-
-  bool isCurrent(String routeName) {
-    bool isCurrent = false;
-    popUntil((route) {
-      if (route.settings.name == routeName) {
-        isCurrent = true;
-      }
-      return true;
-    });
-    return isCurrent;
-  }
-}
-
-/// Gery I'm going to leave these 2 widgets below here for now, the reason is
-/// that apparently they use navigation keys I'm not sure if we will
-/// continue to use this navigation approach with keys, so I leave them here
-/// for the moment until we correctly define the service by navagion.
-class Wallet extends StatelessWidget {
-  const Wallet({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: NavigationService.of(context).walletNavigatorKey,
-      initialRoute: Routes.wallet,
-      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
-    );
-  }
-}
-
-class Ecosystem extends StatelessWidget {
-  const Ecosystem({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: NavigationService.of(context).ecosystemNavigatorKey,
-      initialRoute: Routes.explore,
-      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
     );
   }
 }

@@ -1,55 +1,47 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/usecases/get_profile_values_use_case.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class ProfileValuesStateMapper extends StateMapper {
-  ProfileState mapResultToState(ProfileState currentState, List<Result> results) {
-    if (areAllResultsError(results)) {
+  ProfileState mapResultToState(ProfileState currentState, Result<GetProfileValuesResponse> result) {
+    if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
-      // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
-      final ProfileModel? profile = results[0].valueOrNull;
-      final isCitizen = settingsStorage.isCitizen;
-      final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
-
-      if (isCitizen) {
-        final score = ScoresViewModel(
-          contributionScore: results[1].valueOrNull,
-          communityScore: results[2].valueOrNull,
-          reputationScore: results[3].valueOrNull,
-          plantedScore: results[4].valueOrNull,
-          transactionScore: results[5].valueOrNull,
-        );
-        return currentState.copyWith(pageState: PageState.success, profile: profile, score: score);
+      final response = result.asValue!.value;
+      final ProfileModel? profileModel = response.profileModel;
+      if (profileModel != null && profileModel.account == settingsStorage.accountName) {
+        // Storing the status in settings is problematic since it's a server side value.
+        // As a remedy, we are now updating it every time we load the user profile.
+        settingsStorage.saveCitizenshipStatus(profileModel.status);
       }
 
-      final score = ScoresViewModel(
-        contributionScore: results[1].valueOrNull,
-        communityScore: results[2].valueOrNull,
-        reputationScore: results[3].valueOrNull,
-        plantedScore: results[4].valueOrNull,
-        transactionScore: results[5].valueOrNull,
-      );
+      final bool isCitizen = profileModel?.status == ProfileStatus.citizen;
 
-      results[6].isValue
-          ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
-          : results[7].isValue
-              ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
-              : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
+      if (isCitizen) {
+        return currentState.copyWith(
+            pageState: PageState.success, profile: response.profileModel, contributionScore: response.scoreModel);
+      } else {
+        final organization = response.organizationModel ?? [];
 
-      return currentState.copyWith(
+        final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
+        response.canResident != null
+            ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
+            : response.canCitizen != null
+                ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
+                : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
+
+        return currentState.copyWith(
           pageState: PageState.success,
-          profile: profile,
-          score: score,
-          citizenshipUpgradeStatus: citizenshipUpgradeStatus);
+          profile: response.profileModel,
+          contributionScore: response.scoreModel,
+          isOrganization: organization.isNotEmpty,
+          citizenshipUpgradeStatus: citizenshipUpgradeStatus,
+        );
+      }
     }
   }
-}
-
-extension _ValueResult<T> on Result<T> {
-  T? get valueOrNull => isValue ? asValue!.value : null;
 }

@@ -1,35 +1,39 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+part of 'deeplink_bloc.dart';
 
-/// --- STATES
 class DeeplinkState extends Equatable {
   final GuardianRecoveryRequestData? guardianRecoveryRequestData;
   final InviteLinkData? inviteLinkData;
   final ScanQrCodeResultData? signingRequest;
+  final RegionLinkData? regionLinkData;
 
   const DeeplinkState({
     this.guardianRecoveryRequestData,
     this.inviteLinkData,
     this.signingRequest,
+    this.regionLinkData,
   });
 
   @override
-  List<Object?> get props => [guardianRecoveryRequestData, inviteLinkData, signingRequest];
+  List<Object?> get props => [
+        guardianRecoveryRequestData,
+        inviteLinkData,
+        signingRequest,
+        regionLinkData,
+      ];
 
   DeeplinkState copyWith({
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
     InviteLinkData? inviteLinkData,
     ScanQrCodeResultData? signingRequest,
+    RegionLinkData? regionLinkData,
   }) {
     return DeeplinkState(
-        guardianRecoveryRequestData: showGuardianApproveOrDenyScreen,
-        inviteLinkData: inviteLinkData,
-        signingRequest: signingRequest);
+      guardianRecoveryRequestData: showGuardianApproveOrDenyScreen,
+      inviteLinkData: inviteLinkData,
+      signingRequest: signingRequest,
+      regionLinkData: regionLinkData,
+    );
   }
 
-  factory DeeplinkState.initial() {
-    return const DeeplinkState();
-  }
+  factory DeeplinkState.initial() => const DeeplinkState();
 }

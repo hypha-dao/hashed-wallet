@@ -9,6 +9,15 @@ extension Localization on String {
           'Upcoming': 'Proximas',
           'History': 'Historial',
           'No proposals to show, yet': 'Aún no hay propuestas para mostrar',
+          'Error loading next moon cycle': 'Error al cargar la siguente luna nueva'
+        },
+        'pt_br': {
+          'Vote': 'Votar',
+          'Open': 'Abertas',
+          'Upcoming': 'Próximas',
+          'History': 'Histórico',
+          'No proposals to show, yet': 'Nenhuma proposta para mostrar ainda',
+          'Error loading next moon cycle': 'Erro ao carregar a próxima lua nova'
         }
       };
 

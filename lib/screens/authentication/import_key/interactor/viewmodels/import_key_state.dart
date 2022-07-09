@@ -1,44 +1,56 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'import_key_bloc.dart';
 
 class ImportKeyState extends Equatable {
   final PageState pageState;
-  final String? errorMessage;
-  final String? privateKey;
+  final ImportKeyError? error;
+  final AuthDataModel? authData;
   final List<ProfileModel> accounts;
   final bool enableButton;
+  final Map<int, String> userEnteredWords;
+  final String? accountSelected;
 
   const ImportKeyState({
     required this.pageState,
-    this.errorMessage,
+    this.error,
     required this.accounts,
-    this.privateKey,
+    this.authData,
     required this.enableButton,
+    required this.userEnteredWords,
+    this.accountSelected,
   });
+
+  bool get areAllWordsEntered {
+    return userEnteredWords.length == 12 && !userEnteredWords.containsValue('');
+  }
 
   @override
   List<Object?> get props => [
         pageState,
-        errorMessage,
-        privateKey,
+        error,
+        authData,
         accounts,
         enableButton,
+        userEnteredWords,
+        accountSelected,
       ];
 
   ImportKeyState copyWith({
     PageState? pageState,
-    String? errorMessage,
+    ImportKeyError? error,
     List<ProfileModel>? accounts,
-    String? privateKey,
+    AuthDataModel? authData,
     bool? enableButton,
+    Map<int, String>? userEnteredWords,
+    String? accountSelected,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
-      errorMessage: errorMessage,
+      error: error,
       accounts: accounts ?? this.accounts,
-      privateKey: privateKey ?? this.privateKey,
+      authData: authData ?? this.authData,
       enableButton: enableButton ?? this.enableButton,
+      userEnteredWords: userEnteredWords ?? this.userEnteredWords,
+      accountSelected: accountSelected,
     );
   }
 
@@ -47,6 +59,7 @@ class ImportKeyState extends Equatable {
       pageState: PageState.initial,
       accounts: [],
       enableButton: false,
+      userEnteredWords: {},
     );
   }
 }

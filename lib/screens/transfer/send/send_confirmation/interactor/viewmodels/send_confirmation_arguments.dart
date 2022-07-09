@@ -1,11 +1,12 @@
-class SendConfirmationArguments {
-  final String account;
-  final String name;
-  final Map<String, dynamic> data;
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
+import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 
-  SendConfirmationArguments({
-    required this.account,
-    required this.name,
-    required this.data,
-  });
+class SendConfirmationArguments {
+  final EOSTransaction transaction;
+  final String? callback;
+
+  const SendConfirmationArguments({required this.transaction, this.callback});
+
+  factory SendConfirmationArguments.from(ScanQrCodeResultData data) =>
+      SendConfirmationArguments(transaction: data.transaction, callback: data.esr.callback);
 }

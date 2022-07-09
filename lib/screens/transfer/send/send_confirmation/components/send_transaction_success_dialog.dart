@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
   final String tokenSymbol;
-  final String? fiatAmount;
-  final String fiatCurrency;
+  final FiatDataModel? fiatAmount;
   final String? toImage;
   final String? toName;
   final String toAccount;
@@ -22,14 +24,12 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String? fromName;
   final String fromAccount;
   final String transactionID;
-  final VoidCallback onCloseButtonPressed;
 
   const SendTransactionSuccessDialog({
-    Key? key,
+    super.key,
     required this.amount,
     required this.tokenSymbol,
     this.fiatAmount,
-    required this.fiatCurrency,
     this.toImage,
     this.toName,
     required this.toAccount,
@@ -37,17 +37,13 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     this.fromName,
     required this.fromAccount,
     required this.transactionID,
-    required this.onCloseButtonPressed,
-  }) : super(key: key);
+  });
 
-  factory SendTransactionSuccessDialog.fromPageCommand(
-      {required VoidCallback onCloseButtonPressed, required ShowTransferSuccess pageCommand}) {
+  factory SendTransactionSuccessDialog.fromPageCommand(ShowTransferSuccess pageCommand) {
     return SendTransactionSuccessDialog(
-      onCloseButtonPressed: onCloseButtonPressed,
       amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
       tokenSymbol: pageCommand.transactionModel.symbol,
-      fiatAmount: pageCommand.fiatQuantity.fiatFormatted,
-      fiatCurrency: pageCommand.fiatSymbol,
+      fiatAmount: pageCommand.fiatAmount,
       fromAccount: pageCommand.transactionModel.from,
       fromImage: pageCommand.from?.image ?? "",
       fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,
@@ -58,14 +54,17 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     );
   }
 
+  Future<void> show(BuildContext context) {
+    return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          onSingleLargeButtonPressed: onCloseButtonPressed,
-          singleLargeButtonTitle: 'Close'.i18n,
+          singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
           children: [
             const SizedBox(height: 6),
             Row(
@@ -78,15 +77,23 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 ),
               ],
             ),
-            Text(fiatAmount != null ? "$fiatAmount $fiatCurrency" : "", style: Theme.of(context).textTheme.subtitle2),
+            Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
+            DialogRow(
+                imageUrl: toImage,
+                account: toAccount,
+                name: toName,
+                toOrFromText: context.loc.transferTransactionSuccessTo),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From".i18n),
+            DialogRow(
+                imageUrl: fromImage,
+                account: fromAccount,
+                name: fromName,
+                toOrFromText: context.loc.transferTransactionSuccessFrom),
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessDate, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
                   DateFormat('dd MMMM yyyy').format(DateTime.now()),
@@ -96,7 +103,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Transaction ID:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -109,19 +116,15 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   icon: const Icon(Icons.copy),
                   color: AppColors.lightGreen6,
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: transactionID)).then(
-                      (_) {
-                        ScaffoldMessenger.maybeOf(context)!
-                            .showSnackBar(SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)));
-                      },
-                    );
+                    Clipboard.setData(ClipboardData(text: transactionID))
+                        .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
                   },
                 )
               ],
             ),
             Row(
               children: [
-                Text('Status:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
                   decoration: const BoxDecoration(
@@ -129,7 +132,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(
-                      "Successful".i18n,
+                      context.loc.transferTransactionSuccessSuccessful,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
@@ -150,7 +153,7 @@ class DialogRow extends StatelessWidget {
   final String? name;
   final String? toOrFromText;
 
-  const DialogRow({Key? key, this.imageUrl, required this.account, this.name, this.toOrFromText}) : super(key: key);
+  const DialogRow({super.key, this.imageUrl, required this.account, this.name, this.toOrFromText});
 
   @override
   Widget build(BuildContext context) {

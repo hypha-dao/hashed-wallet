@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class GuardianListSeparatorWidget extends StatelessWidget {
   final int index;
   final List<GuardianModel> guardians;
 
-  const GuardianListSeparatorWidget({Key? key, required this.index, required this.guardians}) : super(key: key);
+  const GuardianListSeparatorWidget({super.key, required this.index, required this.guardians});
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -13,8 +15,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher_round"
-        android:label="SEEDS Wallet"
-        >
+        android:label="SEEDS Wallet">
         <!-- android:usesCleartextTraffic="true" -->
 
         <meta-data
@@ -24,6 +25,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB3Ghs8i_Lw55vmSyh5mxLA9cGcWuc1A54"/>
 
         <activity
             android:name=".MainActivity"
@@ -63,10 +67,17 @@
                     android:host="seedswallet.page.link"
                     android:scheme="https" />
             </intent-filter>
-            
+
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="esr"/>
             </intent-filter>
         </activity>
         <activity

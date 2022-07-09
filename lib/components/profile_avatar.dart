@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
 /// PROFILE AVATAR
@@ -16,13 +16,13 @@ class ProfileAvatar extends StatelessWidget {
   final BoxDecoration? decoration;
 
   const ProfileAvatar({
-    Key? key,
+    super.key,
     this.decoration,
     required this.size,
     this.image,
     this.nickname,
     required this.account,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,8 @@ class ProfileAvatar extends StatelessWidget {
       return CachedNetworkImage(imageUrl: image!, fit: BoxFit.cover);
     } else if (image != null && image!.endsWith('.svg')) {
       return SvgPicture.asset(image!, fit: BoxFit.scaleDown);
+    } else if (image != null && image!.startsWith("asset")) {
+      return Image.asset(image!);
     } else {
       final shortName =
           nickname != null && nickname!.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
@@ -54,7 +56,10 @@ class ProfileAvatar extends StatelessWidget {
               shape: BoxShape.circle,
             ),
         alignment: Alignment.center,
-        child: Text(shortName, style: Theme.of(context).textTheme.subtitle1HighEmphasis),
+        child: Text(
+          shortName,
+          style: size > 30 ? Theme.of(context).textTheme.subtitle1HighEmphasis : Theme.of(context).textTheme.subtitle3,
+        ),
       );
     }
   }

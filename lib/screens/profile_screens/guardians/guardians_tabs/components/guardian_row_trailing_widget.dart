@@ -4,14 +4,13 @@ import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dar
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 
 class GuardianRowTrailingWidget extends StatelessWidget {
   final GuardianModel guardian;
 
-  const GuardianRowTrailingWidget({Key? key, required this.guardian}) : super(key: key);
+  const GuardianRowTrailingWidget({super.key, required this.guardian});
 
   @override
   Widget build(BuildContext context) {
