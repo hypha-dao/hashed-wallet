@@ -48,7 +48,6 @@ import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
-import 'package:seeds/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
@@ -161,7 +160,6 @@ class NavigationService {
     Routes.guardianTabs: (_) => const GuardiansScreen(),
     Routes.manageInvites: (_) => const ManageInvitesScreen(),
     Routes.profile: (_) => const ProfileScreen(),
-    Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),

@@ -87,13 +87,6 @@ class ProfileBottom extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 8.0),
-            ProfileListTileCard(
-              leadingIcon: Icons.support,
-              title: 'Support'.i18n,
-              trailing: const Icon(Icons.arrow_forward_ios_sharp),
-              onTap: () => NavigationService.of(context).navigateTo(Routes.support),
-            ),
             const SizedBox(height: 120.0),
             ProfileListTileCard(
               leadingIcon: Icons.logout,
