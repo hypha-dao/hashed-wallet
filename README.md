@@ -1,4 +1,4 @@
-# hashed_wallet
+# Hashed Wallet
 
 Polkadot Wallet With Social Recovery
 
