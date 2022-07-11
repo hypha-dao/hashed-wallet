@@ -105,7 +105,6 @@ flutter:
     - assets/images/lotus_support_small.svg
     - assets/images/lotus_support_big.svg
     - assets/images/seeds.png
-    - assets/images/appbar/seeds_symbol_forest.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
     - assets/images/guardians/guardian_tutorial_2.png
@@ -120,6 +119,8 @@ flutter:
     - assets/images/guardians/onboarding/onboarding_3.jpg
     - assets/images/guardians/onboarding/onboarding_4.jpg
     - assets/images/navigation_bar/wallet.svg
+    - assets/images/navigation_bar/carbon_settings_selected.svg
+    - assets/images/navigation_bar/carbon_settings_unselected.svg
     - assets/images/navigation_bar/user_profile.svg
     - assets/images/navigation_bar/wallet_selected.svg
     - assets/images/navigation_bar/user_profile_selected.svg
@@ -128,6 +129,7 @@ flutter:
     - assets/images/wallet/leaves_bttm_left.png
     - assets/images/wallet/leaves_bttm_right.png
     - assets/images/wallet/arrow_down.svg
+    - assets/images/appbar/hashed_logo.png
     - assets/images/wallet/app_bar/appbar_icon.svg
     - assets/images/wallet/app_bar/scan_qr_code_icon.svg
     - assets/images/wallet/app_bar/appbar_seeds_text.svg
@@ -165,8 +167,6 @@ flutter:
     - assets/images/contribution/contribution_detail/petals_left.png
     - assets/images/contribution/contribution_detail/petals_right.png
     - assets/images/seeds_logo.svg
-    - assets/images/login/background.png
-    - assets/images/login/seeds_light_wallet_logo.svg
     - assets/images/login/wallet_logo.png
     - assets/images/receive/receive_input_seeds.svg
     - assets/images/receive/merchant.svg

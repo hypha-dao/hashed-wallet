@@ -29,7 +29,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           child: Row(children: [
             Expanded(
                 child: Text(testnetMode ? 'Transactions TESTNET' : context.loc.walletTransactionHistory,
