@@ -19,7 +19,6 @@ import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_screen_item.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
-import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/wallet/wallet_screen.dart';
 
@@ -40,18 +39,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       index: 0,
     ),
     AppScreenItem(
-      title: "Explore".i18n,
-      icon: 'assets/images/navigation_bar/explore.svg',
-      iconSelected: 'assets/images/navigation_bar/explore_selected.svg',
-      screen: const ExploreScreen(),
-      index: 1,
-    ),
-    AppScreenItem(
       title: "Profile".i18n,
       icon: 'assets/images/navigation_bar/user_profile.svg',
       iconSelected: 'assets/images/navigation_bar/user_profile_selected.svg',
       screen: const ProfileScreen(),
-      index: 2,
+      index: 1,
     ),
   ];
   final PageController _pageController = PageController();
