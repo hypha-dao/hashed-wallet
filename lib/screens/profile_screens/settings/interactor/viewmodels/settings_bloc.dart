@@ -8,20 +8,20 @@ import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dar
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/mappers/guardians_state_mapper.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/usecases/guardians_usecase.dart';
+import 'package:seeds/screens/profile_screens/settings/interactor/mappers/guardians_state_mapper.dart';
+import 'package:seeds/screens/profile_screens/settings/interactor/usecases/guardians_usecase.dart';
 
-part 'security_event.dart';
-part 'security_state.dart';
+part 'settings_event.dart';
+part 'settings_state.dart';
 
-class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
+class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final AuthenticationBloc _authenticationBloc;
   late StreamSubscription<bool> _hasGuardianNotificationPending;
   late StreamSubscription<List<GuardianModel>> _guardians;
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
-  SecurityBloc(this._authenticationBloc)
-      : super(SecurityState.initial(ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase())) {
+  SettingsBloc(this._authenticationBloc)
+      : super(SettingsState.initial(ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase())) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
@@ -49,7 +49,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     return _repository.isGuardiansInitialized(settingsStorage.accountName);
   }
 
-  void _setUpInitialValues(SetUpInitialValues event, Emitter<SecurityState> emit) {
+  void _setUpInitialValues(SetUpInitialValues event, Emitter<SettingsState> emit) {
     emit(state.copyWith(
       pageState: PageState.success,
       isSecurePasscode: settingsStorage.passcodeActive,
@@ -57,12 +57,12 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     ));
   }
 
-  Future<void> _onLoadingGuardians(OnLoadingGuardians event, Emitter<SecurityState> emit) async {
+  Future<void> _onLoadingGuardians(OnLoadingGuardians event, Emitter<SettingsState> emit) async {
     final bool isGuardianInitialized = await isGuardianContractInitialized.first;
     emit(GuardianStateMapper().mapResultToState(isGuardianInitialized, event.guardians, state));
   }
 
-  Future<void> _onGuardiansCardTapped(OnGuardiansCardTapped event, Emitter<SecurityState> emit) async {
+  Future<void> _onGuardiansCardTapped(OnGuardiansCardTapped event, Emitter<SettingsState> emit) async {
     emit(state.copyWith()); //reset
     if (state.hasNotification) {
       await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(settingsStorage.accountName);
@@ -70,11 +70,11 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     emit(state.copyWith(navigateToGuardians: true));
   }
 
-  void _onPasscodePressed(OnPasscodePressed event, Emitter<SecurityState> emit) {
+  void _onPasscodePressed(OnPasscodePressed event, Emitter<SettingsState> emit) {
     emit(state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.passcodeCard));
   }
 
-  void _onBiometricPressed(OnBiometricPressed event, Emitter<SecurityState> emit) {
+  void _onBiometricPressed(OnBiometricPressed event, Emitter<SettingsState> emit) {
     if (state.isSecureBiometric!) {
       emit(state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.biometricCard));
     } else {
@@ -83,7 +83,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     }
   }
 
-  void _onValidVerification(OnValidVerification event, Emitter<SecurityState> emit) {
+  void _onValidVerification(OnValidVerification event, Emitter<SettingsState> emit) {
     switch (state.currentChoice) {
       case CurrentChoice.passcodeCard:
         if (state.isSecurePasscode!) {

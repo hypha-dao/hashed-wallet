@@ -1,26 +1,26 @@
-part of 'security_bloc.dart';
+part of 'settings_bloc.dart';
 
-abstract class SecurityEvent extends Equatable {
-  const SecurityEvent();
+abstract class SettingsEvent extends Equatable {
+  const SettingsEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class SetUpInitialValues extends SecurityEvent {
+class SetUpInitialValues extends SettingsEvent {
   const SetUpInitialValues();
   @override
   String toString() => 'SetUpInitialValues';
 }
 
-class ShouldShowNotificationBadge extends SecurityEvent {
+class ShouldShowNotificationBadge extends SettingsEvent {
   final bool value;
   const ShouldShowNotificationBadge({required this.value});
   @override
   String toString() => 'ShouldShowNotificationBadge { value: $value }';
 }
 
-class OnLoadingGuardians extends SecurityEvent {
+class OnLoadingGuardians extends SettingsEvent {
   final List<GuardianModel> guardians;
 
   const OnLoadingGuardians({required this.guardians});
@@ -28,31 +28,31 @@ class OnLoadingGuardians extends SecurityEvent {
   String toString() => 'OnLoadingGuardians { guardians: $guardians }';
 }
 
-class OnGuardiansCardTapped extends SecurityEvent {
+class OnGuardiansCardTapped extends SettingsEvent {
   const OnGuardiansCardTapped();
   @override
   String toString() => 'OnGuardiansCardTapped';
 }
 
-class OnPasscodePressed extends SecurityEvent {
+class OnPasscodePressed extends SettingsEvent {
   const OnPasscodePressed();
   @override
   String toString() => 'OnPasscodePressed';
 }
 
-class OnBiometricPressed extends SecurityEvent {
+class OnBiometricPressed extends SettingsEvent {
   const OnBiometricPressed();
   @override
   String toString() => 'OnBiometricPressed';
 }
 
-class ResetNavigateToVerification extends SecurityEvent {
+class ResetNavigateToVerification extends SettingsEvent {
   const ResetNavigateToVerification();
   @override
   String toString() => 'ResetNavigateToVerification';
 }
 
-class OnValidVerification extends SecurityEvent {
+class OnValidVerification extends SettingsEvent {
   const OnValidVerification();
   @override
   String toString() => 'OnValidVerification';

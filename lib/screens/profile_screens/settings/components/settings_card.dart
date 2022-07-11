@@ -6,7 +6,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 /// SECURITY CARD
-class SecurityCard extends StatelessWidget {
+class SettingsCard extends StatelessWidget {
   /// Card icon
   final Widget icon;
 
@@ -23,7 +23,7 @@ class SecurityCard extends StatelessWidget {
 
   final bool hasNotification;
 
-  const SecurityCard(
+  const SettingsCard(
       {super.key,
       required this.icon,
       required this.title,
@@ -41,7 +41,7 @@ class SecurityCard extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            color: AppColors.darkGreen2,
+            color: AppColors.newPrimary,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(

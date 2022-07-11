@@ -5,7 +5,7 @@ import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
+import 'package:seeds/screens/profile_screens/settings/interactor/viewmodels/settings_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
@@ -42,7 +42,7 @@ class GuardianSecurityCard extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            color: AppColors.darkGreen2,
+            color: AppColors.newPrimary,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
