@@ -220,11 +220,11 @@ class SeedsInputDecorationTheme {
   static InputDecorationTheme get darkTheme => InputDecorationTheme(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.darkGreen2),
+          borderSide: const BorderSide(color: AppColors.newPrimaryLight),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.darkGreen2),
+          borderSide: const BorderSide(color: AppColors.newPrimaryLight),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

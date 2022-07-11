@@ -11,7 +11,7 @@ class AppColorSchemes {
     onBackground: AppColors.white,
     primary: AppColors.newPrimary,
     secondary: AppColors.purple,
-    surface: AppColors.primary,
+    surface: AppColors.newBackground,
     onSurface: AppColors.white,
     onPrimary: Colors.purple,
     onSecondary: Colors.blueAccent,
