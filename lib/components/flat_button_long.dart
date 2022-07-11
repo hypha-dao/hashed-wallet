@@ -19,7 +19,7 @@ class FlatButtonLong extends StatelessWidget {
       width: double.infinity,
       child: MaterialButton(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
-        color: AppColors.green1,
+        color: AppColors.newPrimary,
         disabledTextColor: AppColors.grey1,
         disabledColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),

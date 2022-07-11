@@ -1,89 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/design/app_color_schemes.dart';
 import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/design/app_themes/hashed_app_bar_theme.dart';
+import 'package:seeds/design/app_themes/hashed_snack_bar_theme.dart';
 
 class SeedsAppTheme {
-  // TODO(gguij004): not completed, next pr will add more themes.
-  static ThemeData get newDarkTheme {
+  //canvasColor: BottomNavigationBar background color
+  static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: AppColorSchemes.darkColorScheme,
-      appBarTheme: const AppBarTheme(
-          elevation: 0.0, titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600) // headline7
-          ),
-      scaffoldBackgroundColor: AppColorSchemes.darkColorScheme.background,
-      bottomNavigationBarTheme:
-          BottomNavigationBarThemeData(backgroundColor: AppColorSchemes.darkColorScheme.background),
+      appBarTheme: HashedAppBarTheme.appBarThemeData,
+      canvasColor: AppColorSchemes.darkColorScheme.background,
       fontFamily: 'SFProDisplay',
       textTheme: SeedsTextTheme.darkTheme,
       inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
-      snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
-        contentTextStyle: TextStyle(color: AppColorSchemes.darkColorScheme.onBackground),
-      ),
-      indicatorColor: AppColorSchemes.darkColorScheme.secondary,
+      snackBarTheme: HashedSnackBarTheme.snackBarThemeData,
     );
   }
 
-  static ThemeData get lightTheme {
-    return ThemeData(
-      primaryColor: AppColors.primary,
-      fontFamily: 'SFProDisplay',
-      textTheme: SeedsTextTheme.lightTheme,
-      brightness: Brightness.light,
-      canvasColor: AppColors.primary,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        elevation: 0.0,
-        titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // headline7
-      ),
-      inputDecorationTheme: SeedsInputDecorationTheme.lightTheme,
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: AppColors.grey,
-        behavior: SnackBarBehavior.floating,
-        contentTextStyle: TextStyle(color: AppColors.white),
-      ),
-      indicatorColor: AppColors.green1,
-      sliderTheme: const SliderThemeData(
-        thumbColor: AppColors.white,
-        thumbShape: RoundSliderThumbShape(),
-        trackHeight: 4.0,
-        activeTrackColor: AppColors.green1,
-        inactiveTrackColor: AppColors.lightGreen6,
-        valueIndicatorColor: AppColors.green1,
-      ),
-    );
-  }
-
-  static ThemeData get darkTheme {
-    return ThemeData(
-      primaryColor: AppColors.primary,
-      fontFamily: 'SFProDisplay',
-      textTheme: SeedsTextTheme.darkTheme,
-      brightness: Brightness.dark,
-      canvasColor: AppColors.primary,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        elevation: 0.0,
-        titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // headline7
-      ),
-      inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: AppColors.grey,
-        behavior: SnackBarBehavior.floating,
-        contentTextStyle: TextStyle(color: AppColors.white),
-      ),
-      indicatorColor: AppColors.green1,
-      sliderTheme: const SliderThemeData(
-        thumbColor: AppColors.white,
-        thumbShape: RoundSliderThumbShape(),
-        trackHeight: 4.0,
-        activeTrackColor: AppColors.green1,
-        inactiveTrackColor: AppColors.lightGreen6,
-        valueIndicatorColor: AppColors.green1,
-      ),
-    );
-  }
+static ThemeData get lightTheme {
+  return ThemeData(
+    useMaterial3: true,
+    colorScheme: AppColorSchemes.lightColorScheme,
+    appBarTheme: HashedAppBarTheme.appBarThemeData,
+    canvasColor: AppColorSchemes.darkColorScheme.background,
+    fontFamily: 'SFProDisplay',
+    textTheme: SeedsTextTheme.darkTheme,
+    inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
+    snackBarTheme: HashedSnackBarTheme.snackBarThemeData,
+  );
+}
 }
 
 // # w100 Thin, the least thick
@@ -174,7 +121,7 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle2BlackHighEmphasis => subtitle2HighEmphasis.copyWith(color: AppColors.black);
 
-  TextStyle get subtitle2HighEmphasisGreen1 => subtitle2HighEmphasis.copyWith(color: AppColors.green1);
+  TextStyle get subtitle2HighEmphasisLightBlue => subtitle2HighEmphasis.copyWith(color: AppColors.newSecondary);
 
   TextStyle get subtitle2BlackLowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.black);
 

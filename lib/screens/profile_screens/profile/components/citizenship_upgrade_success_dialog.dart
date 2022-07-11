@@ -32,7 +32,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(
                             text: "Citizen".i18n,
-                            style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
+                            style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue,
                           ),
                           TextSpan(
                             text:
@@ -55,7 +55,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(
                             text: "Resident",
-                            style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
+                            style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue,
                           ),
                           TextSpan(
                             text: 'Just one more level until you are a full-fledged Citizen.!'.i18n,

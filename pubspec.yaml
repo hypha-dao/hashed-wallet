@@ -167,6 +167,7 @@ flutter:
     - assets/images/seeds_logo.svg
     - assets/images/login/background.png
     - assets/images/login/seeds_light_wallet_logo.svg
+    - assets/images/login/wallet_logo.png
     - assets/images/receive/receive_input_seeds.svg
     - assets/images/receive/merchant.svg
     - assets/images/currency_switch_button.svg

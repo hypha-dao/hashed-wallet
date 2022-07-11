@@ -1,6 +1,4 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -9,14 +7,11 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-const int _approxWidgetHeight = 450;
-
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       bottomSheet: Padding(
         padding: const EdgeInsets.all(16),
@@ -35,7 +30,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Text(context.loc.loginRecoverAccountActionSegment1, style: Theme.of(context).textTheme.subtitle2),
               Text(context.loc.loginRecoverAccountActionLink,
-                  style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1),
+                  style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue),
               Text(context.loc.loginRecoverAccountActionSegment2, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
@@ -46,14 +41,9 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: max(0, min(height * 0.4, height - _approxWidgetHeight)),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(fit: BoxFit.fitWidth, image: AssetImage("assets/images/login/background.png")),
-                ),
-              ),
-              SvgPicture.asset("assets/images/login/seeds_light_wallet_logo.svg"),
-              const SizedBox(height: 80),
+              const SizedBox(height: 120),
+              Image.asset("assets/images/login/wallet_logo.png"),
+              const SizedBox(height: 120),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
@@ -66,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                       title: context.loc.loginClaimInviteCodeButtonTitle,
                     ),
                     const SizedBox(height: 40),
-                    Text(context.loc.loginAlreadyHaveAnAccount, style: Theme.of(context).textTheme.subtitle2),
+                    Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
                     const SizedBox(height: 10),
                     FlatButtonLongOutlined(
                       onPressed: () {
