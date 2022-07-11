@@ -4,13 +4,11 @@ class DeeplinkState extends Equatable {
   final GuardianRecoveryRequestData? guardianRecoveryRequestData;
   final InviteLinkData? inviteLinkData;
   final ScanQrCodeResultData? signingRequest;
-  final RegionLinkData? regionLinkData;
 
   const DeeplinkState({
     this.guardianRecoveryRequestData,
     this.inviteLinkData,
     this.signingRequest,
-    this.regionLinkData,
   });
 
   @override
@@ -18,20 +16,17 @@ class DeeplinkState extends Equatable {
         guardianRecoveryRequestData,
         inviteLinkData,
         signingRequest,
-        regionLinkData,
       ];
 
   DeeplinkState copyWith({
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
     InviteLinkData? inviteLinkData,
     ScanQrCodeResultData? signingRequest,
-    RegionLinkData? regionLinkData,
   }) {
     return DeeplinkState(
       guardianRecoveryRequestData: showGuardianApproveOrDenyScreen,
       inviteLinkData: inviteLinkData,
       signingRequest: signingRequest,
-      regionLinkData: regionLinkData,
     );
   }
 

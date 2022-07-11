@@ -24,8 +24,6 @@ class GetInitialDeepLinkUseCase {
         return DeepLinkData(data, deepLinkPlaceHolder);
       case DeepLinkPlaceHolder.invite:
         return DeepLinkData({'Mnemonic': linkData}, deepLinkPlaceHolder);
-      case DeepLinkPlaceHolder.region:
-        return DeepLinkData({'region': linkData}, deepLinkPlaceHolder);
       case DeepLinkPlaceHolder.invoice:
         final Result esrData = await getSigningRequestUseCase.run(linkData);
         return DeepLinkData({'invoice': esrData}, deepLinkPlaceHolder);

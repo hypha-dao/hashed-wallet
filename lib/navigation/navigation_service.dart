@@ -59,13 +59,10 @@ class Routes {
   static const vouch = 'vouch';
   static const vouchForAMember = 'vouchForAMember';
   static const unPlantSeeds = 'unPlantSeeds';
-  static const createRegion = 'createRegion';
-  static const createRegionEvent = 'createRegionEvent';
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
   static const swapSeeds = 'swapSeeds';
-  static const joinRegion = 'joinRegion';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
@@ -82,14 +79,6 @@ class Routes {
   static const citizenship = 'citizenship';
   static const contribution = 'contribution';
   static const contributionDetail = 'contributionDetail';
-  static const region = 'region';
-  static const regionEventDetails = 'regionEventDetials';
-  static const editRegionDescription = 'editRegionDescription';
-  static const editRegionImage = 'editRegionImage';
-  static const editRegionEventNameAndDescription = 'editRegionEventNameAndDescription';
-  static const editRegionEventLocation = 'editRegionEventLocation';
-  static const editRegionEventTimeAndDate = 'editRegionEventTimeAndDate';
-  static const editRegionEventImage = 'editRegionEventImage';
 }
 
 class NavigationService {
