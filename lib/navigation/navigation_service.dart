@@ -6,7 +6,6 @@ import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
-import 'package:seeds/screens/authentication/onboarding/onboarding_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
@@ -59,7 +58,6 @@ import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_sc
 
 /// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
-  static const onboarding = 'onboarding';
   static const splash = 'splash';
   static const app = 'app';
   static const login = 'login';
@@ -120,7 +118,6 @@ class Routes {
 class NavigationService {
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
   final _appRoutes = {
-    Routes.onboarding: (_) => const OnboardingScreen(),
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),

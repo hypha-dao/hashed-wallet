@@ -65,7 +65,7 @@ class SeedsApp extends StatelessWidget {
                         listener: (_, state) {
                           switch (state.authStatus) {
                             case AuthStatus.emptyAccount:
-                              navigator.pushAndRemoveAll(Routes.onboarding);
+                              navigator.pushAndRemoveAll(Routes.login);
                               break;
                             case AuthStatus.inviteLink:
                               navigator.pushAndRemoveAll(Routes.signup);

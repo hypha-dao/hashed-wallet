@@ -39,8 +39,13 @@ class _SettingsStorage {
   String? _privateKey;
   List<String>? _privateKeysList;
   String? _passcode;
+
+  // TODO(n13): Passcode is temporarily disabled.
+  // ignore: unused_field, use_late_for_private_fields_and_variables
   bool? _passcodeActive;
+  // ignore: unused_field, use_late_for_private_fields_and_variables
   bool? _biometricActive;
+
   List<String> _recoveryWords = [];
 
   factory _SettingsStorage() => _instance;
@@ -59,9 +64,11 @@ class _SettingsStorage {
 
   String? get passcode => _passcode;
 
-  bool get passcodeActive => _passcodeActive ?? false;
+  // TODO(n13): Passcode is disabled for now.
+  bool get passcodeActive => false; // _passcodeActive ?? false;
 
-  bool? get biometricActive => _biometricActive;
+  // TODO(n13): Passcode is disabled for now.
+  bool? get biometricActive => false; // _biometricActive;
 
   bool get privateKeyBackedUp => _preferences.getBool(_kPrivateKeyBackedUp) ?? false; // <-- No used, need re-add PR 182
 
