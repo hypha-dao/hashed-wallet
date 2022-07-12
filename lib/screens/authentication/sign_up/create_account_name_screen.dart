@@ -4,7 +4,6 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
@@ -86,10 +85,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                       ),
                       const SizedBox(height: 10),
                       Expanded(
-                        child: Text(
-                          context.loc.signUpUsernameDescription,
-                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                        ),
+                        child: Text(context.loc.signUpUsernameDescription),
                       ),
                       FlatButtonLong(
                         title: context.loc.signUpCreateAccountButtonTitle,

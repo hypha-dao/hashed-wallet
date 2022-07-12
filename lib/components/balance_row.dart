@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/design/app_theme.dart';
 
 /// Available Amount
 ///
@@ -25,21 +24,14 @@ class BalanceRow extends StatelessWidget {
       children: [
         Row(
           children: [
+            Expanded(child: Container(alignment: Alignment.centerLeft, child: Text(label))),
             Expanded(
-                child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(label, style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis))),
-            Expanded(
-                child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(tokenAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle1)))
+                child: Container(alignment: Alignment.centerRight, child: Text(tokenAmount?.asFormattedString() ?? "")))
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
-          ]),
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [Text(fiatAmount?.asFormattedString() ?? "")]),
         )
       ],
     );

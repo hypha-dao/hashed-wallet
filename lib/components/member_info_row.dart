@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/design/app_theme.dart';
 
 class MemberInfoRow extends StatelessWidget {
   final ProfileModel member;
@@ -43,7 +42,7 @@ class MemberInfoRow extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(member.account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                  Text(member.account)
                 ],
               ),
             ),

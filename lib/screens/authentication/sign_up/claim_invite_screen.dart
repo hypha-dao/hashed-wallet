@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/components/scanner/scanner_view.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/images/signup/claim_invite/invite_link_success.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -78,10 +77,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                                   backgroundColor: Colors.transparent,
                                 ),
                                 const SizedBox(height: 30),
-                                Text(
-                                  context.loc.signUpProcessingYourInvitation,
-                                  style: Theme.of(context).textTheme.headline7,
-                                )
+                                Text(context.loc.signUpProcessingYourInvitation)
                               ],
                             ),
                           if (view == ClaimInviteView.success)
@@ -89,7 +85,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                               children: [
                                 const CustomPaint(size: Size(70, 70), painter: InviteLinkSuccess()),
                                 const SizedBox(height: 30),
-                                Text(context.loc.signUpSuccess, style: Theme.of(context).textTheme.headline7),
+                                Text(context.loc.signUpSuccess),
                               ],
                             ),
                         ],

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 
@@ -22,12 +21,12 @@ class GuardianRowTrailingWidget extends StatelessWidget {
                 onPressed: () {
                   BlocProvider.of<GuardiansBloc>(context).add(OnAcceptGuardianTapped(guardian.uid));
                 },
-                child: Text("Accept".i18n, style: Theme.of(context).textTheme.subtitle3)),
+                child: Text("Accept".i18n)),
             TextButton(
                 onPressed: () {
                   BlocProvider.of<GuardiansBloc>(context).add(OnDeclineGuardianTapped(guardian.uid));
                 },
-                child: Text("Decline".i18n, style: Theme.of(context).textTheme.subtitle3Red))
+                child: Text("Decline".i18n))
           ],
         );
       case GuardianStatus.requestSent:
@@ -35,23 +34,23 @@ class GuardianRowTrailingWidget extends StatelessWidget {
             onPressed: () {
               BlocProvider.of<GuardiansBloc>(context).add(OnCancelGuardianRequestTapped(guardian.uid));
             },
-            child: Text("Cancel Request".i18n, style: Theme.of(context).textTheme.subtitle3Red));
+            child: Text("Cancel Request".i18n));
       case GuardianStatus.alreadyGuardian:
         {
           if (guardian.recoveryStartedDate != null) {
             switch (guardian.type) {
               case GuardianType.myGuardian:
-                return Text("Recovery Started".i18n, style: Theme.of(context).textTheme.subtitle3Red);
+                return Text("Recovery Started".i18n);
               case GuardianType.imGuardian:
                 if (guardian.recoveryApprovedDate != null) {
-                  return Text("Recovery Started".i18n, style: Theme.of(context).textTheme.subtitle3Red);
+                  return Text("Recovery Started".i18n);
                 } else {
                   return ElevatedButton(
                       onPressed: () {
                         // TODO(gguij002): Next PR handle this
                         // tileOnTap!(user, guardian);
                       },
-                      child: Text("Action Required".i18n, style: Theme.of(context).textTheme.subtitle3Red));
+                      child: Text("Action Required".i18n));
                 }
 
               default:

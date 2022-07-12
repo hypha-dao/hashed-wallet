@@ -8,7 +8,6 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
@@ -126,15 +125,11 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
-                          Text(state.confirmedGuardianSignatures.toString(),
-                              style: Theme.of(context).textTheme.button1),
-                          Text("/${state.userGuardiansData.length}", style: Theme.of(context).textTheme.button1),
+                          Text(state.confirmedGuardianSignatures.toString()),
+                          Text("/${state.userGuardiansData.length}"),
                           const SizedBox(width: 24),
                           Flexible(
-                            child: Text(
-                              context.loc.recoverAccountFoundGuardiansAcceptedTitle,
-                              style: Theme.of(context).textTheme.buttonLowEmphasis,
-                            ),
+                            child: Text(context.loc.recoverAccountFoundGuardiansAcceptedTitle),
                           ),
                         ],
                       ),
@@ -191,11 +186,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            context.loc.recoverAccountFoundAllGuardiansAcceptedTitle,
-                            style: Theme.of(context).textTheme.subtitle2LowEmphasis,
-                            textAlign: TextAlign.center,
-                          ),
+                          child: Text(context.loc.recoverAccountFoundAllGuardiansAcceptedTitle,
+                              textAlign: TextAlign.center),
                         ),
                         const SizedBox(height: 40),
                         const Image(image: AssetImage('assets/images/guardians/check_circle.png')),

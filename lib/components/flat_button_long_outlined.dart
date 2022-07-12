@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 /// A long flat widget button with rounded corners and white outline
@@ -26,7 +25,7 @@ class FlatButtonLongOutlined extends StatelessWidget {
             side: const BorderSide(color: AppColors.newSecondary),
           ),
           onPressed: onPressed,
-          child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL)),
+          child: Text(title)),
     );
   }
 }

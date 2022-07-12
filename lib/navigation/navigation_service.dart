@@ -11,15 +11,11 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
-import 'package:seeds/screens/profile_screens/contribution/contribution_detail/contribution_detail_screen.dart';
-import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
-import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/profile_screens/settings/settings_screen.dart';
@@ -65,7 +61,6 @@ class Routes {
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
-  static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
   static const inviteGuardians = 'inviteGuardians';
   static const inviteGuardiansSent = 'inviteGuardiansSent';
@@ -75,9 +70,6 @@ class Routes {
   static const security = 'security';
   static const editName = 'editName';
   static const setCurrency = 'setCurrency';
-  static const citizenship = 'citizenship';
-  static const contribution = 'contribution';
-  static const contributionDetail = 'contributionDetail';
 }
 
 class NavigationService {
@@ -105,13 +97,9 @@ class NavigationService {
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
-    Routes.profile: (_) => const ProfileScreen(),
     Routes.security: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
-    Routes.citizenship: (_) => const CitizenshipScreen(),
-    Routes.contribution: (_) => const ContributionScreen(),
-    Routes.contributionDetail: (_) => const ContributionDetailScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };
 
@@ -120,11 +108,6 @@ class NavigationService {
   // Has no effect on Android.
   final _fullScreenRoutes = {
     Routes.verificationUnpoppable,
-  };
-
-  // iOS transition: Pages that slides in from the right and exits in reverse.
-  final _cupertinoRoutes = {
-    Routes.citizenship,
   };
 
   static NavigationService of(BuildContext context) => RepositoryProvider.of<NavigationService>(context);
@@ -136,28 +119,6 @@ class NavigationService {
       } else {
         return appNavigatorKey.currentState?.pushNamed(routeName, arguments: arguments);
       }
-    }
-  }
-
-  Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    if (_appRoutes[settings.name!] != null) {
-      if (_cupertinoRoutes.contains(settings.name)) {
-        // Pages that slides in from the right and exits in reverse
-        return CupertinoPageRoute(
-          settings: settings,
-          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
-          fullscreenDialog: _fullScreenRoutes.contains(settings.name),
-        );
-      } else {
-        // Pages slides the route upwards and fades it in, and exits in reverse
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
-          fullscreenDialog: _fullScreenRoutes.contains(settings.name),
-        );
-      }
-    } else {
-      return MaterialPageRoute(builder: (_) => const SplashScreen());
     }
   }
 

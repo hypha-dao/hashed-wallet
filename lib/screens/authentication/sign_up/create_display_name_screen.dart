@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -61,11 +60,7 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                       return null;
                     },
                   ),
-                  Expanded(
-                      child: Text(
-                    context.loc.signUpFullNameDescription,
-                    style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                  )),
+                  Expanded(child: Text(context.loc.signUpFullNameDescription)),
                   FlatButtonLong(onPressed: _onNextPressed(), title: context.loc.signUpNextButtonTitle),
                 ],
               ),

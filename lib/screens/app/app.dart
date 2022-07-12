@@ -6,7 +6,6 @@ import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -135,8 +134,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               child: BottomNavigationBar(
                 currentIndex: state.index,
                 onTap: (index) => _appBloc.add(BottomBarTapped(index: index)),
-                selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
                 selectedItemColor: AppColors.white,
                 items: [
                   for (var i in _appScreenItems)

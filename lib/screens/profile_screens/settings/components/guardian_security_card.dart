@@ -91,10 +91,7 @@ class GuardianSecurityCard extends StatelessWidget {
                         child: Row(
                           children: [
                             Flexible(
-                              child: Text(
-                                context.loc.securityGuardiansDescription,
-                                style: Theme.of(context).textTheme.subtitle3,
-                              ),
+                              child: Text(context.loc.securityGuardiansDescription),
                             )
                           ],
                         ),

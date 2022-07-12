@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -48,7 +47,6 @@ class InviteGuardians extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: Text(
                         "The users below will be sent an invite to become your Guardian.".i18n,
-                        style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/datasource/local/models/eos_action.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 class TransactionActionCard extends StatelessWidget {
@@ -25,7 +24,7 @@ class TransactionActionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(action.name?.inCaps ?? "", style: Theme.of(context).textTheme.headline7),
+                  Text(action.name?.inCaps ?? ""),
                   Text(action.account ?? "", style: Theme.of(context).textTheme.subtitle2),
                 ],
               ),
@@ -39,7 +38,7 @@ class TransactionActionCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(i.key.inCaps, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+                            Text(i.key.inCaps),
                             const SizedBox(width: 4),
                             Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
                           ],

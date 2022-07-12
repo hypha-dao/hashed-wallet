@@ -5,7 +5,6 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/set_currency/interactor/viewmodels/set_currency_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -70,8 +69,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                               state.queryCurrenciesResults![index].code,
                               style: Theme.of(context).textTheme.button,
                             ),
-                            subtitle: Text(state.queryCurrenciesResults![index].name,
-                                style: Theme.of(context).textTheme.subtitle4),
+                            subtitle: Text(state.queryCurrenciesResults![index].name),
                             onTap: () {
                               settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults![index].code);
                               Navigator.of(context).pop(true);
