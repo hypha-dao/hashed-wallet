@@ -53,6 +53,10 @@ class ReceiveSendButtons extends StatelessWidget {
                 child: MaterialButton(
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
                   onPressed: () async {
+                    // testing substrate service - leave this for now
+
+                    print("substrate function test");
+
                     final service = SubstrateService();
                     final keyRing = Keyring();
                     await service.init(keyRing, onInitiated: () => {print("initiated.")});
