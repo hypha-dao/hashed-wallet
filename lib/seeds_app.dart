@@ -57,6 +57,7 @@ class SeedsApp extends StatelessWidget {
                   theme: SeedsAppTheme.darkTheme,
                   scaffoldMessengerKey: rootScaffoldMessengerKey,
                   navigatorKey: navigator.appNavigatorKey,
+                  onGenerateRoute: navigator.onGenerateRoute,
                   builder: (_, child) {
                     return I18n(
                       child: BlocListener<AuthenticationBloc, AuthenticationState>(
