@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -40,7 +39,6 @@ class RecoveryPhraseScreen extends StatelessWidget {
                             const TextSpan(text: 'Get a pen and paper before you start. \nWrite down or '),
                             TextSpan(
                                 text: 'copy ',
-                                style: Theme.of(context).textTheme.subtitle2Green2,
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Clipboard.setData(ClipboardData(text: state.printableWords));

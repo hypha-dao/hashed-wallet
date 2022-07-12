@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/design/app_theme.dart';
 
 class AccountActionRow extends StatelessWidget {
   final String image;
@@ -52,7 +51,7 @@ class AccountActionRow extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                    Text(account)
                   ],
                 ),
               ),

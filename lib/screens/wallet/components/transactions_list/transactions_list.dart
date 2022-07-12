@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/transaction_details_bottom_sheet.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/components/transaction_info_row.dart';
@@ -32,8 +31,9 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Row(children: [
             Expanded(
-                child: Text(testnetMode ? 'Transactions TESTNET' : context.loc.walletTransactionHistory,
-                    style: Theme.of(context).textTheme.headline7LowEmphasis)),
+                child: Text(
+              testnetMode ? 'Transactions TESTNET' : context.loc.walletTransactionHistory,
+            )),
           ]),
         ),
         const SizedBox(height: 6),

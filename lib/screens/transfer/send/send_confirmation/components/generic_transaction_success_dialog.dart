@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -91,7 +90,6 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 Flexible(
                   child: Text(
                     context.loc.transferTransactionSuccessCount(transactionModel.transaction.actions.length),
-                    style: Theme.of(context).textTheme.buttonGreen1,
                     maxLines: 2,
                   ),
                 ),

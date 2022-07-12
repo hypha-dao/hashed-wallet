@@ -5,7 +5,6 @@ import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/user_input_decimal_precision.dart';
 import 'package:seeds/domain-shared/user_input_number_formatter.dart';
 
@@ -120,7 +119,6 @@ class AmountEntryWidget extends StatelessWidget {
                   state.currentCurrencyInput == CurrencyInput.fiat
                       ? state.tokenAmount.asFormattedString()
                       : state.fiatAmount?.asFormattedString() ?? "",
-                  style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 ),
               ],
             );

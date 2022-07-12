@@ -88,11 +88,7 @@ class SettingsCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(description, style: Theme.of(context).textTheme.subtitle3),
-                            )
-                          ],
+                          children: [Flexible(child: Text(description))],
                         ),
                       ),
                     ],

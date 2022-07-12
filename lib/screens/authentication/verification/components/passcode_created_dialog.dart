@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class PasscodeCreatedDialog extends StatelessWidget {
@@ -17,7 +16,7 @@ class PasscodeCreatedDialog extends StatelessWidget {
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
       singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
       children: [
-        Text(context.loc.verificationPasscodeDialogTitle, style: Theme.of(context).textTheme.button1),
+        Text(context.loc.verificationPasscodeDialogTitle),
         const SizedBox(height: 30.0),
         Text(
           context.loc.verificationPasscodeDialogSubTitle,

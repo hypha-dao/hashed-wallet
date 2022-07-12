@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 
 /// A wigdeg wrapper of TextFormField customized for general inputs
 ///
@@ -85,7 +84,6 @@ class TextFormFieldCustom extends StatelessWidget {
           errorText: errorText,
           errorMaxLines: 2,
           errorStyle: const TextStyle(color: Colors.red, wordSpacing: 4.0),
-          labelStyle: Theme.of(context).textTheme.subtitle3.copyWith(color: AppColors.white),
           hintStyle: Theme.of(context).textTheme.button,
           contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),

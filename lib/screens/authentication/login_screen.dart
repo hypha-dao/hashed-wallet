@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Recover your founds ', style: Theme.of(context).textTheme.subtitle2),
-              Text('here', style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue),
+              const Text('here'),
             ],
           ),
         ),

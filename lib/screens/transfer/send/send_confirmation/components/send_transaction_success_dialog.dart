@@ -6,7 +6,6 @@ import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
@@ -168,7 +167,7 @@ class DialogRow extends StatelessWidget {
               children: [
                 Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.button),
                 const SizedBox(height: 8),
-                Text(account, style: Theme.of(context).textTheme.subtitle2LowEmphasis)
+                Text(account)
               ],
             ),
           ),
