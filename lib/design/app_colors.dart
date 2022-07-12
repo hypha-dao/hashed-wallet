@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // NEW COLORS, ASK GERY BEFORE ADDING A NEW COLOR-----DarkGreen1
+  /// Primary Colors
+  static const newPrimary = Color(0xFF293E83);
+  static const newPrimaryLight = Color(0xFF5774C4);
+  static const newBackground = Color(0xFF212227);
+  static const newSecondary = Color(0xFF3F65EF);
+
+  /// Basic Colors
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
+
+  /// Status Colors
+  static Color getColorByString(String? str) {
+    var hash = 0;
+    if (str == null || str.isEmpty) {
+      return Colors.grey;
+    }
+    for (var i = 0; i < str.length; i++) {
+      hash = str.codeUnitAt(i) + ((hash << 5) - hash);
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    final shortened = hash.abs() % 360;
+    return HSLColor.fromAHSL(1.0, shortened.toDouble(), 0.3, 0.6).toColor();
+  }
+
+  // TODO(gguij004): will remove on next pr.
   static const _primaryValue = 0xFF0F2617;
 
   static const Color primary = MaterialColor(_primaryValue, {
@@ -16,10 +40,6 @@ class AppColors {
     800: Color(0xff0a1b10),
     900: Color(0xff09170e)
   });
-
-  /// Basic Colors
-  static const white = Color(0xFFFFFFFF);
-  static const black = Color(0xFF000000);
 
   /// Primary Colors
   static const green1 = Color(0xFF1F992A);
@@ -111,17 +131,4 @@ class AppColors {
   static const red = Color(0xFFEB5757);
   static const borderGrey = Color(0xFFEBEBEB);
   static const gradient = [blue, blue];
-
-  static Color getColorByString(String? str) {
-    var hash = 0;
-    if (str == null || str.isEmpty) {
-      return Colors.grey;
-    }
-    for (var i = 0; i < str.length; i++) {
-      hash = str.codeUnitAt(i) + ((hash << 5) - hash);
-      hash = hash & hash; // Convert to 32bit integer
-    }
-    final shortened = hash.abs() % 360;
-    return HSLColor.fromAHSL(1.0, shortened.toDouble(), 0.3, 0.6).toColor();
-  }
 }

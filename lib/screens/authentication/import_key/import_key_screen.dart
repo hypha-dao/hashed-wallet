@@ -104,7 +104,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                               children: <TextSpan>[
                                 TextSpan(
                                     text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,
-                                    style: Theme.of(context).textTheme.subtitle2Green2,
+                                    style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.of(context).pop();

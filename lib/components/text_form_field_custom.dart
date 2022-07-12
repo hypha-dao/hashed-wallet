@@ -78,7 +78,7 @@ class TextFormFieldCustom extends StatelessWidget {
           suffixText: suffixText,
           suffixStyle: Theme.of(context).textTheme.subtitle2,
           suffixIcon: suffixIcon,
-          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.canopy)),
+          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.newPrimaryLight)),
           counterText: counterText,
           hintText: hintText,
           labelText: labelText,

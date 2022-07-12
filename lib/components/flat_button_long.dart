@@ -19,9 +19,9 @@ class FlatButtonLong extends StatelessWidget {
       width: double.infinity,
       child: MaterialButton(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
-        color: AppColors.green1,
-        disabledTextColor: AppColors.grey1,
-        disabledColor: AppColors.darkGreen2,
+        color: AppColors.newPrimary,
+        disabledTextColor: AppColors.grey3,
+        disabledColor: AppColors.newPrimaryLight,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),
         onPressed: enabled ? onPressed : null,
         child: isLoading
@@ -32,7 +32,7 @@ class FlatButtonLong extends StatelessWidget {
                   color: AppColors.white,
                   strokeWidth: 3,
                 ))
-            : Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
+            : Text(title),
       ),
     );
   }

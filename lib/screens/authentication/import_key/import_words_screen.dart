@@ -117,7 +117,7 @@ class ImportWordsScreen extends StatelessWidget {
                             children: <TextSpan>[
                               TextSpan(
                                 text: context.loc.importKeyImportUsingPrivateKeyActionLink,
-                                style: Theme.of(context).textTheme.subtitle2Green2,
+                                style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue,
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.of(context).pop();
@@ -129,7 +129,6 @@ class ImportWordsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      const ImportWordsAccountsWidget(),
                       const SizedBox(height: 36),
                     ],
                   ),

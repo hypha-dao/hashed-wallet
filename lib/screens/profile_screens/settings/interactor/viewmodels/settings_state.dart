@@ -1,9 +1,9 @@
-part of 'security_bloc.dart';
+part of 'settings_bloc.dart';
 
 enum CurrentChoice { initial, passcodeCard, biometricCard }
 enum GuardiansStatus { active, inactive, readyToActivate }
 
-class SecurityState extends Equatable {
+class SettingsState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final bool hasNotification;
@@ -15,7 +15,7 @@ class SecurityState extends Equatable {
   final GuardiansStatus? guardiansStatus;
   final bool shouldShowExportRecoveryPhrase;
 
-  const SecurityState({
+  const SettingsState({
     required this.pageState,
     this.errorMessage,
     required this.hasNotification,
@@ -42,7 +42,7 @@ class SecurityState extends Equatable {
         shouldShowExportRecoveryPhrase,
       ];
 
-  SecurityState copyWith({
+  SettingsState copyWith({
     PageState? pageState,
     String? errorMessage,
     bool? hasNotification,
@@ -54,7 +54,7 @@ class SecurityState extends Equatable {
     GuardiansStatus? guardiansStatus,
     bool? shouldShowExportRecoveryPhrase,
   }) {
-    return SecurityState(
+    return SettingsState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       hasNotification: hasNotification ?? this.hasNotification,
@@ -68,8 +68,8 @@ class SecurityState extends Equatable {
     );
   }
 
-  factory SecurityState.initial(bool shouldShowRecoveryWordsFeature) {
-    return SecurityState(
+  factory SettingsState.initial(bool shouldShowRecoveryWordsFeature) {
+    return SettingsState(
         pageState: PageState.initial,
         currentChoice: CurrentChoice.initial,
         hasNotification: false,
