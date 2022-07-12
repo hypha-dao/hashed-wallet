@@ -28,10 +28,8 @@ class LoginScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(context.loc.loginRecoverAccountActionSegment1, style: Theme.of(context).textTheme.subtitle2),
-              Text(context.loc.loginRecoverAccountActionLink,
-                  style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue),
-              Text(context.loc.loginRecoverAccountActionSegment2, style: Theme.of(context).textTheme.subtitle2),
+              Text('Recover your founds ', style: Theme.of(context).textTheme.subtitle2),
+              Text('here', style: Theme.of(context).textTheme.subtitle2HighEmphasisLightBlue),
             ],
           ),
         ),
