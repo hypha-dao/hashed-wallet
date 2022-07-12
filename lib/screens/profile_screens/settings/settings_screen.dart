@@ -20,10 +20,20 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.loc.securityTitle)),
+      appBar: AppBar(
+        title: const Text("Settings"),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: IconButton(
+                icon: const Icon(Icons.login_outlined),
+                onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
+              ))
+        ],
+      ),
       body: BlocProvider(
         create: (context) =>
-            SettingsBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
+        SettingsBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
         child: MultiBlocListener(
           listeners: [
             BlocListener<SettingsBloc, SettingsState>(
@@ -43,7 +53,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             BlocListener<SettingsBloc, SettingsState>(
               listenWhen: (previous, current) =>
-                  previous.isSecureBiometric == false && current.isSecureBiometric == true,
+              previous.isSecureBiometric == false && current.isSecureBiometric == true,
               listener: (context, _) {
                 showDialog<void>(
                   context: context,
@@ -76,7 +86,7 @@ class SettingsScreen extends StatelessWidget {
                         ),
                         BlocBuilder<SettingsBloc, SettingsState>(
                           buildWhen: (previous, current) =>
-                              previous.hasNotification != current.hasNotification ||
+                          previous.hasNotification != current.hasNotification ||
                               previous.guardiansStatus != current.guardiansStatus,
                           builder: (context, state) {
                             return GuardianSecurityCard(
@@ -97,6 +107,42 @@ class SettingsScreen extends StatelessWidget {
                           )
                         else
                           const SizedBox.shrink(),
+                        SettingsCard(
+                          icon: const Icon(Icons.lock_outline),
+                          title: context.loc.securitySecureWithPinTitle,
+                          titleWidget: BlocBuilder<SettingsBloc, SettingsState>(
+                            buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
+                            builder: (context, state) {
+                              return Switch(
+                                value: state.isSecurePasscode!,
+                                onChanged: (_) =>
+                                BlocProvider.of<SettingsBloc>(context)..add(const OnPasscodePressed()),
+                                activeTrackColor: AppColors.canopy,
+                                activeColor: AppColors.white,
+                              );
+                            },
+                          ),
+                          description: context.loc.securitySecureWithPinDescription,
+                        ),
+                        SettingsCard(
+                          icon: const Icon(Icons.fingerprint),
+                          title: context.loc.securitySecureWithTouchFaceIDTitle,
+                          titleWidget: BlocBuilder<SettingsBloc, SettingsState>(
+                            builder: (context, state) {
+                              return Switch(
+                                value: state.isSecureBiometric!,
+                                onChanged: state.isSecurePasscode!
+                                    ? (_) {
+                                  BlocProvider.of<SettingsBloc>(context).add(const OnBiometricPressed());
+                                }
+                                    : null,
+                                activeTrackColor: AppColors.canopy,
+                                activeColor: AppColors.white,
+                              );
+                            },
+                          ),
+                          description: context.loc.securitySecureWithTouchFaceIDDescription,
+                        ),
                       ],
                     ),
                   );
