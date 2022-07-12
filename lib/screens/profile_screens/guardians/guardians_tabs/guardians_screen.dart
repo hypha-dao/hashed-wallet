@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -131,7 +130,7 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
                 "Stop this Recovery".i18n,
                 style: const TextStyle(color: Colors.blue),
               ),
-              icon: const Icon(Icons.cancel_rounded, color: AppColors.darkGreen3),
+              icon: const Icon(Icons.cancel_rounded),
             ),
           ],
         ),

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/components/scanner/scanner_view.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/images/signup/claim_invite/invite_link_success.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/sign_up/components/invite_link_fail_dialog.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
@@ -62,7 +60,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
             case ClaimInviteView.success:
             case ClaimInviteView.fail:
               return Scaffold(
-                backgroundColor: AppColors.primary,
                 body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -73,7 +70,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                             Column(
                               children: [
                                 const CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.green1),
                                   backgroundColor: Colors.transparent,
                                 ),
                                 const SizedBox(height: 30),
@@ -83,7 +79,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                           if (view == ClaimInviteView.success)
                             Column(
                               children: [
-                                const CustomPaint(size: Size(70, 70), painter: InviteLinkSuccess()),
+                                const Icon(Icons.check),
                                 const SizedBox(height: 30),
                                 Text(context.loc.signUpSuccess),
                               ],

@@ -7,7 +7,6 @@ import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
@@ -111,7 +110,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8, top: 8),
                             child: IconButton(
-                              icon: const Icon(Icons.share, color: AppColors.white),
+                              icon: const Icon(Icons.share),
                               splashRadius: 30,
                               onPressed: () async {
                                 await Share.share(state.linkToActivateGuardians!.toString());

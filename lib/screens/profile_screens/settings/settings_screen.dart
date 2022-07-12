@@ -4,7 +4,6 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/settings/components/biometric_enabled_dialog.dart';
@@ -117,8 +116,8 @@ class SettingsScreen extends StatelessWidget {
                                 value: state.isSecurePasscode!,
                                 onChanged: (_) =>
                                 BlocProvider.of<SettingsBloc>(context)..add(const OnPasscodePressed()),
-                                activeTrackColor: AppColors.canopy,
-                                activeColor: AppColors.white,
+                               // activeTrackColor: AppColors.canopy,
+                               // activeColor: AppColors.white,
                               );
                             },
                           ),
@@ -136,8 +135,8 @@ class SettingsScreen extends StatelessWidget {
                                   BlocProvider.of<SettingsBloc>(context).add(const OnBiometricPressed());
                                 }
                                     : null,
-                                activeTrackColor: AppColors.canopy,
-                                activeColor: AppColors.white,
+                               // activeTrackColor: AppColors.canopy,
+                               // activeColor: AppColors.white,
                               );
                             },
                           ),

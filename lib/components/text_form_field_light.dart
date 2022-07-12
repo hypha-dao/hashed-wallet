@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 
 /// A widget wrapper of TextFormField customized for general inputs
 ///
@@ -32,12 +31,12 @@ class TextFormFieldLight extends StatelessWidget {
         decoration: InputDecoration(
           counterText: "",
           suffixIcon: suffixIcon,
-          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3)),
+        //  focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3)),
           hintText: hintText,
           labelText: labelText,
           contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3)),
+         // enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3)),
         ),
       ),
     );

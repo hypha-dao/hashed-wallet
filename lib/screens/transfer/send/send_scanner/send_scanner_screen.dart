@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/scanner/scanner_view.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -64,12 +63,12 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                           padding: const EdgeInsets.all(16),
                           width: double.infinity,
                           decoration: const BoxDecoration(
-                              color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8))),
+                              // color: AppColors.black,
+                              borderRadius: BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               state.errorMessage!,
-                              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
                               textAlign: TextAlign.center,
                             ),
                           ),

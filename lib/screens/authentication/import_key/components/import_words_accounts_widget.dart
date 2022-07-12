@@ -4,7 +4,6 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -38,7 +37,7 @@ class ImportWordsAccountsWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: MaterialButton(
                           padding: EdgeInsets.zero,
-                          color: AppColors.darkGreen2,
+                         // color: AppColors.darkGreen2,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultCardBorderRadius)),
                           onPressed: () {
                             context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));

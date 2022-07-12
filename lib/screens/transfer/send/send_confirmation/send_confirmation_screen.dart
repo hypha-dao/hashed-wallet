@@ -10,7 +10,6 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -91,8 +90,7 @@ class SendConfirmationScreen extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 32.0, top: 20),
                                     child: Container(
                                       padding: const EdgeInsets.all(24),
-                                      decoration:
-                                          const BoxDecoration(color: AppColors.darkGreen2, shape: BoxShape.circle),
+                                      decoration: const BoxDecoration(shape: BoxShape.circle),
                                       child: SvgPicture.asset("assets/images/seeds_logo.svg"),
                                     ),
                                   ),

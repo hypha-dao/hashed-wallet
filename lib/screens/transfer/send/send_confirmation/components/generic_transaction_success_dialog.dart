@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -57,7 +56,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.copy),
-                  color: AppColors.lightGreen6,
+                  // color: AppColors.lightGreen6,
                   onPressed: () {
                     Clipboard.setData(ClipboardData(
                             text: transactionModel.transactionId ?? context.loc.transferTransactionSuccessNoID))
@@ -71,8 +70,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)), color: AppColors.lightGreen6),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(

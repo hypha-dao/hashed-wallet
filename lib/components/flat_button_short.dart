@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 /// A short flat widget button with rounded corners
@@ -21,12 +20,11 @@ class FlatButtonShort extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: MaterialButton(
-      color: AppColors.green1,
+      // color: AppColors.green1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),
       onPressed: enabled ? onPressed : null,
       child: isLoading
-          ? Container(
-              width: 17, height: 17, child: const CircularProgressIndicator(color: AppColors.white, strokeWidth: 3))
+          ? Container(width: 17, height: 17, child: const CircularProgressIndicator(strokeWidth: 3))
           : Text(title),
     ));
   }
