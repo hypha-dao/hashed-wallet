@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
+import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
@@ -50,7 +52,23 @@ class ReceiveSendButtons extends StatelessWidget {
               Expanded(
                 child: MaterialButton(
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
-                  onPressed: () => NavigationService.of(context).navigateTo(Routes.receiveEnterData),
+                  onPressed: () async {
+                    // testing substrate service - leave this for now
+
+                    print("substrate function test");
+
+                    final service = SubstrateService();
+                    final keyRing = Keyring();
+                    await service.init(keyRing, onInitiated: () => {print("initiated.")});
+
+                    final controller = service.webView!.web?.webViewController;
+
+                    final res1 = await controller?.evaluateJavascript(source: '1 + 4');
+                    print(res1.runtimeType); // int
+                    print(res1);
+
+                    // NavigationService.of(context).navigateTo(Routes.receiveEnterData)
+                  },
                   color: tokenColor ?? AppColors.green1,
                   disabledColor: tokenColor ?? AppColors.green1,
                   shape: const RoundedRectangleBorder(
