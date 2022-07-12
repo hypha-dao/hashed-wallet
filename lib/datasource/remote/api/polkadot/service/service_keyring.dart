@@ -126,6 +126,15 @@ class ServiceKeyring {
   /// Import account from mnemonic/rawSeed/keystore.
   /// param [cryptoType] can be `sr25519`(default) or `ed25519`.
   /// return [null] if import failed.
+  /// returns account JSON to be used in
+  /// ```await service.account.addAccount(
+  ///        json: accountJSON,
+  ///        keyType: _keyType,
+  ///        cryptoType: _cryptoType,
+  ///        derivePath: _derivePath,
+  ///      );```
+
+  // TODO(n13): Use this
   Future<dynamic> importAccount({
     required KeyType keyType,
     required String key,
