@@ -5,7 +5,7 @@ const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
 
 const init = async () => {
-  // Initialixe the provider to connect to the local node
+  // Initialize the provider to connect to the local node
   const provider = new WsProvider(process.env.NODE_ENDPOINT);
 
   // Create the API and wait until ready
