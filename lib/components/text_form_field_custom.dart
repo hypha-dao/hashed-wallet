@@ -82,7 +82,7 @@ class TextFormFieldCustom extends StatelessWidget {
           labelText: labelText,
           errorText: errorText,
           errorMaxLines: 2,
-          errorStyle: const TextStyle(color: Colors.red, wordSpacing: 4.0),
+          errorStyle: const TextStyle(wordSpacing: 4.0),
           hintStyle: Theme.of(context).textTheme.button,
           contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),

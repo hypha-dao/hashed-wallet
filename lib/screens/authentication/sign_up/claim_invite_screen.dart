@@ -70,7 +70,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                             Column(
                               children: [
                                 const CircularProgressIndicator(
-                                  backgroundColor: Colors.transparent,
+                                 // backgroundColor: Colors.transparent,
                                 ),
                                 const SizedBox(height: 30),
                                 Text(context.loc.signUpProcessingYourInvitation)

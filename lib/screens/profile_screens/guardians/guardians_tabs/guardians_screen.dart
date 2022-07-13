@@ -103,7 +103,7 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
           children: <Widget>[
             Center(
               child: Container(
-                color: Colors.black,
+                //color: Colors.black,
                 child: const SizedBox(height: 2, width: 40),
               ),
             ),
@@ -128,7 +128,7 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
               },
               label: Text(
                 "Stop this Recovery".i18n,
-                style: const TextStyle(color: Colors.blue),
+                //style: const TextStyle(color: Colors.blue),
               ),
               icon: const Icon(Icons.cancel_rounded),
             ),
@@ -145,7 +145,8 @@ void _showStopRecoveryConfirmationDialog(GuardianModel guardian, BuildContext co
     builder: (BuildContext context) {
       return AlertDialog(
         content: Text("Are you sure you want to stop key recovery process".i18n,
-            style: const TextStyle(color: Colors.black)),
+           // style: const TextStyle(color: Colors.black)
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

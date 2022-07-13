@@ -72,7 +72,7 @@ class SendEnterDataScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: Text(context.loc.transferSendTitle), backgroundColor: Colors.transparent),
+          appBar: AppBar(title: Text(context.loc.transferSendTitle)),
           extendBodyBehindAppBar: true,
           body: BlocBuilder<SendEnterDataBloc, SendEnterDataState>(
             buildWhen: (_, current) => current.pageCommand == null,
