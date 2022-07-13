@@ -14,7 +14,7 @@ class _DashPainter extends CustomPainter {
   _DashPainter({
     this.strokeWidth = 2,
     this.dashPattern = const <double>[3, 1],
-    //this.color = Colors.black,
+   // this.color = Colors.black,
     this.borderType = BorderType.rect,
     this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
