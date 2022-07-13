@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class InviteLinkFailDialog extends StatelessWidget {
@@ -9,7 +8,7 @@ class InviteLinkFailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: const Icon(Icons.cancel_outlined, size: 60, color: AppColors.red),
+      icon: const Icon(Icons.cancel_outlined, size: 60),
       singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
       children: [
         Text(context.loc.signUpInviteCodeErrorTitle, style: Theme.of(context).textTheme.headline6),

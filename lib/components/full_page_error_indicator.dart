@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 
 class FullPageErrorIndicator extends StatelessWidget {
@@ -19,7 +18,7 @@ class FullPageErrorIndicator extends StatelessWidget {
           child: Center(
             child: Text(
               errorMessage ?? GlobalError.unknown.localizedDescription(context),
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
+              //style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
             ),
           ),
         ),

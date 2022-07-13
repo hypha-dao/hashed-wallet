@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/datasource/local/models/eos_action.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 class TransactionActionCard extends StatelessWidget {
@@ -13,9 +12,9 @@ class TransactionActionCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.grey1),
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        decoration: const BoxDecoration(
+          // border: Border.all(color: AppColors.grey1),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -28,7 +27,7 @@ class TransactionActionCard extends StatelessWidget {
                   Text(action.account ?? "", style: Theme.of(context).textTheme.subtitle2),
                 ],
               ),
-              const Divider(color: AppColors.grey1),
+              const Divider(),
               Column(
                 children: [
                   if (action.data != null)

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/settings/interactor/viewmodels/settings_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -20,16 +18,13 @@ class GuardianSecurityCard extends StatelessWidget {
     Widget guardianStatus;
     switch (guardiansStatus) {
       case GuardiansStatus.active:
-        guardianStatus =
-            Text(context.loc.securityGuardiansStatusActive, style: const TextStyle(color: AppColors.green1));
+        guardianStatus = Text(context.loc.securityGuardiansStatusActive);
         break;
       case GuardiansStatus.inactive:
-        guardianStatus =
-            Text(context.loc.securityGuardiansStatusInactive, style: const TextStyle(color: AppColors.red));
+        guardianStatus = Text(context.loc.securityGuardiansStatusInactive);
         break;
       case GuardiansStatus.readyToActivate:
-        guardianStatus =
-            Text(context.loc.securityGuardiansStatusReadyToActivate, style: const TextStyle(color: AppColors.orange));
+        guardianStatus = Text(context.loc.securityGuardiansStatusReadyToActivate);
         break;
       default:
         guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
@@ -42,7 +37,7 @@ class GuardianSecurityCard extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            color: AppColors.newPrimary,
+            //color: AppColors.newPrimary,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(

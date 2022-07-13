@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class ReceiveSelectionCard extends StatelessWidget {
@@ -21,7 +20,7 @@ class ReceiveSelectionCard extends StatelessWidget {
       onTap: onTap,
       child: Ink(
         decoration: BoxDecoration(
-          color: AppColors.darkGreen2,
+          //color: AppColors.darkGreen2,
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         padding: const EdgeInsets.all(16.0),

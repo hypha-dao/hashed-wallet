@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class GuardianDialogSingleAction extends StatelessWidget {
@@ -29,7 +28,7 @@ class GuardianDialogSingleAction extends StatelessWidget {
               height: 200,
               width: 250,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                //color: AppColors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
                 image: DecorationImage(image: AssetImage(image), fit: BoxFit.fitWidth),
               ),

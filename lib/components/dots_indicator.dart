@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 
 class DotsIndicator extends StatelessWidget {
   final int dotsCount;
@@ -35,7 +34,7 @@ class DotsIndicator extends StatelessWidget {
       height: size.height,
       margin: decorator.spacing,
       decoration: ShapeDecoration(
-        color: Color.lerp(decorator.activeColor, decorator.color, state),
+       // color: Color.lerp(decorator.activeColor, decorator.color, state),
         shape: ShapeBorder.lerp(decorator.activeShape, decorator.shape, state)!,
       ),
     );
@@ -68,8 +67,8 @@ class DotsIndicator extends StatelessWidget {
 }
 
 class DotsDecorator {
-  final Color color;
-  final Color activeColor;
+  // final Color color;
+  // final Color activeColor;
   final Size size;
   final Size activeSize;
   final ShapeBorder shape;
@@ -77,8 +76,8 @@ class DotsDecorator {
   final EdgeInsets spacing;
 
   const DotsDecorator({
-    this.color = AppColors.darkGreen2,
-    this.activeColor = AppColors.green1,
+    // this.color = AppColors.darkGreen2,
+    // this.activeColor = AppColors.green1,
     this.size = const Size(10.0, 2.0),
     this.activeSize = const Size(18.0, 2.0),
     this.shape = const Border(),
@@ -87,8 +86,8 @@ class DotsDecorator {
   });
 
   factory DotsDecorator.copyWith({
-    Color? color,
-    Color? activeColor,
+    // Color? color,
+    // Color? activeColor,
     Size? size,
     Size? activeSize,
     ShapeBorder? shape,
@@ -96,8 +95,8 @@ class DotsDecorator {
     EdgeInsets? spacing,
   }) {
     return DotsDecorator(
-      color: color ?? AppColors.darkGreen2,
-      activeColor: activeColor ?? AppColors.green1,
+      // color: color ?? AppColors.darkGreen2,
+      // activeColor: activeColor ?? AppColors.green1,
       size: size ?? const Size(10.0, 2.0),
       activeSize: activeSize ?? const Size(18.0, 2.0),
       shape: shape ?? const Border(),

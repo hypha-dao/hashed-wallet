@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 
 class AlertInputValue extends StatelessWidget {
   final String text;
@@ -18,7 +17,7 @@ class AlertInputValue extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(6)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
                 child: Text(text, style: Theme.of(context).textTheme.subtitle2),
               ),
             ],

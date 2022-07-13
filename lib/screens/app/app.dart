@@ -5,7 +5,6 @@ import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -130,11 +129,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
           builder: (context, state) {
             return Container(
-              decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+              decoration: const BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          // color: AppColors.white,
+                          width: 0.2))),
               child: BottomNavigationBar(
                 currentIndex: state.index,
                 onTap: (index) => _appBloc.add(BottomBarTapped(index: index)),
-                selectedItemColor: AppColors.white,
+                //selectedItemColor: AppColors.white,
                 items: [
                   for (var i in _appScreenItems)
                     BottomNavigationBarItem(
