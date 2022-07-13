@@ -54,7 +54,7 @@ class SeedsApp extends StatelessWidget {
                 child: MaterialApp(
                   localizationsDelegates: AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
-                  theme: SeedsAppTheme.darkTheme,
+                  theme: SeedsAppTheme.lightTheme,
                   scaffoldMessengerKey: rootScaffoldMessengerKey,
                   navigatorKey: navigator.appNavigatorKey,
                   onGenerateRoute: navigator.onGenerateRoute,

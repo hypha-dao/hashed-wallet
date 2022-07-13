@@ -63,7 +63,7 @@ class AppColorSchemes {
     surfaceVariant: AppLightColors.surfaceVariant,
     onSurfaceVariant: AppLightColors.onSurfaceVariant,
     outline: AppLightColors.outLine,
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
     surfaceTint: Colors.deepOrange,
     inversePrimary: Colors.deepOrange,
     inverseSurface: Colors.deepOrange,
