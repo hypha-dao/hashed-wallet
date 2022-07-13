@@ -19,9 +19,9 @@ class AppDarkColors {
   static const onErrorContainer = Color(0xFFFFDAD6);
   static const background = Color(0xFF00174A);
   static const onBackground = Color(0xFFDBE1FF);
-  static const surface = Color(0xFF00174A);
+  static const surface = Color(0xFF293E84);
   static const onSurface = Color(0xFFDBE1FF);
-  static const surfaceVariant = Color(0xFF45464F);
+  static const surfaceVariant = Color(0xFF212227);
   static const onSurfaceVariant = Color(0xFFC6C5D0);
   static const outLine = Color(0xFF90909A);
 }

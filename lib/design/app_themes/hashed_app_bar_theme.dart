@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/design/app_color_schemes.dart';
 
 class HashedAppBarTheme {
-  static AppBarTheme get appBarThemeData {
-    return const AppBarTheme(elevation: 0.0, titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600));
+  static AppBarTheme get appBarDarkThemeData {
+    return AppBarTheme(elevation: 0.0, color: AppColorSchemes.darkColorScheme.surfaceVariant);
   }
 }
