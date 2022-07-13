@@ -120,19 +120,6 @@ class WebViewRunner {
     webViewLoaded = true;
   }
 
-// TODO(n13): Maybwe we can remove the server - not sure what this does.
-  // Future<void> _startLocalServer() async {
-  //   final cert = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/certificate.text");
-  //   final keys = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
-  //   final security = SecurityContext()
-  //     ..useCertificateChainBytes(cert.buffer.asInt8List())
-  //     ..usePrivateKeyBytes(keys.buffer.asInt8List());
-  //   // Serves the API at localhost:8080 by default
-  //   final server = Jaguar(securityContext: security);
-  //   server.addRoute(serveFlutterAssets());
-  //   await server.serve(logRequests: false);
-  // }
-
   Future<void> _startJSCode() async {
     // inject js file to webView
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
@@ -195,6 +182,17 @@ class WebViewRunner {
       return nodes[index > -1 ? index : 0];
     }
     return null;
+  }
+
+  // Hashed Wallet API
+  // Simple endpoint connect for single endpoint
+  Future<String?> connectEndpoint(String endpoint) async {
+    final res = await evalJavascript('settings.connect([$endpoint])');
+    if (res != null) {
+      return endpoint;
+    } else {
+      return null;
+    }
   }
 
   Future<void> subscribeMessage(
