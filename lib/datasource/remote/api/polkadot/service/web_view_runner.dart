@@ -5,9 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:jaguar/jaguar.dart';
 import 'package:seeds/datasource/remote/api/polkadot/api/types/networkParams.dart';
-import 'package:seeds/datasource/remote/api/polkadot/service/jaguar_flutter_asset.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/service_keyring.dart';
 import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 
@@ -97,7 +95,7 @@ class WebViewRunner {
           }
 
           _handleReloaded();
-          await _startJSCode(keyring, keyringStorage);
+          await _startJSCode();
         },
       );
 
@@ -123,19 +121,19 @@ class WebViewRunner {
   }
 
 // TODO(n13): Maybwe we can remove the server - not sure what this does.
-  Future<void> _startLocalServer() async {
-    final cert = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/certificate.text");
-    final keys = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
-    final security = SecurityContext()
-      ..useCertificateChainBytes(cert.buffer.asInt8List())
-      ..usePrivateKeyBytes(keys.buffer.asInt8List());
-    // Serves the API at localhost:8080 by default
-    final server = Jaguar(securityContext: security);
-    server.addRoute(serveFlutterAssets());
-    await server.serve(logRequests: false);
-  }
+  // Future<void> _startLocalServer() async {
+  //   final cert = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/certificate.text");
+  //   final keys = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
+  //   final security = SecurityContext()
+  //     ..useCertificateChainBytes(cert.buffer.asInt8List())
+  //     ..usePrivateKeyBytes(keys.buffer.asInt8List());
+  //   // Serves the API at localhost:8080 by default
+  //   final server = Jaguar(securityContext: security);
+  //   server.addRoute(serveFlutterAssets());
+  //   await server.serve(logRequests: false);
+  // }
 
-  Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
+  Future<void> _startJSCode() async {
     // inject js file to webView
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
 
@@ -185,6 +183,8 @@ class WebViewRunner {
     return c.future;
   }
 
+  /// Connect to one of a list of nodes
+  /// returns the node it connected to, or null if connection failed
   Future<NetworkParams?> connectNode(List<NetworkParams> nodes) async {
     final isAvatarSupport = (await evalJavascript('settings.connectAll ? {}:null', wrapPromise: false)) != null;
     final dynamic res = await (isAvatarSupport
