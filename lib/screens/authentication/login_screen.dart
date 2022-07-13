@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 40),
                     Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
                     const SizedBox(height: 10),
-                    FlatButtonLongOutlined(
+                    FlatButtonLong(
                       onPressed: () {
                         /// We use remoteConfigurations directly here because this page doesnt have blocs.
                         /// !!!Please do not copy this pattern!!!

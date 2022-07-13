@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 
 /// A long flat widget button with rounded corners
 class FlatButtonLong extends StatelessWidget {
@@ -15,12 +14,12 @@ class FlatButtonLong extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: MaterialButton(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
+      child: ElevatedButton(
+        //padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
         //color: AppColors.newPrimary,
         // disabledTextColor: AppColors.grey3,
         // disabledColor: AppColors.newPrimaryLight,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),
+       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),
         onPressed: enabled ? onPressed : null,
         child: isLoading
             ? Container(
