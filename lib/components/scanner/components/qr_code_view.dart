@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:seeds/design/app_colors.dart';
 
 class QRCodeView extends StatelessWidget {
   final GlobalKey? qrKey;
@@ -33,12 +32,11 @@ class QRCodeView extends StatelessWidget {
                 height: width,
                 decoration: ShapeDecoration(
                     shape: QrScannerOverlayShape(
-                        borderLength: width * 0.2,
-                        borderRadius: 30,
-                        borderWidth: 8,
-                        borderColor: AppColors.green1,
-                        cutOutSize: width,
-                        overlayColor: AppColors.primary)),
+                  borderLength: width * 0.2,
+                  borderRadius: 30,
+                  borderWidth: 8,
+                  cutOutSize: width,
+                )),
               ),
             ),
           ],

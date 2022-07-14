@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/transaction_model.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/member_bloc.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -51,17 +49,14 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const SizedBox(height: 12.0),
-                        Text(
-                          DateFormat("EEE dd MMM y kk:mm:ss").format(transaction.timestamp),
-                          style: Theme.of(context).textTheme.subtitle2HighEmphasis,
-                        ),
+                        Text(DateFormat("EEE dd MMM y kk:mm:ss").format(transaction.timestamp)),
                         const SizedBox(height: 16.0),
                         ProfileAvatar(
                           size: 60,
                           account: state.currentAccount,
                           nickname: state.localizedDisplayName(context),
                           image: state.profileImageURL,
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
+                          decoration: const BoxDecoration(shape: BoxShape.circle),
                         ),
                         const SizedBox(height: 16.0),
                         Column(
@@ -70,14 +65,12 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                               state.localizedDisplayName(context),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.headline7,
                             ),
                             const SizedBox(height: 8.0),
                             Text(
                               state.currentAccount,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                             ),
                           ],
                         ),
@@ -85,10 +78,7 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (account == transaction.to)
-                              Text('+', style: Theme.of(context).textTheme.subtitle1Green1)
-                            else
-                              Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
+                            if (account == transaction.to) const Text('+') else const Text('-'),
                             const SizedBox(width: 4),
                             Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline5)
                           ],
@@ -107,7 +97,7 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                           onTap: () => Share.share('https://telos.bloks.io/transaction/${transaction.transactionId}'),
                           child: Container(
                             padding: const EdgeInsets.all(16),
-                            decoration: const BoxDecoration(color: AppColors.green1, shape: BoxShape.circle),
+                            decoration: const BoxDecoration(shape: BoxShape.circle),
                             child: SvgPicture.asset('assets/images/wallet/share_transaction_id.svg'),
                           ),
                         ),

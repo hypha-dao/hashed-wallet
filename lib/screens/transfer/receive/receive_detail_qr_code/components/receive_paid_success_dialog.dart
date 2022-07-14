@@ -6,8 +6,6 @@ import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_model.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/double_extension.dart';
 
@@ -15,6 +13,7 @@ class ReceivePaidSuccessArgs {
   final TransactionModel transaction;
   final ProfileModel from;
   final FiatDataModel? fiatData;
+
   const ReceivePaidSuccessArgs(this.transaction, this.from, this.fiatData);
 }
 
@@ -34,22 +33,20 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(context.loc.transferReceivePaidSuccessHeader, style: Theme.of(context).textTheme.headline6)
-              ],
+              children: [Text(context.loc.transferReceivePaidSuccessHeader)],
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(args.transaction.doubleQuantity.seedsFormatted, style: Theme.of(context).textTheme.headline4),
+                Text(args.transaction.doubleQuantity.seedsFormatted),
                 Padding(
                   padding: const EdgeInsets.only(top: 14, left: 4),
-                  child: Text(args.transaction.symbol, style: Theme.of(context).textTheme.subtitle2),
+                  child: Text(args.transaction.symbol),
                 ),
               ],
             ),
-            Text(args.fiatData?.asFormattedString() ?? '', style: Theme.of(context).textTheme.subtitle2),
+            Text(args.fiatData?.asFormattedString() ?? ''),
             const SizedBox(height: 30.0),
             Row(
               children: [
@@ -65,16 +62,15 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(args.from.nickname, textAlign: TextAlign.start, style: Theme.of(context).textTheme.button),
+                        Text(args.from.nickname, textAlign: TextAlign.start),
                         const SizedBox(height: 8),
-                        Text(args.transaction.from, style: Theme.of(context).textTheme.subtitle2LowEmphasis)
+                        Text(args.transaction.from)
                       ],
                     ),
                   ),
                 ),
                 Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen6),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child:
@@ -100,8 +96,7 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
                 Text(context.loc.transferReceivePaidSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)), color: AppColors.lightGreen6),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -83,9 +82,8 @@ class VerificationScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16.0),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      border: Border.all(color: AppColors.white)),
+                                  decoration:
+                                      BoxDecoration(borderRadius: BorderRadius.circular(16.0), border: Border.all()),
                                   child: Text(context.loc.verificationScreenButtonTitle,
                                       style: Theme.of(context).textTheme.subtitle2),
                                 ),

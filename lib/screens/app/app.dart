@@ -5,8 +5,6 @@ import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -19,7 +17,7 @@ import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_screen_item.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
-import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
+import 'package:seeds/screens/profile_screens/settings/settings_screen.dart';
 import 'package:seeds/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {
@@ -39,10 +37,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       index: 0,
     ),
     AppScreenItem(
-      title: "Profile".i18n,
-      icon: 'assets/images/navigation_bar/user_profile.svg',
-      iconSelected: 'assets/images/navigation_bar/user_profile_selected.svg',
-      screen: const ProfileScreen(),
+      title: "Settings".i18n,
+      icon: 'assets/images/navigation_bar/carbon_settings_unselected.svg',
+      iconSelected: 'assets/images/navigation_bar/carbon_settings_selected.svg',
+      screen: const SettingsScreen(),
       index: 1,
     ),
   ];
@@ -131,13 +129,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
           builder: (context, state) {
             return Container(
-              decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+              decoration: const BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          // color: AppColors.white,
+                          width: 0.2))),
               child: BottomNavigationBar(
                 currentIndex: state.index,
                 onTap: (index) => _appBloc.add(BottomBarTapped(index: index)),
-                selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                selectedItemColor: AppColors.white,
+                //selectedItemColor: AppColors.white,
                 items: [
                   for (var i in _appScreenItems)
                     BottomNavigationBarItem(

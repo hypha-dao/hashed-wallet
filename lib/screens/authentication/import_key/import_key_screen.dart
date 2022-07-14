@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
@@ -70,7 +68,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                                 autofocus: true,
                                 labelText: context.loc.importKeyPrivateKeyFieldPlaceholder,
                                 suffixIcon: IconButton(
-                                  icon: const Icon(Icons.paste, color: AppColors.white),
+                                  icon: const Icon(Icons.paste),
                                   onPressed: () async {
                                     final clipboardData = await Clipboard.getData('text/plain');
                                     final clipboardText = clipboardData?.text ?? '';
@@ -104,7 +102,6 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                               children: <TextSpan>[
                                 TextSpan(
                                     text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,
-                                    style: Theme.of(context).textTheme.subtitle2Green2,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.of(context).pop();

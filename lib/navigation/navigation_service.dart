@@ -11,19 +11,14 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
-
-import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
-import 'package:seeds/screens/profile_screens/contribution/contribution_detail/contribution_detail_screen.dart';
-import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
-import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
-import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
+import 'package:seeds/screens/profile_screens/settings/settings_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
@@ -77,8 +72,6 @@ class Routes {
   static const editName = 'editName';
   static const setCurrency = 'setCurrency';
   static const citizenship = 'citizenship';
-  static const contribution = 'contribution';
-  static const contributionDetail = 'contributionDetail';
 }
 
 class NavigationService {
@@ -106,13 +99,10 @@ class NavigationService {
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
-    Routes.profile: (_) => const ProfileScreen(),
-    Routes.security: (_) => const SecurityScreen(),
+    Routes.security: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
-    Routes.citizenship: (_) => const CitizenshipScreen(),
-    Routes.contribution: (_) => const ContributionScreen(),
-    Routes.contributionDetail: (_) => const ContributionDetailScreen(),
+    Routes.citizenship: (_) => const SettingsScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
 import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -25,8 +24,8 @@ class ReceiveSendButtons extends StatelessWidget {
                 child: MaterialButton(
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
                   onPressed: () => NavigationService.of(context).navigateTo(Routes.transfer),
-                  color: tokenColor ?? AppColors.green1,
-                  disabledColor: tokenColor ?? AppColors.green1,
+                  // color: tokenColor ?? AppColors.green1,
+                  // disabledColor: tokenColor ?? AppColors.green1,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(4),
@@ -38,7 +37,7 @@ class ReceiveSendButtons extends StatelessWidget {
                   child: Center(
                     child: Wrap(
                       children: [
-                        const Icon(Icons.arrow_upward, color: AppColors.white),
+                        const Icon(Icons.arrow_upward),
                         Container(
                           padding: const EdgeInsets.only(left: 4, top: 4),
                           child: Text(context.loc.walletSendButtonTitle, style: Theme.of(context).textTheme.button),
@@ -84,8 +83,8 @@ class ReceiveSendButtons extends StatelessWidget {
                     print(consts);
                     // NavigationService.of(context).navigateTo(Routes.receiveEnterData)
                   },
-                  color: tokenColor ?? AppColors.green1,
-                  disabledColor: tokenColor ?? AppColors.green1,
+                  // color: tokenColor ?? AppColors.green1,
+                  // disabledColor: tokenColor ?? AppColors.green1,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(50),
@@ -97,7 +96,7 @@ class ReceiveSendButtons extends StatelessWidget {
                   child: Center(
                     child: Wrap(
                       children: [
-                        const Icon(Icons.arrow_downward, color: AppColors.white),
+                        const Icon(Icons.arrow_downward),
                         Container(
                           padding: const EdgeInsets.only(left: 4, top: 4),
                           child: Text(context.loc.walletReceiveButtonTitle, style: Theme.of(context).textTheme.button),

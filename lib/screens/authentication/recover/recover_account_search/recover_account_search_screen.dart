@@ -4,8 +4,6 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -80,7 +78,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                         if (state.accountFound)
                           Container(
                             decoration: BoxDecoration(
-                              color: AppColors.darkGreen2,
+                              // color: AppColors.darkGreen2,
                               borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                             ),
                             child: SearchResultRow(
@@ -95,7 +93,6 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                             child: Text(
                               state.errorMessage?.localizedDescription(context) ??
                                   GlobalError.unknown.localizedDescription(context),
-                              style: Theme.of(context).textTheme.subtitle3Red,
                               textAlign: TextAlign.center,
                             ),
                           ),

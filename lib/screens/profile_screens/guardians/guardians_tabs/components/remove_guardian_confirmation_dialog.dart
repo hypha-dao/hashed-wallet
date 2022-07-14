@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class RemoveGuardianConfirmationDialog extends StatelessWidget {
@@ -28,7 +27,7 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
         nickname: guardian.nickname,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColors.blue,
+          // color: AppColors.blue,
         ),
       ),
       rightButtonTitle: "Ok".i18n,

@@ -5,7 +5,7 @@ typedef PathBuilder = Path Function(Size);
 class _DashPainter extends CustomPainter {
   final double strokeWidth;
   final List<double> dashPattern;
-  final Color color;
+  //final Color color;
   final BorderType borderType;
   final Radius radius;
   final StrokeCap strokeCap;
@@ -14,7 +14,7 @@ class _DashPainter extends CustomPainter {
   _DashPainter({
     this.strokeWidth = 2,
     this.dashPattern = const <double>[3, 1],
-    this.color = Colors.black,
+   // this.color = Colors.black,
     this.borderType = BorderType.rect,
     this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
@@ -25,7 +25,7 @@ class _DashPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
       ..strokeWidth = strokeWidth
-      ..color = color
+     // ..color = color
       ..strokeCap = strokeCap
       ..style = PaintingStyle.stroke;
 
@@ -128,7 +128,7 @@ class _DashPainter extends CustomPainter {
   @override
   bool shouldRepaint(_DashPainter oldDelegate) {
     return oldDelegate.strokeWidth != strokeWidth ||
-        oldDelegate.color != color ||
+       // oldDelegate.color != color ||
         oldDelegate.dashPattern != dashPattern ||
         oldDelegate.borderType != borderType;
   }

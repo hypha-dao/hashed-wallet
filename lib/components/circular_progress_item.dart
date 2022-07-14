@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class CircularProgressItem extends StatelessWidget {
@@ -37,8 +36,8 @@ class CircularProgressItem extends StatelessWidget {
             totalSteps: totalStep,
             currentStep: currentStep,
             stepSize: 2.5,
-            selectedColor: AppColors.green1,
-            unselectedColor: AppColors.darkGreen2,
+            // selectedColor: AppColors.green1,
+            // unselectedColor: AppColors.darkGreen2,
             padding: 0,
             width: circleRadius * 2,
             height: circleRadius * 2,

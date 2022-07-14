@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 
 class QuadStateClipboardIconButton extends StatelessWidget {
   final VoidCallback onClear;
@@ -25,26 +24,33 @@ class QuadStateClipboardIconButton extends StatelessWidget {
         width: 24,
         height: 24,
         child: const CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(AppColors.green1),
+          // valueColor: AlwaysStoppedAnimation<Color>(AppColors.green1),
           strokeWidth: 3,
         ),
       );
     }
 
     if (isChecked) {
-      return const Icon(Icons.check_circle, color: AppColors.green);
+      return const Icon(
+        Icons.check_circle,
+        // color: AppColors.green
+      );
     }
 
     if (canClear) {
       return IconButton(
-        icon: const Icon(Icons.close, color: AppColors.grey),
+        icon: const Icon(
+          Icons.close, //color: AppColors.grey
+        ),
         onPressed: onClear,
       );
     }
 
     if (onPaste != null) {
       return IconButton(
-        icon: const Icon(Icons.paste, color: AppColors.grey),
+        icon: const Icon(
+          Icons.paste, //color: AppColors.grey
+        ),
         onPressed: onPaste,
       );
     }

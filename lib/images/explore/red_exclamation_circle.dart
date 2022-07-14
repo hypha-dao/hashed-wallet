@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
 
 class RedExclamationCircle extends CustomPainter {
   const RedExclamationCircle();
@@ -45,7 +44,7 @@ class RedExclamationCircle extends CustomPainter {
     path_0.close();
 
     final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = AppColors.red;
+    paint0Fill.color = Colors.red;
     canvas.drawPath(path_0, paint0Fill);
 
     final Path path_1 = Path();
@@ -105,7 +104,7 @@ class RedExclamationCircle extends CustomPainter {
     path_1.close();
 
     final Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = AppColors.red;
+    paint1Fill.color = Colors.red;
     canvas.drawPath(path_1, paint1Fill);
   }
 

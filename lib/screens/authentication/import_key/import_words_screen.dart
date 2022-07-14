@@ -2,11 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/import_key/components/import_words_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/mnemonic_code/words_list.dart';
@@ -43,11 +41,7 @@ class ImportWordsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
-                        context.loc.importWordUsingRecoveryPhraseTitle,
-                        style: Theme.of(context).textTheme.subtitle3,
-                        textAlign: TextAlign.left,
-                      ),
+                      Text(context.loc.importWordUsingRecoveryPhraseTitle, textAlign: TextAlign.left),
                       const SizedBox(height: 24),
                       GridView.count(
                         padding: const EdgeInsets.only(top: 16),
@@ -117,7 +111,6 @@ class ImportWordsScreen extends StatelessWidget {
                             children: <TextSpan>[
                               TextSpan(
                                 text: context.loc.importKeyImportUsingPrivateKeyActionLink,
-                                style: Theme.of(context).textTheme.subtitle2Green2,
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.of(context).pop();
@@ -129,7 +122,6 @@ class ImportWordsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      const ImportWordsAccountsWidget(),
                       const SizedBox(height: 36),
                     ],
                   ),

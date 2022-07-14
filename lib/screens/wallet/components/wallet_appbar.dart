@@ -21,18 +21,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
           //ignore: avoid_redundant_argument_values
           backgroundColor: testnetMode ? Colors.yellow.withOpacity(0.1) : null,
           actions: [
-            const SizedBox(width: horizontalEdgePadding),
-            IconButton(
-              iconSize: 36,
-              splashRadius: 26,
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.profile),
-              icon: ProfileAvatar(
-                size: 36,
-                account: state.profile.account,
-                nickname: state.profile.nickname,
-                image: state.profile.image,
-              ),
-            ),
+            const SizedBox(width: horizontalEdgePadding + 36),
             if (testnetMode)
               const Expanded(
                   child: Center(
@@ -43,8 +32,8 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ))
             else
-              Expanded(child: Image.asset('assets/images/seeds_symbol_forest.png', fit: BoxFit.fitHeight)),
-            IconButton(
+              Expanded(child: Image.asset('assets/images/appbar/hashed_logo.png', fit: BoxFit.fitHeight)),
+              IconButton(
               splashRadius: 26,
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg', height: 36),
               onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),

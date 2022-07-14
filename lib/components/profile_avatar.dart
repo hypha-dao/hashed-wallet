@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 
 /// PROFILE AVATAR
 ///
@@ -51,15 +49,12 @@ class ProfileAvatar extends StatelessWidget {
 
       return Container(
         decoration: decoration ??
-            BoxDecoration(
-              color: AppColors.getColorByString(shortName),
+            const BoxDecoration(
+             // color: AppColors.getColorByString(shortName),
               shape: BoxShape.circle,
             ),
         alignment: Alignment.center,
-        child: Text(
-          shortName,
-          style: size > 30 ? Theme.of(context).textTheme.subtitle1HighEmphasis : Theme.of(context).textTheme.subtitle3,
-        ),
+        child: Text(shortName),
       );
     }
   }

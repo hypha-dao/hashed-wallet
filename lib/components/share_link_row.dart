@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:share/share.dart';
 
 /// Copy Link
@@ -17,18 +15,14 @@ class ShareLinkRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(label, style: Theme.of(context).textTheme.subtitle2HighEmphasis),
+        Text(label),
         const SizedBox(width: 16),
         Expanded(
-          child: Text(
-            link,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.subtitle2HighEmphasis,
-          ),
+          child: Text(link, overflow: TextOverflow.ellipsis),
         ),
         IconButton(
           icon: const Icon(Icons.share),
-          color: AppColors.white,
+          // color: AppColors.white,
           onPressed: () async {
             await Share.share(link);
           },

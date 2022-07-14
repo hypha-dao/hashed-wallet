@@ -4,8 +4,6 @@ import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
@@ -118,14 +116,14 @@ class DialogRow extends StatelessWidget {
               children: [
                 Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.button),
                 const SizedBox(height: 8),
-                Text(account, style: Theme.of(context).textTheme.subtitle2LowEmphasis)
+                Text(account)
               ],
             ),
           ),
         ),
         Container(
           decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen6),
+              borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
           child: Padding(
             padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
             child: Text(toOrFromText!, style: Theme.of(context).textTheme.subtitle2),

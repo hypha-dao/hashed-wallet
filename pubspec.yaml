@@ -39,7 +39,7 @@ dependencies:
   geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
   share: ^2.0.4
-  image_cropper: ^2.0.3 
+  image_cropper: ^2.0.3
   carousel_slider: ^4.0.0
   qr_flutter: ^4.0.0
   image_picker: ^0.8.5+3
@@ -66,6 +66,7 @@ dependencies:
   aes_ecb_pkcs5_flutter: ^0.1.2
   get_storage: ^2.0.3
   flutter_inappwebview: ^5.4.3+7
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   build_runner: ^2.0.0
@@ -105,7 +106,6 @@ flutter:
     - assets/images/lotus_support_small.svg
     - assets/images/lotus_support_big.svg
     - assets/images/seeds.png
-    - assets/images/appbar/seeds_symbol_forest.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
     - assets/images/guardians/guardian_tutorial_2.png
@@ -120,6 +120,8 @@ flutter:
     - assets/images/guardians/onboarding/onboarding_3.jpg
     - assets/images/guardians/onboarding/onboarding_4.jpg
     - assets/images/navigation_bar/wallet.svg
+    - assets/images/navigation_bar/carbon_settings_selected.svg
+    - assets/images/navigation_bar/carbon_settings_unselected.svg
     - assets/images/navigation_bar/user_profile.svg
     - assets/images/navigation_bar/wallet_selected.svg
     - assets/images/navigation_bar/user_profile_selected.svg
@@ -128,6 +130,7 @@ flutter:
     - assets/images/wallet/leaves_bttm_left.png
     - assets/images/wallet/leaves_bttm_right.png
     - assets/images/wallet/arrow_down.svg
+    - assets/images/appbar/hashed_logo.png
     - assets/images/wallet/app_bar/appbar_icon.svg
     - assets/images/wallet/app_bar/scan_qr_code_icon.svg
     - assets/images/wallet/app_bar/appbar_seeds_text.svg
@@ -147,10 +150,6 @@ flutter:
     - assets/images/wallet/currency_info_cards/tlos/logo.png
     - assets/images/wallet/currency_info_cards/seeds/seeds_check_transp.png
     - assets/images/wallet/currency_info_cards/experimental.png
-    - assets/images/profile/lotus.svg
-    - assets/images/profile/logout_icon.svg
-    - assets/images/profile/contribution_icon.svg
-    - assets/images/profile/celebration_icon.png
     - assets/images/security/key_guardians_icon.svg
     - assets/images/security/success_outlined_icon.svg
     - assets/images/citizenship/reputation.svg
@@ -165,8 +164,7 @@ flutter:
     - assets/images/contribution/contribution_detail/petals_left.png
     - assets/images/contribution/contribution_detail/petals_right.png
     - assets/images/seeds_logo.svg
-    - assets/images/login/background.png
-    - assets/images/login/seeds_light_wallet_logo.svg
+    - assets/images/login/wallet_logo.png
     - assets/images/receive/receive_input_seeds.svg
     - assets/images/receive/merchant.svg
     - assets/images/currency_switch_button.svg
@@ -178,36 +176,18 @@ flutter:
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
     - assets/polkadot/main.js
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Thin.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-ExtraLight.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Light.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Regular.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Medium.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBold.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Bold.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-ThinItalic.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-ExtraLightItalic.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-LightItalic.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Italic.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-MediumItalic.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf
+    - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
     # assets end
-
-  fonts:
-    # w100 Thin, the least thick
-    # w200 Extra-light
-    # w300 Light
-    # w400 Normal / regular / plain
-    # w500 Medium
-    # w600 Semi-bold
-    # w700 Bold
-    # w800 Extra-bold
-    # w900 Black, the most thick
-
-    - family: SFProDisplay
-      fonts:
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-UltraLight.ttf
-          weight: 200
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Light.ttf
-          weight: 300
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Heavy.ttf
-          weight: 800
-        - asset: assets/fonts/SFProDisplay/SFProDisplay-Black.ttf
-          weight: 900

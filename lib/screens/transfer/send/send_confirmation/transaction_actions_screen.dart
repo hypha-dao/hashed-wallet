@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/datasource/local/models/eos_action.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
@@ -21,7 +20,7 @@ class TransactionActionsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 32.0),
               child: Container(
                 padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(color: AppColors.darkGreen2, shape: BoxShape.circle),
+                decoration: const BoxDecoration(shape: BoxShape.circle),
                 child: SvgPicture.asset("assets/images/seeds_logo.svg"),
               ),
             ),
