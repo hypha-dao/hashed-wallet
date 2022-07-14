@@ -4,9 +4,9 @@ require('dotenv').config()
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
 
-const init = async () => {
+const init = async ({endpoint}) => {
   // Initialize the provider to connect to the local node
-  const provider = new WsProvider(process.env.NODE_ENDPOINT);
+  const provider = new WsProvider(endpoint);
 
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
@@ -18,6 +18,8 @@ const init = async () => {
   steve = keyring.addFromUri(
     process.env.STEVE_WORDS
   );
+
+  console.log("keyring: "+ JSON.stringify(keyring, null, 2))
 
   if (steve.address == process.env.STEVE_ADDRESS) {
     console.log("Address correct: " + steve.address)
@@ -46,4 +48,6 @@ const init = async () => {
 }
 
 
- init()
+ init({
+  endpoint: process.env.NODE_ENDPOINT
+ })

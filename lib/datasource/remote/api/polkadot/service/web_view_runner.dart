@@ -47,59 +47,70 @@ class WebViewRunner {
       //await _startLocalServer();
 
       _web = HeadlessInAppWebView(
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(),
-        ),
-        onWebViewCreated: (controller) {
-          print('HeadlessInAppWebView created!');
-        },
-        onConsoleMessage: (controller, message) {
-          // print("CONSOLE MESSAGE: ${message.message}");
-          if (jsCodeStarted < 0) {
-            if (message.message.contains('js loaded')) {
-              jsCodeStarted = 1;
-            } else {
-              jsCodeStarted = 0;
-            }
-          }
-          if (message.message.contains("WebSocket is not connected") && socketDisconnectedAction != null) {
-            socketDisconnectedAction();
-          }
-          if (message.messageLevel != ConsoleMessageLevel.LOG) {
-            return;
-          }
+          initialFile: Uri.dataFromString('<html><body>hello world</body></html>', mimeType: 'text/html').toString(),
+          initialOptions: InAppWebViewGroupOptions(
+            crossPlatform: InAppWebViewOptions(),
+          ),
+          onWebViewCreated: (controller) async {
+            print('HeadlessInAppWebView created!');
+            Future.delayed(const Duration(milliseconds: 2000), () async {
+              print("start JS code");
+              await _startJSCode();
+              print("done start JS code");
 
-          try {
-            final msg = jsonDecode(message.message);
-
-            final String? path = msg['path'];
-            if (_msgCompleters[path!] != null) {
-              final Completer handler = _msgCompleters[path]!;
-              handler.complete(msg['data']);
-              if (path.contains('uid=')) {
-                _msgCompleters.remove(path);
+              webViewLoaded = true;
+            });
+          },
+          onConsoleMessage: (controller, message) {
+            print("CONSOLE MESSAGE: ${message.message}");
+            if (jsCodeStarted < 0) {
+              if (message.message.contains('js loaded')) {
+                jsCodeStarted = 1;
+              } else {
+                jsCodeStarted = 0;
               }
             }
-            if (_msgHandlers[path] != null) {
-              final Function handler = _msgHandlers[path]!;
-              handler(msg['data']);
+            if (message.message.contains("WebSocket is not connected") && socketDisconnectedAction != null) {
+              socketDisconnectedAction();
             }
-          } catch (_) {
-            // ignore
-          }
-        },
-        onLoadStop: (controller, url) async {
-          print('webview loaded');
-          if (webViewLoaded) {
-            return;
-          }
+            if (message.messageLevel != ConsoleMessageLevel.LOG) {
+              return;
+            }
 
-          _handleReloaded();
-          await _startJSCode();
-        },
-      );
+            try {
+              final msg = jsonDecode(message.message);
+
+              final String? path = msg['path'];
+              if (_msgCompleters[path!] != null) {
+                final Completer handler = _msgCompleters[path]!;
+                handler.complete(msg['data']);
+                if (path.contains('uid=')) {
+                  _msgCompleters.remove(path);
+                }
+              }
+              if (_msgHandlers[path] != null) {
+                final Function handler = _msgHandlers[path]!;
+                handler(msg['data']);
+              }
+            } catch (_) {
+              // ignore
+            }
+          },
+          onLoadStop: (controller, url) async {
+            print('webview loaded');
+            if (webViewLoaded) {
+              return;
+            }
+            print('OLS - Running JS NOW');
+
+            _handleReloaded();
+            await _startJSCode();
+          });
+
+      print("calling run...");
 
       await _web!.run();
+      print("web running...");
       // run without servers
       //await _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
     } else {
@@ -107,6 +118,7 @@ class WebViewRunner {
         _tryReload();
       });
     }
+    print("launch done");
   }
 
   void _tryReload() {
@@ -120,8 +132,15 @@ class WebViewRunner {
     webViewLoaded = true;
   }
 
+  Future<void> loadLibraries() async {
+    webViewLoaded = true;
+    return _startJSCode();
+  }
+
   Future<void> _startJSCode() async {
     // inject js file to webView
+    print("_startJSCode  CALLED");
+
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
 
     _onLaunched!();
@@ -129,6 +148,10 @@ class WebViewRunner {
 
   int getEvalJavascriptUID() {
     return _evalJavascriptUID++;
+  }
+
+  dynamic evalJavascriptSync(String code) {
+    return evalJavascript(code, wrapPromise: false, allowRepeat: true);
   }
 
   Future<dynamic> evalJavascript(
@@ -187,8 +210,10 @@ class WebViewRunner {
   // Hashed Wallet API
   // Simple endpoint connect for single endpoint
   Future<String?> connectEndpoint(String endpoint) async {
-    print("connect endpt");
-    final res = await evalJavascript('settings.connect([$endpoint])');
+    final js = 'settings.connect(["$endpoint"])';
+    print("connect endpt $endpoint: $js");
+
+    final res = await evalJavascript(js);
     print("endpt connected");
     print(res);
     if (res != null) {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
 import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/wallet/components/jsConst.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
@@ -60,16 +61,28 @@ class ReceiveSendButtons extends StatelessWidget {
                     final keyRing = Keyring();
                     await service.init(keyRing, onInitiated: () => {print("initiated.")});
 
-                    final controller = service.webView!.web?.webViewController;
+                    //final controller = service.webView!.web?.webViewController;
+                    final runner = service.webView!;
 
-                    final res1 = await controller?.evaluateJavascript(source: '1 + 4');
-                    print(res1.runtimeType); // int
+                    print("eval js");
+                    final res1 = await runner.evalJavascriptSync('1 + 4');
+
+                    print(res1.runtimeType); // double
                     print(res1);
+
+                    print("log js");
+
+                    final res2 = await runner.evalJavascriptSync('console.log("FOOBAR JS!");');
+                    print(res2);
+                    print("log js done");
 
                     final hashedEndpoint = "wss://n1.hashed.systems";
 
                     print("Connecting Endpoint");
-                    final res = await service.webView!.connectEndpoint(hashedEndpoint);
+                    await service.webView!.loadLibraries();
+
+                    final res = await service.webView!.web!.webViewController.evaluateJavascript(source: jsConst);
+                    // final res = await service.webView!.connectEndpoint(hashedEndpoint);
                     print("Connecting Endpoint done.");
 
                     print(res);

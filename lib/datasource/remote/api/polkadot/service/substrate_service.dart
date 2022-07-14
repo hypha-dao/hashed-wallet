@@ -57,7 +57,11 @@ class SubstrateService {
 
     _web = webViewParam ?? WebViewRunner();
 
+    print("init done");
+
     await _web!.launch(keyring, keyringStorage, onInitiated,
         jsCode: jsCode, socketDisconnectedAction: socketDisconnectedAction);
+
+    print("launched.");
   }
 }
