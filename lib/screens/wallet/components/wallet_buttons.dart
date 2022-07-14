@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 enum ButtonsType { sendButton, receiveButton }
 
-class WalletButton extends StatelessWidget {
+class WalletButtons extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
   final bool isLoading;
   final ButtonsType buttonType;
 
-  const WalletButton({
+  const WalletButtons({
     Key? key,
     required this.onPressed,
     this.isLoading = false,
