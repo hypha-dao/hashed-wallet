@@ -1,5 +1,9 @@
 // ignore_for_file: use_setters_to_change_properties
 
+/// For reference only
+/// Not used
+/// We use our own storage and account management
+
 import 'dart:async';
 
 import 'package:aes_ecb_pkcs5_flutter/aes_ecb_pkcs5_flutter.dart';
