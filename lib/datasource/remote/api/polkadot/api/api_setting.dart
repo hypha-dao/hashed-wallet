@@ -1,6 +1,6 @@
 import 'package:seeds/datasource/remote/api/polkadot/api/polkawallet_api.dart';
 import 'package:seeds/datasource/remote/api/polkadot/api/types/networkStateData.dart';
-import 'package:seeds/datasource/remote/api/polkadot/service/setting.dart';
+import 'package:seeds/datasource/remote/api/polkadot/service/service_setting.dart';
 
 class ApiSetting {
   ApiSetting(this.apiRoot, this.service);

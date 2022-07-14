@@ -13,6 +13,21 @@ class ServiceKeyring {
 
   final SubstrateService serviceRoot;
 
+  Future<dynamic> _evalJavascript(String code) {
+    return serviceRoot.webView!.evalJavascript(code);
+  }
+
+  Future<dynamic> addFromUri(String mnemonicOrSeed) {
+    return _evalJavascript('''
+      keyring.addFromUri(
+        $mnemonicOrSeed
+      );
+      ''');
+  }
+
+  // ============================================================
+  // OLD CODE FOR REFERENCE
+  // ============================================================
   Future<Map?> getPubKeyAddressMap(List keyPairs, List<int> ss58) async {
     final List<String> pubKeys = keyPairs.map((e) => e['pubKey'].toString()).toList();
     return serviceRoot.account.encodeAddress(pubKeys, ss58);

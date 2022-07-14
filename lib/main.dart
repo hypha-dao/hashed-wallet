@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
@@ -24,10 +25,15 @@ Future<void> main() async {
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
     await remoteConfigurations.initialise();
-    await TokenModel.installModels(['lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
+    await TokenModel.installModels(['lightwallet', 'experimental'], [TokenModel.seedsEcosysUsecase]);
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
     Hive.registerAdapter(VoteModelAdapter());
+    GoogleFonts.config.allowRuntimeFetching = false;
+    LicenseRegistry.addLicense(() async* {
+      final license = await rootBundle.loadString('assets/google_fonts/Roboto_Mono/LICENSE.txt');
+      yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+    });
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     // Called whenever the Flutter framework catches an error.
@@ -37,12 +43,12 @@ Future<void> main() async {
       //await FirebaseCrashlytics.instance.recordFlutterError(details);
     };
 
-    if (kDebugMode) {
-      /// Bloc logs only in debug (for better performance in release)
-      BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
-    } else {
-      runApp(const SeedsApp());
-    }
+    // if (kDebugMode) {
+    //   /// Bloc logs only in debug (for better performance in release)
+    //   BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
+    // } else {
+    runApp(const SeedsApp());
+    // }
   }, (error, stackTrace) async {
     //await FirebaseCrashlytics.instance.recordError(error, stack);
   });

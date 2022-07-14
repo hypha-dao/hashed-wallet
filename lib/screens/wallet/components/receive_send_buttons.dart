@@ -66,6 +66,21 @@ class ReceiveSendButtons extends StatelessWidget {
                     print(res1.runtimeType); // int
                     print(res1);
 
+                    final hashedEndpoint = "wss://n1.hashed.systems";
+
+                    print("Connecting Endpoint");
+                    final res = await service.webView!.connectEndpoint(hashedEndpoint);
+                    print("Connecting Endpoint done.");
+
+                    print(res);
+
+                    print("Getting constants");
+
+                    final consts = await service.setting.apiConsts();
+
+                    print("CONSTS");
+
+                    print(consts);
                     // NavigationService.of(context).navigateTo(Routes.receiveEnterData)
                   },
                   // color: tokenColor ?? AppColors.green1,
