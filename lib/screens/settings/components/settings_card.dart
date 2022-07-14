@@ -37,9 +37,6 @@ class SettingsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         onTap: onTap,
         child: Ink(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -79,9 +76,9 @@ class SettingsCard extends StatelessWidget {
                       ),
                       const DividerJungle(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.only(bottom: 16, top: 6),
                         child: Row(
-                          children: [Flexible(child: Text(description))],
+                          children: [Flexible(child: Text(description, style: Theme.of(context).textTheme.subtitle2))],
                         ),
                       ),
                     ],

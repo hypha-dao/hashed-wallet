@@ -30,8 +30,7 @@ class GuardianSecurityCard extends StatelessWidget {
         guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         onTap: onTap,
@@ -82,7 +81,7 @@ class GuardianSecurityCard extends StatelessWidget {
                       ),
                       const DividerJungle(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: const EdgeInsets.only(bottom: 16, top: 6),
                         child: Row(
                           children: [
                             Flexible(
