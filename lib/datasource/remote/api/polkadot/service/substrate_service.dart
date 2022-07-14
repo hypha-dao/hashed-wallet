@@ -6,8 +6,8 @@ import 'package:seeds/datasource/remote/api/polkadot/service/gov.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/parachain.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/recovery.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/service_keyring.dart';
+import 'package:seeds/datasource/remote/api/polkadot/service/service_setting.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/service_staking.dart';
-import 'package:seeds/datasource/remote/api/polkadot/service/setting.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/tx.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/uos.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/wallet_connect.dart';
@@ -56,7 +56,7 @@ class SubstrateService {
     walletConnect = ServiceWalletConnect(this);
 
     _web = webViewParam ?? WebViewRunner();
-    
+
     await _web!.launch(keyring, keyringStorage, onInitiated,
         jsCode: jsCode, socketDisconnectedAction: socketDisconnectedAction);
   }

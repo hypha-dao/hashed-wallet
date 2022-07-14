@@ -24,7 +24,7 @@ Future<void> main() async {
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
     await remoteConfigurations.initialise();
-    await TokenModel.installModels(['lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
+    await TokenModel.installModels(['lightwallet', 'experimental'], [TokenModel.seedsEcosysUsecase]);
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
     Hive.registerAdapter(VoteModelAdapter());
@@ -37,12 +37,12 @@ Future<void> main() async {
       //await FirebaseCrashlytics.instance.recordFlutterError(details);
     };
 
-    if (kDebugMode) {
-      /// Bloc logs only in debug (for better performance in release)
-      BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
-    } else {
-      runApp(const SeedsApp());
-    }
+    // if (kDebugMode) {
+    //   /// Bloc logs only in debug (for better performance in release)
+    //   BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
+    // } else {
+    runApp(const SeedsApp());
+    // }
   }, (error, stackTrace) async {
     //await FirebaseCrashlytics.instance.recordError(error, stack);
   });

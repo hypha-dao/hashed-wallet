@@ -7,6 +7,14 @@ class ServiceSetting {
 
   final SubstrateService serviceRoot;
 
+  Future<Map?> apiConsts() async {
+    final dynamic res = await serviceRoot.webView!.evalJavascript('api.consts');
+    return res;
+  }
+
+  // =====================================================
+  // Original code
+  // =====================================================
   Future<Map?> queryNetwork() async {
     // fetch network info
     final List res = await serviceRoot.webView!.evalJavascript(

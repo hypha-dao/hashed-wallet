@@ -187,7 +187,10 @@ class WebViewRunner {
   // Hashed Wallet API
   // Simple endpoint connect for single endpoint
   Future<String?> connectEndpoint(String endpoint) async {
+    print("connect endpt");
     final res = await evalJavascript('settings.connect([$endpoint])');
+    print("endpt connected");
+    print(res);
     if (res != null) {
       return endpoint;
     } else {
