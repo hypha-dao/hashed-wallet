@@ -1,14 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/dots_indicator.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/wallet/components/receive_send_buttons.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
+import 'package:seeds/screens/wallet/components/wallet_buttons.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 class TokenCards extends StatefulWidget {
@@ -63,8 +62,20 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                 ),
                 const SizedBox(height: 10),
                 DotsIndicator(dotsCount: state.availableTokens.length, position: state.selectedIndex.toDouble()),
-                const SizedBox(height: 20),
-                const ReceiveSendButtons(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: HashedAppButton(onPressed: () {}, title: 'Send')),
+                      const SizedBox(width: 16),
+                      Expanded(
+                          child: HashedAppButton(
+                              onPressed: () {}, title: 'Receive', buttonType: ButtonsType.receiveButton))
+                    ],
+                  ),
+                )
+                // const ReceiveSendButtons(),
               ],
             );
           },
