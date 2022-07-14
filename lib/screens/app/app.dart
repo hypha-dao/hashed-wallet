@@ -17,7 +17,7 @@ import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_screen_item.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
-import 'package:seeds/screens/profile_screens/settings/settings_screen.dart';
+import 'package:seeds/screens/settings/settings_screen.dart';
 import 'package:seeds/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {

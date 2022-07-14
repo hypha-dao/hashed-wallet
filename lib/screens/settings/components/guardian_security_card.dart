@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
-/// SECURITY CARD
-class SettingsCard extends StatelessWidget {
-  /// Card icon
-  final Widget icon;
-
-  /// The text title in the first row
-  final String title;
-
-  /// The description text in the second row
-  final String description;
-
-  /// The widget in the right side of the title
-  final Widget? titleWidget;
-
+class GuardianSecurityCard extends StatelessWidget {
+  final GuardiansStatus? guardiansStatus;
   final GestureTapCallback? onTap;
-
   final bool hasNotification;
 
-  const SettingsCard(
-      {super.key,
-      required this.icon,
-      required this.title,
-      this.description = '',
-      this.titleWidget,
-      this.onTap,
-      this.hasNotification = false});
+  const GuardianSecurityCard({super.key, this.guardiansStatus, this.onTap, this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {
+    Widget guardianStatus;
+    switch (guardiansStatus) {
+      case GuardiansStatus.active:
+        guardianStatus = Text(context.loc.securityGuardiansStatusActive);
+        break;
+      case GuardiansStatus.inactive:
+        guardianStatus = Text(context.loc.securityGuardiansStatusInactive);
+        break;
+      case GuardiansStatus.readyToActivate:
+        guardianStatus = Text(context.loc.securityGuardiansStatusReadyToActivate);
+        break;
+      default:
+        guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
@@ -50,7 +48,7 @@ class SettingsCard extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 8.0),
-                    child: icon,
+                    child: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
                   ),
                 ],
               ),
@@ -69,7 +67,7 @@ class SettingsCard extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      title,
+                                      context.loc.securityGuardiansHeader,
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                   ),
@@ -79,14 +77,18 @@ class SettingsCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (titleWidget != null) titleWidget!,
+                          guardianStatus
                         ],
                       ),
                       const DividerJungle(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
-                          children: [Flexible(child: Text(description))],
+                          children: [
+                            Flexible(
+                              child: Text(context.loc.securityGuardiansDescription),
+                            )
+                          ],
                         ),
                       ),
                     ],

@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/settings/interactor/viewmodels/settings_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
 
-class GuardianSecurityCard extends StatelessWidget {
-  final GuardiansStatus? guardiansStatus;
+/// SECURITY CARD
+class SettingsCard extends StatelessWidget {
+  /// Card icon
+  final Widget icon;
+
+  /// The text title in the first row
+  final String title;
+
+  /// The description text in the second row
+  final String description;
+
+  /// The widget in the right side of the title
+  final Widget? titleWidget;
+
   final GestureTapCallback? onTap;
+
   final bool hasNotification;
 
-  const GuardianSecurityCard({super.key, this.guardiansStatus, this.onTap, this.hasNotification = false});
+  const SettingsCard(
+      {super.key,
+      required this.icon,
+      required this.title,
+      this.description = '',
+      this.titleWidget,
+      this.onTap,
+      this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {
-    Widget guardianStatus;
-    switch (guardiansStatus) {
-      case GuardiansStatus.active:
-        guardianStatus = Text(context.loc.securityGuardiansStatusActive);
-        break;
-      case GuardiansStatus.inactive:
-        guardianStatus = Text(context.loc.securityGuardiansStatusInactive);
-        break;
-      case GuardiansStatus.readyToActivate:
-        guardianStatus = Text(context.loc.securityGuardiansStatusReadyToActivate);
-        break;
-      default:
-        guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            //color: AppColors.newPrimary,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
@@ -48,7 +48,7 @@ class GuardianSecurityCard extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 8.0),
-                    child: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
+                    child: icon,
                   ),
                 ],
               ),
@@ -66,10 +66,7 @@ class GuardianSecurityCard extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                    child: Text(
-                                      context.loc.securityGuardiansHeader,
-                                      style: Theme.of(context).textTheme.button,
-                                    ),
+                                    child: Text(title),
                                   ),
                                   const SizedBox(width: 10),
                                   if (hasNotification) const NotificationBadge()
@@ -77,18 +74,14 @@ class GuardianSecurityCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          guardianStatus
+                          if (titleWidget != null) titleWidget!,
                         ],
                       ),
                       const DividerJungle(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(context.loc.securityGuardiansDescription),
-                            )
-                          ],
+                          children: [Flexible(child: Text(description))],
                         ),
                       ),
                     ],
