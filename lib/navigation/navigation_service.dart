@@ -18,7 +18,7 @@ import 'package:seeds/screens/profile_screens/guardians/invite_guardians_sent/in
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
-import 'package:seeds/screens/profile_screens/settings/settings_screen.dart';
+import 'package:seeds/screens/settings/settings_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';

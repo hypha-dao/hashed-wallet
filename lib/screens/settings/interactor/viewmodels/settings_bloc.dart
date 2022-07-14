@@ -8,8 +8,8 @@ import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dar
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
-import 'package:seeds/screens/profile_screens/settings/interactor/mappers/guardians_state_mapper.dart';
-import 'package:seeds/screens/profile_screens/settings/interactor/usecases/guardians_usecase.dart';
+import 'package:seeds/screens/settings/interactor/mappers/guardians_state_mapper.dart';
+import 'package:seeds/screens/settings/interactor/usecases/guardians_usecase.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';

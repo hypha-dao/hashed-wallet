@@ -6,10 +6,10 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/settings/components/biometric_enabled_dialog.dart';
-import 'package:seeds/screens/profile_screens/settings/components/guardian_security_card.dart';
-import 'package:seeds/screens/profile_screens/settings/components/settings_card.dart';
-import 'package:seeds/screens/profile_screens/settings/interactor/viewmodels/settings_bloc.dart';
+import 'package:seeds/screens/settings/components/biometric_enabled_dialog.dart';
+import 'package:seeds/screens/settings/components/guardian_security_card.dart';
+import 'package:seeds/screens/settings/components/settings_card.dart';
+import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
 
