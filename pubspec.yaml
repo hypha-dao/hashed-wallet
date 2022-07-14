@@ -67,6 +67,7 @@ dependencies:
   get_storage: ^2.0.3
   flutter_inappwebview: ^5.4.3+7
   google_fonts: ^3.0.1
+  flutter_js: ^0.5.0+6
 
 dev_dependencies:
   build_runner: ^2.0.0
@@ -176,6 +177,7 @@ flutter:
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
     - assets/polkadot/main.js
+    - assets/polkadot/polkajs.bundle.js
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-Thin.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-ExtraLight.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-Light.ttf

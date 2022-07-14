@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/local/flutter_js/js_init.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
 import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -53,35 +54,41 @@ class ReceiveSendButtons extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
                   onPressed: () async {
                     // testing substrate service - leave this for now
+                    print("init js");
+                    final js = JSInit();
 
-                    print("substrate function test");
+                    print("init js - init");
 
-                    final service = SubstrateService();
-                    final keyRing = Keyring();
-                    await service.init(keyRing, onInitiated: () => {print("initiated.")});
+                    await js.init();
 
-                    final controller = service.webView!.web?.webViewController;
+                    // print("substrate function test");
 
-                    final res1 = await controller?.evaluateJavascript(source: '1 + 4');
-                    print(res1.runtimeType); // int
-                    print(res1);
+                    // final service = SubstrateService();
+                    // final keyRing = Keyring();
+                    // await service.init(keyRing, onInitiated: () => {print("initiated.")});
 
-                    final hashedEndpoint = "wss://n1.hashed.systems";
+                    // final controller = service.webView!.web?.webViewController;
 
-                    print("Connecting Endpoint");
-                    final res = await service.webView!.connectEndpoint(hashedEndpoint);
-                    print("Connecting Endpoint done.");
+                    // final res1 = await controller?.evaluateJavascript(source: '1 + 4');
+                    // print(res1.runtimeType); // int
+                    // print(res1);
 
-                    print(res);
+                    // final hashedEndpoint = "wss://n1.hashed.systems";
 
-                    print("Getting constants");
+                    // print("Connecting Endpoint");
+                    // final res = await service.webView!.connectEndpoint(hashedEndpoint);
+                    // print("Connecting Endpoint done.");
 
-                    final consts = await service.setting.apiConsts();
+                    // print(res);
 
-                    print("CONSTS");
+                    // print("Getting constants");
 
-                    print(consts);
-                    // NavigationService.of(context).navigateTo(Routes.receiveEnterData)
+                    // final consts = await service.setting.apiConsts();
+
+                    // print("CONSTS");
+
+                    // print(consts);
+                    // // NavigationService.of(context).navigateTo(Routes.receiveEnterData)
                   },
                   // color: tokenColor ?? AppColors.green1,
                   // disabledColor: tokenColor ?? AppColors.green1,
