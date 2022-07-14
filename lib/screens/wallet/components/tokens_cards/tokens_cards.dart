@@ -67,11 +67,10 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: HashedAppButton(onPressed: () {}, title: 'Send')),
+                      WalletButton(onPressed: () {}, title: 'Send'),
                       const SizedBox(width: 16),
-                      Expanded(
-                          child: HashedAppButton(
-                              onPressed: () {}, title: 'Receive', buttonType: ButtonsType.receiveButton))
+                      WalletButton(
+                          onPressed: () {}, title: 'Receive', buttonType: ButtonsType.receiveButton)
                     ],
                   ),
                 )

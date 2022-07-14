@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 
 enum ButtonsType { sendButton, receiveButton }
 
-class HashedAppButton extends StatelessWidget {
+class WalletButton extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
   final bool isLoading;
   final ButtonsType buttonType;
-  final Icon? icon;
 
-  const HashedAppButton({
+  const WalletButton({
     Key? key,
     required this.onPressed,
     this.isLoading = false,
     this.buttonType = ButtonsType.sendButton,
     required this.title,
-    this.icon,
   }) : super(key: key);
 
   @override
