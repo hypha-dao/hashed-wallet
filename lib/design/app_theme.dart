@@ -15,7 +15,7 @@ class SeedsAppTheme {
       elevatedButtonTheme: HashedElevatedButtonTheme.elevatedButtonThemeData,
       appBarTheme: HashedAppBarTheme.appBarDarkThemeData,
       cardTheme: HashedCardTheme.appCardThemeData,
-      textTheme: GoogleFonts.robotoMonoTextTheme(ThemeData.dark().textTheme),
+      textTheme: GoogleFonts.sourceSansProTextTheme(ThemeData.dark().textTheme),
     );
   }
 

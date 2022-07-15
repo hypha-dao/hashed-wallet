@@ -31,7 +31,7 @@ Future<void> main() async {
     Hive.registerAdapter(VoteModelAdapter());
     GoogleFonts.config.allowRuntimeFetching = false;
     LicenseRegistry.addLicense(() async* {
-      final license = await rootBundle.loadString('assets/google_fonts/Roboto_Mono/LICENSE.txt');
+      final license = await rootBundle.loadString('assets/google_fonts/OFL.txt');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
