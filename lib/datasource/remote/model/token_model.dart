@@ -161,7 +161,7 @@ const seedsToken = TokenModel(
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
 
-final _staticTokenList = [seedsToken, _husdToken, _hyphaToken, _localScaleToken, _starsToken, _telosToken];
+final _staticTokenList = [seedsToken, _husdToken, _hyphaToken, _localScaleToken, _starsToken, _telosToken, _hashed];
 const _husdToken = TokenModel(
   chainName: "Telos",
   contract: "husd.hypha",
@@ -215,6 +215,17 @@ const _telosToken = TokenModel(
   name: "Telos",
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/tlos/background.png',
   logoUrl: 'assets/images/wallet/currency_info_cards/tlos/logo.png',
+  balanceSubTitle: 'Wallet Balance',
+  usecases: ["lightwallet"],
+);
+
+const _hashed = TokenModel(
+  chainName: "Hashed",
+  contract: "hashed.token",
+  symbol: "Hashed",
+  name: "Hashed",
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/hashed/background.png',
+  logoUrl: 'assets/images/wallet/currency_info_cards/hashed/logo.png',
   balanceSubTitle: 'Wallet Balance',
   usecases: ["lightwallet"],
 );
