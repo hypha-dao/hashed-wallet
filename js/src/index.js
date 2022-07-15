@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
 
@@ -41,16 +39,20 @@ const init = async ({ endpoint }) => {
 
 console.log('JS core loaded. Call init({endpoint: "..."})');
 
-const service1 = {
+const service = {
   keyringAddFromUri,
   getBalance,
   init,
 };
 
-window.service1 = service1;
-window.api = api;
-window.provider = provider;
-window.keyring = keyring;
+var franticallyWhatever = "woo hoo"
+
+// window.service = service;
+// window.api = api;
+// window.provider = provider;
+// window.keyring = keyring;
+
+export { service, api, provider, keyring, franticallyWhatever } 
 
 // globalThis.service.init({
 //   endpoint: "wss://n1.hashed.systems"
