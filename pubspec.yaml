@@ -191,4 +191,5 @@ flutter:
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
     - assets/polkadot/bundles/bundle-polkadot-util.js
+    - assets/polkadot/web/index.html
     # assets end
