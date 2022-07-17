@@ -190,6 +190,11 @@ flutter:
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-MediumItalic.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
-    - assets/polkadot/bundles/bundle-polkadot-util.js
+    
     - assets/polkadot/web/index.html
+    - assets/polkadot/web/bundle-polkadot-util.js
+    - assets/polkadot/web/bundle-polkadot-util-crypto.js
+
+    - assets/polkadot/bundles/bundle-polkadot-util.js
+    - assets/polkadot/bundles/bundle-polkadot-util-crypto.js
     # assets end

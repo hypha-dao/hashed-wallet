@@ -5,15 +5,28 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class JSInit {
   // JavascriptRuntime runtime = getJavascriptRuntime();
+  final String homeUrl = "http://localhost:8080/assets/polkadot/web/index.html";
 
   static HeadlessInAppWebView? webView;
   // bundle-polkadot-util.js
   String testPolkadotUtil = """
-      console.log('polkadotUtil');
+      console.log('polkadotUtil XX');
 
+      // console.log("pkutil: "+polkadotUtil + " " + window.polkadotUtil.u8aToHex);
+
+      // the following is correct since the in app web view script has its own namespace (I guess)
       const { bnToBn, u8aToHex } = polkadotUtil;
 
-      console.log('u8aToHex', u8aToHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
+      console.log('u8aToHex XX', u8aToHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
+    """;
+
+  String testPolkadotUtilCrypto = """
+      console.log('polkadotUtilCrypto');
+
+      const { blake2AsHex, randomAsHex, selectableNetworks } = polkadotUtilCrypto;
+
+      console.log('blake2AsHex', blake2AsHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
+
     """;
 
   Future<void> init() async {
@@ -30,31 +43,50 @@ class JSInit {
   }
 
   Future<void> _loadJS(InAppWebViewController controller) async {
-    final String polkadotUtilBundle = await rootBundle.loadString('assets/polkadot/bundles/bundle-polkadot-util.js');
+    // final String polkadotUtilBundle = await rootBundle.loadString('assets/polkadot/bundles/bundle-polkadot-util.js');
 
-    print("loading polkadotUtilBundle ${polkadotUtilBundle.length / 1000.0}");
+    // print("loading polkadotUtilBundle ${polkadotUtilBundle.length / 1000.0}");
 
     print("init...");
     // final res = await controller.evaluateJavascript(source: polkadotUtilBundle);
-    final res = await controller.injectJavascriptFileFromAsset(
-        assetFilePath: 'assets/polkadot/bundles/bundle-polkadot-util.js');
+    // final res = await controller.injectJavascriptFileFromAsset(
+    //     assetFilePath: 'assets/polkadot/bundles/bundle-polkadot-util.js');
 
-    print(res);
+    // print(res);
 
-    print("test...");
+    print("test...evaluateJavascript");
+    try {
+      final r1 = await controller.evaluateJavascript(source: testPolkadotUtil);
+      print("test res");
+      print(r1);
+    } catch (err) {
+      print("error: $err");
+      print(err);
+    }
+  }
 
-    final r1 = await controller.evaluateJavascript(source: testPolkadotUtil);
-    print(r1);
+  Future<String> insertScript(String text, String bundleName) async {
+    final tag = "tag-$bundleName";
+    final String bundleContents = await rootBundle.loadString('assets/polkadot/bundles/$bundleName.js');
+    print("loading bundle $bundleName: ${bundleContents.length / 1000.0}");
+    return text.replaceFirst(tag, bundleContents);
   }
 
   Future<HeadlessInAppWebView> createWebView() async {
-    final String fileText = await rootBundle.loadString('assets/polkadot/web/index.html');
-    final Uri dataUri = Uri.dataFromString(fileText, mimeType: 'text/html', encoding: Encoding.getByName('utf-8'));
-    final URLRequest initialRequest = URLRequest(url: dataUri);
+    // String fileText = await rootBundle.loadString('assets/polkadot/web/index.html');
+    //fileText = await insertScript(fileText, "bundle-polkadot-util");
+    // final tag = "tag-bundle-polkadot-util";
+    // final String bundleContents = await rootBundle.loadString('assets/polkadot/bundles/bundle-polkadot-util.js');
+    // fileText = fileText.replaceFirst(tag, bundleContents);
+    // print("file text $fileText");
+    //fileText = await insertScript(fileText, "bundle-polkadot-util-crypto");
+
+    // final Uri dataUri = Uri.dataFromString(fileText, mimeType: 'text/html', encoding: Encoding.getByName('utf-8'));
+    // final URLRequest initialRequest = URLRequest(url: dataUri);
 
     final result = HeadlessInAppWebView(
       // initialFile: "assets/polkadot/web/index.html", // this should work too...
-      initialUrlRequest: initialRequest,
+      initialUrlRequest: URLRequest(url: Uri.parse(homeUrl)),
       onWebViewCreated: (controller) {
         print("webview create");
         // final snackBar = const SnackBar(
@@ -84,10 +116,9 @@ class JSInit {
         // });
       },
       onLoadStop: (controller, url) async {
-        print("onLoadStop: $url");
+        print("onLoadStop:");
 
-        Future.delayed(const Duration(seconds: 2), () async => {await _loadJS(controller)});
-
+        await _loadJS(controller);
         // final snackBar = SnackBar(
         //   content: Text('onLoadStop $url'),
         //   duration: Duration(seconds: 1),
