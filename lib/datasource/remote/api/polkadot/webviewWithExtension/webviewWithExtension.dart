@@ -112,7 +112,7 @@ class _WebViewWithExtensionState extends State<WebViewWithExtension> {
     print('Page loaded: $url');
 
     print('Inject extension js code...');
-    final jsCode = await rootBundle.loadString('packages/polkawallet_sdk/js_as_extension/dist/main.js');
+    final jsCode = await rootBundle.loadString('assets/polkadot/main.js');
     await _controller.runJavascriptReturningResult(jsCode);
     print('js code injected');
     if (widget.onExtensionReady != null) {

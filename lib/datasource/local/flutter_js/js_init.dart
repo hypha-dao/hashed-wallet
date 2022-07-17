@@ -1,14 +1,28 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
+import 'package:flutter_js/javascriptcore/jscore_runtime.dart';
+import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
+import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 
 class JSInit {
   JavascriptRuntime runtime = getJavascriptRuntime();
 
-  Future<void> init() async {
+  Future<SubstrateService> initSubstrateService() async {
     try {
-      runtime = getJavascriptRuntime();
+      final service = SubstrateService();
+      final keyRing = Keyring();
+      await service.init(keyRing, onInitiated: () => {print("initiated.")});
+      return service;
+    } catch (err) {
+      print("error occurred");
+      print(err);
+      rethrow;
+    }
+  }
 
-      JavascriptRuntime.debugEnabled = true;
+  Future<void> initFJS() async {
+    try {
+      runtime = JavascriptCoreRuntime();
 
       // final String code = await rootBundle.loadString('assets/polkadot/js1.js');
       final String code = await rootBundle.loadString('assets/polkadot/main.js');
@@ -21,7 +35,14 @@ class JSInit {
       //print("loaded code: $code");
 
       // ignore: prefer_interpolation_to_compose_strings
-      final r1 = runtime.evaluate(code + "");
+
+      final r0 = await runtime.evaluateAsync("""
+import ('@polkadot/wasm-crypto/initOnlyAsm');
+
+""");
+      print("r0 res:");
+      print(r0);
+      final r1 = await runtime.evaluateAsync(code + "");
       print("eval res:");
       print(r1);
 

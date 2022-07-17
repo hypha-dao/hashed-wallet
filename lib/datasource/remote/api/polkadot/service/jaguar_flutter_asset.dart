@@ -17,13 +17,18 @@ Route serveFlutterAssets(
   Route route;
   int skipCount = -1;
   route = Route.get(path, (ctx) async {
+    print("Route active");
     Iterable<String> segs = ctx.pathSegments;
     if (skipCount > 0) {
       segs = segs.skip(skipCount);
     }
 
     final String lookupPath = segs.join('/') + (ctx.path.endsWith('/') ? 'index.html' : '');
-    final body = (await rootBundle.load('packages/polkawallet_sdk/assets/$prefix$lookupPath')).buffer.asUint8List();
+    final uri = 'assets/polkadot/web/$prefix$lookupPath';
+
+    print("serving uri $uri");
+
+    final body = (await rootBundle.load(uri)).buffer.asUint8List();
 
     String? mimeType;
     if (!ctx.path.endsWith('/')) {

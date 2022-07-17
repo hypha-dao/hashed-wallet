@@ -59,7 +59,8 @@ class ReceiveSendButtons extends StatelessWidget {
 
                     print("init js - init");
 
-                    await js.init();
+                    // await js.initSubstrateService();
+                    await js.initFJS();
 
                     // print("substrate function test");
 
