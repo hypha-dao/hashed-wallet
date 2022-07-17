@@ -4,32 +4,45 @@ import 'package:flutter_js/flutter_js.dart';
 class JSInit {
   JavascriptRuntime runtime = getJavascriptRuntime();
 
+  // bundle-polkadot-util.js
+  String testPolkadotUtil = """
+      console.log('polkadotUtil');
+
+      const { bnToBn, u8aToHex } = polkadotUtil;
+
+      console.log('u8aToHex', u8aToHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
+    """;
+
   Future<void> init() async {
     try {
+      // reset runtime for debugging...
+      runtime.dispose();
       runtime = getJavascriptRuntime();
 
       JavascriptRuntime.debugEnabled = true;
 
-      // final String code = await rootBundle.loadString('assets/polkadot/js1.js');
-      final String code = await rootBundle.loadString('assets/polkadot/main.js');
-      //final String code = await rootBundle.loadString('assets/polkadot/polkajs.bundle.js');
+      final String polkadotUtilBundle = await rootBundle.loadString('assets/polkadot/bundles/bundle-polkadot-util.js');
 
-      print("loading bundle ${code.length / 1000.0}");
+      // final r0 = runtime.evaluate(""" // this doesn't help
+      //   var window = {};
+      //   var globalThis = window;
+      // """);
+      // print("eval r0:");
+      // print(r0);
 
-      //runtime.evaluate("""var window = global = globalThis;""");
-
-      //print("loaded code: $code");
-
-      // ignore: prefer_interpolation_to_compose_strings
-      final r1 = runtime.evaluate(code + "");
+      print("loading polkadotUtilBundle ${polkadotUtilBundle.length / 1000.0}");
+      // final r1 = await runtime.evaluate(polkadotUtilBundle);
+      final r1 = await runtime.evaluateAsync(polkadotUtilBundle);
       print("eval res:");
       print(r1);
 
-      runtime.evaluate("""
-console.log("show svc: "+service);
-console.log("show svc: "+service.init);
-service.init("wss://ournode.hashed.io");
-      """);
+      print(runtime.evaluate(testPolkadotUtil));
+
+//       runtime.evaluate("""
+// console.log("show svc: "+service);
+// console.log("show svc: "+service.init);
+// service.init("wss://ournode.hashed.io");
+//       """);
 
 // this works perfectly
       //   print("res1 start");
