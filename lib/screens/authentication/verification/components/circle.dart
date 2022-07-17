@@ -12,7 +12,7 @@ class Circle extends StatelessWidget {
       margin: EdgeInsets.only(bottom: extraSize),
       width: 14,
       height: 14,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         //color: filled ? Colors.white : Colors.transparent,
         shape: BoxShape.circle,
        // border: Border.all(color: Colors.white),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
 
 class NoGuardiansWidget extends StatelessWidget {
   final String message;

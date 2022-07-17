@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/flutter_js/js_init.dart';
-import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
-import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -15,7 +13,6 @@ class ReceiveSendButtons extends StatelessWidget {
     return BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
       buildWhen: (previous, current) => previous.selectedIndex != current.selectedIndex,
       builder: (context, state) {
-        final tokenColor = state.selectedToken.dominantColor;
         return Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(

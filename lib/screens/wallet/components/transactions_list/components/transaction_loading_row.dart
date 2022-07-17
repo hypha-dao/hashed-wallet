@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/shimmer_circle.dart';
-import 'package:seeds/components/shimmer_rectangle.dart';
 
 class TransactionLoadingRow extends StatelessWidget {
   const TransactionLoadingRow({super.key});
