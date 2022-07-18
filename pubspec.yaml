@@ -1,13 +1,13 @@
-name: seeds
-description: SEEDS Wallet
+name: hashed_wallet
+description: Hashed Wallet
 
-version: 2.9.1+81
+version: 1.0.0+1
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
 
-analyzer:
-  enable-experiment: extension-methods
+# analyzer:
+#   enable-experiment: extension-methods
 
 publish_to: none
 
@@ -192,9 +192,8 @@ flutter:
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
     
     - assets/polkadot/web/index.html
+    - assets/polkadot/web/demo.html
     - assets/polkadot/web/bundle-polkadot-util.js
     - assets/polkadot/web/bundle-polkadot-util-crypto.js
-
-    - assets/polkadot/bundles/bundle-polkadot-util.js
-    - assets/polkadot/bundles/bundle-polkadot-util-crypto.js
+    - assets/polkadot/web/bundle-polkadot-keyring.js
     # assets end

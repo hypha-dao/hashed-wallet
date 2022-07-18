@@ -1,10 +1,7 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class JSInit {
-  // JavascriptRuntime runtime = getJavascriptRuntime();
+  // final String homeUrl = "http://localhost:8080/assets/polkadot/web/demo.html";
   final String homeUrl = "http://localhost:8080/assets/polkadot/web/index.html";
 
   static HeadlessInAppWebView? webView;
@@ -21,11 +18,11 @@ class JSInit {
     """;
 
   String testPolkadotUtilCrypto = """
-      console.log('polkadotUtilCrypto');
+      console.log('polkadotUtilCrypto XX');
 
       const { blake2AsHex, randomAsHex, selectableNetworks } = polkadotUtilCrypto;
 
-      console.log('blake2AsHex', blake2AsHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
+      console.log('blake2AsHex XX', blake2AsHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
 
     """;
 
@@ -56,21 +53,21 @@ class JSInit {
 
     print("test...evaluateJavascript");
     try {
-      final r1 = await controller.evaluateJavascript(source: testPolkadotUtil);
-      print("test res");
-      print(r1);
+      // final r1 = await controller.evaluateJavascript(source: testPolkadotUtilCrypto);
+      // print("test res");
+      // print(r1);
     } catch (err) {
       print("error: $err");
       print(err);
     }
   }
 
-  Future<String> insertScript(String text, String bundleName) async {
-    final tag = "tag-$bundleName";
-    final String bundleContents = await rootBundle.loadString('assets/polkadot/bundles/$bundleName.js');
-    print("loading bundle $bundleName: ${bundleContents.length / 1000.0}");
-    return text.replaceFirst(tag, bundleContents);
-  }
+  // Future<String> insertScript(String text, String bundleName) async {
+  //   final tag = "tag-$bundleName";
+  //   final String bundleContents = await rootBundle.loadString('assets/polkadot/bundles/$bundleName.js');
+  //   print("loading bundle $bundleName: ${bundleContents.length / 1000.0}");
+  //   return text.replaceFirst(tag, bundleContents);
+  // }
 
   Future<HeadlessInAppWebView> createWebView() async {
     // String fileText = await rootBundle.loadString('assets/polkadot/web/index.html');
@@ -118,7 +115,8 @@ class JSInit {
       onLoadStop: (controller, url) async {
         print("onLoadStop:");
 
-        await _loadJS(controller);
+        Future.delayed(const Duration(seconds: 4), () => _loadJS(controller));
+
         // final snackBar = SnackBar(
         //   content: Text('onLoadStop $url'),
         //   duration: Duration(seconds: 1),
@@ -130,13 +128,14 @@ class JSInit {
         // });
       },
     );
+
     return result;
   }
 
-  Future<void> _loadHtmlFromAssets(HeadlessInAppWebView webView) async {
-    final String fileText = await rootBundle.loadString('assets/polkadot/web/index.html');
-    final Uri dataUri = Uri.dataFromString(fileText, mimeType: 'text/html', encoding: Encoding.getByName('utf-8'));
-    final URLRequest request = URLRequest(url: dataUri);
-    await webView.webViewController.loadUrl(urlRequest: request);
-  }
+  // Future<void> _loadHtmlFromAssets(HeadlessInAppWebView webView) async {
+  //   final String fileText = await rootBundle.loadString('assets/polkadot/web/index.html');
+  //   final Uri dataUri = Uri.dataFromString(fileText, mimeType: 'text/html', encoding: Encoding.getByName('utf-8'));
+  //   final URLRequest request = URLRequest(url: dataUri);
+  //   await webView.webViewController.loadUrl(urlRequest: request);
+  // }
 }

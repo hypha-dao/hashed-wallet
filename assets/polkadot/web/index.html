@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <script src="bundle-polkadot-util.js"></script>
+    <script defer type="application/javascript" src="bundle-polkadot-util.js"></script>
     <script>
         try {
             console.log('polkadotUtil');
@@ -14,10 +14,23 @@
             console.log('u8aToHex A', u8aToHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
             console.log('script finished.');
         } catch (err) {
-            console.log("Error "+err);
+            console.log("Error " + err);
         }
-      </script>
-  
+    </script>
+    <script defer type="application/javascript" src="bundle-polkadot-util-crypto.js"></script>
+    <script>
+        try {
+            console.log('polkadotUtilCrypto');
+
+            const { blake2AsHex, randomAsHex, selectableNetworks } = polkadotUtilCrypto;
+
+            console.log('blake2AsHex A', blake2AsHex(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])));
+        } catch (err) {
+            console.log("polkadotUtilCrypto Error " + err);
+        }
+
+    </script>
+
 </body>
 
 </html>
