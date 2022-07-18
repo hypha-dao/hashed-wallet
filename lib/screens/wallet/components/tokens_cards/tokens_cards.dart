@@ -64,7 +64,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                 const SizedBox(height: 10),
                 DotsIndicator(dotsCount: state.availableTokens.length, position: state.selectedIndex.toDouble()),
                 const SizedBox(height: 20),
-                const ReceiveSendButtons(),
+                ReceiveSendButtons(),
               ],
             );
           },

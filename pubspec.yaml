@@ -1,4 +1,4 @@
-name: hashed_wallet
+name: seeds
 description: Hashed Wallet
 
 version: 1.0.0+1
@@ -6,8 +6,8 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.17.0 <3.0.0'
 
-# analyzer:
-#   enable-experiment: extension-methods
+analyzer:
+  enable-experiment: extension-methods
 
 publish_to: none
 

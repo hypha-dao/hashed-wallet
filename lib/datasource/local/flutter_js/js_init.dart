@@ -53,11 +53,14 @@ class JSInit {
 
     print("test...evaluateJavascript");
     try {
+      var result = await controller.injectJavascriptFileFromAsset(
+          assetFilePath: "assets/polkadot/web/bundle-polkadot-util-crypto.js");
+
       // final r1 = await controller.evaluateJavascript(source: testPolkadotUtilCrypto);
       // print("test res");
       // print(r1);
     } catch (err) {
-      print("error: $err");
+      print("errorX: $err");
       print(err);
     }
   }
@@ -84,6 +87,17 @@ class JSInit {
     final result = HeadlessInAppWebView(
       // initialFile: "assets/polkadot/web/index.html", // this should work too...
       initialUrlRequest: URLRequest(url: Uri.parse(homeUrl)),
+      initialOptions: InAppWebViewGroupOptions(
+          crossPlatform: InAppWebViewOptions(
+        cacheEnabled: false,
+        clearCache: true,
+      )),
+      onLoadError: (controller, url, code, message) {
+        print("on load error $message");
+      },
+      onLoadHttpError: (controller, url, code, message) {
+        print("on onLoadHttpError $message");
+      },
       onWebViewCreated: (controller) {
         print("webview create");
         // final snackBar = const SnackBar(
