@@ -20,6 +20,7 @@ var keyring: Keyring;
 cryptoWaitReady().then(() => {
   keyring = new Keyring({ ss58Format: 0, type: "sr25519" });
 
+  console.log("keyring initialized");
 });
 
 /**
