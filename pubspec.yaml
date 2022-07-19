@@ -191,9 +191,9 @@ flutter:
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
     
-    - assets/polkadot/web/index.html
-    - assets/polkadot/web/demo.html
-    - assets/polkadot/web/bundle-polkadot-util.js
-    - assets/polkadot/web/bundle-polkadot-util-crypto.js
-    - assets/polkadot/web/bundle-polkadot-keyring.js
+    # - assets/polkadot/web/index.html
+    # - assets/polkadot/web/demo.html
+    # - assets/polkadot/web/bundle-polkadot-util.js
+    # - assets/polkadot/web/bundle-polkadot-util-crypto.js
+    # - assets/polkadot/web/bundle-polkadot-keyring.js
     # assets end

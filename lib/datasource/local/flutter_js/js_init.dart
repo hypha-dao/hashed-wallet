@@ -53,9 +53,6 @@ class JSInit {
 
     print("test...evaluateJavascript");
     try {
-      var result = await controller.injectJavascriptFileFromAsset(
-          assetFilePath: "assets/polkadot/web/bundle-polkadot-util-crypto.js");
-
       // final r1 = await controller.evaluateJavascript(source: testPolkadotUtilCrypto);
       // print("test res");
       // print(r1);
