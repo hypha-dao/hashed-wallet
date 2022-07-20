@@ -184,29 +184,22 @@ flutter:
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Thin.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-ExtraLight.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Light.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Regular.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Medium.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBold.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Bold.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-ThinItalic.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-ExtraLightItalic.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-LightItalic.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-Italic.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-MediumItalic.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf
-    - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
-    
+    - google_fonts/SourceSansPro-Black.ttf
+    - google_fonts/SourceSansPro-BlackItalic.ttf
+    - google_fonts/SourceSansPro-Bold.ttf
+    - google_fonts/SourceSansPro-BoldItalic.ttf
+    - google_fonts/SourceSansPro-ExtraLight.ttf
+    - google_fonts/SourceSansPro-ExtraLightItalic.ttf
+    - google_fonts/SourceSansPro-Italic.ttf
+    - google_fonts/SourceSansPro-Light.ttf
+    - google_fonts/SourceSansPro-LightItalic.ttf
+    - google_fonts/SourceSansPro-Regular.ttf
+    - google_fonts/SourceSansPro-SemiBold.ttf
+    - google_fonts/SourceSansPro-SemiBoldItalic.ttf
+
     - assets/polkadot/sdk/lib/ssl/
     - assets/polkadot/sdk/assets/index.html
     - assets/polkadot/sdk/js_api/dist/main.js
     - assets/polkadot/sdk/js_as_extension/dist/main.js
 
-    # - assets/polkadot/web/index.html
-    # - assets/polkadot/web/demo.html
-    # - assets/polkadot/web/bundle-polkadot-util.js
-    # - assets/polkadot/web/bundle-polkadot-util-crypto.js
-    # - assets/polkadot/web/bundle-polkadot-keyring.js
     # assets end

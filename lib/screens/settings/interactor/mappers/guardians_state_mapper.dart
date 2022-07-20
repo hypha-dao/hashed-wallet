@@ -3,7 +3,7 @@ import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.da
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/profile_screens/settings/interactor/viewmodels/settings_bloc.dart';
+import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
 
 class GuardianStateMapper extends StateMapper {
   SettingsState mapResultToState(bool isGuardianActive, Iterable<GuardianModel> data, SettingsState currentState) {
