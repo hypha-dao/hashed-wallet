@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/dots_indicator.dart';
+import 'package:seeds/datasource/local/flutter_js/js_init.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
@@ -20,6 +21,8 @@ class TokenCards extends StatefulWidget {
 class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  static JSInit? initObj;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,20 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       Expanded(child: WalletButtons(onPressed: () {}, title: 'Send')),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: WalletButtons(onPressed: () {}, title: 'Receive', buttonType: ButtonsType.receiveButton),
+                        child: WalletButtons(
+                          onPressed: () async {
+                            // testing substrate service - leave this for now
+                            print("init js");
+
+                            _TokenCardsState.initObj = JSInit();
+
+                            print("init js - init");
+
+                            await _TokenCardsState.initObj!.init();
+                          },
+                          title: 'Receive',
+                          buttonType: ButtonsType.receiveButton,
+                        ),
                       )
                     ],
                   ),

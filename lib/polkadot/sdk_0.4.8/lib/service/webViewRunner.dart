@@ -121,7 +121,7 @@ class WebViewRunner {
     // Serves the API at localhost:8080 by default
     final server = Jaguar(securityContext: security);
     server.addRoute(serveFlutterAssets());
-    await server.serve(logRequests: false);
+    await server.serve(logRequests: true);
   }
 
   Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
