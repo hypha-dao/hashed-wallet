@@ -1,0 +1,215 @@
+// _startApp
+// _startPlugin
+
+import 'dart:async';
+
+import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
+import 'package:polkawallet_sdk/api/types/networkParams.dart';
+import 'package:polkawallet_sdk/plugin/index.dart';
+import 'package:polkawallet_sdk/storage/keyring.dart';
+
+class AppService {
+  PolkawalletPlugin plugin;
+  AppService(this.plugin);
+}
+
+class PolkawalletInit {
+  Keyring? _keyring;
+
+  final plugins = [
+    PluginKusama(name: 'polkadot'),
+    PluginKusama(),
+    // PluginAcala(),
+    // PluginKarura(),
+    // PluginStatemine(),
+    // PluginBifrost(),
+    // PluginChainX(),
+    // PluginEdgeware(),
+    // // PluginLaminar(),
+    // PluginDBC(),
+    // PluginRobonomics(),
+  ];
+
+  // from App _startApp
+  Future<int> startApp() async {
+    // ignore: prefer_conditional_assignment
+    if (_keyring == null) {
+      _keyring = Keyring();
+    }
+
+    print("startApp");
+// initialize the keyring with "ss58" account types - ss58 variable here is an integer denoting the
+// account type, for example "42" for a generic account type.
+// We init the keyring class with account types here. It's converted to set to make the types unique.
+// we don't need this, we only have one account type, 42.
+
+    // OG: await _keyring?.init(widget.plugins.map((e) => e.basic.ss58).toSet().toList());
+    await _keyring?.init([2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
+
+    // OG: Removed
+    // final storage = GetStorage(get_storage_container);
+    // final store = AppStore(storage);
+    // await store.init();
+
+    // await _showGuide(context, storage);
+
+    // final pluginIndex = widget.plugins.indexWhere((e) => e.basic.name == store.settings.network);
+
+    print("PluginKusama");
+
+    final PolkawalletPlugin plugin = PluginKusama(name: 'polkadot');
+    // final allPlugins = [plugin];
+    final currentPlugin = plugin;
+
+    // service.init - doesn't do much - removed
+    // final service = AppService(allPlugins, currentPlugin, _keyring, store);
+    // service.init();
+    // setState(() {
+    //   _store = store;
+    //   _service = service;
+    // });
+
+    print("AppService");
+    final service = AppService(currentPlugin);
+
+// Locale stuff - not needed
+    // if (store.settings.localeCode.isNotEmpty) {
+    //   _changeLang(store.settings.localeCode);
+    // } else {
+    //   _changeLang(Localizations.localeOf(context).toString());
+    // }
+
+// this has to do with app version, plugin JS version, and hot updates of JS - not needed!
+    // final useLocalJS = WalletApi.getPolkadotJSVersion(
+    //       _store.storage,
+    //       service.plugin.basic.name,
+    //       service.plugin.basic.jsCodeVersion,
+    //     ) >
+    //     service.plugin.basic.jsCodeVersion;
+
+    // final useLocalJS = false;
+
+    print("beforeStart");
+
+    await currentPlugin.beforeStart(
+      _keyring!,
+      // ignore: avoid_redundant_argument_values
+      jsCode: null,
+      socketDisconnectedAction: () {
+        print("WARNING: socket disconnected action invoked");
+        // UI.throttle(() {
+        //   _dropsServiceCancel();
+        //   _restartWebConnect(service);
+        // });
+      },
+    );
+
+// loading keyrings from storage - we should not need this
+    // if (_keyring!.keyPairs.length > 0) {
+    //   _store.assets.loadCache(_keyring.current, _service.plugin.basic.name);
+    // }
+
+// payload - we need this
+    // ignore: unawaited_futures
+    print("_startPlugin");
+
+    // ignore: unawaited_futures
+    _startPlugin(service);
+
+    // WalletApi.getTokenStakingConfig().then((value) {
+    //   _store.settings.setTokenStakingConfig(value);
+    // });
+
+    return _keyring!.allAccounts.length;
+  }
+
+  Future<void> _startPlugin(AppService service, {NetworkParams? node}) async {
+    // setState(() {
+    //   _connectedNode = null;
+    // });
+
+    // plugin start connects the api
+    print("service.plugin.start ${service.plugin.nodeList}");
+
+    final connected = await service.plugin.start(_keyring!, nodes: node != null ? [node] : service.plugin.nodeList);
+
+    print("connected: $connected");
+
+    _dropsService(service, node: node);
+  }
+
+  Timer? _webViewDropsTimer;
+  Timer? _dropsServiceTimer;
+  Timer? _chainTimer;
+  // implementation of a reconnect service.
+  // with three timers.
+  // wot.
+  void _dropsService(AppService service, {NetworkParams? node}) {
+    // every time this is called, all timers are canceled.
+    _dropsServiceCancel();
+
+    _dropsServiceTimer = Timer(const Duration(seconds: 24), () async {
+      // after 24 seconds we create an 18 second timeout to reconnect, then make
+      // a chain call.
+      // if the chain call succeeds within 18 seconds, it cancels all timers and
+      // starts over.
+      // if the timer hits before the chain call succeeds, or the chain call fails,
+      // then 18 seconds later we call _restartWebConnect.
+
+      _chainTimer = Timer(const Duration(seconds: 18), () async {
+        // if this succeeds within 60 seconds, we're reconnected.
+        // if it fails or does not return in 60 seconds, we cancel all timers
+        // and start over.
+        // That's a little odd.
+        // Note: I am pretty sure this code has many bugs and race conditions.
+        unawaited(_restartWebConnect(service, node: node));
+        _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
+          _dropsService(service, node: node);
+        });
+      });
+      // ignore: unawaited_futures
+      service.plugin.sdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
+        print("api.rpc.system.chain value: $value");
+        _dropsService(service, node: node);
+      });
+    });
+  }
+
+  void _dropsServiceCancel() {
+    _dropsServiceTimer?.cancel();
+    _chainTimer?.cancel();
+    _webViewDropsTimer?.cancel();
+  }
+
+  Future<void> _restartWebConnect(AppService service, {NetworkParams? node}) async {
+    // setState(() {
+    //   _connectedNode = null;
+    // });
+
+    // Offline JS interaction will be affected (import and export accounts)
+    // final useLocalJS = WalletApi.getPolkadotJSVersion(
+    //       _store.storage,
+    //       service.plugin.basic.name,
+    //       service.plugin.basic.jsCodeVersion,
+    //     ) >
+    //     service.plugin.basic.jsCodeVersion;
+
+    // await service.plugin.beforeStart(
+    //   _keyring,
+    //   webView: _service?.plugin?.sdk?.webView,
+    //   jsCode: useLocalJS
+    //       ? WalletApi.getPolkadotJSCode(
+    //           _store.storage, service.plugin.basic.name)
+    //       : null,
+    // );
+
+    final connected = await service.plugin.start(_keyring!, nodes: node != null ? [node] : service.plugin.nodeList);
+
+    print("COnnected: $connected");
+    // setState(() {
+    //   _connectedNode = connected;
+    // });
+
+    _dropsService(service, node: node);
+  }
+}

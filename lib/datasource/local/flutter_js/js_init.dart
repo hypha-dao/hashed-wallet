@@ -1,4 +1,5 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
 
 class JSInit {
   // final String homeUrl = "http://localhost:8080/assets/polkadot/web/demo.html";
@@ -26,13 +27,21 @@ class JSInit {
 
     """;
 
+  late PolkawalletInit? _polkawalletInit;
+
   Future<void> init() async {
     try {
-      print("create wv");
-      webView = await createWebView();
-      await webView!.run();
+      print("js init");
 
-      print("done creating $webView");
+      _polkawalletInit = PolkawalletInit();
+
+      await _polkawalletInit!.startApp();
+
+      // print("create wv");
+      // webView = await createWebView();
+      // await webView!.run();
+
+      // print("done creating $webView");
     } catch (err) {
       print("Error: $err");
       rethrow;

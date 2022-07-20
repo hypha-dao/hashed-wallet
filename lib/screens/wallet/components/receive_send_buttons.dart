@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/flutter_js/js_init.dart';
-import 'package:seeds/main.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
+// ignore: must_be_immutable
 class ReceiveSendButtons extends StatelessWidget {
-  JSInit? initObj;
+  late JSInit? initObj;
   ReceiveSendButtons({super.key});
 
   @override
