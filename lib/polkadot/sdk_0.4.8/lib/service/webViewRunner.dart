@@ -41,9 +41,11 @@ class WebViewRunner {
     print('js file loaded ${_jsCode.length}');
 
     if (_web == null) {
-      await _startLocalServer();
+      // await _startLocalServer();
+      final String homeUrl = "http://localhost:8080/assets/polkadot/sdk/assets/index.html";
 
-      _web = new HeadlessInAppWebView(
+      _web = HeadlessInAppWebView(
+        // initialUrlRequest: URLRequest(url: Uri.parse(homeUrl)),
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(),
         ),
@@ -51,7 +53,7 @@ class WebViewRunner {
           print('HeadlessInAppWebView created!');
         },
         onConsoleMessage: (controller, message) {
-          print("CONSOLE MESSAGE: " + message.message);
+          print("CONSOLE MESSAGE: ${message.message}");
           if (jsCodeStarted < 0) {
             if (message.message.contains('js loaded')) {
               jsCodeStarted = 1;
@@ -65,7 +67,7 @@ class WebViewRunner {
           if (message.messageLevel != ConsoleMessageLevel.LOG) return;
 
           try {
-            var msg = jsonDecode(message.message);
+            final msg = jsonDecode(message.message);
 
             final String? path = msg['path'];
             if (_msgCompleters[path!] != null) {
@@ -83,6 +85,9 @@ class WebViewRunner {
             // ignore
           }
         },
+        onLoadStart: (controller, url) {
+          print("onloadstart $url");
+        },
         onLoadStop: (controller, url) async {
           print('webview loaded');
           if (webViewLoaded) return;
@@ -93,7 +98,8 @@ class WebViewRunner {
       );
 
       await _web!.run();
-      _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
+      // ignore: unawaited_futures
+      _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse(homeUrl)));
     } else {
       _webViewReloadTimer = Timer.periodic(Duration(seconds: 3), (timer) {
         _tryReload();
@@ -112,16 +118,18 @@ class WebViewRunner {
     webViewLoaded = true;
   }
 
+  Jaguar? _server;
   Future<void> _startLocalServer() async {
+    await _server?.close();
     final cert = await rootBundle.load("assets/polkadot/sdk/lib/ssl/certificate.text");
     final keys = await rootBundle.load("assets/polkadot/sdk/lib/ssl/keys.text");
-    final security = new SecurityContext()
+    final security = SecurityContext()
       ..useCertificateChainBytes(cert.buffer.asInt8List())
       ..usePrivateKeyBytes(keys.buffer.asInt8List());
     // Serves the API at localhost:8080 by default
-    final server = Jaguar(securityContext: security);
-    server.addRoute(serveFlutterAssets());
-    await server.serve(logRequests: true);
+    _server = Jaguar(securityContext: security);
+    _server!.addRoute(serveFlutterAssets());
+    await _server!.serve(logRequests: true);
   }
 
   Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {

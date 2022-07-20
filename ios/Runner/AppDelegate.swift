@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import GoogleMaps
 import WebKit
 
 @UIApplicationMain
@@ -8,9 +7,7 @@ import WebKit
     override func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        GMSServices.provideAPIKey("AIzaSyB3Ghs8i_Lw55vmSyh5mxLA9cGcWuc1A54")
-        
+    ) -> Bool {        
         let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
         let channel = FlutterMethodChannel(name: "lw.web_view.clear",
                                            binaryMessenger: controller.binaryMessenger)

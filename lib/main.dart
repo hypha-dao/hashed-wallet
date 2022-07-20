@@ -15,7 +15,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/seeds_app.dart';
 
-// InAppLocalhostServer localhostServer = InAppLocalhostServer();
+InAppLocalhostServer localhostServer = InAppLocalhostServer();
 
 Future<void> main() async {
   // Zone to handle asynchronous errors (Dart).
@@ -24,8 +24,8 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
 // we can put this one back in after we got the jaguar one to work
-    // await localhostServer.start();
-    // print("InAppLocalhostServer started");
+    await localhostServer.start();
+    print("InAppLocalhostServer started");
 
     await Firebase.initializeApp();
     await settingsStorage.initialise();

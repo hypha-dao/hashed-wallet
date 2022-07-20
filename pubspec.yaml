@@ -172,18 +172,18 @@ flutter:
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
-    - google_fonts/SourceSansPro-Black.ttf
-    - google_fonts/SourceSansPro-BlackItalic.ttf
-    - google_fonts/SourceSansPro-Bold.ttf
-    - google_fonts/SourceSansPro-BoldItalic.ttf
-    - google_fonts/SourceSansPro-ExtraLight.ttf
-    - google_fonts/SourceSansPro-ExtraLightItalic.ttf
-    - google_fonts/SourceSansPro-Italic.ttf
-    - google_fonts/SourceSansPro-Light.ttf
-    - google_fonts/SourceSansPro-LightItalic.ttf
-    - google_fonts/SourceSansPro-Regular.ttf
-    - google_fonts/SourceSansPro-SemiBold.ttf
-    - google_fonts/SourceSansPro-SemiBoldItalic.ttf
+    - assets/google_fonts/SourceSansPro-Black.ttf
+    - assets/google_fonts/SourceSansPro-BlackItalic.ttf
+    - assets/google_fonts/SourceSansPro-Bold.ttf
+    - assets/google_fonts/SourceSansPro-BoldItalic.ttf
+    - assets/google_fonts/SourceSansPro-ExtraLight.ttf
+    - assets/google_fonts/SourceSansPro-ExtraLightItalic.ttf
+    - assets/google_fonts/SourceSansPro-Italic.ttf
+    - assets/google_fonts/SourceSansPro-Light.ttf
+    - assets/google_fonts/SourceSansPro-LightItalic.ttf
+    - assets/google_fonts/SourceSansPro-Regular.ttf
+    - assets/google_fonts/SourceSansPro-SemiBold.ttf
+    - assets/google_fonts/SourceSansPro-SemiBoldItalic.ttf
 
     - assets/polkadot/sdk/lib/ssl/
     - assets/polkadot/sdk/assets/index.html
