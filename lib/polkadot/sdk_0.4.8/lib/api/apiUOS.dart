@@ -29,7 +29,6 @@ class ApiUOS {
     return service.signAsync(chain, password);
   }
 
-// so what
   /// [onStatusChange] is a callback when tx status change.
   /// @return txHash [string] if tx finalized success.
   Future<Map?> addSignatureAndSend(
