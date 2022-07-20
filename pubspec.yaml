@@ -199,6 +199,11 @@ flutter:
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-SemiBoldItalic.ttf
     - assets/google_fonts/Roboto_Mono/static/RobotoMono-BoldItalic.ttf
     
+    - assets/polkadot/sdk/lib/ssl/
+    - assets/polkadot/sdk/assets/index.html
+    - assets/polkadot/sdk/js_api/dist/main.js
+    - assets/polkadot/sdk/js_as_extension/dist/main.js
+
     # - assets/polkadot/web/index.html
     # - assets/polkadot/web/demo.html
     # - assets/polkadot/web/bundle-polkadot-util.js

@@ -3,7 +3,7 @@ import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/staking/types
 class PluginFmt {
   static Map formatRewardsChartData(Map chartData) {
     List<List> formatChart(List chartValues) {
-      List<List> values = [];
+      final List<List> values = [];
 
       chartValues.asMap().forEach((index, ls) {
         if (ls[0].toString().contains('0x')) {
@@ -24,9 +24,9 @@ class PluginFmt {
       }
     });
 
-    List rewards = formatChart(List.of(chartData['rewards']['chart']));
-    List points = formatChart(List.of(chartData['points']['chart']));
-    List stakes = formatChart(List.of(chartData['stakes']['chart']));
+    final List rewards = formatChart(List.of(chartData['rewards']['chart']));
+    final List points = formatChart(List.of(chartData['points']['chart']));
+    final List stakes = formatChart(List.of(chartData['stakes']['chart']));
     return {
       'rewards': [rewards, labels],
       'stakes': [stakes, labels],
@@ -98,9 +98,9 @@ class PluginFmt {
 
   static List<List> filterCandidateList(List<List> ls, String filter, Map accIndexMap) {
     ls.retainWhere((i) {
-      String value = filter.trim().toLowerCase();
+      final String value = filter.trim().toLowerCase();
       String accName = '';
-      Map? accInfo = accIndexMap[i[0]];
+      final Map? accInfo = accIndexMap[i[0]];
       if (accInfo != null) {
         accName = accInfo['identity']['display'] ?? '';
       }

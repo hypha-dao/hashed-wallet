@@ -37,10 +37,8 @@ class WebViewRunner {
     webViewLoaded = false;
     jsCodeStarted = -1;
 
-    _jsCode = jsCode ??
-        await rootBundle
-            .loadString('packages/polkawallet_sdk/js_api/dist/main.js');
-    print('js file loaded');
+    _jsCode = jsCode ?? await rootBundle.loadString('assets/polkadot/sdk/js_api/dist/main.js');
+    print('js file loaded ${_jsCode.length}');
 
     if (_web == null) {
       await _startLocalServer();
@@ -61,8 +59,7 @@ class WebViewRunner {
               jsCodeStarted = 0;
             }
           }
-          if (message.message.contains("WebSocket is not connected") &&
-              socketDisconnectedAction != null) {
+          if (message.message.contains("WebSocket is not connected") && socketDisconnectedAction != null) {
             socketDisconnectedAction();
           }
           if (message.messageLevel != ConsoleMessageLevel.LOG) return;
@@ -96,8 +93,7 @@ class WebViewRunner {
       );
 
       await _web!.run();
-      _web!.webViewController.loadUrl(
-          urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
+      _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
     } else {
       _webViewReloadTimer = Timer.periodic(Duration(seconds: 3), (timer) {
         _tryReload();
@@ -117,10 +113,8 @@ class WebViewRunner {
   }
 
   Future<void> _startLocalServer() async {
-    final cert = await rootBundle
-        .load("packages/polkawallet_sdk/lib/ssl/certificate.text");
-    final keys =
-        await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
+    final cert = await rootBundle.load("assets/polkadot/sdk/lib/ssl/certificate.text");
+    final keys = await rootBundle.load("assets/polkadot/sdk/lib/ssl/keys.text");
     final security = new SecurityContext()
       ..useCertificateChainBytes(cert.buffer.asInt8List())
       ..usePrivateKeyBytes(keys.buffer.asInt8List());
@@ -130,8 +124,7 @@ class WebViewRunner {
     await server.serve(logRequests: false);
   }
 
-  Future<void> _startJSCode(
-      ServiceKeyring? keyring, Keyring keyringStorage) async {
+  Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
     // inject js file to webView
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
 
@@ -159,8 +152,7 @@ class WebViewRunner {
     }
 
     if (!wrapPromise) {
-      final res =
-          await _web!.webViewController.evaluateJavascript(source: code);
+      final res = await _web!.webViewController.evaluateJavascript(source: code);
       return res;
     }
 
@@ -181,15 +173,10 @@ class WebViewRunner {
   }
 
   Future<NetworkParams?> connectNode(List<NetworkParams> nodes) async {
-    final isAvatarSupport = (await evalJavascript(
-            'settings.connectAll ? {}:null',
-            wrapPromise: false)) !=
-        null;
+    final isAvatarSupport = (await evalJavascript('settings.connectAll ? {}:null', wrapPromise: false)) != null;
     final dynamic res = await (isAvatarSupport
-        ? evalJavascript(
-            'settings.connectAll(${jsonEncode(nodes.map((e) => e.endpoint).toList())})')
-        : evalJavascript(
-            'settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})'));
+        ? evalJavascript('settings.connectAll(${jsonEncode(nodes.map((e) => e.endpoint).toList())})')
+        : evalJavascript('settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})'));
     if (res != null) {
       final index = nodes.indexWhere((e) => e.endpoint!.trim() == res.trim());
       return nodes[index > -1 ? index : 0];
@@ -209,8 +196,7 @@ class WebViewRunner {
   void unsubscribeMessage(String channel) {
     print('unsubscribe $channel');
     final unsubCall = 'unsub$channel';
-    _web!.webViewController
-        .evaluateJavascript(source: 'window.$unsubCall && window.$unsubCall()');
+    _web!.webViewController.evaluateJavascript(source: 'window.$unsubCall && window.$unsubCall()');
   }
 
   void addMsgHandler(String channel, Function onMessage) {
