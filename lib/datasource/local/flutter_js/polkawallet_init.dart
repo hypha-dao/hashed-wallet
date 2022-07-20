@@ -3,10 +3,10 @@
 
 import 'dart:async';
 
-import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
-import 'package:polkawallet_sdk/api/types/networkParams.dart';
-import 'package:polkawallet_sdk/plugin/index.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
+import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/index.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 class AppService {
   PolkawalletPlugin plugin;
