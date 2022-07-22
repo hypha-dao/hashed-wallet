@@ -1,22 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
+// import 'package:get_storage/get_storage.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkStateData.dart';
+// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkStateData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/homeNavItem.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/store/balances.dart';
+// import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/store/balances.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/utils/app.dart';
 
-const String sdk_cache_key = 'polka_wallet_sdk_cache';
-const String net_state_cache_key = 'network_state';
-const String net_const_cache_key = 'network_const';
-const String balance_cache_key = 'balances';
+// const String sdk_cache_key = 'polka_wallet_sdk_cache';
+// const String net_state_cache_key = 'network_state';
+// const String net_const_cache_key = 'network_const';
+// const String balance_cache_key = 'balances';
 
 abstract class PolkawalletPlugin implements PolkawalletPluginBase {
   /// A plugin has a [WalletSDK] instance for connecting to it's node.
@@ -24,17 +24,17 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
 
   /// Plugin should retrieve [balances] from sdk
   /// for display in Assets page of Polkawallet App.
-  final balances = BalancesStore();
+  // final balances = BalancesStore();
 
   /// Plugin should provide a list of defaultTokens
   /// for users of Polkawallet App.
-  List<String> get defaultTokens => [];
+  // List<String> get defaultTokens => [];
 
   /// Plugin should provide a list of noneNativeToken
   /// for users of Polkawallet App.
-  List<TokenBalanceData> get noneNativeTokensAll => [];
+  // List<TokenBalanceData> get noneNativeTokensAll => [];
 
-  final recoveryEnabled = false;
+  // final recoveryEnabled = false;
 
   final appUtils = AppUtils();
 
@@ -49,68 +49,63 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
 
   /// The App will display this widget in native token detail page
   /// @param[transferType] = 0 | 1 | 2, (0 = all, 1 = in, 2 = out)
-  Widget? getNativeTokenTransfers(
-          {required String address, int transferType = 0}) =>
-      null;
+  Widget? getNativeTokenTransfers({required String address, int transferType = 0}) => null;
 
   /// Plugin should retrieve [networkState] & [networkConst] while start
-  NetworkStateData get networkState {
-    try {
-      return NetworkStateData.fromJson(Map<String, dynamic>.from(
-          _cache.read(_getNetworkCacheKey(net_state_cache_key)) ?? {}));
-    } catch (err) {
-      print(err);
-    }
-    return NetworkStateData();
-  }
+  // NetworkStateData get networkState {
+  //   try {
+  //     return NetworkStateData.fromJson(
+  //         Map<String, dynamic>.from(_cache.read(_getNetworkCacheKey(net_state_cache_key)) ?? {}));
+  //   } catch (err) {
+  //     print(err);
+  //   }
+  //   return NetworkStateData();
+  // }
 
-  Map get networkConst =>
-      _cache.read(_getNetworkCacheKey(net_const_cache_key)) ?? {};
+  // Map get networkConst => _cache.read(_getNetworkCacheKey(net_const_cache_key)) ?? {};
 
-  GetStorage get _cache => GetStorage(sdk_cache_key);
-  String _getNetworkCacheKey(String key) => '${key}_${basic.name}';
-  String _getBalanceCacheKey(String? pubKey) =>
-      '${balance_cache_key}_${basic.name}_$pubKey';
+  // GetStorage get _cache => GetStorage(sdk_cache_key);
+  // String _getNetworkCacheKey(String key) => '${key}_${basic.name}';
+  // String _getBalanceCacheKey(String? pubKey) => '${balance_cache_key}_${basic.name}_$pubKey';
 
   Future<void> updateNetworkState() async {
-    final state = await sdk.api.service.setting.queryNetwork();
-    if (state != null) {
-      _cache.write(_getNetworkCacheKey(net_const_cache_key), state["const"]);
-      _cache.write(_getNetworkCacheKey(net_state_cache_key), state["props"]);
-    }
+    // final state = await sdk.api.service.setting.queryNetwork();
+    // if (state != null) {
+    //   _cache.write(_getNetworkCacheKey(net_const_cache_key), state["const"]);
+    //   _cache.write(_getNetworkCacheKey(net_state_cache_key), state["props"]);
+    // }
   }
 
-  void _updateBalances(KeyPairData acc, BalanceData data,
-      {bool isFromCache = false}) {
-    if (acc.address == data.accountId || isFromCache) {
-      data.isFromCache = isFromCache;
+  // void _updateBalances(KeyPairData acc, BalanceData data, {bool isFromCache = false}) {
+  //   if (acc.address == data.accountId || isFromCache) {
+  //     data.isFromCache = isFromCache;
 
-      balances.setBalance(data);
+  //     // balances.setBalance(data);
 
-      if (!isFromCache) {
-        _cache.write(_getBalanceCacheKey(acc.pubKey), data.toJson());
-      }
-    }
-  }
+  //     if (!isFromCache) {
+  //       _cache.write(_getBalanceCacheKey(acc.pubKey), data.toJson());
+  //     }
+  //   }
+  // }
 
-  /// This method will be called while user request to query balance.
-  Future<void> updateBalances(KeyPairData acc) async {
-    final data = await (sdk.api.account.queryBalance(acc.address)
-        as FutureOr<BalanceData>);
-    _updateBalances(acc, data);
-  }
+  // /// This method will be called while user request to query balance.
+  // Future<void> updateBalances(KeyPairData acc) async {
+  //   final data = await (sdk.api.account.queryBalance(acc.address)
+  //       as FutureOr<BalanceData>);
+  //   _updateBalances(acc, data);
+  // }
 
-  void loadBalances(KeyPairData acc) {
-    // do not load balance data from cache if we have no decimals data.
-    if (networkState.tokenDecimals == null) return;
+  // void loadBalances(KeyPairData acc) {
+  //   // do not load balance data from cache if we have no decimals data.
+  //   if (networkState.tokenDecimals == null) return;
 
-    _updateBalances(
-        acc,
-        BalanceData.fromJson(Map<String, dynamic>.from(
-            _cache.read(_getBalanceCacheKey(acc.pubKey)) ??
-                {'accountId': acc.address})),
-        isFromCache: true);
-  }
+  //   _updateBalances(
+  //       acc,
+  //       BalanceData.fromJson(Map<String, dynamic>.from(
+  //           _cache.read(_getBalanceCacheKey(acc.pubKey)) ??
+  //               {'accountId': acc.address})),
+  //       isFromCache: true);
+  // }
 
   /// This method will be called while App switched to a plugin.
   /// In this method, the plugin will init [WalletSDK] and start
@@ -122,9 +117,7 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
     Function? socketDisconnectedAction,
   }) async {
     await sdk.init(keyring,
-        webView: webView,
-        jsCode: jsCode ?? (await loadJSCode()),
-        socketDisconnectedAction: socketDisconnectedAction);
+        webView: webView, jsCode: jsCode ?? (await loadJSCode()), socketDisconnectedAction: socketDisconnectedAction);
     await onWillStart(keyring);
   }
 
@@ -133,18 +126,16 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
   /// 1. connect to nodes.
   /// 2. retrieve network const & state.
   /// 3. subscribe balances & set balancesStore.
-  Future<NetworkParams?> start(Keyring keyring,
-      {List<NetworkParams>? nodes}) async {
+  Future<NetworkParams?> start(Keyring keyring, {List<NetworkParams>? nodes}) async {
     final res = await sdk.api.connectNode(keyring, nodes ?? nodeList);
     if (res == null) return null;
 
-    keyring.setSS58(res.ss58);
+    keyring.ss58 = res.ss58;
     await updateNetworkState();
 
-    if (keyring.current.address != null) {
-      sdk.api.account.subscribeBalance(keyring.current.address,
-          (BalanceData data) {
-        _updateBalances(keyring.current, data);
+    if (keyring.current?.address != null) {
+      sdk.api.account.subscribeBalance(keyring.current!.address, (BalanceData data) {
+        // _updateBalances(keyring.current, data);
       });
     }
 
@@ -155,19 +146,23 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
 
   /// This method will be called while App user changes account.
   void changeAccount(KeyPairData account) {
-    sdk.api.account.unsubscribeBalance();
-    loadBalances(account);
-    sdk.api.account.subscribeBalance(account.address, (BalanceData data) {
-      _updateBalances(account, data);
-    });
+    // TODO(n13): This is interesting as an approach when changing networks
+    // However we will use our own architecture for this.
 
-    onAccountChanged(account);
+    // sdk.api.account.unsubscribeBalance();
+    // loadBalances(account);
+
+    // sdk.api.account.subscribeBalance(account.address, (BalanceData data) {
+    //   _updateBalances(account, data);
+    // });
+
+    // onAccountChanged(account);
   }
 
   /// This method will be called before plugin start
   Future<void> onWillStart(Keyring keyring) async {
-    if (keyring.current.address != null) {
-      loadBalances(keyring.current);
+    if (keyring.current?.address != null) {
+      // loadBalances(keyring.current);
     }
   }
 
@@ -178,7 +173,7 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
   /// In this method, the plugin should do:
   /// 1. update balance subscription to update balancesStore.
   /// 2. update other user state of plugin if needed.
-  Future<void> onAccountChanged(KeyPairData account) async => null;
+  // Future<void> onAccountChanged(KeyPairData account) async => null;
 
   /// we don't really need this method, calling webView.launch
   /// more than once will cause some exception.
@@ -191,8 +186,7 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
 
 abstract class PolkawalletPluginBase {
   /// A plugin's basic info, including: name, primaryColor and icons.
-  final basic = PluginBasicData(
-      name: 'kusama', primaryColor: Colors.black as MaterialColor?);
+  final basic = PluginBasicData(name: 'kusama', primaryColor: Colors.black as MaterialColor?);
 
   /// Plugin should define a list of node to connect
   /// for users of Polkawallet App.
@@ -207,8 +201,7 @@ abstract class PolkawalletPluginBase {
   List<HomeNavItem> getNavItems(BuildContext context, Keyring keyring) => [];
 
   /// App will add plugin's pages with custom [routes].
-  Map<String, WidgetBuilder> getRoutes(Keyring keyring) =>
-      Map<String, WidgetBuilder>();
+  Map<String, WidgetBuilder> getRoutes(Keyring keyring) => Map<String, WidgetBuilder>();
 
   /// App will inject plugin's [jsCode] into webview to connect.
   Future<String>? loadJSCode() => null;

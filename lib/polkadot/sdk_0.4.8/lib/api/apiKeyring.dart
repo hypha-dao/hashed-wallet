@@ -100,13 +100,13 @@ class ApiKeyring {
       final String type = keyType.toString().split('.')[1];
       final String? seed = acc[type];
       if (seed != null && seed.isNotEmpty) {
-        keyring.store.encryptSeedAndSave(acc['pubKey'], acc[type], type, password);
-        acc.remove(type);
+        // keyring.store.encryptSeedAndSave(acc['pubKey'], acc[type], type, password);
+        // acc.remove(type);
       }
     }
 
     // save keystore to storage
-    await keyring.store.addAccount(acc);
+    // await keyring.store.addAccount(acc);
 
     await updatePubKeyIconsMap(keyring, [acc['pubKey']]);
     updatePubKeyAddressMap(keyring);
@@ -122,7 +122,7 @@ class ApiKeyring {
     acc['pubKey'] = pubKey.keys.toList()[0];
 
     // save keystore to storage
-    await keyring.store.addContact(acc);
+    // await keyring.store.addContact(acc);
 
     await updatePubKeyAddressMap(keyring);
     await updatePubKeyIconsMap(keyring, [acc['pubKey']]);
@@ -134,15 +134,15 @@ class ApiKeyring {
   /// Every time we change the keyPairs, we need to update the
   /// pubKey-address map.
   Future<void> updatePubKeyAddressMap(Keyring keyring) async {
-    final ls = keyring.store.list.toList();
-    ls.addAll(keyring.store.contacts);
+    // final ls = keyring.store.list.toList();
+    // ls.addAll(keyring.store.contacts);
     // get new addresses from webView.
-    final res = await service!.getPubKeyAddressMap(ls, keyring.store.ss58List);
+    // final res = await service!.getPubKeyAddressMap(ls, keyring.store.ss58List);
 
     // set new addresses to Keyring instance.
-    if (res != null && res[keyring.ss58.toString()] != null) {
-      keyring.store.updatePubKeyAddressMap(Map<String, Map>.from(res));
-    }
+    // if (res != null && res[keyring.ss58.toString()] != null) {
+    //   keyring.store.updatePubKeyAddressMap(Map<String, Map>.from(res));
+    // }
   }
 
   /// This method query account icons and set icons to [Keyring.store]
@@ -165,7 +165,7 @@ class ApiKeyring {
       res.forEach((e) {
         data[e[0]] = e[1];
       });
-      keyring.store.updateIconsMap(Map<String, String>.from(data));
+      // keyring.store.updateIconsMap(Map<String, String>.from(data));
     }
   }
 
@@ -188,27 +188,27 @@ class ApiKeyring {
       res.forEach((e) {
         data[e['accountId']] = e;
       });
-      keyring.store.updateIndicesMap(Map<String, Map>.from(data));
+      // keyring.store.updateIndicesMap(Map<String, Map>.from(data));
       keyring.allAccounts;
     }
   }
 
   /// Decrypt and get the backup of seed.
-  Future<SeedBackupData?> getDecryptedSeed(Keyring keyring, password) async {
-    final Map? data = await keyring.store.getDecryptedSeed(keyring.current.pubKey, password);
-    if (data == null) {
-      return null;
-    }
-    if (data['seed'] == null) {
-      data['error'] = 'wrong password';
-    }
-    return SeedBackupData.fromJson(data as Map<String, dynamic>);
-  }
+  // Future<SeedBackupData?> getDecryptedSeed(Keyring keyring, password) async {
+  //   final Map? data = await keyring.store.getDecryptedSeed(keyring.current.pubKey, password);
+  //   if (data == null) {
+  //     return null;
+  //   }
+  //   if (data['seed'] == null) {
+  //     data['error'] = 'wrong password';
+  //   }
+  //   return SeedBackupData.fromJson(data as Map<String, dynamic>);
+  // }
 
   /// delete account from storage
   Future<void> deleteAccount(Keyring keyring, KeyPairData account) async {
     if (account != null) {
-      await keyring.store.deleteAccount(account.pubKey);
+      // await keyring.store.deleteAccount(account.pubKey);
     }
   }
 
@@ -219,32 +219,32 @@ class ApiKeyring {
   }
 
   /// change password of account
-  Future<KeyPairData?> changePassword(Keyring keyring, String passOld, passNew) async {
-    final acc = keyring.current;
-    // 1. change password of keyPair in webView
-    final res = await service!.changePassword(acc.pubKey, passOld, passNew);
-    if (res == null) {
-      return null;
-    }
-    // 2. if success in webView, then update encrypted seed in local storage.
-    keyring.store.updateEncryptedSeed(acc.pubKey, passOld, passNew);
+  // Future<KeyPairData?> changePassword(Keyring keyring, String passOld, passNew) async {
+  //   final acc = keyring.current;
+  //   // 1. change password of keyPair in webView
+  //   final res = await service!.changePassword(acc.pubKey, passOld, passNew);
+  //   if (res == null) {
+  //     return null;
+  //   }
+  //   // 2. if success in webView, then update encrypted seed in local storage.
+  //   keyring.store.updateEncryptedSeed(acc.pubKey, passOld, passNew);
 
-    // update json meta data
-    service!.updateKeyPairMetaData(res, acc.name);
-    // update keyPair date in storage
-    keyring.store.updateAccount(res);
-    return KeyPairData.fromJson(res as Map<String, dynamic>);
-  }
+  //   // update json meta data
+  //   service!.updateKeyPairMetaData(res, acc.name);
+  //   // update keyPair date in storage
+  //   keyring.store.updateAccount(res);
+  //   return KeyPairData.fromJson(res as Map<String, dynamic>);
+  // }
 
   /// change name of account
-  Future<KeyPairData> changeName(Keyring keyring, String name) async {
-    final json = keyring.current.toJson();
-    // update json meta data
-    service!.updateKeyPairMetaData(json, name);
-    // update keyPair date in storage
-    keyring.store.updateAccount(json);
-    return KeyPairData.fromJson(json);
-  }
+  // Future<KeyPairData> changeName(Keyring keyring, String name) async {
+  //   final json = keyring.current!.toJson();
+  //   // update json meta data
+  //   service!.updateKeyPairMetaData(json, name);
+  //   // update keyPair date in storage
+  //   keyring.store.updateAccount(json);
+  //   return KeyPairData.fromJson(json);
+  // }
 
   /// Check if derive path is valid, return [null] if valid,
   /// and return error message if invalid.

@@ -19,7 +19,7 @@ class ApiUOS {
   /// parse data of QR code.
   /// @return: [UosQrParseResultData]
   Future<UosQrParseResultData> parseQrCode(Keyring keyring, String data) async {
-    final res = await service.parseQrCode(keyring.store.list.toList(), data);
+    final res = await service.parseQrCode(keyring.keyPairs.toList(), data);
     return UosQrParseResultData.fromJson(res);
   }
 

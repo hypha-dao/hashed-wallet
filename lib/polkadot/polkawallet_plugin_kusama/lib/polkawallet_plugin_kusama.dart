@@ -3,18 +3,18 @@ library polkawallet_plugin_kusama;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
+// import 'package:get_storage/get_storage.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/common/constants.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/index.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/cache/storeCache.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
+// import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/cache/storeCache.dart';
+// import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/utils/i18n/index.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/homeNavItem.dart';
 
 import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/index.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
+// import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/utils/i18n.dart';
 
 class PluginKusama extends PolkawalletPlugin {
@@ -34,8 +34,8 @@ class PluginKusama extends PolkawalletPlugin {
           isTestNet: false,
           isXCMSupport: name == network_name_kusama,
         ),
-        recoveryEnabled = name == network_name_kusama,
-        _cache = name == network_name_kusama ? StoreCacheKusama() : StoreCachePolkadot();
+        recoveryEnabled = name == network_name_kusama;
+  // _cache = name == network_name_kusama ? StoreCacheKusama() : StoreCachePolkadot();
 
   @override
   final PluginBasicData basic;
@@ -120,26 +120,27 @@ class PluginKusama extends PolkawalletPlugin {
   @override
   Future<String>? loadJSCode() => null;
 
-  late PluginStore _store;
+  // late PluginStore _store;
   late PluginApi _service;
-  PluginStore get store => _store;
+  // PluginStore get store => _store;
   PluginApi get service => _service;
 
-  final StoreCache _cache;
+  // final StoreCache _cache;
 
   @override
   Future<void> onWillStart(Keyring keyring) async {
-    await GetStorage.init(
-        basic.name == network_name_polkadot ? plugin_polkadot_storage_key : plugin_kusama_storage_key);
+    // await GetStorage.init(
+    //   basic.name == network_name_polkadot ? plugin_polkadot_storage_key : plugin_kusama_storage_key,
+    // );
 
-    _store = PluginStore(_cache);
+    // _store = PluginStore(_cache);
 
     try {
-      loadBalances(keyring.current);
+      // loadBalances(keyring.current);
 
-      _store.staking.loadCache(keyring.current.pubKey);
-      _store.gov.clearState();
-      _store.gov.loadCache();
+      // _store.staking.loadCache(keyring.current.pubKey);
+      // _store.gov.clearState();
+      // _store.gov.loadCache();
       print('kusama plugin cache data loaded');
     } catch (err) {
       print(err);
@@ -154,8 +155,8 @@ class PluginKusama extends PolkawalletPlugin {
   //   _service.staking.queryElectedInfo();
   // }
 
-  @override
-  Future<void> onAccountChanged(KeyPairData acc) async {
-    _store.staking.loadAccountCache(acc.pubKey);
-  }
+  // @override
+  // Future<void> onAccountChanged(KeyPairData acc) async {
+  //   _store.staking.loadAccountCache(acc.pubKey);
+  // }
 }
