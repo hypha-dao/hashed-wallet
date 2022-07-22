@@ -124,6 +124,9 @@ class PolkawalletInit {
   void _dropsService(AppService service, {NetworkParams? node}) {
     // every time this is called, all timers are canceled.
     _dropsServiceCancel();
+    service.plugin.sdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
+      print("Check 0: api.rpc.system.chain value: $value");
+    });
 
     _dropsServiceTimer = Timer(const Duration(seconds: 24), () async {
       // after 24 seconds we create an 18 second timeout to reconnect, then make

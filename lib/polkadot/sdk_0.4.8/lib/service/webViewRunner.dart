@@ -55,6 +55,9 @@ class WebViewRunner {
   int jsCodeStarted = -1;
   Timer? _webViewReloadTimer;
 
+  // For direct JS execution - we don't get the wrapper here
+  InAppWebViewController? get webViewController => _web?.webViewController;
+
   Future<void> launch(
     ServiceKeyring? keyring,
     Keyring keyringStorage,

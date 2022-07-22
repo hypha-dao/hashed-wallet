@@ -1,5 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
+import 'package:seeds/datasource/local/flutter_js/polkawallet_init_2.dart';
 
 class JSInit {
   // final String homeUrl = "http://localhost:8080/assets/polkadot/web/demo.html";
@@ -27,13 +28,13 @@ class JSInit {
 
     """;
 
-  late PolkawalletInit? _polkawalletInit;
+  late PolkawalletInit2? _polkawalletInit;
 
   Future<void> init() async {
     try {
       print("js init");
 
-      _polkawalletInit = PolkawalletInit();
+      _polkawalletInit = PolkawalletInit2();
 
       await _polkawalletInit!.startApp();
 

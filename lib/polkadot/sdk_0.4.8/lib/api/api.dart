@@ -79,6 +79,7 @@ class PolkawalletApi {
   // }
 
   NetworkParams? get connectedNode => _connectedNode;
+  set connectedNode(NetworkParams? node) => _connectedNode = node;
 
   /// connect to a list of nodes, return null if connect failed.
   Future<NetworkParams?> connectNode(Keyring keyringStorage, List<NetworkParams> nodes) async {

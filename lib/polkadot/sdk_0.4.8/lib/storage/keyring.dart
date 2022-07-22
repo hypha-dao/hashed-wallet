@@ -1,3 +1,5 @@
+// ignore_for_file: use_setters_to_change_properties
+
 import 'dart:async';
 
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
@@ -19,6 +21,10 @@ class Keyring {
   KeyPairData? current;
   int? ss58;
   List<int> ss58List = [];
+  List<KeyPairData> keyPairs = [];
+
+  List<KeyPairData> externals = [];
+  List<KeyPairData> contacts = [];
 
   // int? get ss58 => store.ss58;
   // int? setSS58(int? ss58) {
@@ -39,10 +45,6 @@ class Keyring {
     current = acc;
     // store.setCurrentPubKey(acc.pubKey);
   }
-
-  List<KeyPairData> keyPairs = [];
-  List<KeyPairData> externals = [];
-  List<KeyPairData> contacts = [];
 
   // List<KeyPairData> get keyPairs {
   //   return store.list.map((e) => KeyPairData.fromJson(e)).toList();
