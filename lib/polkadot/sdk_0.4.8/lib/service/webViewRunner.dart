@@ -15,13 +15,11 @@ extension PlatformExtension on Platform {
     if (Platform.isIOS) {
       final versionString = Platform.operatingSystemVersion;
       double? version;
+      // iOS version string looks like this: "Version 15.5 (Build 0xFC10A)"
       versionString.split(" ").forEach((element) {
-        //version = version ?? double.tryParse(element);
-        final double? d = double.tryParse(element);
-        if (d != null) {
-          version = d;
-        }
+        version = version ?? double.tryParse(element);
       });
+      //print("iOS version: $version");
       if (version != null) {
         return version! >= 14;
       } else {
