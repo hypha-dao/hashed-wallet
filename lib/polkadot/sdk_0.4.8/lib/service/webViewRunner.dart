@@ -70,14 +70,6 @@ class WebViewRunner {
       // TODO(n13): There's a way to make the API run without WASM
       throw Exception("This platform cannot run WASM code, polka API cannot run here");
     }
-    // Or, use a predicate getter.
-    if (Platform.isIOS) {
-      print('is iOS');
-      print(Platform.environment);
-      print(Platform.operatingSystem);
-      print(Platform.operatingSystemVersion);
-      print(Platform.version);
-    }
 
     /// reset state before webView launch or reload
     _msgHandlers = {};

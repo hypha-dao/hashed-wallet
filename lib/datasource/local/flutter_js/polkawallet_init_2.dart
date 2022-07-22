@@ -22,6 +22,7 @@ class PolkawalletInit2 {
 
     await _keyring?.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
 
+    /// init the SDK
     await walletSdk.init(
       _keyring!,
       socketDisconnectedAction: () {
@@ -31,6 +32,7 @@ class PolkawalletInit2 {
 
     print("service.plugin.start ${nodeList.map((e) => e.endpoint)}");
 
+    /// Connect to a node
     final res = await walletSdk.api.service.webView?.connectNode(nodeList);
     if (res == null) {
       return null;
@@ -41,6 +43,7 @@ class PolkawalletInit2 {
 
     print("connected: ${res.endpoint}");
 
+    /// start up the reconnect service
     _dropsService(node: res);
 
     return _keyring!.allAccounts.length;
