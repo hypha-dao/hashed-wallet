@@ -58,7 +58,6 @@ dependencies:
   hdkey: ^0.0.1
   permission_handler: ^9.2.0
   json_schema2: ^2.0.2
-  jaguar: ^3.0.12
   get_storage: ^2.0.3
   flutter_inappwebview: ^5.4.3+7
   google_fonts: ^3.0.1

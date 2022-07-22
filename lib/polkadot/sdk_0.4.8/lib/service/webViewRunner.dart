@@ -6,9 +6,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:jaguar/jaguar.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/jaguar_flutter_asset.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/keyring.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
@@ -170,20 +168,6 @@ class WebViewRunner {
   void _handleReloaded() {
     _webViewReloadTimer?.cancel();
     webViewLoaded = true;
-  }
-
-  Jaguar? _server;
-  Future<void> _startLocalServer() async {
-    await _server?.close();
-    final cert = await rootBundle.load("assets/polkadot/sdk/lib/ssl/certificate.text");
-    final keys = await rootBundle.load("assets/polkadot/sdk/lib/ssl/keys.text");
-    final security = SecurityContext()
-      ..useCertificateChainBytes(cert.buffer.asInt8List())
-      ..usePrivateKeyBytes(keys.buffer.asInt8List());
-    // Serves the API at localhost:8080 by default
-    _server = Jaguar(securityContext: security);
-    _server!.addRoute(serveFlutterAssets());
-    await _server!.serve(logRequests: true);
   }
 
   Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
