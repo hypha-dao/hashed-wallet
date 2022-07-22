@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:seeds/datasource/local/flutter_js/app_code/lib/firebase_options.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -26,7 +27,11 @@ Future<void> main() async {
     await localhostServer.start();
     print("InAppLocalhostServer started");
 
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
     await remoteConfigurations.initialise();

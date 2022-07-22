@@ -66,18 +66,80 @@ dependencies:
   get_storage: ^2.0.3
   flutter_inappwebview: ^5.4.3+7
   google_fonts: ^3.0.1
-  flutter_js: ^0.5.0+6
   polkawallet_sdk: ^0.4.8
+  firebase_analytics: ^9.2.1
+
+  update_app:
+    git:
+      url: https://github.com/mofada/flutter_update_app.git
+      ref: c9e0f9ba9a7fe35aec0312847a4e481e4923cce1
+  jpush_flutter:
+    git:
+      url: https://github.com/polkawallet-io/jpush-flutter-plugin.git
+      ref: 23e6265cb2de247e3b8fc3a225b71d1e8c02fcf9
   polkawallet_plugin_kusama:
     git:
       url: https://github.com/polkawallet-io/polkawallet_plugin_kusama.git
       ref: 0d793bdbd95a76a3088b161d325de87a5db9da1d
+  polkawallet_plugin_acala:
+    git:
+      url: https://github.com/AcalaNetwork/polkawallet_plugin_acala.git
+      ref: 06994d689d8a92e7621b0f89bd0a181024ecb8a1
+  polkawallet_plugin_karura:
+    git:
+      url: https://github.com/AcalaNetwork/polkawallet_plugin_karura.git
+      ref: 03eb437bb059f5bc1e3988df5ac6bbca0e659bf9
+  polkawallet_plugin_statemine:
+    git:
+      url: https://github.com/polkawallet-io/polkawallet_plugin_statemine.git
+      ref: e2a9fc66914153a24b18a99c99b9895e96837c3f
+  polkawallet_plugin_laminar:
+    git:
+      url: https://github.com/polkawallet-io/polkawallet_plugin_laminar.git
+      ref: 7950c74abe74494aed49662b37dcebdacf1013c1
+  polkawallet_plugin_bifrost:
+    git:
+      url: https://github.com/bifrost-finance/polkawallet_plugin_bifrost.git
+      ref: b5677954c17432ca6b32da4dd31929b0fa0c3171
+  polkawallet_plugin_chainx:
+    git:
+      url: https://github.com/chainx-org/polkawallet_plugin_chainx.git
+      ref: 2cc634bc4f0b873e7fe0801d5d3fba46756f5315
+  polkawallet_plugin_edgeware:
+    git:
+      url: https://github.com/remzrn/polkawallet_plugin_edgeware.git
+      ref: 11be316dc77b721d41ed6774fbf8d444a5a8eaa9
+  polkawallet_plugin_dbc:
+    git:
+      url: https://github.com/DeepBrainChain/PolkaWallet_Plugin_DBC
+      ref: 1cfd68ebbee73f2cf211dedf5eaf9332e8399a8d
+  polkawallet_plugin_robonomics:
+    git:
+      url: https://github.com/Multi-Agent-io/polkawallet_plugin_robonomics.git
+      ref: 480a3872cc684b72f3d1dad9e05871ea0dd82f04
+  simple_shadow: ^0.2.0
+  sticky_headers: ^0.2.0
+  package_info: ^2.0.2
 
 # Note: This is only for the polkawallet_plugin_kusama package - remove when that's gone
 dependency_overrides:
-  flutter_svg: ^1.0.3
-  polkawallet_sdk: ^0.4.8
   polkawallet_ui: ^0.4.8
+  polkawallet_sdk: ^0.4.8
+  rive: ^0.9.0
+  transformer_page_view:
+    git:
+      url: https://github.com/polkawallet-io/transformer_page_view.git
+      ref: 19f3b7c46d5e81653cf027baa2cbe8d629dc052d
+  charts_flutter:
+     git:
+       url: https://github.com/google/charts
+       path: charts_flutter
+  flutter_svg: ^1.0.3
+  webview_flutter: ^3.0.4
+  cached_network_image: ^3.2.0
+  flutter_html: ^2.2.1
+  flutter_slidable: ^1.2.0
+  platform: ^3.1.0
   permission_handler: ^9.2.0
   image_picker: ^0.8.5+3
 

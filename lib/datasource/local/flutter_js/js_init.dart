@@ -35,13 +35,7 @@ class JSInit {
 
       _polkawalletInit = PolkawalletInit();
 
-      await _polkawalletInit!.startApp();
-
-      // print("create wv");
-      // webView = await createWebView();
-      // await webView!.run();
-
-      // print("done creating $webView");
+      await _polkawalletInit!.init();
     } catch (err) {
       print("Error: $err");
       rethrow;
