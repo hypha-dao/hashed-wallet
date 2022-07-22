@@ -115,16 +115,12 @@ class PolkawalletInit {
   }
 
   Future<void> _startPlugin(AppService service, {NetworkParams? node}) async {
-    // setState(() {
-    //   _connectedNode = null;
-    // });
-
     // plugin start connects the api
     print("service.plugin.start ${service.plugin.nodeList}");
 
     final connected = await service.plugin.start(_keyring!, nodes: node != null ? [node] : service.plugin.nodeList);
 
-    print("connected: $connected");
+    print("connected: ${connected?.endpoint}");
 
     _dropsService(service, node: node);
   }
