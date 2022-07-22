@@ -19,15 +19,6 @@ class PolkawalletInit {
   final plugins = [
     PluginKusama(name: 'polkadot'),
     PluginKusama(),
-    // PluginAcala(),
-    // PluginKarura(),
-    // PluginStatemine(),
-    // PluginBifrost(),
-    // PluginChainX(),
-    // PluginEdgeware(),
-    // // PluginLaminar(),
-    // PluginDBC(),
-    // PluginRobonomics(),
   ];
 
   // from App _startApp
@@ -44,7 +35,7 @@ class PolkawalletInit {
 // we don't need this, we only have one account type, 42.
 
     // OG: await _keyring?.init(widget.plugins.map((e) => e.basic.ss58).toSet().toList());
-    await _keyring?.init([2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
+    await _keyring?.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
 
     // OG: Removed
     // final storage = GetStorage(get_storage_container);
