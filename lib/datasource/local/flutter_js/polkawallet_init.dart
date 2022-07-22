@@ -55,8 +55,15 @@ class PolkawalletInit {
     print("AppService");
     final service = AppService(currentPlugin);
 
-    await walletSdk.init(
+    // pretty much the only thing the plugin does in this is to call init on the SDK
+    // Each plugin has their own SDK which makes sense.
+
+    print("beforeStart");
+
+    await currentPlugin.beforeStart(
       _keyring!,
+      // ignore: avoid_redundant_argument_values
+      jsCode: null,
       socketDisconnectedAction: () {
         print("WARNING: socket disconnected action invoked");
         // UI.throttle(() {
@@ -66,15 +73,9 @@ class PolkawalletInit {
       },
     );
 
-    // pretty much the only thing the plugin does in this is to call init on the SDK
-    // Each plugin has their own SDK which makes sense.
-
-    // print("beforeStart");
-
-    // await currentPlugin.beforeStart(
+    // Possibly inline the above with this
+    // await walletSdk.init(
     //   _keyring!,
-    //   // ignore: avoid_redundant_argument_values
-    //   jsCode: null,
     //   socketDisconnectedAction: () {
     //     print("WARNING: socket disconnected action invoked");
     //     // UI.throttle(() {
@@ -143,6 +144,7 @@ class PolkawalletInit {
           _dropsService(service, node: node);
         });
       });
+      // TODO(n13): This is how we can just make all chain calls, and not worry about the "sdk" functions
       // ignore: unawaited_futures
       service.plugin.sdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
         print("api.rpc.system.chain value: $value");
