@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,7 +17,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/seeds_app.dart';
 
-InAppLocalhostServer localhostServer = InAppLocalhostServer();
+// InAppLocalhostServer localhostServer = InAppLocalhostServer();
 
 Future<void> main() async {
   // Zone to handle asynchronous errors (Dart).
@@ -24,13 +25,13 @@ Future<void> main() async {
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await localhostServer.start();
-    print("InAppLocalhostServer started");
+    // await localhostServer.start();
+    // print("InAppLocalhostServer started");
 
-    // await Firebase.initializeApp();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    await Firebase.initializeApp();
+    // await Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
 
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
@@ -48,18 +49,18 @@ Future<void> main() async {
 
     // Called whenever the Flutter framework catches an error.
     FlutterError.onError = (details) async {
+      print("FlutterError: $details");
       FlutterError.presentError(details);
-      // TODO(Raul): use FirebaseCrashlytics or whatever
-      //await FirebaseCrashlytics.instance.recordFlutterError(details);
     };
-
-    // if (kDebugMode) {
-    //   /// Bloc logs only in debug (for better performance in release)
-    //   BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
-    // } else {
-    runApp(const SeedsApp());
-    // }
+    print("Running App");
+    if (kDebugMode) {
+      /// Bloc logs only in debug (for better performance in release)
+      BlocOverrides.runZoned(() => runApp(const SeedsApp()));
+    } else {
+      runApp(const SeedsApp());
+    }
   }, (error, stackTrace) async {
-    //await FirebaseCrashlytics.instance.recordError(error, stack);
+    print("Main Error: $error");
+    print("Stack trace: $stackTrace");
   });
 }

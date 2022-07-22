@@ -290,6 +290,7 @@ class HeadlessWalletApp {
     // plugin start connects the api
 
     final nodes = node != null ? [node] : service.plugin.nodeList;
+
     print("_startPlugin starting plugin $_keyring, node param $node - nodes list:  $nodes");
 
     final connected = await service.plugin.start(_keyring, nodes: node != null ? [node] : service.plugin.nodeList);
@@ -557,83 +558,89 @@ class HeadlessWalletApp {
   // _startApp
   // _startPlugin
   Future<int> _startApp() async {
-    if (_keyring == null) {
-      _keyring = Keyring();
+    try {
+      if (true || _keyring == null) {
+        _keyring = Keyring();
 
 // initialize the keyring with "ss58" account types - ss58 variable here is an integer denoting the
 // account type, for example "42" for a generic account type.
 // We init the keyring class with account types here. It's converted to set to make the types unique.
 // we don't need this, we only have one account type, 42.
 
-      final ss58List = plugins.map((e) => e.basic.ss58).toSet().toList();
-      print("ss58 list: $ss58List");
-      await _keyring.init(plugins.map((e) => e.basic.ss58).toSet().toList());
+        final ss58List = plugins.map((e) => e.basic.ss58).toSet().toList();
+        print("ss58 list: $ss58List");
+        await _keyring.init(plugins.map((e) => e.basic.ss58).toSet().toList());
 
-      final storage = GetStorage(get_storage_container);
-      final store = AppStore(storage);
-      await store.init();
+        final storage = GetStorage(get_storage_container);
+        final store = AppStore(storage);
+        await store.init();
 
-      // await _showGuide(context, storage);
+        // await _showGuide(context, storage);
 
-      final pluginIndex = plugins.indexWhere((e) => e.basic.name == store.settings.network);
+        final pluginIndex = plugins.indexWhere((e) => e.basic.name == store.settings.network);
 
-      print("starting with plugin: index $pluginIndex");
+        print("starting with plugin: index $pluginIndex");
 
-      // service.init - doesn't do much
-      final service = AppService(plugins, plugins[pluginIndex > -1 ? pluginIndex : 0], _keyring, store);
-      service.init();
-      print("service init done");
-      setState(() {
-        _store = store;
-        _service = service;
-      });
+        // service.init - doesn't do much
+        final service = AppService(plugins, plugins[pluginIndex > -1 ? pluginIndex : 0], _keyring, store);
+        service.init();
+        print("service init done");
+        setState(() {
+          _store = store;
+          _service = service;
+        });
 
 // Locale stuff - not needed
-      // if (store.settings.localeCode.isNotEmpty) {
-      //   _changeLang(store.settings.localeCode);
-      // } else {
-      //   _changeLang(Localizations.localeOf(context).toString());
-      // }
+        // if (store.settings.localeCode.isNotEmpty) {
+        //   _changeLang(store.settings.localeCode);
+        // } else {
+        //   _changeLang(Localizations.localeOf(context).toString());
+        // }
 
 // this has to do with app version, plugin JS version, and hot updates of JS - not needed!
-      final useLocalJS = WalletApi.getPolkadotJSVersion(
-            _store.storage,
-            service.plugin.basic.name,
-            service.plugin.basic.jsCodeVersion,
-          ) >
-          service.plugin.basic.jsCodeVersion;
+        final useLocalJS = WalletApi.getPolkadotJSVersion(
+              _store.storage,
+              service.plugin.basic.name,
+              service.plugin.basic.jsCodeVersion,
+            ) >
+            service.plugin.basic.jsCodeVersion;
 
-      print("useLocalJS $useLocalJS");
+        print("useLocalJS $useLocalJS");
 
-      final jsCodeParam = useLocalJS ? WalletApi.getPolkadotJSCode(_store.storage, service.plugin.basic.name) : null;
-      print("calling beforeStart with $_keyring, $jsCodeParam");
+        final jsCodeParam = useLocalJS ? WalletApi.getPolkadotJSCode(_store.storage, service.plugin.basic.name) : null;
+        print("calling beforeStart with $_keyring, $jsCodeParam");
 
-      await service.plugin.beforeStart(_keyring,
-          jsCode: useLocalJS ? WalletApi.getPolkadotJSCode(_store.storage, service.plugin.basic.name) : null,
-          socketDisconnectedAction: () {
-        print("socket disconnect action called");
-        UI.throttle(() {
-          _dropsServiceCancel();
-          _restartWebConnect(service);
+        await service.plugin.beforeStart(_keyring,
+            jsCode: useLocalJS ? WalletApi.getPolkadotJSCode(_store.storage, service.plugin.basic.name) : null,
+            socketDisconnectedAction: () {
+          print("socket disconnect action called");
+          UI.throttle(() {
+            _dropsServiceCancel();
+            _restartWebConnect(service);
+          });
         });
-      });
+        print("....calling beforeStart finish ");
 
 // loading keyrings from storage - we should not need this
-      if (_keyring.keyPairs.length > 0) {
-        print("loading keyrings ...");
-        _store.assets.loadCache(_keyring.current, _service.plugin.basic.name);
-      }
+        if (_keyring.keyPairs.length > 0) {
+          print("loading keyrings ...");
+          _store.assets.loadCache(_keyring.current, _service.plugin.basic.name);
+        }
 
 // payload - we need this
-      print("starting plugin");
-      _startPlugin(service);
+        print("...starting plugin");
+        _startPlugin(service);
 
-      WalletApi.getTokenStakingConfig().then((value) {
-        _store.settings.setTokenStakingConfig(value);
-      });
+        WalletApi.getTokenStakingConfig().then((value) {
+          _store.settings.setTokenStakingConfig(value);
+        });
+      }
+
+      return _keyring.allAccounts.length;
+    } catch (err) {
+      print("Startup ERR: $err");
+      return 0;
     }
-
-    return _keyring.allAccounts.length;
   }
 
   // Map<String, Widget Function(BuildContext)> _getRoutes() {

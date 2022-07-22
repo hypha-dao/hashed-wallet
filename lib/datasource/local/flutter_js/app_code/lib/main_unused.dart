@@ -16,7 +16,7 @@ import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
 import 'package:polkawallet_plugin_robonomics/polkawallet_plugin_robonomics.dart';
 import 'package:polkawallet_plugin_statemine/polkawallet_plugin_statemine.dart';
 
-void main() async {
+void app_main_unused() async {
   // FlutterBugly.postCatchedException(() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -25,9 +25,9 @@ void main() async {
   await GetStorage.init(get_storage_container);
   // await Firebase.initializeApp();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   final plugins = [
     PluginKusama(name: 'polkadot'),
     PluginKusama(),
