@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/index.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 class AppService {
@@ -15,6 +16,7 @@ class AppService {
 
 class PolkawalletInit {
   Keyring? _keyring;
+  WalletSDK walletSdk = WalletSDK();
 
   final plugins = [
     PluginKusama(name: 'polkadot'),
@@ -34,17 +36,7 @@ class PolkawalletInit {
 // We init the keyring class with account types here. It's converted to set to make the types unique.
 // we don't need this, we only have one account type, 42.
 
-    // OG: await _keyring?.init(widget.plugins.map((e) => e.basic.ss58).toSet().toList());
     await _keyring?.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
-
-    // OG: Removed
-    // final storage = GetStorage(get_storage_container);
-    // final store = AppStore(storage);
-    // await store.init();
-
-    // await _showGuide(context, storage);
-
-    // final pluginIndex = widget.plugins.indexWhere((e) => e.basic.name == store.settings.network);
 
     print("PluginKusama");
 
@@ -63,29 +55,8 @@ class PolkawalletInit {
     print("AppService");
     final service = AppService(currentPlugin);
 
-// Locale stuff - not needed
-    // if (store.settings.localeCode.isNotEmpty) {
-    //   _changeLang(store.settings.localeCode);
-    // } else {
-    //   _changeLang(Localizations.localeOf(context).toString());
-    // }
-
-// this has to do with app version, plugin JS version, and hot updates of JS - not needed!
-    // final useLocalJS = WalletApi.getPolkadotJSVersion(
-    //       _store.storage,
-    //       service.plugin.basic.name,
-    //       service.plugin.basic.jsCodeVersion,
-    //     ) >
-    //     service.plugin.basic.jsCodeVersion;
-
-    // final useLocalJS = false;
-
-    print("beforeStart");
-
-    await currentPlugin.beforeStart(
+    await walletSdk.init(
       _keyring!,
-      // ignore: avoid_redundant_argument_values
-      jsCode: null,
       socketDisconnectedAction: () {
         print("WARNING: socket disconnected action invoked");
         // UI.throttle(() {
@@ -94,6 +65,24 @@ class PolkawalletInit {
         // });
       },
     );
+
+    // pretty much the only thing the plugin does in this is to call init on the SDK
+    // Each plugin has their own SDK which makes sense.
+
+    // print("beforeStart");
+
+    // await currentPlugin.beforeStart(
+    //   _keyring!,
+    //   // ignore: avoid_redundant_argument_values
+    //   jsCode: null,
+    //   socketDisconnectedAction: () {
+    //     print("WARNING: socket disconnected action invoked");
+    //     // UI.throttle(() {
+    //     //   _dropsServiceCancel();
+    //     //   _restartWebConnect(service);
+    //     // });
+    //   },
+    // );
 
 // loading keyrings from storage - we should not need this
     // if (_keyring!.keyPairs.length > 0) {
