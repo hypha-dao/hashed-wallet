@@ -1,5 +1,8 @@
+// ignore_for_file: always_put_control_body_on_new_line, prefer_const_constructors
+
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -8,6 +11,38 @@ import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/jaguar_flutter_asset.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/keyring.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+
+extension PlatformExtension on Platform {
+  static bool isIos14OrAbove() {
+    if (Platform.isIOS) {
+      final versionString = Platform.operatingSystemVersion;
+      double? version;
+      versionString.split(" ").forEach((element) {
+        //version = version ?? double.tryParse(element);
+        final double? d = double.tryParse(element);
+        if (d != null) {
+          version = d;
+        }
+      });
+      if (version != null) {
+        return version! >= 14;
+      } else {
+        // cannot parse version string - must be > 15
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  static bool canRunWasm() {
+    if (Platform.isIOS) {
+      return PlatformExtension.isIos14OrAbove();
+    } else {
+      return true;
+    }
+  }
+}
 
 class WebViewRunner {
   HeadlessInAppWebView? _web;
@@ -29,6 +64,20 @@ class WebViewRunner {
     String? jsCode,
     Function? socketDisconnectedAction,
   }) async {
+    // Get the operating system as a string.
+    if (!PlatformExtension.canRunWasm()) {
+      // TODO(n13): There's a way to make the API run without WASM
+      throw Exception("This platform cannot run WASM code, polka API cannot run here");
+    }
+    // Or, use a predicate getter.
+    if (Platform.isIOS) {
+      print('is iOS');
+      print(Platform.environment);
+      print(Platform.operatingSystem);
+      print(Platform.operatingSystemVersion);
+      print(Platform.version);
+    }
+
     /// reset state before webView launch or reload
     _msgHandlers = {};
     _msgCompleters = {};
@@ -42,6 +91,7 @@ class WebViewRunner {
 
     if (_web == null) {
       // await _startLocalServer();
+      print("NOT starting web server since we already have inapp web server");
       final String homeUrl = "http://localhost:8080/assets/polkadot/sdk/assets/index.html";
 
       _web = HeadlessInAppWebView(
@@ -64,21 +114,23 @@ class WebViewRunner {
           if (message.message.contains("WebSocket is not connected") && socketDisconnectedAction != null) {
             socketDisconnectedAction();
           }
-          if (message.messageLevel != ConsoleMessageLevel.LOG) return;
+          if (message.messageLevel != ConsoleMessageLevel.LOG) {
+            return;
+          }
 
           try {
             final msg = jsonDecode(message.message);
 
             final String? path = msg['path'];
             if (_msgCompleters[path!] != null) {
-              Completer handler = _msgCompleters[path]!;
+              final Completer handler = _msgCompleters[path]!;
               handler.complete(msg['data']);
               if (path.contains('uid=')) {
                 _msgCompleters.remove(path);
               }
             }
             if (_msgHandlers[path] != null) {
-              Function handler = _msgHandlers[path]!;
+              final Function handler = _msgHandlers[path]!;
               handler(msg['data']);
             }
           } catch (_) {
@@ -90,7 +142,9 @@ class WebViewRunner {
         },
         onLoadStop: (controller, url) async {
           print('webview loaded');
-          if (webViewLoaded) return;
+          if (webViewLoaded) {
+            return;
+          }
 
           _handleReloaded();
           await _startJSCode(keyring, keyringStorage);
@@ -151,7 +205,7 @@ class WebViewRunner {
     // check if there's a same request loading
     if (!allowRepeat) {
       for (String i in _msgCompleters.keys) {
-        String call = code.split('(')[0];
+        final String call = code.split('(')[0];
         if (i.contains(call)) {
           print('request $call loading');
           return _msgCompleters[i]!.future;
