@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class NoGuardiansWidget extends StatelessWidget {
   final String message;
+  final VoidCallback? onPressed;
 
-  const NoGuardiansWidget({super.key, required this.message});
+  const NoGuardiansWidget({super.key, required this.message, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class NoGuardiansWidget extends StatelessWidget {
         children: [
           Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
           IconButton(
-              onPressed: () {},
+              onPressed: onPressed,
               icon: Icon(
                 Icons.add_circle,
                 color: Theme.of(context).colorScheme.primary,
