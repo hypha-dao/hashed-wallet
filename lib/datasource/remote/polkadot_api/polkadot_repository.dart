@@ -30,9 +30,13 @@ class PolkadotRepository {
     return true;
   }
 
-  Future<dynamic> createKey() async {
+  Future<String> createKey() async {
     //console.log("hello JS, this is createKey");
     final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
     print("create res: $res");
+    final String mnemonic = res["mnemonic"];
+    // String mnemonic = res["mnemonic"];
+    print("mnemonic $mnemonic");
+    return mnemonic;
   }
 }
