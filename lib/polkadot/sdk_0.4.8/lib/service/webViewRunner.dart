@@ -203,14 +203,14 @@ class WebViewRunner {
       return res;
     }
 
-    final c = new Completer();
+    final c = Completer();
 
     final uid = getEvalJavascriptUID();
     final method = 'uid=$uid;${code.split('(')[0]}';
     _msgCompleters[method] = c;
 
     final script = '$code.then(function(res) {'
-        '  console.log(JSON.stringify({ path: "$method", data: res }));'
+        '  console.log(JSON.stringify({ path: "$method", data: res }));res;'
         '}).catch(function(err) {'
         '  console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));'
         '});';
