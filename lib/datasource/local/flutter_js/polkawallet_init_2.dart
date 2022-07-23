@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 class PolkawalletInit2 {
@@ -14,6 +15,7 @@ class PolkawalletInit2 {
   final nodeList = kusamaNetworkParams;
   bool _connected = false;
   InAppWebViewController? get controller => walletSdk.webView?.webViewController;
+  WebViewRunner? get webView => walletSdk.webView;
 
   bool get isConnected => _connected;
 
@@ -52,6 +54,13 @@ class PolkawalletInit2 {
     _dropsService(node: res);
 
     return _keyring!.allAccounts.length;
+  }
+
+  Future<void> stop() async {
+    _webViewDropsTimer?.cancel();
+    _dropsServiceTimer?.cancel();
+    _chainTimer?.cancel();
+    await walletSdk.webView?.dispose();
   }
 
   Timer? _webViewDropsTimer;
