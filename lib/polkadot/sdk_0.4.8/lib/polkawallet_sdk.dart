@@ -12,13 +12,19 @@ import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 /// SDK launchs a hidden webView to run polkadot.js/api for interacting
 /// with the substrate-based block-chain network.
 class WalletSDK {
+  // The api has a bunch of things we don't need, and the service, which has
+  // the web view runner which we need
+  // We also need the list of nodes but we have that elsewhere.
+  // => extract web view, dump api.
   late PolkawalletApi api;
 
-  List<String> _blackList = [];
-
-  get blackList => _blackList;
-
+  // Service has a bunch of stuff we won't use, and the web view runner which we use
+  // => extract the web view runner from that class, and dump it
   final _service = SubstrateService();
+
+  // List<String> _blackList = [];
+
+  // get blackList => _blackList;
 
   /// webView instance, this is the only instance of FlutterWebViewPlugin
   /// in App, we need to get it and reuse in other sdk.
@@ -41,12 +47,13 @@ class WalletSDK {
       socketDisconnectedAction: socketDisconnectedAction,
       onInitiated: () {
         // inject keyPairs after webView launched
+        // we need to do this - but don't need this class for it.
         _service.keyring.injectKeyPairsToWebView(keyring);
 
         // and initiate pubKeyIconsMap
         api.keyring.updatePubKeyIconsMap(keyring);
 
-        _updateBlackList();
+        // _updateBlackList();
 
         if (!c.isCompleted) {
           c.complete();
@@ -56,25 +63,5 @@ class WalletSDK {
 
     api = PolkawalletApi(_service);
     return c.future;
-  }
-
-  Future<void> _updateBlackList() async {
-    try {
-      Response res =
-          await get(Uri.parse('https://polkadot.js.org/phishing/address.json'));
-      if (res.body.isNotEmpty) {
-        final data = jsonDecode(res.body) as Map;
-        final List<String> list = [];
-        data.values.forEach((e) {
-          list.addAll(List<String>.from(e));
-        });
-        final pubKeys = await api.account.decodeAddress(list);
-        if (pubKeys != null) {
-          _blackList = List<String>.from(pubKeys.keys.toList());
-        }
-      }
-    } catch (err) {
-      print(err);
-    }
   }
 }

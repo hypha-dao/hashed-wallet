@@ -12,9 +12,11 @@ class PolkawalletInit2 {
   Keyring? _keyring;
   WalletSDK walletSdk = WalletSDK();
   final nodeList = kusamaNetworkParams;
+  bool _connected = false;
   InAppWebViewController? get controller => walletSdk.webView?.webViewController;
 
-  // from App _startApp
+  bool get isConnected => _connected;
+
   Future<int?> startApp() async {
     _keyring ??= Keyring();
 
@@ -34,6 +36,9 @@ class PolkawalletInit2 {
 
     /// Connect to a node
     final res = await walletSdk.api.service.webView?.connectNode(nodeList);
+
+    _connected = res?.endpoint != null;
+
     if (res == null) {
       return null;
     }
@@ -74,7 +79,8 @@ class PolkawalletInit2 {
         // if it fails or does not return in 60 seconds, we cancel all timers
         // and start over.
         // That's a little odd.
-        // Note: I am pretty sure this code has many bugs and race conditions.
+        // Note: I am pretty sure this code has bugs and race conditions.
+        print("Connection dropped, restarting");
         unawaited(_restartWebConnect(node: node));
         _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
           _dropsService(node: node);
@@ -104,8 +110,12 @@ class PolkawalletInit2 {
   }
 
   Future<void> _restartWebConnect({NetworkParams? node}) async {
+    // TODO(n13): Dispose of the web view, and create new one
+    _connected = false;
+
     final res = await walletSdk.api.connectNode(_keyring!, nodeList);
     if (res != null) {
+      _connected = true;
       _keyring!.ss58 = res.ss58;
 
       print("COnnected: ${res.endpoint}");

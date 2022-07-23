@@ -94,6 +94,9 @@ class WebViewRunner {
           print('HeadlessInAppWebView created!');
         },
         onConsoleMessage: (controller, message) {
+          if (message.message.contains("API-WS: disconnected from")) {
+            return;
+          }
           print("CONSOLE MESSAGE: ${message.message}");
           if (jsCodeStarted < 0) {
             if (message.message.contains('js loaded')) {
@@ -156,6 +159,11 @@ class WebViewRunner {
     if (!webViewLoaded) {
       _web?.webViewController.reload();
     }
+  }
+
+  Future<void> dispose() async {
+    await _web?.dispose();
+    _web = null;
   }
 
   void _handleReloaded() {

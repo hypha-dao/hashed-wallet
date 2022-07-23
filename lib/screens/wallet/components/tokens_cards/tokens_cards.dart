@@ -80,7 +80,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
 
                             _TokenCardsState.initObj = JSInit();
 
-                            print("init js - init");
+                            print("X init js - init");
 
                             await _TokenCardsState.initObj!.init();
                           },
