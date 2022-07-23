@@ -9,7 +9,6 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_double_action.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_single_action.dart';
@@ -50,39 +49,30 @@ class GuardiansScreen extends StatelessWidget {
         },
         child: BlocBuilder<GuardiansBloc, GuardiansState>(
           builder: (context, state) {
-            return DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                bottomNavigationBar: state.pageState == PageState.loading
-                    ? const SizedBox.shrink()
-                    : SafeArea(
-                        minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
-                        child: FlatButtonLong(
-                          title: "+ Add Guardians".i18n,
-                          isLoading: state.isAddGuardianButtonLoading,
-                          enabled: !state.isAddGuardianButtonLoading,
-                          onPressed: () {
-                            BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
-                          },
-                        ),
+            return Scaffold(
+              bottomNavigationBar: state.pageState == PageState.loading
+                  ? const SizedBox.shrink()
+                  : SafeArea(
+                      minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                      child: FlatButtonLong(
+                        title: 'Activate',
+                        isLoading: state.isAddGuardianButtonLoading,
+                        enabled: !state.isAddGuardianButtonLoading,
+                        onPressed: () {
+                          BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                        },
                       ),
-                appBar: AppBar(
-                  bottom: TabBar(
-                    tabs: [
-                      Padding(padding: const EdgeInsets.all(16.0), child: Text("My Guardians".i18n)),
-                      Padding(padding: const EdgeInsets.all(16.0), child: Text("I'm Guardian For".i18n))
-                    ],
-                  ),
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                  title: Text("Key Guardians".i18n),
+                    ),
+              appBar: AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                body: state.pageState == PageState.loading
-                    ? const FullPageLoadingIndicator()
-                    : const SafeArea(child: TabBarView(children: [MyGuardiansTab(), ImGuardianForTab()])),
+                title: Text("Key Guardians".i18n),
               ),
+              body: state.pageState == PageState.loading
+                  ? const FullPageLoadingIndicator()
+                  : const SafeArea(child: MyGuardiansTab()),
             );
           },
         ),
@@ -144,8 +134,9 @@ void _showStopRecoveryConfirmationDialog(GuardianModel guardian, BuildContext co
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        content: Text("Are you sure you want to stop key recovery process".i18n,
-           // style: const TextStyle(color: Colors.black)
+        content: Text(
+          "Are you sure you want to stop key recovery process".i18n,
+          // style: const TextStyle(color: Colors.black)
         ),
         actions: [
           TextButton(

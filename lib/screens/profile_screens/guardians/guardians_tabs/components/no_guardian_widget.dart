@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
 
 class NoGuardiansWidget extends StatelessWidget {
   final String message;
@@ -8,10 +7,21 @@ class NoGuardiansWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Text(message),
-    ));
+    return Padding(
+      padding: const EdgeInsets.all(62.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.add_circle,
+                color: Theme.of(context).colorScheme.primary,
+                size: 34,
+              )),
+        ],
+      ),
+    );
   }
 }
