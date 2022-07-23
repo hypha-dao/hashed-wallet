@@ -1,5 +1,7 @@
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init_2.dart';
 
+PolkadotRepository polkadotRepository = PolkadotRepository();
+
 class PolkadotRepository {
   late PolkawalletInit2? _polkawalletInit;
 
@@ -23,10 +25,14 @@ class PolkadotRepository {
   }
 
   Future<bool> stopService() async {
-    await _polkawalletInit?.walletSdk.webView?.dispose();
+    await _polkawalletInit?.stop();
     _polkawalletInit = null;
     return true;
   }
 
-  Future<dynamic> createKey() async {}
+  Future<dynamic> createKey() async {
+    //console.log("hello JS, this is createKey");
+    final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
+    print("create res: $res");
+  }
 }
