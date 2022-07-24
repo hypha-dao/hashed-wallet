@@ -4,27 +4,29 @@ class GuardiansState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final PageCommand? pageCommand;
-  final int indexDialog;
   final bool isAddGuardianButtonLoading;
+  final bool areGuardiansActive;
   final List<GuardianModel> myGuardians;
+  final ActionButtonState actionButtonState;
 
   const GuardiansState({
     required this.pageState,
     this.errorMessage,
     this.pageCommand,
-    required this.indexDialog,
+    required this.areGuardiansActive,
     required this.isAddGuardianButtonLoading,
     required this.myGuardians,
+    required this.actionButtonState,
   });
 
   @override
   List<Object?> get props => [
         pageState,
         pageCommand,
-        indexDialog,
         errorMessage,
         isAddGuardianButtonLoading,
         myGuardians,
+        areGuardiansActive,
       ];
 
   GuardiansState copyWith({
@@ -33,23 +35,36 @@ class GuardiansState extends Equatable {
     PageCommand? pageCommand,
     int? indexDialog,
     bool? isAddGuardianButtonLoading,
+    bool? areGuardiansActive,
     List<GuardianModel>? myGuardians,
+    ActionButtonState? actionButtonState,
   }) {
     return GuardiansState(
-        pageState: pageState ?? this.pageState,
-        errorMessage: errorMessage,
-        pageCommand: pageCommand,
-        indexDialog: indexDialog ?? this.indexDialog,
-        isAddGuardianButtonLoading: isAddGuardianButtonLoading ?? this.isAddGuardianButtonLoading,
-        myGuardians: myGuardians ?? this.myGuardians);
+      pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
+      pageCommand: pageCommand,
+      areGuardiansActive: areGuardiansActive ?? this.areGuardiansActive,
+      isAddGuardianButtonLoading: isAddGuardianButtonLoading ?? this.isAddGuardianButtonLoading,
+      myGuardians: myGuardians ?? this.myGuardians,
+      actionButtonState: actionButtonState ?? this.actionButtonState,
+    );
   }
 
   factory GuardiansState.initial() {
-    return const GuardiansState(
+    return GuardiansState(
       pageState: PageState.initial,
-      indexDialog: 1,
+      areGuardiansActive: false,
       isAddGuardianButtonLoading: false,
+      actionButtonState: ActionButtonState(title: '', isEnabled: false, isLoading: false),
       myGuardians: [],
     );
   }
+}
+
+class ActionButtonState {
+  final String title;
+  final bool isEnabled;
+  final bool isLoading;
+
+  ActionButtonState({required this.title, required this.isEnabled, required this.isLoading});
 }

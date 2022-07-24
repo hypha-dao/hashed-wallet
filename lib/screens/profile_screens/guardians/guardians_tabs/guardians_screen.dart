@@ -49,11 +49,11 @@ class GuardiansScreen extends StatelessWidget {
                   : SafeArea(
                       minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
                       child: FlatButtonLong(
-                        title: 'Activate',
-                        isLoading: state.isAddGuardianButtonLoading,
-                        enabled: !state.isAddGuardianButtonLoading,
+                        title: state.actionButtonState.title,
+                        isLoading: state.actionButtonState.isLoading,
+                        enabled: state.actionButtonState.isEnabled,
                         onPressed: () {
-                          BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                          /// Activate Guardians
                         },
                       ),
                     ),

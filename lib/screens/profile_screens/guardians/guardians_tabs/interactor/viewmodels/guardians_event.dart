@@ -42,11 +42,6 @@ class Initial extends GuardiansEvent {
   String toString() => 'Initial';
 }
 
-class OnAddGuardiansTapped extends GuardiansEvent {
-  @override
-  String toString() => 'OnAddGuardiansTapped';
-}
-
 class OnGuardianReadyForActivation extends GuardiansEvent {
   final Iterable<GuardianModel> myGuardians;
 
