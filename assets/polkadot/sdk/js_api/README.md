@@ -4,6 +4,9 @@ Wrap `@polkadot-js/api` to provide APIs for polkawallet/sdk.
 
 @polkadot-js/api: ^7.9.1
 
+## Hashed Wallet - Side note
+read README_WEBPACK in the ../ folder
+
 ## build & test
 
 To build:

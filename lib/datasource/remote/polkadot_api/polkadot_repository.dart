@@ -50,6 +50,12 @@ class PolkadotRepository {
   }
 
   Future<dynamic> importKey(String mnemonic) async {
+    /// Notes
+    /// 1 - Variables declared raw are global variables
+    /// 2 - Here we use last_pair to store the last added keypair so we can return it
+    /// 3 - We have to stringify the result since we otherwise get an unsupported type exception and nothing
+    /// is returned.
+    /// 4 - without debug output could use the method with wrapPromise = true and would probably get the result
     final code = '''
       console.log(keyring.pKeyring, 'pkeyring before');
       console.log(keyring.pKeyring.pairs.length, 'pairs before');
