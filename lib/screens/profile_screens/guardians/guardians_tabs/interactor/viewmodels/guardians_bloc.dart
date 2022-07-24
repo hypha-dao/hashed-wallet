@@ -7,14 +7,13 @@ import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_rep
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_usecase.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/remove_guardian_usecase.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
 
 part 'guardians_event.dart';
 part 'guardians_state.dart';
 
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
-  final GetGuardiansUseCase _userCase = GetGuardiansUseCase();
+  final GetGuardiansDataUseCase _getGuardiansDataUseCase = GetGuardiansDataUseCase();
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   GuardiansBloc() : super(GuardiansState.initial()) {
@@ -33,11 +32,37 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   Future<void> _onRemoveGuardianTapped(OnRemoveGuardianTapped event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+
+    /// Remove from server
+    // final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+
+    /// Delete this mock
+    final guards = state.myGuardians;
+    guards.remove(event.guardian);
+    emit(state.copyWith(
+      myGuardians: guards,
+      actionButtonState: getActionButtonState(false, guards.length),
+      pageState: PageState.success,
+    ));
   }
 
   FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) {
-    final result = _userCase.getGuardians();
-    emit(state.copyWith(myGuardians: result));
+    emit(state.copyWith(pageState: PageState.loading));
+    final result = _getGuardiansDataUseCase.getGuardiansData();
+
+    emit(state.copyWith(
+      myGuardians: result.guardians,
+      areGuardiansActive: result.areGuardiansActive,
+      actionButtonState: getActionButtonState(result.areGuardiansActive, result.guardians.length),
+      pageState: PageState.success,
+    ));
   }
+}
+
+ActionButtonState getActionButtonState(bool areGuardiansActive, int guardiansCount) {
+  return ActionButtonState(
+    isLoading: false,
+    title: areGuardiansActive ? 'Reset' : 'Activate',
+    isEnabled: areGuardiansActive || (!areGuardiansActive && guardiansCount > 3),
+  );
 }

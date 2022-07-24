@@ -6,6 +6,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_database_repository.da
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
+import 'package:seeds/datasource/remote/model/firebase_models/guardians_data.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
@@ -30,7 +31,19 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   }
 
   List<GuardianModel> getGuardiansForUser(String userId) {
-    return [GuardianModel(walletAddress: "walletAddress", nickname: 'GERY')];
+    return [
+      GuardianModel(walletAddress: "walletAddress", nickname: 'GERY'),
+      GuardianModel(walletAddress: "walletAddress1", nickname: 'Nik'),
+      GuardianModel(walletAddress: "walletAddress3", nickname: 'Gaby')
+    ];
+  }
+
+  GuardiansData getGuardiansDataForUser(String userId) {
+    return GuardiansData(true, [
+      GuardianModel(walletAddress: "walletAddress", nickname: 'GERY'),
+      GuardianModel(walletAddress: "walletAddress1", nickname: 'Nik'),
+      GuardianModel(walletAddress: "walletAddress3", nickname: 'Gaby')
+    ]);
   }
 
   Stream<bool> isGuardiansInitialized(String userAccount) {
