@@ -84,4 +84,6 @@ pubspec\.lock
 ios/Podfile.lock
 dartesr/
 ios/Flutter/Flutter.podspec
-scripts/node_modules
+**/node_modules
+js/dist/main.js
+js1

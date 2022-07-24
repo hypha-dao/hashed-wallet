@@ -19,7 +19,7 @@ abstract class HttpRepository {
     switch (response.statusCode) {
       case 200:
         {
-          print('Model Class: $modelMapper');
+          //print('Model Class: $modelMapper');
           final body = response.parseJson();
           return ValueResult(modelMapper(body));
         }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/dots_indicator.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
@@ -70,12 +71,55 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       Expanded(child: WalletButtons(onPressed: () {}, title: 'Send')),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: WalletButtons(onPressed: () {}, title: 'Receive', buttonType: ButtonsType.receiveButton),
+                        child: WalletButtons(
+                          onPressed: () async {
+                            // testing substrate service - leave this for now
+                            print("startService..");
+
+                            await polkadotRepository.startService();
+                            print("start service finished...");
+                          },
+                          title: 'Receive',
+                          buttonType: ButtonsType.receiveButton,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: WalletButtons(
+                          title: 'Test 1',
+                          onPressed: () {
+                            print("test 1");
+                            polkadotRepository.createKey();
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: WalletButtons(
+                          title: 'T2',
+                          onPressed: () async {
+                            // testing substrate service - leave this for now
+                            print("disable web view");
+
+                            print("Stop service.");
+
+                            await polkadotRepository.stopService();
+
+                            print("isRunning ${polkadotRepository.isRunning}");
+                          },
+                          buttonType: ButtonsType.receiveButton,
+                        ),
                       )
                     ],
                   ),
                 )
-                // const ReceiveSendButtons(),
               ],
             );
           },

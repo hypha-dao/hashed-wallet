@@ -91,11 +91,8 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Center(
-              child: Container(
-                //color: Colors.black,
-                child: const SizedBox(height: 2, width: 40),
-              ),
+            const Center(
+              child: SizedBox(height: 2, width: 40),
             ),
             const SizedBox(height: 20),
             Padding(

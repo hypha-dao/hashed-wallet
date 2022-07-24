@@ -32,7 +32,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
               ))
             else
               Expanded(child: Image.asset('assets/images/appbar/hashed_logo.png', fit: BoxFit.fitHeight)),
-              IconButton(
+            IconButton(
               splashRadius: 26,
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg', height: 36),
               onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),

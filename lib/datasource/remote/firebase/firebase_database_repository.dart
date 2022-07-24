@@ -29,7 +29,7 @@ abstract class FirebaseDatabaseService {
   CollectionReference get usersCollection => FirebaseFirestore.instance.collection(FIREBASE_DATABASE_USERS_COLLECTION);
 
   FutureOr<Result<T>> mapFirebaseResponse<T>(Function modelMapper) {
-    print('Model Class: $modelMapper');
+    //print('Model Class: $modelMapper');
     return Result.value(modelMapper());
   }
 

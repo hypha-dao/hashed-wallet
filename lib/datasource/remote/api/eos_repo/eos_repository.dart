@@ -61,7 +61,7 @@ abstract class EosRepository {
   FutureOr<Result<T>> mapEosResponse<T>(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
-      print('Model Class: $modelMapper');
+      //print('Model Class: $modelMapper');
       final map = Map<String, dynamic>.from(response);
       return ValueResult(modelMapper(map));
     } else {
