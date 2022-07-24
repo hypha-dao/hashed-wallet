@@ -7,15 +7,6 @@ abstract class SelectGuardiansEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class OnUserSelected extends SelectGuardiansEvent {
-  final ProfileModel user;
-
-  const OnUserSelected(this.user);
-
-  @override
-  String toString() => 'OnUserSelected: { OnUserSelected: $user }';
-}
-
 class OnUserRemoved extends SelectGuardiansEvent {
   final ProfileModel user;
 

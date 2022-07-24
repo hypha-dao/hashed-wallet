@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +16,7 @@ import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
-import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
+import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen_v3.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/settings/settings_screen.dart';
@@ -95,7 +96,7 @@ class NavigationService {
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
-    Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
+    Routes.selectGuardians: (_) => const SelectGuardiansScreenV3(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
