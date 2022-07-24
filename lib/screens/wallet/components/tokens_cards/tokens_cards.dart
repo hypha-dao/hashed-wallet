@@ -119,6 +119,40 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       )
                     ],
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: WalletButtons(
+                          title: 'Test Import',
+                          onPressed: () {
+                            print("test import");
+                            polkadotRepository.testImport();
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: WalletButtons(
+                          title: 'T2',
+                          onPressed: () async {
+                            // testing substrate service - leave this for now
+                            print("disable web view");
+
+                            print("Stop service.");
+
+                            await polkadotRepository.stopService();
+
+                            print("isRunning ${polkadotRepository.isRunning}");
+                          },
+                          buttonType: ButtonsType.receiveButton,
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             );
