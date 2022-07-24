@@ -77,6 +77,7 @@ class PolkadotRepository {
       return res;
     } catch (err) {
       print("error $err");
+      rethrow;
     }
   }
 }
