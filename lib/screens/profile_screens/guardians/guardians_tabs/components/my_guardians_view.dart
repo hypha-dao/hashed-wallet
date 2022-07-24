@@ -18,7 +18,21 @@ class MyGuardiansView extends StatelessWidget {
             },
           );
         } else {
-          return ListView();
+          return ListView(
+            children: state.myGuardians
+                .map((e) => ListTile(
+                      title: Text(
+                        e.nickname ?? e.walletAddress,
+                        style: const TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
+                      trailing: TextButton(
+                          child: const Text('Remove'),
+                          onPressed: () {
+                            BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
+                          }),
+                    ))
+                .toList(),
+          );
         }
       },
     );

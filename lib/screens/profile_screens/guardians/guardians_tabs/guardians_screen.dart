@@ -10,7 +10,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_view.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_double_action.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/remove_guardian_confirmation_dialog.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
@@ -39,7 +38,7 @@ class GuardiansScreen extends StatelessWidget {
           } else if (pageCommand is ShowMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is ShowActivateGuardian) {
-            _showActivateGuardianDialog(pageCommand, context);
+            /// Show dialog
           }
         },
         child: BlocBuilder<GuardiansBloc, GuardiansState>(
@@ -160,28 +159,6 @@ void _showRemoveGuardianDialog(BuildContext buildContext, GuardianModel guardian
           Navigator.pop(context);
         },
         onDismiss: () => Navigator.pop(context),
-      );
-    },
-  );
-}
-
-void _showActivateGuardianDialog(ShowActivateGuardian pageCommand, BuildContext buildContext) {
-  showDialog(
-    context: buildContext,
-    builder: (context) {
-      return OnboardingDialogDoubleAction(
-        rightButtonTitle: pageCommand.rightButtonTitle,
-        leftButtonTitle: pageCommand.leftButtonTitle,
-        indexDialong: pageCommand.index,
-        image: pageCommand.image,
-        description: pageCommand.description,
-        onRightButtonTab: () {
-          BlocProvider.of<GuardiansBloc>(buildContext).add(InitGuardians(pageCommand.myGuardians));
-          Navigator.pop(context);
-        },
-        onLeftButtonTab: () {
-          Navigator.pop(context);
-        },
       );
     },
   );
