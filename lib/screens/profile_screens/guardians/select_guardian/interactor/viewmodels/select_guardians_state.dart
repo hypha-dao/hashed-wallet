@@ -33,7 +33,7 @@ class SelectGuardiansState extends Equatable {
   }
 
   factory SelectGuardiansState.initial(List<GuardianModel> myGuardians) {
-    final List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.uid).toList();
+    final List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.walletAddress).toList();
     noShowGuardians.add(settingsStorage.accountName);
 
     return SelectGuardiansState(

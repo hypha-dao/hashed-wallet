@@ -32,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) =>
-        SettingsBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
+            SettingsBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
         child: MultiBlocListener(
           listeners: [
             BlocListener<SettingsBloc, SettingsState>(
@@ -52,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             BlocListener<SettingsBloc, SettingsState>(
               listenWhen: (previous, current) =>
-              previous.isSecureBiometric == false && current.isSecureBiometric == true,
+                  previous.isSecureBiometric == false && current.isSecureBiometric == true,
               listener: (context, _) {
                 showDialog<void>(
                   context: context,
@@ -84,14 +84,11 @@ class SettingsScreen extends StatelessWidget {
                           onTap: () => Share.share(settingsStorage.privateKey!),
                         ),
                         BlocBuilder<SettingsBloc, SettingsState>(
-                          buildWhen: (previous, current) =>
-                          previous.hasNotification != current.hasNotification ||
-                              previous.guardiansStatus != current.guardiansStatus,
+                          buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,
                           builder: (context, state) {
                             return GuardianSecurityCard(
                               onTap: () => BlocProvider.of<SettingsBloc>(context)..add(const OnGuardiansCardTapped()),
                               hasNotification: state.hasNotification,
-                              guardiansStatus: state.guardiansStatus,
                             );
                           },
                         ),
@@ -115,9 +112,9 @@ class SettingsScreen extends StatelessWidget {
                               return Switch(
                                 value: state.isSecurePasscode!,
                                 onChanged: (_) =>
-                                BlocProvider.of<SettingsBloc>(context)..add(const OnPasscodePressed()),
-                               // activeTrackColor: AppColors.canopy,
-                               // activeColor: AppColors.white,
+                                    BlocProvider.of<SettingsBloc>(context)..add(const OnPasscodePressed()),
+                                // activeTrackColor: AppColors.canopy,
+                                // activeColor: AppColors.white,
                               );
                             },
                           ),
@@ -132,11 +129,11 @@ class SettingsScreen extends StatelessWidget {
                                 value: state.isSecureBiometric!,
                                 onChanged: state.isSecurePasscode!
                                     ? (_) {
-                                  BlocProvider.of<SettingsBloc>(context).add(const OnBiometricPressed());
-                                }
+                                        BlocProvider.of<SettingsBloc>(context).add(const OnBiometricPressed());
+                                      }
                                     : null,
-                               // activeTrackColor: AppColors.canopy,
-                               // activeColor: AppColors.white,
+                                // activeTrackColor: AppColors.canopy,
+                                // activeColor: AppColors.white,
                               );
                             },
                           ),

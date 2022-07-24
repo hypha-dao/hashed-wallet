@@ -9,9 +9,8 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_view.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_double_action.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_single_action.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/remove_guardian_confirmation_dialog.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
@@ -22,7 +21,7 @@ class GuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => GuardiansBloc(),
+      create: (_) => GuardiansBloc()..add(Initial()),
       child: BlocListener<GuardiansBloc, GuardiansState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -39,10 +38,6 @@ class GuardiansScreen extends StatelessWidget {
             eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is ShowMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
-          } else if (pageCommand is ShowOnboardingGuardianSingleAction) {
-            _showOnboardingGuardianDialogSingleAction(pageCommand, context);
-          } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
-            _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
           } else if (pageCommand is ShowActivateGuardian) {
             _showActivateGuardianDialog(pageCommand, context);
           }
@@ -68,11 +63,11 @@ class GuardiansScreen extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: Text("Key Guardians".i18n),
+                title: const Text("My Guardians"),
               ),
               body: state.pageState == PageState.loading
                   ? const FullPageLoadingIndicator()
-                  : const SafeArea(child: MyGuardiansTab()),
+                  : const SafeArea(child: MyGuardiansView()),
             );
           },
         ),
@@ -165,47 +160,6 @@ void _showRemoveGuardianDialog(BuildContext buildContext, GuardianModel guardian
           Navigator.pop(context);
         },
         onDismiss: () => Navigator.pop(context),
-      );
-    },
-  );
-}
-
-void _showOnboardingGuardianDialogSingleAction(
-    ShowOnboardingGuardianSingleAction pageCommand, BuildContext buildContext) {
-  showDialog(
-      context: buildContext,
-      builder: (BuildContext context) {
-        return OnboardingDialogSingleAction(
-            buttonTitle: pageCommand.buttonTitle,
-            indexDialong: pageCommand.index,
-            image: pageCommand.image,
-            description: pageCommand.description,
-            onNext: () {
-              BlocProvider.of<GuardiansBloc>(buildContext).add(const OnNextGuardianOnboardingTapped());
-              Navigator.pop(context);
-            });
-      });
-}
-
-void _showOnboardingGuardianDialogDoubleAction(
-    ShowOnboardingGuardianDoubleAction pageCommand, BuildContext buildContext) {
-  showDialog(
-    context: buildContext,
-    builder: (context) {
-      return OnboardingDialogDoubleAction(
-        rightButtonTitle: pageCommand.rightButtonTitle,
-        leftButtonTitle: pageCommand.leftButtonTitle,
-        indexDialong: pageCommand.index,
-        image: pageCommand.image,
-        description: pageCommand.description,
-        onRightButtonTab: () {
-          BlocProvider.of<GuardiansBloc>(buildContext).add(const OnNextGuardianOnboardingTapped());
-          Navigator.pop(context);
-        },
-        onLeftButtonTab: () {
-          BlocProvider.of<GuardiansBloc>(buildContext).add(const OnPreviousGuardianOnboardingTapped());
-          Navigator.pop(context);
-        },
       );
     },
   );

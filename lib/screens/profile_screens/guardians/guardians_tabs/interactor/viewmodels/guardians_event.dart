@@ -16,47 +16,6 @@ class InitGuardians extends GuardiansEvent {
   String toString() => 'InitGuardians: { myGuardians: $myGuardians }';
 }
 
-class OnAddGuardiansTapped extends GuardiansEvent {
-  @override
-  String toString() => 'OnAddGuardiansTapped';
-}
-
-class OnAcceptGuardianTapped extends GuardiansEvent {
-  final String guardianAccount;
-
-  const OnAcceptGuardianTapped(this.guardianAccount);
-
-  @override
-  String toString() => 'OnAcceptGuardianTapped : { guardianAccount: $guardianAccount }';
-}
-
-class OnDeclineGuardianTapped extends GuardiansEvent {
-  final String guardianAccount;
-
-  const OnDeclineGuardianTapped(this.guardianAccount);
-
-  @override
-  String toString() => 'OnDeclineGuardianTapped : { guardianAccount: $guardianAccount }';
-}
-
-class OnCancelGuardianRequestTapped extends GuardiansEvent {
-  final String guardianAccount;
-
-  const OnCancelGuardianRequestTapped(this.guardianAccount);
-
-  @override
-  String toString() => 'OnCancelGuardianRequestTapped : { guardianAccount: $guardianAccount }';
-}
-
-class OnGuardianRowTapped extends GuardiansEvent {
-  final GuardianModel guardian;
-
-  const OnGuardianRowTapped(this.guardian);
-
-  @override
-  String toString() => 'OnGuardianRowTapped : { guardian: $guardian }';
-}
-
 class ClearPageCommand extends GuardiansEvent {
   const ClearPageCommand();
 
@@ -78,25 +37,14 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
   String toString() => 'OnRemoveGuardianTapped : { guardian: $guardian }';
 }
 
-class InitOnboardingGuardian extends GuardiansEvent {
-  const InitOnboardingGuardian();
-
+class Initial extends GuardiansEvent {
   @override
-  String toString() => 'InitOnboardingGuardian';
+  String toString() => 'Initial';
 }
 
-class OnNextGuardianOnboardingTapped extends GuardiansEvent {
-  const OnNextGuardianOnboardingTapped();
-
+class OnAddGuardiansTapped extends GuardiansEvent {
   @override
-  String toString() => 'OnNextGuardianOnboardingTapped';
-}
-
-class OnPreviousGuardianOnboardingTapped extends GuardiansEvent {
-  const OnPreviousGuardianOnboardingTapped();
-
-  @override
-  String toString() => 'OnPreviousGuardianOnboardingTapped';
+  String toString() => 'OnAddGuardiansTapped';
 }
 
 class OnGuardianReadyForActivation extends GuardiansEvent {

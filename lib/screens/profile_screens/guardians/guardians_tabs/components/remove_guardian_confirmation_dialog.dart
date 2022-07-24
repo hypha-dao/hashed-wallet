@@ -22,8 +22,7 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
       iconPadding: 0,
       icon: ProfileAvatar(
         size: 80,
-        image: guardian.image,
-        account: guardian.uid,
+        account: guardian.walletAddress,
         nickname: guardian.nickname,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
