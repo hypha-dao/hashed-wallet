@@ -1,44 +1,52 @@
 part of 'select_guardians_bloc.dart';
 
-const maxGuardiansAllowed = 5;
-
 class SelectGuardiansState extends Equatable {
   final PageState pageState;
-  final List<GuardianModel> myGuardians;
+  final String? guardianKey;
+  final String? guardianName;
   final PageCommand? pageCommand;
+  final bool isActionButtonLoading;
 
   const SelectGuardiansState({
     required this.pageState,
-    required this.myGuardians,
+    this.guardianKey,
+    this.guardianName,
     this.pageCommand,
+    required this.isActionButtonLoading,
   });
+
+  bool get isActionButtonEnabled => !isActionButtonLoading && !guardianKey.isNullOrEmpty;
 
   @override
   List<Object?> get props => [
         pageState,
         pageCommand,
-        myGuardians,
+        guardianName,
+        guardianKey,
+        isActionButtonLoading,
       ];
 
   SelectGuardiansState copyWith({
     PageState? pageState,
     String? pageTitle,
+    String? guardianKey,
+    String? guardianName,
     PageCommand? pageCommand,
+    bool? isActionButtonLoading,
   }) {
     return SelectGuardiansState(
       pageState: pageState ?? this.pageState,
-      myGuardians: myGuardians,
+      guardianKey: guardianKey ?? this.guardianKey,
+      guardianName: guardianName ?? this.guardianName,
       pageCommand: pageCommand,
+      isActionButtonLoading: isActionButtonLoading ?? this.isActionButtonLoading,
     );
   }
 
-  factory SelectGuardiansState.initial(List<GuardianModel> myGuardians) {
-    final List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.walletAddress).toList();
-    noShowGuardians.add(settingsStorage.accountName);
-
-    return SelectGuardiansState(
+  factory SelectGuardiansState.initial() {
+    return const SelectGuardiansState(
       pageState: PageState.initial,
-      myGuardians: myGuardians,
+      isActionButtonLoading: false,
     );
   }
 }

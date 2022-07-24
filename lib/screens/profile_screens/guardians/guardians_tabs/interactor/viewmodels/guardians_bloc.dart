@@ -21,6 +21,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     on<Initial>(_initial);
     on<OnStopRecoveryForUser>(_onStopRecoveryForUser);
     on<OnRemoveGuardianTapped>(_onRemoveGuardianTapped);
+    on<OnGuardianAdded>(_onGuardianAdded);
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -56,6 +57,12 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       actionButtonState: getActionButtonState(result.areGuardiansActive, result.guardians.length),
       pageState: PageState.success,
     ));
+  }
+
+  FutureOr<void> _onGuardianAdded(OnGuardianAdded event, Emitter<GuardiansState> emit) {
+    final guards = state.myGuardians;
+    guards.add(event.guardian);
+    emit(state.copyWith(myGuardians: guards, actionButtonState: getActionButtonState(false, guards.length)));
   }
 }
 

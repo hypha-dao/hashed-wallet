@@ -1,16 +1,26 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/utils/string_extension.dart';
 
 part 'select_guardians_event.dart';
 part 'select_guardians_state.dart';
 
 class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansState> {
-  SelectGuardiansBloc(List<GuardianModel> myGuardians) : super(SelectGuardiansState.initial(myGuardians)) {
+  SelectGuardiansBloc() : super(SelectGuardiansState.initial()) {
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
+    on<OnKeyChanged>(_onKeyChanged);
+    on<OnNameChanged>(_onNameChanged);
+  }
+
+  FutureOr<void> _onKeyChanged(OnKeyChanged event, Emitter<SelectGuardiansState> emit) {
+    emit(state.copyWith(guardianKey: event.value));
+  }
+
+  FutureOr<void> _onNameChanged(OnNameChanged event, Emitter<SelectGuardiansState> emit) {
+    emit(state.copyWith(guardianName: event.value));
   }
 }

@@ -37,6 +37,15 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
   String toString() => 'OnRemoveGuardianTapped : { guardian: $guardian }';
 }
 
+class OnGuardianAdded extends GuardiansEvent {
+  final GuardianModel guardian;
+
+  const OnGuardianAdded(this.guardian);
+
+  @override
+  String toString() => 'OnGuardianAdded : { OnGuardianAdded: $guardian }';
+}
+
 class Initial extends GuardiansEvent {
   @override
   String toString() => 'Initial';

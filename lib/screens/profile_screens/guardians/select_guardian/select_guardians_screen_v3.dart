@@ -14,10 +14,8 @@ class SelectGuardiansScreenV3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
-
     return BlocProvider(
-      create: (_) => SelectGuardiansBloc(myGuardians ?? []),
+      create: (_) => SelectGuardiansBloc(),
       child: BlocListener<SelectGuardiansBloc, SelectGuardiansState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -36,20 +34,37 @@ class SelectGuardiansScreenV3 extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
-                      child: TextFormFieldCustom(labelText: 'Wallet Address'),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
+                      child: TextFormFieldCustom(
+                          labelText: 'Wallet Address',
+                          initialValue: state.guardianKey,
+                          onChanged: (value) {
+                            BlocProvider.of<SelectGuardiansBloc>(context).add(OnKeyChanged(value));
+                          }),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
-                      child: TextFormFieldCustom(labelText: 'Add Nickname (Optional)'),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
+                      child: TextFormFieldCustom(
+                          labelText: 'Add Nickname (Optional)',
+                          initialValue: state.guardianName,
+                          onChanged: (value) {
+                            BlocProvider.of<SelectGuardiansBloc>(context).add(OnNameChanged(value));
+                          }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                       child: FlatButtonLong(
                         title: 'Done',
+                        isLoading: state.isActionButtonLoading,
+                        enabled: state.isActionButtonEnabled,
                         onPressed: () {
                           /// Make call to add guardian
+                          Navigator.of(context).pop(
+                            GuardianModel(walletAddress: state.guardianKey!, nickname: state.guardianName),
+                          );
                         },
                       ),
                     ),
