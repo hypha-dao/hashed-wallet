@@ -29,9 +29,11 @@ class MyGuardiansView extends StatelessWidget {
                   style: const TextStyle(overflow: TextOverflow.ellipsis),
                 ),
                 trailing: TextButton(
-                    child: const Text('Remove'),
+                    child: Text(state.areGuardiansActive ? 'active' : 'Remove'),
                     onPressed: () {
-                      BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
+                      if (!state.areGuardiansActive) {
+                        BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
+                      }
                     }),
               )));
 

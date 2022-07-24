@@ -7,15 +7,6 @@ abstract class GuardiansEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitGuardians extends GuardiansEvent {
-  final Iterable<GuardianModel> myGuardians;
-
-  const InitGuardians(this.myGuardians);
-
-  @override
-  String toString() => 'InitGuardians: { myGuardians: $myGuardians }';
-}
-
 class ClearPageCommand extends GuardiansEvent {
   const ClearPageCommand();
 
@@ -51,11 +42,22 @@ class Initial extends GuardiansEvent {
   String toString() => 'Initial';
 }
 
-class OnGuardianReadyForActivation extends GuardiansEvent {
-  final Iterable<GuardianModel> myGuardians;
-
-  const OnGuardianReadyForActivation(this.myGuardians);
-
+class ActivateGuardians extends GuardiansEvent {
   @override
-  String toString() => 'OnGuardianReadyForActivation: { myGuardians: $myGuardians }';
+  String toString() => 'ActivateGuardians';
+}
+
+class OnResetConfirmed extends GuardiansEvent {
+  @override
+  String toString() => 'OnResetConfirmed';
+}
+
+class OnActivateConfirmed extends GuardiansEvent {
+  @override
+  String toString() => 'OnActivateConfirmed';
+}
+
+class OnMyGuardianActionButtonTapped extends GuardiansEvent {
+  @override
+  String toString() => 'OnMyGuardianActionButtonTapped';
 }

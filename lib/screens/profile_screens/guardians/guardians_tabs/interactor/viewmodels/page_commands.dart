@@ -13,20 +13,10 @@ class ShowRecoveryStarted extends PageCommand {
   ShowRecoveryStarted(this.guardian);
 }
 
-class ShowActivateGuardian extends PageCommand {
-  final int index;
-  final String image;
-  final String description;
-  final String leftButtonTitle;
-  final String rightButtonTitle;
-  final Iterable<GuardianModel> myGuardians;
+class ShowResetGuardians extends PageCommand {
+  ShowResetGuardians();
+}
 
-  ShowActivateGuardian({
-    required this.index,
-    required this.description,
-    required this.image,
-    required this.leftButtonTitle,
-    required this.rightButtonTitle,
-    required this.myGuardians,
-  });
+class ShowActivateGuardians extends PageCommand {
+  ShowActivateGuardians();
 }

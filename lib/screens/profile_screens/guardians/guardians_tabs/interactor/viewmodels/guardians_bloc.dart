@@ -8,6 +8,7 @@ import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dar
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
 part 'guardians_event.dart';
 part 'guardians_state.dart';
@@ -17,15 +18,18 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   GuardiansBloc() : super(GuardiansState.initial()) {
-    on<InitGuardians>(_initGuardians);
+    on<ActivateGuardians>(_activateGuardians);
     on<Initial>(_initial);
+    on<OnMyGuardianActionButtonTapped>(_onMyGuardianActionButtonTapped);
     on<OnStopRecoveryForUser>(_onStopRecoveryForUser);
     on<OnRemoveGuardianTapped>(_onRemoveGuardianTapped);
     on<OnGuardianAdded>(_onGuardianAdded);
+    on<OnResetConfirmed>(_onResetConfirmed);
+    on<OnActivateConfirmed>(_onActivateConfirmed);
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  Future<void> _initGuardians(InitGuardians event, Emitter<GuardiansState> emit) async {}
+  Future<void> _activateGuardians(ActivateGuardians event, Emitter<GuardiansState> emit) async {}
 
   Future<void> _onStopRecoveryForUser(OnStopRecoveryForUser event, Emitter<GuardiansState> emit) async {
     await _repository.stopRecoveryForUser(settingsStorage.accountName);
@@ -64,12 +68,38 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     guards.add(event.guardian);
     emit(state.copyWith(myGuardians: guards, actionButtonState: getActionButtonState(false, guards.length)));
   }
+
+  FutureOr<void> _onMyGuardianActionButtonTapped(OnMyGuardianActionButtonTapped event, Emitter<GuardiansState> emit) {
+    if (state.areGuardiansActive) {
+      /// reset
+      emit(state.copyWith(pageCommand: ShowResetGuardians()));
+    } else {
+      /// activate
+      emit(state.copyWith(pageCommand: ShowActivateGuardians()));
+    }
+  }
+
+  FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) {
+    emit(GuardiansState.initial());
+  }
+
+  FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) {
+    emit(state.copyWith(areGuardiansActive: true));
+  }
 }
 
 ActionButtonState getActionButtonState(bool areGuardiansActive, int guardiansCount) {
+  if (areGuardiansActive) {
+    return ActionButtonState(
+      isLoading: false,
+      title: 'Reset',
+      isEnabled: true,
+    );
+  }
+
   return ActionButtonState(
     isLoading: false,
-    title: areGuardiansActive ? 'Reset' : 'Activate',
-    isEnabled: areGuardiansActive || (!areGuardiansActive && guardiansCount > 3),
+    title: 'Activate',
+    isEnabled: guardiansCount >= 3,
   );
 }

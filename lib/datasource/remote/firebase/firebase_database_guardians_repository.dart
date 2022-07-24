@@ -40,7 +40,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
 
   GuardiansData getGuardiansDataForUser(String userId) {
     return GuardiansData(true, [
-      GuardianModel(walletAddress: "walletAddress", nickname: 'GERY'),
+      GuardianModel(walletAddress: "walletAddress"),
       GuardianModel(walletAddress: "walletAddress1", nickname: 'Nik'),
       GuardianModel(walletAddress: "walletAddress3", nickname: 'Gaby')
     ]);
