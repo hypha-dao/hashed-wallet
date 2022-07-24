@@ -14,8 +14,6 @@ import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
-import 'package:seeds/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
-import 'package:seeds/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen_v3.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
@@ -64,8 +62,6 @@ class Routes {
   static const receiveQR = 'receiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
-  static const inviteGuardians = 'inviteGuardians';
-  static const inviteGuardiansSent = 'inviteGuardiansSent';
   static const guardianTabs = 'guardianTabs';
   static const manageInvites = 'manageInvites';
   static const support = 'support';
@@ -97,8 +93,6 @@ class NavigationService {
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreenV3(),
-    Routes.inviteGuardians: (args) => const InviteGuardians(),
-    Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
     Routes.security: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
