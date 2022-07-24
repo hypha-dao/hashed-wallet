@@ -483,6 +483,8 @@ async function verifySignature(message: string, signature: string, address: stri
   return signatureVerify(wrapBytes(message), signature, address);
 }
 
+const pKeyring = keyring;
+
 export default {
   initKeys,
   gen,
@@ -502,4 +504,5 @@ export default {
   signTxAsExtension,
   signBytesAsExtension,
   verifySignature,
+  pKeyring,
 };
