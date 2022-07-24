@@ -1,3 +1,5 @@
+// ignore_for_file: type_annotate_public_apis
+
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/uosQrParseResultData.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_constructors_over_static_methods, unnecessary_this, prefer_final_locals
+
 class ReferendumInfo extends _ReferendumInfo {
   static ReferendumInfo fromJson(Map<String, dynamic> json) {
     ReferendumInfo info = ReferendumInfo();
