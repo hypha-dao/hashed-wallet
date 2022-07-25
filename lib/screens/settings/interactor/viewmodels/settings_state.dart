@@ -1,6 +1,7 @@
 part of 'settings_bloc.dart';
 
 enum CurrentChoice { initial, passcodeCard, biometricCard }
+
 enum GuardiansStatus { active, inactive, readyToActivate }
 
 class SettingsState extends Equatable {
@@ -12,7 +13,6 @@ class SettingsState extends Equatable {
   final CurrentChoice currentChoice;
   final bool? isSecurePasscode;
   final bool? isSecureBiometric;
-  final GuardiansStatus? guardiansStatus;
   final bool shouldShowExportRecoveryPhrase;
 
   const SettingsState({
@@ -24,7 +24,6 @@ class SettingsState extends Equatable {
     required this.currentChoice,
     this.isSecurePasscode,
     this.isSecureBiometric,
-    this.guardiansStatus,
     required this.shouldShowExportRecoveryPhrase,
   });
 
@@ -38,7 +37,6 @@ class SettingsState extends Equatable {
         currentChoice,
         isSecurePasscode,
         isSecureBiometric,
-        guardiansStatus,
         shouldShowExportRecoveryPhrase,
       ];
 
@@ -63,7 +61,6 @@ class SettingsState extends Equatable {
       currentChoice: currentChoice ?? this.currentChoice,
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
-      guardiansStatus: guardiansStatus ?? this.guardiansStatus,
       shouldShowExportRecoveryPhrase: shouldShowExportRecoveryPhrase ?? this.shouldShowExportRecoveryPhrase,
     );
   }

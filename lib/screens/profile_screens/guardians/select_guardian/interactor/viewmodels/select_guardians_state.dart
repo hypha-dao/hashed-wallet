@@ -1,68 +1,52 @@
 part of 'select_guardians_bloc.dart';
 
-const maxGuardiansAllowed = 5;
-
 class SelectGuardiansState extends Equatable {
   final PageState pageState;
-  final Set<ProfileModel> selectedGuardians;
-  final String pageTitle;
-  final List<GuardianModel> myGuardians;
+  final String? guardianKey;
+  final String? guardianName;
   final PageCommand? pageCommand;
-  final List<String>? noShowGuardians;
+  final bool isActionButtonLoading;
 
   const SelectGuardiansState({
     required this.pageState,
-    required this.selectedGuardians,
-    required this.pageTitle,
-    required this.myGuardians,
+    this.guardianKey,
+    this.guardianName,
     this.pageCommand,
-    this.noShowGuardians,
+    required this.isActionButtonLoading,
   });
+
+  bool get isActionButtonEnabled => !isActionButtonLoading && !guardianKey.isNullOrEmpty;
 
   @override
   List<Object?> get props => [
         pageState,
-        selectedGuardians,
-        pageTitle,
         pageCommand,
-        myGuardians,
-        noShowGuardians,
+        guardianName,
+        guardianKey,
+        isActionButtonLoading,
       ];
 
   SelectGuardiansState copyWith({
     PageState? pageState,
-    Set<ProfileModel>? selectedGuardians,
     String? pageTitle,
+    String? guardianKey,
+    String? guardianName,
     PageCommand? pageCommand,
-    List<String>? noShowGuardians,
+    bool? isActionButtonLoading,
   }) {
     return SelectGuardiansState(
       pageState: pageState ?? this.pageState,
-      selectedGuardians: selectedGuardians ?? this.selectedGuardians,
-      pageTitle: pageTitle ?? this.pageTitle,
-      myGuardians: myGuardians,
+      guardianKey: guardianKey ?? this.guardianKey,
+      guardianName: guardianName ?? this.guardianName,
       pageCommand: pageCommand,
-      noShowGuardians: noShowGuardians ?? this.noShowGuardians,
+      isActionButtonLoading: isActionButtonLoading ?? this.isActionButtonLoading,
     );
   }
 
-  factory SelectGuardiansState.initial(List<GuardianModel> myGuardians) {
-    var guardian = '';
-    if (maxGuardiansAllowed - myGuardians.length == 1) {
-      guardian = 'Guardian';
-    } else {
-      guardian = 'Guardians';
-    }
-
-    final List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.uid).toList();
-    noShowGuardians.add(settingsStorage.accountName);
-
-    return SelectGuardiansState(
+  factory SelectGuardiansState.initial() {
+    return const SelectGuardiansState(
       pageState: PageState.initial,
-      selectedGuardians: {},
-      pageTitle: "Select up to ${maxGuardiansAllowed - myGuardians.length} $guardian to invite",
-      myGuardians: myGuardians,
-      noShowGuardians: noShowGuardians,
+      isActionButtonLoading: false,
     );
   }
 }

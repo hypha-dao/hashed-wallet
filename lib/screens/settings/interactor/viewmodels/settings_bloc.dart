@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
@@ -8,8 +9,6 @@ import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dar
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
-import 'package:seeds/screens/settings/interactor/mappers/guardians_state_mapper.dart';
-import 'package:seeds/screens/settings/interactor/usecases/guardians_usecase.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
@@ -17,7 +16,6 @@ part 'settings_state.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final AuthenticationBloc _authenticationBloc;
   late StreamSubscription<bool> _hasGuardianNotificationPending;
-  late StreamSubscription<List<GuardianModel>> _guardians;
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   SettingsBloc(this._authenticationBloc)
@@ -26,11 +24,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
 
-    _guardians = GuardiansUseCase().guardians.listen((value) => add(OnLoadingGuardians(guardians: value)));
-
     on<SetUpInitialValues>(_setUpInitialValues);
     on<ShouldShowNotificationBadge>((event, emit) => emit(state.copyWith(hasNotification: event.value)));
-    on<OnLoadingGuardians>(_onLoadingGuardians);
     on<OnGuardiansCardTapped>(_onGuardiansCardTapped);
     on<OnPasscodePressed>(_onPasscodePressed);
     on<OnBiometricPressed>(_onBiometricPressed);
@@ -41,7 +36,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   @override
   Future<void> close() {
     _hasGuardianNotificationPending.cancel();
-    _guardians.cancel();
     return super.close();
   }
 
@@ -55,11 +49,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       isSecurePasscode: settingsStorage.passcodeActive,
       isSecureBiometric: settingsStorage.biometricActive,
     ));
-  }
-
-  Future<void> _onLoadingGuardians(OnLoadingGuardians event, Emitter<SettingsState> emit) async {
-    final bool isGuardianInitialized = await isGuardianContractInitialized.first;
-    emit(GuardianStateMapper().mapResultToState(isGuardianInitialized, event.guardians, state));
   }
 
   Future<void> _onGuardiansCardTapped(OnGuardiansCardTapped event, Emitter<SettingsState> emit) async {

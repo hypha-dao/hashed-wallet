@@ -7,22 +7,22 @@ abstract class SelectGuardiansEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class OnUserSelected extends SelectGuardiansEvent {
-  final ProfileModel user;
+class OnKeyChanged extends SelectGuardiansEvent {
+  final String value;
 
-  const OnUserSelected(this.user);
+  const OnKeyChanged(this.value);
 
   @override
-  String toString() => 'OnUserSelected: { OnUserSelected: $user }';
+  String toString() => 'OnKeyChanged: { OnKeyChanged: $value }';
 }
 
-class OnUserRemoved extends SelectGuardiansEvent {
-  final ProfileModel user;
+class OnNameChanged extends SelectGuardiansEvent {
+  final String value;
 
-  const OnUserRemoved(this.user);
+  const OnNameChanged(this.value);
 
   @override
-  String toString() => 'OnUserRemoved: { OnUserRemoved: $user }';
+  String toString() => 'OnNameChanged: { OnNameChanged: $value }';
 }
 
 class ClearPageCommand extends SelectGuardiansEvent {
