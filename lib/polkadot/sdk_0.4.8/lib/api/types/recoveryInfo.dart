@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_locals, prefer_constructors_over_static_methods, unnecessary_null_comparison
+
 class RecoveryInfo extends _RecoveryInfo {
   static RecoveryInfo fromJson(Map<String, dynamic> json) {
     RecoveryInfo info = RecoveryInfo();

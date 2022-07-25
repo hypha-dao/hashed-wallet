@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, prefer_final_locals, unnecessary_null_comparison
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -60,7 +62,7 @@ class SubScanApi {
     int size = tx_list_page_size,
     String network = 'kusama',
   }) async {
-    Completer completer = new Completer<Map>();
+    Completer completer = Completer<Map>();
 
     ReceivePort receivePort = ReceivePort();
     Isolate isolateIns = await Isolate.spawn(
@@ -88,7 +90,7 @@ class SubScanApi {
     String? sender,
     String network = 'kusama',
   }) async {
-    Completer completer = new Completer<Map>();
+    Completer completer = Completer<Map>();
 
     ReceivePort receivePort = ReceivePort();
     Isolate isolateIns = await Isolate.spawn(
@@ -116,7 +118,7 @@ class SubScanApi {
     String? sender,
     String network = 'kusama',
   }) async {
-    Completer completer = new Completer<Map>();
+    Completer completer = Completer<Map>();
 
     ReceivePort receivePort = ReceivePort();
     Isolate isolateIns = await Isolate.spawn(

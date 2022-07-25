@@ -1,3 +1,5 @@
+// ignore_for_file: always_put_control_body_on_new_line, unawaited_futures, avoid_returning_null_for_void, prefer_collection_literals
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';

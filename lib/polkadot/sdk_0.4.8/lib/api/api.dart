@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_getters_setters, unawaited_futures, non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiAccount.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_locals, prefer_is_empty, prefer_collection_literals, avoid_function_literals_in_foreach_calls
+
 import 'dart:async';
 
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_locals, prefer_conditional_assignment, unawaited_futures, type_annotate_public_apis
+
 import 'dart:async';
 import 'dart:convert';
 

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_is_empty
+
 import 'dart:async';
 
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';

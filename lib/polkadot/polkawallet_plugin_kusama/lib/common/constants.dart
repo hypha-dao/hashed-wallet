@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, unnecessary_const
+
 import 'package:flutter/material.dart';
 
 const int SECONDS_OF_DAY = 24 * 60 * 60; // seconds of one day
@@ -91,9 +93,7 @@ const MaterialColor kusama_black = const MaterialColor(
   },
 );
 
-const String genesis_hash_kusama =
-    '0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe';
-const String genesis_hash_polkadot =
-    '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3';
+const String genesis_hash_kusama = '0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe';
+const String genesis_hash_polkadot = '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3';
 const String network_name_kusama = 'kusama';
 const String network_name_polkadot = 'polkadot';

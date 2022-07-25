@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_locals, avoid_redundant_argument_values
+
 import 'dart:async';
 
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/index.dart';

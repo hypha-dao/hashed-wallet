@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, always_put_control_body_on_new_line, prefer_null_aware_method_calls, unawaited_futures, prefer_collection_literals, avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';

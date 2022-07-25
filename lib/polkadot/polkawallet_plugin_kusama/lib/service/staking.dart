@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values, unawaited_futures, prefer_final_locals, unused_local_variable, unnecessary_parenthesis
+
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/walletApi.dart';
 // import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';

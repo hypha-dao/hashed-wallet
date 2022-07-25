@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, override_on_non_overriding_member
+
 library polkawallet_plugin_kusama;
 
 import 'dart:async';

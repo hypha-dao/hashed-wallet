@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_locals
+
 import 'dart:convert';
 
 import 'package:convert/convert.dart';

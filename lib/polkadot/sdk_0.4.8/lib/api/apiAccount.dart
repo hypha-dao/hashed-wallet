@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison, prefer_is_empty
+
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/account.dart';

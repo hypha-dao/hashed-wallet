@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_initializing_formals, prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/gov.dart';

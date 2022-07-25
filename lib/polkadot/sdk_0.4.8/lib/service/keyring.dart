@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_await_in_return, prefer_collection_literals, prefer_is_empty, missing_whitespace_between_adjacent_strings, type_annotate_public_apis, prefer_final_locals, avoid_redundant_argument_values
+
 import 'dart:async';
 import 'dart:convert';
 

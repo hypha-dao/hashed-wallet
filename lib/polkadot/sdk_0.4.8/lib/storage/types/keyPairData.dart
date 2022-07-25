@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'keyPairData.g.dart';

@@ -72,6 +72,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       const SizedBox(width: 16),
                       Expanded(
                         child: WalletButtons(
+                          title: 'Start Service',
                           onPressed: () async {
                             // testing substrate service - leave this for now
                             print("startService..");
@@ -79,7 +80,6 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                             await polkadotRepository.startService();
                             print("start service finished...");
                           },
-                          title: 'Receive',
                           buttonType: ButtonsType.receiveButton,
                         ),
                       )
@@ -93,9 +93,9 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                     children: [
                       Expanded(
                         child: WalletButtons(
-                          title: 'Test 1',
+                          title: 'Create acct',
                           onPressed: () {
-                            print("test 1");
+                            print("Create account");
                             polkadotRepository.createKey();
                           },
                         ),
@@ -103,7 +103,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       const SizedBox(width: 16),
                       Expanded(
                         child: WalletButtons(
-                          title: 'T2',
+                          title: 'Stop Service',
                           onPressed: () async {
                             // testing substrate service - leave this for now
                             print("disable web view");
@@ -137,16 +137,10 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       const SizedBox(width: 16),
                       Expanded(
                         child: WalletButtons(
-                          title: 'T2',
+                          title: 'Test 3',
                           onPressed: () async {
                             // testing substrate service - leave this for now
-                            print("disable web view");
-
-                            print("Stop service.");
-
-                            await polkadotRepository.stopService();
-
-                            print("isRunning ${polkadotRepository.isRunning}");
+                            print("test 3");
                           },
                           buttonType: ButtonsType.receiveButton,
                         ),
