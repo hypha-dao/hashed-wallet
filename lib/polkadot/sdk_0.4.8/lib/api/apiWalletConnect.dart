@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_await_in_return
+
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/walletConnect/pairingData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/walletConnect/payloadData.dart';

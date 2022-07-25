@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 library polkawallet_sdk;
 
 import 'dart:async';

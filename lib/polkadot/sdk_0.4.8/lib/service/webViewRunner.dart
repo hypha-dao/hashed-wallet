@@ -1,4 +1,4 @@
-// ignore_for_file: always_put_control_body_on_new_line, prefer_const_constructors
+// ignore_for_file: always_put_control_body_on_new_line, prefer_const_constructors, prefer_final_in_for_each, missing_whitespace_between_adjacent_strings, unawaited_futures, duplicate_ignore
 
 import 'dart:async';
 import 'dart:convert';
@@ -146,7 +146,6 @@ class WebViewRunner {
       );
 
       await _web!.run();
-      // ignore: unawaited_futures
       _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse(homeUrl)));
     } else {
       _webViewReloadTimer = Timer.periodic(Duration(seconds: 3), (timer) {

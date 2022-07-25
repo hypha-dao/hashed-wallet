@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_local_variable, unnecessary_null_checks
+
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/walletApi.dart';
 import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
@@ -29,13 +31,13 @@ class ApiGov {
   }
 
   Future<void> subscribeBestNumber() async {
-    api.setting.subscribeBestNumber((bestNum) {
+    await api.setting.subscribeBestNumber((bestNum) {
       // store!.gov.setBestNumber(BigInt.parse(bestNum.toString()));
     });
   }
 
   Future<void> unsubscribeBestNumber() async {
-    api.setting.unsubscribeBestNumber();
+    await api.setting.unsubscribeBestNumber();
   }
 
   Future<void> updateBestNumber() async {
@@ -66,7 +68,7 @@ class ApiGov {
     if (data != null) {
       // store!.gov.setExternal(data);
 
-      updateIconsAndIndices([data.image!.proposer!]);
+      await updateIconsAndIndices([data.image!.proposer!]);
     }
     return data;
   }
@@ -75,12 +77,12 @@ class ApiGov {
     final data = await Future.wait(
         ids.map((e) => WalletApi.getDemocracyReferendumInfo(e, network: plugin.basic.name!)).toList());
     final res = {};
-    data.forEach((e) {
+    for (final e in data) {
       if ((e ?? {})['data'] != null) {
         final id = (e ?? {})['data']['info']['referendum_index'];
         res[id] = (e ?? {})['data']['info']['status'];
       }
-    });
+    }
     // store!.gov.setReferendumStatus(res);
   }
 
@@ -89,11 +91,11 @@ class ApiGov {
     // store!.gov.setProposals(data);
 
     final List<String?> addresses = [];
-    data.forEach((e) {
+    for (final e in data) {
       addresses.add(e.proposer);
       addresses.addAll(e.seconds!);
-    });
-    updateIconsAndIndices(addresses);
+    }
+    await updateIconsAndIndices(addresses);
 
     return data;
   }
@@ -115,7 +117,7 @@ class ApiGov {
   }
 
   Future<Map?> queryCouncilInfo() async {
-    Map? info = await api.gov.queryCouncilInfo();
+    final Map? info = await api.gov.queryCouncilInfo();
     if (info != null) {
       // store!.gov.setCouncilInfo(info);
 
@@ -123,7 +125,7 @@ class ApiGov {
       all.addAll(info['members'].map((i) => i[0]));
       all.addAll(info['runnersUp'].map((i) => i[0]));
       all.addAll(info['candidates']);
-      updateIconsAndIndices(all);
+      await updateIconsAndIndices(all);
     }
 
     return info;
@@ -136,7 +138,7 @@ class ApiGov {
       //   'members': members.map((e) => [e]).toList(),
       // }));
 
-      updateIconsAndIndices(members);
+      await updateIconsAndIndices(members);
     }
 
     return members;
@@ -159,7 +161,7 @@ class ApiGov {
     //   addresses.add(e.proposal!.proposer);
     //   addresses.add(e.proposal!.beneficiary);
     // });
-    updateIconsAndIndices(addresses);
+    await updateIconsAndIndices(addresses);
 
     return data;
   }
@@ -168,14 +170,14 @@ class ApiGov {
     final data = await api.gov.queryTreasuryTips();
     // store!.gov.setTreasuryTips(data);
 
-    List<String?> addresses = [];
+    final List<String?> addresses = [];
     // store!.gov.treasuryTips!.toList().forEach((e) {
     //   addresses.add(e.who);
     //   if (e.finder != null) {
     //     addresses.add(e.finder);
     //   }
     // });
-    updateIconsAndIndices(addresses);
+    await updateIconsAndIndices(addresses);
 
     return data;
   }

@@ -33,7 +33,7 @@ class WalletButtons extends StatelessWidget {
     }
   }
 
-  ButtonStyle? buttonStyle(context) {
+  ButtonStyle? buttonStyle(BuildContext context) {
     final buttonStyle = ElevatedButtonTheme.of(context).style;
     switch (buttonType) {
       case ButtonsType.sendButton:

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_constructors_over_static_methods, prefer_final_locals
+
 class ValidatorData extends _ValidatorData {
   static ValidatorData fromJson(Map<String, dynamic> json) {
     ValidatorData data = ValidatorData();

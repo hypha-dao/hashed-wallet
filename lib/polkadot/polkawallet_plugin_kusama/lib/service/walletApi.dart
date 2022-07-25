@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_locals, unnecessary_null_comparison, duplicate_ignore
+
 import 'dart:convert';
 
 import 'package:http/http.dart';

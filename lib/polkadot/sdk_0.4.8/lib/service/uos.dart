@@ -1,3 +1,5 @@
+// ignore_for_file: type_annotate_public_apis, prefer_final_locals, prefer_if_null_operators
+
 import 'dart:async';
 import 'dart:convert';
 

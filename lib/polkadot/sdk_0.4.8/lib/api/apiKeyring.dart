@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_question_mark, unawaited_futures, always_put_control_body_on_new_line, prefer_is_empty, avoid_function_literals_in_foreach_calls, unnecessary_null_comparison, type_annotate_public_apis, prefer_final_locals
+
 import 'dart:async';
 
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
