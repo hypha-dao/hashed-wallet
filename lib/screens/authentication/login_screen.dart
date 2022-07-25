@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     FlatButtonLong(
                       onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
-                      title: context.loc.loginClaimInviteCodeButtonTitle,
+                      title: "Create Account",
                     ),
                     const SizedBox(height: 40),
                     Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                           NavigationService.of(context).navigateTo(Routes.importKey);
                         }
                       },
-                      title: context.loc.loginImportAccountButtonTitle,
+                      title: "Import Account",
                     )
                   ],
                 ),
