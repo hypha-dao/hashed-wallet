@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/authentication/create_account/create_account_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
@@ -27,6 +28,8 @@ import 'package:seeds/screens/transfer/send/send_confirmation/transaction_action
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
+
+import '../screens/authentication/create_account/create_account_name_screen.dart';
 
 /// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
@@ -85,7 +88,7 @@ class NavigationService {
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
     Routes.recoverAccountSearch: (_) => const RecoverAccountSearchScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
-    Routes.signup: (_) => const SignupScreen(),
+    Routes.signup: (_) => const CreateAccountScreen(),
     Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),

@@ -50,9 +50,8 @@ class LoginScreen extends StatelessWidget {
                     Text(context.loc.loginFirstTimeHere, style: Theme.of(context).textTheme.subtitle2),
                     const SizedBox(height: 10),
                     FlatButtonLong(
-                      onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
-                      title: context.loc.loginClaimInviteCodeButtonTitle,
-                    ),
+                        onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
+                        title: "Create New Account"),
                     const SizedBox(height: 40),
                     Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
                     const SizedBox(height: 10),
