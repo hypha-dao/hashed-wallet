@@ -12,7 +12,7 @@ import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 class PolkawalletInit2 {
   Keyring? _keyring;
   WalletSDK walletSdk = WalletSDK();
-  final nodeList = kusamaNetworkParams;
+  final nodeList = hashedNetworkParams;
   bool _connected = false;
   InAppWebViewController? get controller => walletSdk.webView?.webViewController;
   WebViewRunner? get webView => walletSdk.webView;
@@ -139,6 +139,15 @@ class PolkawalletInit2 {
 
 late List<NetworkParams> kusamaNetworkParams = nodeListKusama.map((e) => NetworkParams.fromJson(e)).toList();
 late List<NetworkParams> polkadotNetworkParams = nodeListPolkadot.map((e) => NetworkParams.fromJson(e)).toList();
+late List<NetworkParams> hashedNetworkParams = nodeListHashed.map((e) => NetworkParams.fromJson(e)).toList();
+
+const nodeListHashed = [
+  {
+    'name': 'Hashed N1',
+    'ss58': 42,
+    'endpoint': 'wss://n1.hashed.systems',
+  }
+];
 
 const nodeListKusama = [
   {
