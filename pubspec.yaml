@@ -62,7 +62,23 @@ dependencies:
   flutter_inappwebview: ^5.4.3+7
   google_fonts: ^3.0.1
   flutter_aes_ecb_pkcs5: ^0.1.2
+  flutter_native_splash: ^2.2.6
   # mobx: ^2.0.7+4
+
+flutter_native_splash:
+  # This package generates native code to customize Flutter's default white native splash screen
+  # with background color and splash image.
+  # Customize the parameters below, and run the following command in the terminal:
+  # flutter pub run flutter_native_splash:create
+  # To restore Flutter's default white splash screen, run the following command in the terminal:
+  # flutter pub run flutter_native_splash:remove
+
+  # color or background_image is the only required parameter.  Use color to set the background
+  # of your splash screen to a solid color.  Use background_image to set the background of your
+  # splash screen to a png image.  This is useful for gradients. The image will be stretch to the
+  # size of the app. Only one parameter can be used, color and background_image cannot both be set.
+  #color: "#42a5f5"
+  background_image: "assets/images/splash/hash-splash.png"
 
 dev_dependencies:
   build_runner: ^2.0.0
