@@ -42,6 +42,13 @@ class PolkadotRepository {
     return mnemonic;
   }
 
+  // api.query.system.account(steve.address)
+  Future<dynamic> getBalance(String address) async {
+    final res = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
+    print("getBalance res: $res");
+    return res;
+  }
+
   Future<dynamic> testImport() async {
     // known mnemonic, well, now it is - don't use it for funds
     final mnemonicFromPolkaTutorial = 'sample split bamboo west visual approve brain fox arch impact relief smile';

@@ -141,6 +141,15 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                           onPressed: () async {
                             // testing substrate service - leave this for now
                             print("test 3");
+
+                            // this is one of our demo accounts with a balance on polkadot
+                            final addr = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
+
+                            final res = await polkadotRepository.getBalance(addr);
+
+                            print("get balance result: $res");
+//                             flutter: getBalance res: {nonce: 2, consumers: 0, providers: 1, sufficients: 0, data: {free: 1499366495076723, reserved: 33333333000, miscFrozen: 0, feeFrozen: 0}}
+// flutter: get balance result: {nonce: 2, consumers: 0, providers: 1, sufficients: 0, data: {free: 1499366495076723, reserved: 33333333000, miscFrozen: 0, feeFrozen: 0}}
                           },
                           buttonType: ButtonsType.receiveButton,
                         ),
