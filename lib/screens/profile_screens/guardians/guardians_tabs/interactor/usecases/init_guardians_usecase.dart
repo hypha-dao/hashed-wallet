@@ -13,7 +13,9 @@ class InitGuardiansUseCase {
       if (value.isError) {
         return value;
       } else {
-        return _guardiansRepository.initGuardians(myGuardians.map((e) => e.uid).toList()).then((Result value) {
+        return _guardiansRepository
+            .initGuardians(myGuardians.map((e) => e.walletAddress).toList())
+            .then((Result value) {
           if (value.isError) {
             return value;
           } else {

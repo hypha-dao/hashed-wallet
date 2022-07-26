@@ -7,56 +7,6 @@ abstract class GuardiansEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitGuardians extends GuardiansEvent {
-  final Iterable<GuardianModel> myGuardians;
-
-  const InitGuardians(this.myGuardians);
-
-  @override
-  String toString() => 'InitGuardians: { myGuardians: $myGuardians }';
-}
-
-class OnAddGuardiansTapped extends GuardiansEvent {
-  @override
-  String toString() => 'OnAddGuardiansTapped';
-}
-
-class OnAcceptGuardianTapped extends GuardiansEvent {
-  final String guardianAccount;
-
-  const OnAcceptGuardianTapped(this.guardianAccount);
-
-  @override
-  String toString() => 'OnAcceptGuardianTapped : { guardianAccount: $guardianAccount }';
-}
-
-class OnDeclineGuardianTapped extends GuardiansEvent {
-  final String guardianAccount;
-
-  const OnDeclineGuardianTapped(this.guardianAccount);
-
-  @override
-  String toString() => 'OnDeclineGuardianTapped : { guardianAccount: $guardianAccount }';
-}
-
-class OnCancelGuardianRequestTapped extends GuardiansEvent {
-  final String guardianAccount;
-
-  const OnCancelGuardianRequestTapped(this.guardianAccount);
-
-  @override
-  String toString() => 'OnCancelGuardianRequestTapped : { guardianAccount: $guardianAccount }';
-}
-
-class OnGuardianRowTapped extends GuardiansEvent {
-  final GuardianModel guardian;
-
-  const OnGuardianRowTapped(this.guardian);
-
-  @override
-  String toString() => 'OnGuardianRowTapped : { guardian: $guardian }';
-}
-
 class ClearPageCommand extends GuardiansEvent {
   const ClearPageCommand();
 
@@ -78,32 +28,36 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
   String toString() => 'OnRemoveGuardianTapped : { guardian: $guardian }';
 }
 
-class InitOnboardingGuardian extends GuardiansEvent {
-  const InitOnboardingGuardian();
+class OnGuardianAdded extends GuardiansEvent {
+  final GuardianModel guardian;
+
+  const OnGuardianAdded(this.guardian);
 
   @override
-  String toString() => 'InitOnboardingGuardian';
+  String toString() => 'OnGuardianAdded : { OnGuardianAdded: $guardian }';
 }
 
-class OnNextGuardianOnboardingTapped extends GuardiansEvent {
-  const OnNextGuardianOnboardingTapped();
-
+class Initial extends GuardiansEvent {
   @override
-  String toString() => 'OnNextGuardianOnboardingTapped';
+  String toString() => 'Initial';
 }
 
-class OnPreviousGuardianOnboardingTapped extends GuardiansEvent {
-  const OnPreviousGuardianOnboardingTapped();
-
+class ActivateGuardians extends GuardiansEvent {
   @override
-  String toString() => 'OnPreviousGuardianOnboardingTapped';
+  String toString() => 'ActivateGuardians';
 }
 
-class OnGuardianReadyForActivation extends GuardiansEvent {
-  final Iterable<GuardianModel> myGuardians;
-
-  const OnGuardianReadyForActivation(this.myGuardians);
-
+class OnResetConfirmed extends GuardiansEvent {
   @override
-  String toString() => 'OnGuardianReadyForActivation: { myGuardians: $myGuardians }';
+  String toString() => 'OnResetConfirmed';
+}
+
+class OnActivateConfirmed extends GuardiansEvent {
+  @override
+  String toString() => 'OnActivateConfirmed';
+}
+
+class OnMyGuardianActionButtonTapped extends GuardiansEvent {
+  @override
+  String toString() => 'OnMyGuardianActionButtonTapped';
 }

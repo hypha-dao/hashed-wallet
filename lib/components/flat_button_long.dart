@@ -19,7 +19,7 @@ class FlatButtonLong extends StatelessWidget {
         //color: AppColors.newPrimary,
         // disabledTextColor: AppColors.grey3,
         // disabledColor: AppColors.newPrimaryLight,
-       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultButtonBorderRadius)),
         onPressed: enabled ? onPressed : null,
         child: isLoading
             ? Container(

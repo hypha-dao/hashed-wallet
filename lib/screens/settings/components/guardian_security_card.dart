@@ -3,33 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
-  final GuardiansStatus? guardiansStatus;
   final GestureTapCallback? onTap;
   final bool hasNotification;
 
-  const GuardianSecurityCard({super.key, this.guardiansStatus, this.onTap, this.hasNotification = false});
+  const GuardianSecurityCard({super.key, this.onTap, this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {
-    Widget guardianStatus;
-    switch (guardiansStatus) {
-      case GuardiansStatus.active:
-        guardianStatus = Text(context.loc.securityGuardiansStatusActive);
-        break;
-      case GuardiansStatus.inactive:
-        guardianStatus = Text(context.loc.securityGuardiansStatusInactive);
-        break;
-      case GuardiansStatus.readyToActivate:
-        guardianStatus = Text(context.loc.securityGuardiansStatusReadyToActivate);
-        break;
-      default:
-        guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
-    }
-
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(defaultCardBorderRadius),
@@ -76,7 +59,6 @@ class GuardianSecurityCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          guardianStatus
                         ],
                       ),
                       const DividerJungle(),

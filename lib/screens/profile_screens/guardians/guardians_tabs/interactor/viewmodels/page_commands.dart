@@ -13,50 +13,10 @@ class ShowRecoveryStarted extends PageCommand {
   ShowRecoveryStarted(this.guardian);
 }
 
-class ShowOnboardingGuardianSingleAction extends PageCommand {
-  final int index;
-  final String image;
-  final String description;
-  final String buttonTitle;
-
-  ShowOnboardingGuardianSingleAction({
-    required this.index,
-    required this.description,
-    required this.image,
-    required this.buttonTitle,
-  });
+class ShowResetGuardians extends PageCommand {
+  ShowResetGuardians();
 }
 
-class ShowOnboardingGuardianDoubleAction extends PageCommand {
-  final int index;
-  final String image;
-  final String description;
-  final String leftButtonTitle;
-  final String rightButtonTitle;
-
-  ShowOnboardingGuardianDoubleAction({
-    required this.index,
-    required this.description,
-    required this.image,
-    required this.leftButtonTitle,
-    required this.rightButtonTitle,
-  });
-}
-
-class ShowActivateGuardian extends PageCommand {
-  final int index;
-  final String image;
-  final String description;
-  final String leftButtonTitle;
-  final String rightButtonTitle;
-  final Iterable<GuardianModel> myGuardians;
-
-  ShowActivateGuardian({
-    required this.index,
-    required this.description,
-    required this.image,
-    required this.leftButtonTitle,
-    required this.rightButtonTitle,
-    required this.myGuardians,
-  });
+class ShowActivateGuardians extends PageCommand {
+  ShowActivateGuardians();
 }
