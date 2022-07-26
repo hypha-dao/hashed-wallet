@@ -13,22 +13,16 @@ class AuthService {
   AuthDataModel createRandomPrivateKeyAndWords() {
     final words = _createRandom12Words();
 
-    return AuthDataModel(_createPrivateKeyFrom12Words(words), words);
+    return AuthDataModel(words);
   }
 
   /// Creates a private key/12 words pair. From words
   AuthDataModel createPrivateKeyFromWords(List<String> words) {
-    return AuthDataModel(_createPrivateKeyFrom12Words(words), words);
+    return AuthDataModel(words);
   }
 
   AuthDataModel privateKeyFromSeedsGlobalPassportWords(List<String> words) {
-    return AuthDataModel(createPrivateKeyFrom12WordsBip39(words), words);
-  }
-
-  /// Creates a private key from 12 words list
-  EOSPrivateKey _createPrivateKeyFrom12Words(List<String> words) {
-    assert(words.length == 12);
-    return EOSPrivateKey.fromSeed(words.join('-'));
+    return AuthDataModel(words);
   }
 
   /// Creates 12 random words Mnemonic.

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/settings/components/biometric_enabled_dialog.dart';
@@ -81,7 +81,12 @@ class SettingsScreen extends StatelessWidget {
                           icon: const Icon(Icons.update),
                           title: context.loc.securityExportPrivateKeyTitle,
                           description: context.loc.securityExportPrivateKeyDescription,
-                          onTap: () => Share.share(settingsStorage.privateKey!),
+                          // TODO(n13): Fix share secret words
+                          onTap: () async {
+                            final pk = await AccountService().getPrivateKeys();
+                            // ignore: unawaited_futures
+                            Share.share(pk[0]);
+                          },
                         ),
                         BlocBuilder<SettingsBloc, SettingsState>(
                           buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,

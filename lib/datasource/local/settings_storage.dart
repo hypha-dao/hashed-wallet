@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
@@ -28,14 +29,16 @@ const String _kIsVisitor = 'is_visitor';
 const String _kIsFirstRun = 'is_first_run';
 const String _kDateSinceRateAppPrompted = 'date_since_rate_app_prompted';
 
+const String _kAccounts = "accounts";
+const String _kCurrentAccount = "current_account";
+const String _kPrivateKeys = "private_keys";
+
 class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
 
   // These nullable fields below are initialized from
   // secure storage, to avoid call a Future often
-  String? _privateKey;
-  List<String>? _privateKeysList;
   String? _passcode;
 
   // TODO(n13): Passcode is temporarily disabled.
@@ -43,8 +46,6 @@ class _SettingsStorage {
   bool? _passcodeActive;
   // ignore: unused_field, use_late_for_private_fields_and_variables
   bool? _biometricActive;
-
-  List<String> _recoveryWords = [];
 
   factory _SettingsStorage() => _instance;
 
@@ -55,10 +56,6 @@ class _SettingsStorage {
   String get accountName => _preferences.getString(_kAccountName) ?? '';
 
   List<String> get accountsList => _preferences.getStringList(_kAccountsList) ?? [];
-
-  String? get privateKey => _privateKey;
-
-  List<String> get privateKeysList => _privateKeysList ?? [];
 
   String? get passcode => _passcode;
 
@@ -81,8 +78,6 @@ class _SettingsStorage {
   List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [seedsToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
-
-  List<String> get recoveryWords => _recoveryWords;
 
   int? get dateSinceRateAppPrompted => _preferences.getInt(_kDateSinceRateAppPrompted);
 
@@ -169,11 +164,6 @@ class _SettingsStorage {
     await _preferences.setBool(_kIsFirstRun, false);
 
     await _secureStorage.readAll().then((values) {
-      _privateKeysList = values[_kPrivateKeysList]?.split(',');
-
-      _privateKey = values[_kPrivateKey];
-      _privateKey ??= _migrateFromPrefs(_kPrivateKey); // <-- privateKey is not in pref
-
       _passcode = values[_kPasscode];
       _passcode ??= _migrateFromPrefs(_kPasscode); // <-- passcode is not in pref
 
@@ -181,10 +171,6 @@ class _SettingsStorage {
         _passcodeActive = values[_kPasscodeActive] == 'true';
       } else {
         _passcodeActive = true;
-      }
-
-      if (values.containsKey(_kRecoveryWords)) {
-        _recoveryWords = values[_kRecoveryWords]!.split(',');
       }
 
       if (values.containsKey(_kBiometricActive)) {
@@ -214,8 +200,7 @@ class _SettingsStorage {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
-    await _savePrivateKey(authData.eOSPrivateKey.toString());
-    await _saveRecoverWords(authData.words);
+    await AccountService().createAccount(accountName, authData.wordsString);
   }
 
   void finishRecoveryProcess() {
@@ -243,45 +228,19 @@ class _SettingsStorage {
     biometricActive = false;
   }
 
-  Future<void> _savePrivateKey(String privateKey) async {
-    if (privateKey.isNotEmpty) {
-      // Update storage privateKey
-      await _secureStorage.write(key: _kPrivateKey, value: privateKey);
-      // Update local privateKey
-      _privateKey = privateKey;
-      // Verify if its a new privateKey
-      final List<String> pkeys = _privateKeysList ?? [];
-      // If new private key --> add to list
-      if (!pkeys.contains(privateKey)) {
-        pkeys.add(privateKey);
-        // Save updated private keys list
-        await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(','));
-        // Update local private keys list
-        _privateKeysList = pkeys;
-      }
-    }
+  void saveAccounts(String accountsListJsonString) {
+    _preferences.setString(_kAccounts, accountsListJsonString);
   }
 
-  Future<void> _saveRecoverWords(List<String> words) async {
-    final String newWords = words.join('-');
-    if (words.isNotEmpty && newWords.isNotEmpty) {
-      final List<String> wordsList = _recoveryWords;
-      // If new words --> add to list
-      if (!wordsList.contains(newWords)) {
-        wordsList.add(newWords);
-        // Save updated private keys list
-        await _secureStorage.write(key: _kRecoveryWords, value: wordsList.join(','));
-        // Update local field
-        _recoveryWords = wordsList;
-      }
-    }
+  String? get accounts => _preferences.getString(_kAccounts);
+  String? get currentAccount => _preferences.getString(_kCurrentAccount);
+
+  Future<String?> getPrivateKeysString() async {
+    return _secureStorage.read(key: _kPrivateKeys);
   }
 
-  Future<void> saveAccount(String accountName, AuthDataModel authData) async {
-    _accountName = accountName;
-    privateKeyBackedUp = false;
-    await _savePrivateKey(authData.eOSPrivateKey.toString());
-    await _saveRecoverWords(authData.words);
+  Future<void> savePrivateKeys(String privateKeysJsonString) async {
+    await _secureStorage.write(key: _kPrivateKeys, value: privateKeysJsonString);
   }
 
   /// Update current accout name, private key and remove some pref
@@ -289,12 +248,11 @@ class _SettingsStorage {
     privateKeyBackedUp = false;
     _accountName = accountName;
     await Future.wait([
-      _savePrivateKey(authData.eOSPrivateKey.toString()),
-      _preferences.remove(_kSelectedFiatCurrency),
-      _preferences.remove(_kSelectedToken),
-      _preferences.remove(_kTokensWhiteList),
-      _preferences.remove(_kIsCitizen),
-      _preferences.remove(_kIsVisitor),
+      // _preferences.remove(_kSelectedFiatCurrency),
+      // _preferences.remove(_kSelectedToken),
+      // _preferences.remove(_kTokensWhiteList),
+      // _preferences.remove(_kIsCitizen),
+      // _preferences.remove(_kIsVisitor),
     ]);
   }
 
@@ -305,28 +263,14 @@ class _SettingsStorage {
   void saveSelectedFiatCurrency(String value) => selectedFiatCurrency = value;
 
   // ignore: use_setters_to_change_properties
-  void saveCitizenshipStatus(ProfileStatus status) {
-    if (status == ProfileStatus.citizen) {
-      isCitizen = true;
-    } else if (status == ProfileStatus.visitor) {
-      isCitizen = false;
-    } else if (status == ProfileStatus.resident) {
-      isCitizen = false;
-    }
-  }
-
-  // ignore: use_setters_to_change_properties
   void saveDateSinceRateAppPrompted(int value) => dateSinceRateAppPrompted = value;
 
   Future<void> removeAccount() async {
     await _preferences.clear();
     await _secureStorage.deleteAll();
-    _privateKey = null;
-    _privateKeysList = null;
     _passcode = null;
     _passcodeActive = true;
     _biometricActive = false;
-    _recoveryWords = [];
   }
 
   String getPlatformCurrency() {

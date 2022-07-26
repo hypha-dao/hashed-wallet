@@ -20,6 +20,5 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     final result = await GetUserProfileUseCase().run(settingsStorage.accountName);
     WalletState newState;
     emit(newState = UserAccountStateMapper().mapResultToState(state, result));
-    settingsStorage.saveCitizenshipStatus(newState.profile.status);
   }
 }

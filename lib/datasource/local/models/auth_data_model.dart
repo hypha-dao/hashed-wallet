@@ -1,14 +1,10 @@
-import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
-
 class AuthDataModel {
-  final EOSPrivateKey eOSPrivateKey;
   final List<String> words;
+  String get wordsString => words.join(" ");
 
-  AuthDataModel(this.eOSPrivateKey, this.words);
+  AuthDataModel(this.words);
 
-  AuthDataModel.fromKeyAndWords(String key, this.words) : eOSPrivateKey = EOSPrivateKey.fromString(key);
-
-  AuthDataModel.fromKeyAndNoWords(String key)
-      : eOSPrivateKey = EOSPrivateKey.fromString(key),
-        words = [];
+  factory AuthDataModel.fromString(String words) {
+    return AuthDataModel(words.split(" "));
+  }
 }
