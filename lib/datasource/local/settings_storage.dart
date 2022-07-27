@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,9 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 // Keys
 const String _kAccountName = 'accountName';
 const String _kAccountsList = 'accountsList';
-const String _kPrivateKey = 'privateKey';
-const String _kPrivateKeysList = 'privateKeysList';
-const String _kRecoveryWords = 'recoveryWords';
 const String _kPasscode = 'passcode';
 const String _kPasscodeActive = 'passcode_active';
 const String _kBiometricActive = 'biometric_active';
@@ -25,7 +21,6 @@ const String _kInRecoveryMode = 'in_recovery_mode';
 const String _kRecoveryLink = 'recovery_link';
 const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
-const String _kIsVisitor = 'is_visitor';
 const String _kIsFirstRun = 'is_first_run';
 const String _kDateSinceRateAppPrompted = 'date_since_rate_app_prompted';
 
