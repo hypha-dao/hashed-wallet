@@ -1,7 +1,3 @@
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_recovery_words_use_case.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_seeds_passport_words_use_case.dart';
-
 class GetWordsFromPrivateKey {
   /// If the private key has words, it returns the list of words
   /// otherwise an empty list.
