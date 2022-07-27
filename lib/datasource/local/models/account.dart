@@ -34,4 +34,9 @@ class Account extends Equatable {
 
   @override
   List<Object?> get props => [name, address];
+
+  @override
+  String toString() {
+    return "${toJson()}";
+  }
 }

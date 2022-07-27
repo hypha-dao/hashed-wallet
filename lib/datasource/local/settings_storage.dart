@@ -28,7 +28,7 @@ const String _kAccounts = "accounts";
 const String _kCurrentAccount = "current_account";
 const String _kPrivateKeys = "private_keys";
 
-class _SettingsStorage {
+class _SettingsStorage implements AbstractStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
 
@@ -195,7 +195,7 @@ class _SettingsStorage {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
-    await AccountService().createAccount(accountName, authData.wordsString);
+    await AccountService.instance().createAccount(accountName, authData.wordsString);
   }
 
   void finishRecoveryProcess() {
@@ -223,17 +223,21 @@ class _SettingsStorage {
     biometricActive = false;
   }
 
+  @override
   void saveAccounts(String accountsListJsonString) {
     _preferences.setString(_kAccounts, accountsListJsonString);
   }
 
+  @override
   String? get accounts => _preferences.getString(_kAccounts);
   String? get currentAccount => _preferences.getString(_kCurrentAccount);
 
+  @override
   Future<String?> getPrivateKeysString() async {
     return _secureStorage.read(key: _kPrivateKeys);
   }
 
+  @override
   Future<void> savePrivateKeys(String privateKeysJsonString) async {
     await _secureStorage.write(key: _kPrivateKeys, value: privateKeysJsonString);
   }

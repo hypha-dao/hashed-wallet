@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/shared_use_cases/account_use_case.dart';
 class SaveAccountUseCase extends AccountUseCase {
   Future<void> run({required String accountName, required AuthDataModel authData}) async {
     final String oldAccountName = settingsStorage.accountName;
-    await AccountService().createAccount(accountName, authData.wordsString);
+    await AccountService.instance().createAccount(accountName, authData.wordsString);
     await const WebViewCacheService().clearCache();
     await updateFirebaseToken(oldAccount: oldAccountName, newAccount: accountName);
   }

@@ -9,7 +9,9 @@ import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
-class PolkawalletInit2 {
+/// This class packages all calls into the original Polkawallet API code
+/// It isolates our app from the original Polkawallet code.
+class PolkawalletInit {
   Keyring? _keyring;
   WalletSDK walletSdk = WalletSDK();
   final nodeList = hashedNetworkParams;
@@ -19,10 +21,12 @@ class PolkawalletInit2 {
 
   bool get isConnected => _connected;
 
-  Future<int?> startApp() async {
+  bool _initialized = false;
+
+  Future<void> init() async {
     _keyring ??= Keyring();
 
-    print("PolkawalletInit2 startApp");
+    print("PolkawalletInit init");
 
     await _keyring?.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
 
@@ -35,6 +39,14 @@ class PolkawalletInit2 {
     );
 
     print("service.plugin.start ${nodeList.map((e) => e.endpoint)}");
+
+    _initialized = true;
+  }
+
+  Future<int?> connect() async {
+    if (!_initialized) {
+      await init();
+    }
 
     /// Connect to a node
     final res = await walletSdk.api.service.webView?.connectNode(nodeList);
@@ -61,6 +73,7 @@ class PolkawalletInit2 {
     _dropsServiceTimer?.cancel();
     _chainTimer?.cancel();
     await walletSdk.webView?.dispose();
+    _initialized = false;
   }
 
   Timer? _webViewDropsTimer;

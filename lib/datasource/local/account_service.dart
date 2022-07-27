@@ -1,17 +1,30 @@
 import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 
+abstract class AbstractStorage {
+  String? get accounts;
+
+  void saveAccounts(String jsonFromList);
+
+  Future<String?> getPrivateKeysString();
+
+  Future<void> savePrivateKeys(String privateKeysJsonString);
+}
 class AccountService {
+  final AbstractStorage storage;
+
+  AccountService(this.storage);
+
+  factory AccountService.instance() => AccountService(settingsStorage);
+
   Future<List<Account>> loadAccounts() async {
-    final accountString = settingsStorage.accounts ?? "[]";
+    final accountString = storage.accounts ?? "[]";
     return Account.listFromJson(accountString);
   }
 
   void saveAccounts(List<Account> accounts) {
-    settingsStorage.saveAccounts(Account.jsonFromList(accounts));
+    storage.saveAccounts(Account.jsonFromList(accounts));
   }
-
-  void addKey(String key) {}
 
   Future<Account?> createAccount(String name, String privateKey) async {
     if (privateKey.contains(",")) {
@@ -42,7 +55,7 @@ class AccountService {
   }
 
   Future<List<String>> getPrivateKeys() async {
-    final privateKeyString = await settingsStorage.getPrivateKeysString();
+    final privateKeyString = await storage.getPrivateKeysString();
     if (privateKeyString != null) {
       return privateKeyString.split(",");
     } else {
@@ -51,6 +64,6 @@ class AccountService {
   }
 
   Future<void> savePrivateKeys(List<String> privateKeys) async {
-    await settingsStorage.savePrivateKeys(privateKeys.join(","));
+    await storage.savePrivateKeys(privateKeys.join(","));
   }
 }
