@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_user_repository.dart';
@@ -16,7 +17,8 @@ class CreateAccountUseCase {
       accountName: accountName,
       inviteSecret: inviteSecret,
       displayName: displayName,
-      privateKey: authData.eOSPrivateKey,
+      // TODO(n13): change to polkadot create account
+      privateKey: EOSPrivateKey.fromString("DISABLED - TODO change this to Polkadot"),
     );
 
     // Phone number is optional.

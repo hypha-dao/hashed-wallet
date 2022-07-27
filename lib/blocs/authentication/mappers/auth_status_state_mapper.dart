@@ -17,7 +17,7 @@ class AuthStatusStateMapper {
       status = AuthStatus.locked;
     }
 
-    if (settingsStorage.accountName.isEmpty || settingsStorage.privateKey == null) {
+    if (settingsStorage.accounts == null || settingsStorage.accounts!.isEmpty) {
       status = AuthStatus.emptyAccount;
     }
 

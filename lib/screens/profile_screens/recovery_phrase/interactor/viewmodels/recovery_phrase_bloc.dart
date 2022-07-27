@@ -7,8 +7,7 @@ part 'recovery_phrase_state.dart';
 
 class RecoveryPhraseBloc extends Bloc<RecoveryPhraseEvent, RecoveryPhraseState> {
   RecoveryPhraseBloc()
-      : super(RecoveryPhraseState.initial(AuthDataModel.fromKeyAndWords(
-          settingsStorage.privateKey!,
-          settingsStorage.recoveryWords,
+      : super(RecoveryPhraseState.initial(AuthDataModel.fromString(
+          "todo", // TODO(n13): get recovery words in here
         )));
 }

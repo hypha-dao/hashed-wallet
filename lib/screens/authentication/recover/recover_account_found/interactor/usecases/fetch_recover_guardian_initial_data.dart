@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -26,7 +27,7 @@ class FetchRecoverGuardianInitialDataUseCase {
       membersData = await _getMembersData(guardians.guardians);
     }
 
-    if (settingsStorage.privateKey != null && settingsStorage.inRecoveryMode) {
+    if (settingsStorage.currentAccount != null && settingsStorage.inRecoveryMode) {
       return _continueWithRecovery(accountRecovery, accountGuardians, membersData);
     } else {
       return _startNewRecovery(accountRecovery, accountGuardians, membersData, accountName);
@@ -52,17 +53,18 @@ class FetchRecoverGuardianInitialDataUseCase {
   }
 
   /// USER already started a recovery. Fetch the values from storage
-  RecoverGuardianInitialDTO _continueWithRecovery(
+  Future<RecoverGuardianInitialDTO> _continueWithRecovery(
     Result accountRecovery,
     Result accountGuardians,
     List<Result> membersData,
-  ) {
+  ) async {
+    final recoveryWords = await AccountService().getPrivateKeys();
     return RecoverGuardianInitialDTO(
       link: ValueResult(Uri.parse(settingsStorage.recoveryLink)),
       membersData: membersData,
       userRecoversModel: accountRecovery,
       accountGuardians: accountGuardians,
-      authData: AuthDataModel.fromKeyAndWords(settingsStorage.privateKey!, settingsStorage.recoveryWords),
+      authData: AuthDataModel.fromString(recoveryWords[0]),
     );
   }
 
@@ -74,10 +76,10 @@ class FetchRecoverGuardianInitialDataUseCase {
     String accountName,
   ) async {
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
-    final String publicKey = authData.eOSPrivateKey.toEOSPublicKey().toString();
+    final String? publicKey = await AccountService().publicKeyForPrivateKey(authData.wordsString);
     print("public $publicKey");
 
-    Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
+    Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey!);
 
     // Check
     link = await generateFirebaseDynamicLink(link);
