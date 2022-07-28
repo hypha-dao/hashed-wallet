@@ -8,11 +8,7 @@ abstract class ImportKeyEvent extends Equatable {
 }
 
 class FindAccountByKey extends ImportKeyEvent {
-  final String privateKey;
-  final String? alternatePrivateKey;
-  final List<String> words;
-
-  const FindAccountByKey({required this.privateKey, this.alternatePrivateKey, required this.words});
+  const FindAccountByKey();
 
   @override
   String toString() => 'FindAccountByKey';
@@ -27,35 +23,18 @@ class AccountSelected extends ImportKeyEvent {
   String toString() => 'AccountSelected: { account: $account }';
 }
 
-class OnPrivateKeyChange extends ImportKeyEvent {
-  final String privateKeyChanged;
+class OnMneumonicPhraseChange extends ImportKeyEvent {
+  final String newMneumonicPhrase;
 
-  const OnPrivateKeyChange({required this.privateKeyChanged});
+  const OnMneumonicPhraseChange({required this.newMneumonicPhrase});
 
   @override
-  String toString() => 'OnPrivateKeyChange: { inputChange: $privateKeyChanged }';
+  String toString() => 'OnMneumonicPhraseChange: { inputChange: $newMneumonicPhrase }';
 }
 
-class OnWordChange extends ImportKeyEvent {
-  final String word;
-  final int wordIndex;
-
-  const OnWordChange({required this.word, required this.wordIndex});
+class ClearPageCommand extends ImportKeyEvent {
+  const ClearPageCommand();
 
   @override
-  String toString() => 'OnWordChange: { word: $word index: $wordIndex}';
-}
-
-class FindAccountFromWords extends ImportKeyEvent {
-  const FindAccountFromWords();
-
-  @override
-  String toString() => 'FindAccountFromWords ';
-}
-
-class OnUserPastedWords extends ImportKeyEvent {
-  const OnUserPastedWords();
-
-  @override
-  String toString() => 'OnUserPastedWords ';
+  String toString() => 'ClearPageCommand';
 }
