@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:async/async.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 
@@ -55,8 +54,9 @@ abstract class EosRepository {
     return transaction;
   }
 
+// TODO(n13): remove all EOS code - this is not functional
   EOSClient buildEosClient() => EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
-      privateKeys: [settingsStorage.privateKey ?? onboardingPrivateKey, cpuPrivateKey]);
+      privateKeys: [/*settingsStorage.privateKey ??*/ onboardingPrivateKey, cpuPrivateKey]);
 
   FutureOr<Result<T>> mapEosResponse<T>(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');

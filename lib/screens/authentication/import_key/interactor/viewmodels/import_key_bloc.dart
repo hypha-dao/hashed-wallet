@@ -38,7 +38,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       emit(
         ImportKeyStateMapper().mapResultsToState(
           currentState: state,
-          authData: AuthDataModel.fromKeyAndWords(state.mneumonicPhrase, []),
+          authData: AuthDataModel(state.mneumonicPhrase.split(" ")),
           results: results,
         ),
       );
