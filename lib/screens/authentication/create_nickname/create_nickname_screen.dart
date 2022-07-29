@@ -48,7 +48,7 @@ class CreateNicknameScreen extends StatelessWidget {
                         builder: (context, state) {
                           return FlatButtonLong(
                             isLoading: state.isButtonLoading,
-                            title: "Next (2/2 )",
+                            title: "Next (2/2)",
                             onPressed: () {
                               BlocProvider.of<CreateNicknameBloc>(context).add(const OnNextTapped());
                             },
