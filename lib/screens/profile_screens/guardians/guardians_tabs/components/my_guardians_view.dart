@@ -28,6 +28,12 @@ class MyGuardiansView extends StatelessWidget {
                   e.nickname ?? e.walletAddress,
                   style: const TextStyle(overflow: TextOverflow.ellipsis),
                 ),
+                subtitle: e.nickname != null
+                    ? Text(
+                        e.walletAddress,
+                        style: const TextStyle(overflow: TextOverflow.ellipsis),
+                      )
+                    : null,
                 trailing: TextButton(
                     child: Text(state.areGuardiansActive ? 'active' : 'Remove'),
                     onPressed: () {
