@@ -1,9 +1,10 @@
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
 import 'package:seeds/datasource/local/models/account.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
 
-class PolkadotRepository {
+class PolkadotRepository extends KeyRepository {
   late PolkawalletInit? _polkawalletInit;
 
   bool get isRunning => _polkawalletInit != null;
@@ -92,10 +93,16 @@ class PolkadotRepository {
     try {
       final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
       print("result importKey $res");
-      return Account(res["address"], "");
+      return Account(name: "", address: res["address"]);
     } catch (err) {
       print("error $err");
       rethrow;
     }
+  }
+
+  @override
+  Future<String?> publicKeyForPrivateKey(String privateKey) {
+    // TODO(n13): implement publicKeyForPrivateKey
+    throw UnimplementedError();
   }
 }

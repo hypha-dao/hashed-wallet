@@ -195,7 +195,7 @@ class _SettingsStorage implements AbstractStorage {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
-    await AccountService.instance().createAccount(accountName, authData.wordsString);
+    await AccountService.instance().createAccount(name: accountName, privateKey: authData.wordsString);
   }
 
   void finishRecoveryProcess() {

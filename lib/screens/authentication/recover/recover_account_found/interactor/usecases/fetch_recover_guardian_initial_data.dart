@@ -76,7 +76,8 @@ class FetchRecoverGuardianInitialDataUseCase {
     String accountName,
   ) async {
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
-    final String? publicKey = await AccountService.instance().publicKeyForPrivateKey(authData.wordsString);
+    final String? publicKey =
+        await AccountService.instance().keyRepository.publicKeyForPrivateKey(authData.wordsString);
     print("public $publicKey");
 
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey!);
