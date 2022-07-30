@@ -92,7 +92,12 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   }
 
   FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) {
-    emit(state.copyWith(areGuardiansActive: true));
+    emit(state.copyWith(
+        areGuardiansActive: true,
+        actionButtonState: getActionButtonState(
+          areGuardiansActive: true,
+          guardiansCount: state.myGuardians.length,
+        )));
   }
 }
 
