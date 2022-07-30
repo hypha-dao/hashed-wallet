@@ -46,7 +46,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     guards.remove(event.guardian);
     emit(state.copyWith(
       myGuardians: guards,
-      actionButtonState: getActionButtonState(false, guards.length),
+      actionButtonState: getActionButtonState(areGuardiansActive: false, guardiansCount: guards.length),
       pageState: PageState.success,
     ));
   }
@@ -58,7 +58,10 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     emit(state.copyWith(
       myGuardians: result.guardians,
       areGuardiansActive: result.areGuardiansActive,
-      actionButtonState: getActionButtonState(result.areGuardiansActive, result.guardians.length),
+      actionButtonState: getActionButtonState(
+        areGuardiansActive: result.areGuardiansActive,
+        guardiansCount: result.guardians.length,
+      ),
       pageState: PageState.success,
     ));
   }
@@ -66,7 +69,12 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   FutureOr<void> _onGuardianAdded(OnGuardianAdded event, Emitter<GuardiansState> emit) {
     final guards = state.myGuardians;
     guards.add(event.guardian);
-    emit(state.copyWith(myGuardians: guards, actionButtonState: getActionButtonState(false, guards.length)));
+    emit(state.copyWith(
+        myGuardians: guards,
+        actionButtonState: getActionButtonState(
+          areGuardiansActive: false,
+          guardiansCount: guards.length,
+        )));
   }
 
   FutureOr<void> _onMyGuardianActionButtonTapped(OnMyGuardianActionButtonTapped event, Emitter<GuardiansState> emit) {
@@ -88,7 +96,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   }
 }
 
-ActionButtonState getActionButtonState(bool areGuardiansActive, int guardiansCount) {
+ActionButtonState getActionButtonState({required bool areGuardiansActive, required int guardiansCount}) {
   if (areGuardiansActive) {
     return ActionButtonState(
       isLoading: false,

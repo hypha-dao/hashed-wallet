@@ -27,6 +27,7 @@ class GuardiansState extends Equatable {
         isAddGuardianButtonLoading,
         myGuardians,
         areGuardiansActive,
+        actionButtonState,
       ];
 
   GuardiansState copyWith({
