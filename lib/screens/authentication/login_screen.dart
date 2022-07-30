@@ -59,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                         /// We use remoteConfigurations directly here because this page doesnt have blocs.
                         /// !!!Please do not copy this pattern!!!
                         if (remoteConfigurations.featureFlagExportRecoveryPhraseEnabled) {
-                          NavigationService.of(context).navigateTo(Routes.importWords);
+                          NavigationService.of(context).navigateTo(Routes.importKey);
                         } else {
                           NavigationService.of(context).navigateTo(Routes.importKey);
                         }

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/authentication/create_nickname/create_nickname_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
-import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_screen.dart';
@@ -33,7 +33,7 @@ class Routes {
   static const app = 'app';
   static const login = 'login';
   static const importKey = 'importKey';
-  static const importWords = 'importWords';
+  static const createNickname = 'createNickname';
   static const verification = 'verification';
   static const verificationUnpoppable = 'verificationUnpoppable';
   static const signup = 'signup';
@@ -77,7 +77,7 @@ class NavigationService {
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
-    Routes.importWords: (_) => const ImportWordsScreen(),
+    Routes.createNickname: (_) => const CreateNicknameScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
     Routes.recoverAccountSearch: (_) => const RecoverAccountSearchScreen(),

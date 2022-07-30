@@ -1,65 +1,66 @@
 part of 'import_key_bloc.dart';
 
 class ImportKeyState extends Equatable {
-  final PageState pageState;
-  final ImportKeyError? error;
+  final String? error;
   final AuthDataModel? authData;
   final List<ProfileModel> accounts;
+  final String mneumonicPhrase;
+  final bool isButtonLoading;
   final bool enableButton;
-  final Map<int, String> userEnteredWords;
   final String? accountSelected;
+  final PageCommand? pageCommand;
 
   const ImportKeyState({
-    required this.pageState,
     this.error,
     required this.accounts,
+    required this.mneumonicPhrase,
+    required this.isButtonLoading,
     this.authData,
     required this.enableButton,
-    required this.userEnteredWords,
     this.accountSelected,
+    this.pageCommand,
   });
-
-  bool get areAllWordsEntered {
-    return userEnteredWords.length == 12 && !userEnteredWords.containsValue('');
-  }
 
   @override
   List<Object?> get props => [
-        pageState,
         error,
         authData,
         accounts,
+        mneumonicPhrase,
+        isButtonLoading,
         enableButton,
-        userEnteredWords,
         accountSelected,
+        pageCommand,
       ];
 
   ImportKeyState copyWith({
     PageState? pageState,
-    ImportKeyError? error,
+    String? error,
     List<ProfileModel>? accounts,
+    String? mneumonicPhrase,
+    bool? isButtonLoading,
     AuthDataModel? authData,
     bool? enableButton,
-    Map<int, String>? userEnteredWords,
     String? accountSelected,
+    PageCommand? pageCommand,
   }) {
     return ImportKeyState(
-      pageState: pageState ?? this.pageState,
-      error: error,
-      accounts: accounts ?? this.accounts,
-      authData: authData ?? this.authData,
-      enableButton: enableButton ?? this.enableButton,
-      userEnteredWords: userEnteredWords ?? this.userEnteredWords,
-      accountSelected: accountSelected,
-    );
+        error: error,
+        accounts: accounts ?? this.accounts,
+        mneumonicPhrase: mneumonicPhrase ?? this.mneumonicPhrase,
+        isButtonLoading: isButtonLoading ?? this.isButtonLoading,
+        authData: authData ?? this.authData,
+        enableButton: enableButton ?? this.enableButton,
+        accountSelected: accountSelected,
+        pageCommand: pageCommand);
   }
 
   factory ImportKeyState.initial() {
     return const ImportKeyState(
-      pageState: PageState.initial,
       accounts: [],
+      mneumonicPhrase: "",
       enableButton: false,
-      userEnteredWords: {},
+      isButtonLoading: false,
     );
   }
 }
