@@ -3,6 +3,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_rep
 
 class GuardiansNotificationUseCase {
   Stream<bool> get hasGuardianNotificationPending {
-    return FirebaseDatabaseGuardiansRepository().hasGuardianNotificationPending(settingsStorage.accountName);
+    return Stream.value(
+        FirebaseDatabaseGuardiansRepository().hasGuardianNotificationPending(settingsStorage.accountName));
   }
 }
