@@ -92,8 +92,23 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
+  /// This is a little hack
+  /// Before any crypto call, we must call cryptoWaitReady in the polkadot JS code
+  /// However the wrapper does not expose that method
+  /// However, it exposes another method that calls cryptoWaitready, which is initKeys()
+  /// So we simply call initKeys() with empty parameters - it calls crypto wait ready and doesn't
+  /// do anything else.
+  /// [POLKA] Fix the JS API to export cryptoWaitReady - when we have time
+  Future<void> _cryptoWaitReady() async {
+    // async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
+    final res = await _polkawalletInit?.webView?.evalJavascript('keyring.initKeys([], [])');
+    print("wait ready res: $res");
+  }
+
   Future<String> createKey() async {
     await _checkInitialized();
+
+    await _cryptoWaitReady();
     final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
     //print("create res: $res");
     final String mnemonic = res["mnemonic"];
