@@ -48,7 +48,7 @@ class TokenBalancesStateMapper {
     // load colors
     final repo = ColorPaletteRepository();
     for (final TokenBalanceViewModel viewModel in available) {
-      if (viewModel.token != seedsToken) {
+      if (viewModel.token != hashedToken) {
         viewModel.dominantColor = await repo.getImagePaletteCached(viewModel.token.backgroundImage);
       }
     }

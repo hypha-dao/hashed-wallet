@@ -6,11 +6,12 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 
 class LoadTokenBalancesUseCase {
   Future<List<Result<BalanceModel>>> run(List<TokenModel> tokens) {
+    print("load tokens ..");
     final account = settingsStorage.accountName;
     final List<Future<Result<BalanceModel>>> list = tokens
         .map((item) => BalanceRepository().getTokenBalance(
               account,
-              tokenContract: item.contract,
+              tokenId: item.id,
               symbol: item.symbol,
             ))
         .toList();

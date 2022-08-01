@@ -1,28 +1,18 @@
-import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:seeds/utils/result_extension.dart';
 
 class BalanceRepository extends HttpRepository {
-  Future<Result<BalanceModel>> getTokenBalance(String userAccount,
-      {required String tokenContract, required String symbol}) {
-    print('[http] get seeds getTokenBalance $userAccount for $symbol');
+  Future<Result<BalanceModel>> getTokenBalance(String address,
+      {required String tokenId, required String symbol}) async {
+    print('[http] get seeds getTokenBalance $address for $symbol');
+    // [POLKA] get balance
 
-    final String request = '''
-    {
-      "code":"$tokenContract",
-      "account":"$userAccount",
-      "symbol":"$symbol" 
-    }
-    ''';
+    final res = await polkadotRepository.getBalance(address);
 
-    final balanceURL = Uri.parse('$baseURL/v1/chain/get_currency_balance');
+    print("bal $res");
 
-    return http
-        .post(balanceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<BalanceModel>(response, (dynamic body) {
-              return BalanceModel.fromJson(body);
-            }))
-        .catchError((dynamic error) => mapHttpError(error));
+    return Result(() => const BalanceModel(1.1));
   }
 }

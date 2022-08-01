@@ -40,6 +40,8 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
   }
 
   Future<void> _onLoadTokenBalances(OnLoadTokenBalances event, Emitter<TokenBalancesState> emit) async {
+    print("on load token balances");
+
     emit(state.copyWith(pageState: PageState.loading));
     final potentialTokens = TokenModel.allTokens;
     final List<Result<BalanceModel>> result = await LoadTokenBalancesUseCase().run(potentialTokens);

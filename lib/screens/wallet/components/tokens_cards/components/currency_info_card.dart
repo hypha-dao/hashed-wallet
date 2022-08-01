@@ -3,7 +3,6 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 import 'package:seeds/utils/build_context_extension.dart';
 
 class CurrencyInfoCard extends StatelessWidget {
-  // TODO(chuck): provide default image
   static const defaultBgImage = 'assets/images/wallet/currency_info_cards/tlos/background.jpg';
   static const seedsEcosysSymbol = 'assets/images/wallet/currency_info_cards/seeds/seeds_check_transp.png';
 
@@ -33,15 +32,6 @@ class CurrencyInfoCard extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          if ((tokenBalance.token.usecases?.contains('experimental')) ?? false)
-            Container(
-              width: 128,
-              height: 128,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/wallet/currency_info_cards/experimental.png'), fit: BoxFit.fill),
-              ),
-            ),
           Padding(
             padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
             child: Column(

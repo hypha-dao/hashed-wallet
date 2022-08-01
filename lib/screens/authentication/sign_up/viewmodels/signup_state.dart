@@ -33,7 +33,7 @@ class SignupState extends Equatable {
 
   bool get isUsernameValid => !accountName.isNullOrEmpty && pageState == PageState.success;
 
-  bool get isNextButtonActive => isUsernameValid;
+  bool get isNextButtonActive => true;
 
   SignupState copyWith({
     PageState? pageState,

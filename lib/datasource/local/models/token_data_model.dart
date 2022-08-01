@@ -7,14 +7,16 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
   String? id;
-  TokenDataModel(double amount, {TokenModel token = seedsToken})
+  TokenDataModel(double amount, {TokenModel token = hashedToken})
       : super(
           amount: amount,
           symbol: token.symbol,
           precision: token.precision,
-        ) { id = token.id; }
+        ) {
+    id = token.id;
+  }
 
-  static TokenDataModel? from(double? amount, {TokenModel token = seedsToken}) =>
+  static TokenDataModel? from(double? amount, {TokenModel token = hashedToken}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
 
   // ignore: prefer_constructors_over_static_methods
@@ -39,6 +41,8 @@ class TokenDataModel extends AmountDataModel {
   TokenDataModel copyWith(double amount) {
     return TokenDataModel(amount, token: TokenModel.fromId(id!));
   }
+
+  
 }
 
 extension FormatterTokenModel on TokenDataModel {

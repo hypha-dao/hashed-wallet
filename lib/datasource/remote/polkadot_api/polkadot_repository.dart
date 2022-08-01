@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
-import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -132,7 +133,7 @@ class PolkadotRepository extends KeyRepository {
     return res;
   }
 
-  Future<Account> importKey(String mnemonic) async {
+  Future<String> importKey(String mnemonic) async {
     await _checkInitialized();
 
     /// Notes
@@ -165,7 +166,7 @@ class PolkadotRepository extends KeyRepository {
     try {
       final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
       print("result importKey $res");
-      return Account(name: "", address: res["address"]);
+      return res["address"];
     } catch (err) {
       print("error $err");
       rethrow;
@@ -175,9 +176,40 @@ class PolkadotRepository extends KeyRepository {
   @override
   Future<String?> publicKeyForPrivateKey(String privateKey) async {
     await _checkInitialized();
+    await _cryptoWaitReady();
 
-    // TODO(n13): implement publicKeyForPrivateKey
-    throw UnimplementedError();
+    /// 1 - set format
+    /// 2 - call addFromUri, which returns a keypair object
+    /// 3 - encode the keypair in JSON so we return a string
+    /// Flutter code can then JSON decode the string
+    final code = '''
+      keyring.pKeyring.setSS58Format(42);
+      last_pair = keyring.pKeyring.addFromUri("$privateKey", { name: '' }, 'sr25519');
+      JSON.stringify(last_pair);
+    ''';
+    try {
+      final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+      final json = jsonDecode(res);
+      return json["address"];
+    } catch (err) {
+      print("error $err");
+      rethrow;
+    }
+  }
+
+  Future<String?> privateKeyForPublicKey(String publicKey) async {
+    await _checkInitialized();
+    await _cryptoWaitReady();
+
+    final keys = await AccountService.instance().getPrivateKeys();
+
+    for (final key in keys) {
+      final pk = await publicKeyForPrivateKey(key);
+      if (pk == publicKey) {
+        return key;
+      }
+    }
+    return null;
   }
 
   Future<Result> initGuardians(List<String> guardians) async {

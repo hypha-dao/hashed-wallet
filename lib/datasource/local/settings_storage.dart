@@ -64,13 +64,13 @@ class _SettingsStorage implements AbstractStorage {
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
-  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? seedsToken.id);
+  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? hashedToken.id);
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 
   String get recoveryLink => _preferences.getString(_kRecoveryLink) ?? '';
 
-  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [seedsToken.id];
+  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [hashedToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
@@ -230,7 +230,10 @@ class _SettingsStorage implements AbstractStorage {
 
   @override
   String? get accounts => _preferences.getString(_kAccounts);
+  @override
   String? get currentAccount => _preferences.getString(_kCurrentAccount);
+  set currentAccount(String? value) =>
+      value == null ? _preferences.remove(_kCurrentAccount) : _preferences.setString(_kCurrentAccount, value);
 
   @override
   Future<String?> getPrivateKeysString() async {

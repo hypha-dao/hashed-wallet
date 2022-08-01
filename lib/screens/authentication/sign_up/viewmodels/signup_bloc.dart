@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -18,6 +19,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<DisplayNameOnNextTapped>(_displayNameOnNextTapped);
     on<OnCreateAccountTapped>(_onCreateAccountTapped);
     on<OnBackPressed>(_onBackPressed);
+    on<OnCreateAccountFinished>(_onCreateAccountFinished);
     on<ClearSignupPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -33,6 +35,14 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     print("secret words: $words");
     final AuthDataModel authData = AuthDataModel.fromString(words);
     emit(state.copyWith(auth: authData, pageState: PageState.success));
+  }
+
+  Future<void> _onCreateAccountFinished(OnCreateAccountFinished event, Emitter<SignupState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final account =
+        await AccountService.instance().createAccount(name: state.displayName!, privateKey: state.auth!.wordsString);
+    print("account: ${account?.toJson()}");
+    emit(state.copyWith(pageState: PageState.success, pageCommand: CreateAccountComplete()));
   }
 
   void _onBackPressed(OnBackPressed event, Emitter<SignupState> emit) {

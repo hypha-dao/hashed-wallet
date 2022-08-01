@@ -4,6 +4,7 @@ import 'package:seeds/datasource/local/models/account.dart';
 
 class MockSettingsStorage extends AbstractStorage {
   String? _accounts;
+  String? _currentAccount;
   String? _privateKeys;
 
   @override
@@ -23,6 +24,9 @@ class MockSettingsStorage extends AbstractStorage {
   Future<void> savePrivateKeys(String privateKeysJsonString) async {
     _privateKeys = privateKeysJsonString;
   }
+
+  @override
+  String? get currentAccount => _currentAccount;
 }
 
 class MockKeyRepository extends KeyRepository {
@@ -49,23 +53,23 @@ void main() {
   test('Test loadAccounts saveAccounts', () async {
     final service = AccountService(MockSettingsStorage(), MockKeyRepository());
 
-    final initialAccts = await service.loadAccounts();
+    final initialAccts = service.loadAccounts();
 
     assert(initialAccts.isEmpty, "initialAccts wrong $initialAccts");
 
     service.saveAccounts([mockAccount1]);
-    final accts1 = await service.loadAccounts();
+    final accts1 = service.loadAccounts();
     assert(accts1.length == 1, "accts1 length wrong");
     assert(accts1[0] == mockAccount1, "accts1 wrong value");
 
     service.saveAccounts([mockAccount2, mockAccount3]);
-    final accts2 = await service.loadAccounts();
+    final accts2 = service.loadAccounts();
     assert(accts2.length == 2, "accts2 length wrong");
     assert(accts2[0] == mockAccount2, "accts2 wrong value");
     assert(accts2[1] == mockAccount3, "accts2 wrong value");
 
     service.saveAccounts([mockAccount4, mockAccount3, mockAccount2, mockAccount1]);
-    final accts3 = await service.loadAccounts();
+    final accts3 = service.loadAccounts();
     assert(accts3.length == 4, "accts3 length wrong");
     assert(accts3[0] == mockAccount4, "accts3 wrong value ${accts2[0]}");
     assert(accts3[3] == mockAccount1, "accts3 wrong value");
@@ -76,7 +80,7 @@ void main() {
     final name = 'Harry "The Hammer" Lockstone';
     await service.createAccount(name: name, privateKey: mnemonic1);
 
-    final accts1 = await service.loadAccounts();
+    final accts1 = service.loadAccounts();
     final pks1 = await service.getPrivateKeys();
 
     assert(accts1.length == 1, "accts1 wrong");
