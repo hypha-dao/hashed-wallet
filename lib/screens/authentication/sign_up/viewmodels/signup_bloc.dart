@@ -39,8 +39,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   Future<void> _onCreateAccountFinished(OnCreateAccountFinished event, Emitter<SignupState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final account =
-        await AccountService.instance().createAccount(name: state.displayName!, privateKey: state.auth!.wordsString);
+    final account = await accountService.createAccount(name: state.displayName!, privateKey: state.auth!.wordsString);
     print("account: ${account?.toJson()}");
     emit(state.copyWith(pageState: PageState.success, pageCommand: CreateAccountComplete()));
   }

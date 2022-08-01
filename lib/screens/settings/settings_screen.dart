@@ -83,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
                           description: context.loc.securityExportPrivateKeyDescription,
                           // TODO(n13): Fix share secret words
                           onTap: () async {
-                            final pk = await AccountService.instance().getPrivateKeys();
+                            final pk = await accountService.getPrivateKeys();
                             // ignore: unawaited_futures
                             Share.share(pk[0]);
                           },

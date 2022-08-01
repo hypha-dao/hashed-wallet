@@ -201,7 +201,7 @@ class PolkadotRepository extends KeyRepository {
     await _checkInitialized();
     await _cryptoWaitReady();
 
-    final keys = await AccountService.instance().getPrivateKeys();
+    final keys = await accountService.getPrivateKeys();
 
     for (final key in keys) {
       final pk = await publicKeyForPrivateKey(key);

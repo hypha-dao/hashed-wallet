@@ -58,7 +58,7 @@ class FetchRecoverGuardianInitialDataUseCase {
     Result accountGuardians,
     List<Result> membersData,
   ) async {
-    final recoveryWords = await AccountService.instance().getPrivateKeys();
+    final recoveryWords = await accountService.getPrivateKeys();
     return RecoverGuardianInitialDTO(
       link: ValueResult(Uri.parse(settingsStorage.recoveryLink)),
       membersData: membersData,
@@ -76,8 +76,7 @@ class FetchRecoverGuardianInitialDataUseCase {
     String accountName,
   ) async {
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
-    final String? publicKey =
-        await AccountService.instance().keyRepository.publicKeyForPrivateKey(authData.wordsString);
+    final String? publicKey = await accountService.keyRepository.publicKeyForPrivateKey(authData.wordsString);
     print("public $publicKey");
 
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey!);

@@ -2,7 +2,7 @@ import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/utils/result_extension.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -21,7 +21,7 @@ class DeepLinkStateMapper extends StateMapper {
           ),
         );
       case DeepLinkPlaceHolder.invite:
-        if (settingsStorage.accountName.isNullOrEmpty) {
+        if (accountService.currentAccount.address.isNullOrEmpty) {
           // Handle invite link. Send user to memonic screen.
           return currentState.copyWith(inviteLinkData: InviteLinkData(deepLinkData.data['Mnemonic']));
         } else {

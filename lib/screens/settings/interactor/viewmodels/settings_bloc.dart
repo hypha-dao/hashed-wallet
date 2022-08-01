@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
@@ -40,7 +41,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Stream<bool> get isGuardianContractInitialized {
-    return _repository.isGuardiansInitialized(settingsStorage.accountName);
+    return _repository.isGuardiansInitialized(accountService.currentAccount.address);
   }
 
   void _setUpInitialValues(SetUpInitialValues event, Emitter<SettingsState> emit) {
@@ -54,7 +55,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> _onGuardiansCardTapped(OnGuardiansCardTapped event, Emitter<SettingsState> emit) async {
     emit(state.copyWith()); //reset
     if (state.hasNotification) {
-      await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(settingsStorage.accountName);
+      await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(accountService.currentAccount.address);
     }
     emit(state.copyWith(navigateToGuardians: true));
   }

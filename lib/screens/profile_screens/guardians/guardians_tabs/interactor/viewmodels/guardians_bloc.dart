@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -32,7 +32,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   Future<void> _activateGuardians(ActivateGuardians event, Emitter<GuardiansState> emit) async {}
 
   Future<void> _onStopRecoveryForUser(OnStopRecoveryForUser event, Emitter<GuardiansState> emit) async {
-    await _repository.stopRecoveryForUser(settingsStorage.accountName);
+    await _repository.stopRecoveryForUser(accountService.currentAccount.address);
   }
 
   Future<void> _onRemoveGuardianTapped(OnRemoveGuardianTapped event, Emitter<GuardiansState> emit) async {

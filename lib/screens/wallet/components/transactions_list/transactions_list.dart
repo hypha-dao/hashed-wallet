@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/transaction_details_bottom_sheet.dart';
@@ -62,7 +62,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
                     shrinkWrap: true,
                     itemCount: state.transactions.length,
                     itemBuilder: (_, index) {
-                      final account = settingsStorage.accountName;
+                      final account = accountService.currentAccount.address;
                       final model = state.transactions[index];
                       return TransactionInfoRow(
                         key: Key(model.transactionId ?? "index_$index"),

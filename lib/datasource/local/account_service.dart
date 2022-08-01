@@ -19,18 +19,18 @@ abstract class KeyRepository {
   Future<String?> publicKeyForPrivateKey(String privateKey);
 }
 
+AccountService accountService = AccountService(settingsStorage, PolkadotRepository());
+
 class AccountService {
   final AbstractStorage storage;
   final KeyRepository keyRepository;
   List<Account> get accounts => loadAccounts();
-  Account? get currentAccount => accounts.firstWhere(
+  Account get currentAccount => accounts.firstWhere(
         (e) => e.address == storage.currentAccount,
         orElse: () => accounts.isNotEmpty ? accounts[0] : Account.empty,
       );
 
   AccountService(this.storage, this.keyRepository);
-
-  factory AccountService.instance() => AccountService(settingsStorage, PolkadotRepository());
 
   List<Account> loadAccounts() {
     final accountString = storage.accounts ?? "[]";

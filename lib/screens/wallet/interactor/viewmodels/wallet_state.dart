@@ -34,7 +34,7 @@ class WalletState extends Equatable {
     return WalletState(
       pageState: PageState.initial,
       profile: ProfileModel(
-        account: settingsStorage.accountName,
+        account: accountService.currentAccount.address,
         status: ProfileStatus.visitor,
         type: '',
         nickname: '',

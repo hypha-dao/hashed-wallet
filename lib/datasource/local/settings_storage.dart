@@ -9,8 +9,6 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Keys
-const String _kAccountName = 'accountName';
-const String _kAccountsList = 'accountsList';
 const String _kPasscode = 'passcode';
 const String _kPasscodeActive = 'passcode_active';
 const String _kBiometricActive = 'biometric_active';
@@ -48,10 +46,6 @@ class _SettingsStorage implements AbstractStorage {
 
   static final _SettingsStorage _instance = _SettingsStorage._();
 
-  String get accountName => _preferences.getString(_kAccountName) ?? '';
-
-  List<String> get accountsList => _preferences.getStringList(_kAccountsList) ?? [];
-
   String? get passcode => _passcode;
 
   // TODO(n13): Passcode is disabled for now.
@@ -80,22 +74,6 @@ class _SettingsStorage implements AbstractStorage {
 
   set recoveryLink(String? value) =>
       value == null ? _preferences.remove(_kRecoveryLink) : _preferences.setString(_kRecoveryLink, value);
-
-  // ignore: avoid_setters_without_getters
-  set _accountName(String? value) {
-    // When start cancelRecoveryProcess funtion is fired a null value is recived.
-    // if null arrives here the account name is saved with empty string (I think this is a bad practice)
-    _preferences.setString(_kAccountName, value ?? '');
-    // Retrieve accounts list
-    final List<String> accts = accountsList;
-    // If new account --> add to list
-    // but check accountName is not a empty string to add
-    if (!accountsList.contains(value) && accountName.isNotEmpty) {
-      accts.add(accountName);
-      // Save updated accounts list
-      _preferences.setStringList(_kAccountsList, accts);
-    }
-  }
 
   set passcode(String? value) {
     _secureStorage.write(key: _kPasscode, value: value);
@@ -153,9 +131,10 @@ class _SettingsStorage implements AbstractStorage {
     _secureStorage = const FlutterSecureStorage();
 
     // on iOS secure storage items are not deleted on app uninstall - must be deleted manually
-    if (accountName.isEmpty && (_preferences.getBool(_kIsFirstRun) ?? true)) {
-      await _secureStorage.deleteAll();
-    }
+    // [POLKA] revisit this
+    // if (accountName.isEmpty && (_preferences.getBool(_kIsFirstRun) ?? true)) {
+    //   await _secureStorage.deleteAll();
+    // }
     await _preferences.setBool(_kIsFirstRun, false);
 
     await _secureStorage.readAll().then((values) {
@@ -192,10 +171,12 @@ class _SettingsStorage implements AbstractStorage {
     required AuthDataModel authData,
     required String recoveryLink,
   }) async {
-    inRecoveryMode = true;
-    _accountName = accountName;
-    this.recoveryLink = recoveryLink;
-    await AccountService.instance().createAccount(name: accountName, privateKey: authData.wordsString);
+    // [POLKA] fix this
+    throw UnimplementedError();
+    // inRecoveryMode = true;
+    // _accountName = accountName;
+    // this.recoveryLink = recoveryLink;
+    // await accountService.createAccount(name: accountName, privateKey: authData.wordsString);
   }
 
   void finishRecoveryProcess() {
@@ -209,7 +190,6 @@ class _SettingsStorage implements AbstractStorage {
   Future<void> cancelRecoveryProcess() async {
     await _preferences.clear();
     await _secureStorage.deleteAll();
-    _accountName = null;
   }
 
   void enablePasscode(String? passcode) {
@@ -247,15 +227,16 @@ class _SettingsStorage implements AbstractStorage {
 
   /// Update current accout name, private key and remove some pref
   Future<void> switchAccount(String accountName, AuthDataModel authData) async {
-    privateKeyBackedUp = false;
-    _accountName = accountName;
-    await Future.wait([
-      // _preferences.remove(_kSelectedFiatCurrency),
-      // _preferences.remove(_kSelectedToken),
-      // _preferences.remove(_kTokensWhiteList),
-      // _preferences.remove(_kIsCitizen),
-      // _preferences.remove(_kIsVisitor),
-    ]);
+    throw UnimplementedError("This is part of AccountService");
+    // privateKeyBackedUp = false;
+    // _accountName = accountName;
+    // await Future.wait([
+    //   // _preferences.remove(_kSelectedFiatCurrency),
+    //   // _preferences.remove(_kSelectedToken),
+    //   // _preferences.remove(_kTokensWhiteList),
+    //   // _preferences.remove(_kIsCitizen),
+    //   // _preferences.remove(_kIsVisitor),
+    // ]);
   }
 
   // ignore: use_setters_to_change_properties

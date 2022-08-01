@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/member_bloc.dart';
@@ -27,7 +27,7 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final account = settingsStorage.accountName;
+    final account = accountService.currentAccount.address;
     return BlocProvider(
       create: (_) =>
           MemberBloc(transaction.to == account ? transaction.from : transaction.to)..add(const OnLoadMemberData()),

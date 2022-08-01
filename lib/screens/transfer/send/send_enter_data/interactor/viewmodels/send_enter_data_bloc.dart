@@ -61,7 +61,7 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
     //     account: settingsStorage.selectedToken.contract,
     //     actionName: transferAction,
     //     data: {
-    //       'from': settingsStorage.accountName,
+    //       'from': accountService.currentAccount.address,
     //       'to': state.sendTo.account,
     //       'quantity': state.tokenAmount.asFormattedString(),
     //       'memo': state.memo,

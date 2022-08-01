@@ -19,7 +19,8 @@ class LoginScreen extends StatelessWidget {
               shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
           onPressed: () {
             if (settingsStorage.inRecoveryMode) {
-              NavigationService.of(context).navigateTo(Routes.recoverAccountFound, settingsStorage.accountName);
+              NavigationService.of(context)
+                  .navigateTo(Routes.recoverAccountFound, accountService.currentAccount.address);
             } else {
               NavigationService.of(context).navigateTo(Routes.recoverAccountSearch);
             }
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                         final publicKey = await polkadotRepository.publicKeyForPrivateKey(mnemonic1);
                         print("res $publicKey");
 
-                        await AccountService.instance().createAccount(name: "Test 1", privateKey: mnemonic1);
+                        await accountService.createAccount(name: "Test 1", privateKey: mnemonic1);
 
                         final priv = await polkadotRepository.privateKeyForPublicKey(publicKey!);
                         print("priv $priv"); // expect sample split ...

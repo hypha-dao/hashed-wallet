@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/remote/api/guardians_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 
@@ -26,7 +26,7 @@ class StopGuardianRecoveryUseCase {
 
   Future<Result> _onCancelGuardiansSuccess() {
     return _firebaseRepository
-        .removeGuardiansInitialized(settingsStorage.accountName)
+        .removeGuardiansInitialized(accountService.currentAccount.address)
         .then((value) => ValueResult(true))
         // ignore: return_of_invalid_type_from_catch_error
         .catchError((onError) => ErrorResult(false));
