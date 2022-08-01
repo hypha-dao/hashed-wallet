@@ -81,6 +81,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
 }
 
 // Manage guardian Ids
+// ignore: unused_element
 String _createGuardianId({required String currentUserId, required String otherUserId}) {
   return '$currentUserId-$otherUserId';
 }

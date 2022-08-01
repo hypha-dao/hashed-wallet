@@ -39,10 +39,6 @@ class SeedsApp extends StatelessWidget {
                 }
               },
             ),
-            BlocListener<DeeplinkBloc, DeeplinkState>(
-              listenWhen: (previous, current) => previous.inviteLinkData == null && current.inviteLinkData != null,
-              listener: (context, _) => BlocProvider.of<AuthenticationBloc>(context).add(const OnInviteLinkRecived()),
-            )
           ],
           child: Builder(
             builder: (context) {

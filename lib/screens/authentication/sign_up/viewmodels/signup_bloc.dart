@@ -33,6 +33,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Future<void> _onCreateAccountTapped(OnCreateAccountTapped event, Emitter<SignupState> emit) async {
+    print("on CREATE account");
     emit(state.copyWith(pageState: PageState.loading));
     final String inviteSecret = secretFromMnemonic(state.inviteMnemonic!);
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
@@ -48,16 +49,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   void _onBackPressed(OnBackPressed event, Emitter<SignupState> emit) {
     switch (state.signupScreens) {
-      case SignupScreens.claimInvite:
-        emit(state);
-        break;
       case SignupScreens.displayName:
-        if (state.fromDeepLink) {
-          // Not return to processing screen if it is from invite link
-          emit(state.copyWith(pageCommand: ReturnToLogin()));
-        } else {
-          emit(state.copyWith(signupScreens: SignupScreens.claimInvite));
-        }
+        // [POLKA] test going back from
+        emit(state.copyWith(pageCommand: ReturnToLogin()));
         break;
       case SignupScreens.accountName:
         emit(state.copyWith(signupScreens: SignupScreens.displayName));

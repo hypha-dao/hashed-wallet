@@ -25,12 +25,6 @@ class StartTimeoutAuth extends AuthenticationEvent {
   String toString() => 'StartTimeoutAuth';
 }
 
-class OnInviteLinkRecived extends AuthenticationEvent {
-  const OnInviteLinkRecived();
-  @override
-  String toString() => 'OnInviteLinkRecived';
-}
-
 class OnCreateAccount extends AuthenticationEvent {
   final String account;
   final AuthDataModel authData;

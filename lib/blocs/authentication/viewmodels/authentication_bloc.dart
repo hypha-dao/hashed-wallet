@@ -19,7 +19,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   AuthenticationBloc() : super(AuthenticationState.initial()) {
     on<InitAuthStatus>((_, emit) => emit(AuthStatusStateMapper().mapResultToState(state)));
     on<UnlockWallet>(_unlockWallet);
-    on<OnInviteLinkRecived>((_, emit) => emit(state.copyWith(authStatus: AuthStatus.inviteLink)));
     on<OnCreateAccount>(_onCreateAccount);
     on<OnImportAccount>(_onImportAccount);
     on<OnRecoverAccount>(_onRecoverAccount);

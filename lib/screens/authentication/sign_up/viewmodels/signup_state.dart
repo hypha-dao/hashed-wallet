@@ -1,15 +1,12 @@
 part of 'signup_bloc.dart';
 
-enum SignupScreens { claimInvite, displayName, accountName }
-
-enum ClaimInviteView { initial, scanner, processing, success, fail }
+enum SignupScreens { displayName, accountName }
 
 class SignupState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final SignUpError? error;
   final SignupScreens signupScreens;
-  final ClaimInviteView claimInviteView;
   final InviteModel? inviteModel;
   final String? inviteMnemonic;
   final bool fromDeepLink;
@@ -21,7 +18,6 @@ class SignupState extends Equatable {
     this.pageCommand,
     this.error,
     required this.signupScreens,
-    required this.claimInviteView,
     this.inviteModel,
     this.inviteMnemonic,
     required this.fromDeepLink,
@@ -35,7 +31,6 @@ class SignupState extends Equatable {
         pageCommand,
         error,
         signupScreens,
-        claimInviteView,
         inviteModel,
         inviteMnemonic,
         fromDeepLink,
@@ -52,7 +47,6 @@ class SignupState extends Equatable {
     PageCommand? pageCommand,
     SignUpError? error,
     SignupScreens? signupScreens,
-    ClaimInviteView? claimInviteView,
     InviteModel? inviteModel,
     String? inviteMnemonic,
     bool? fromDeepLink,
@@ -64,7 +58,6 @@ class SignupState extends Equatable {
         pageCommand: pageCommand,
         error: error,
         signupScreens: signupScreens ?? this.signupScreens,
-        claimInviteView: claimInviteView ?? this.claimInviteView,
         inviteModel: inviteModel ?? this.inviteModel,
         inviteMnemonic: inviteMnemonic ?? this.inviteMnemonic,
         fromDeepLink: fromDeepLink ?? this.fromDeepLink,
@@ -75,8 +68,7 @@ class SignupState extends Equatable {
   factory SignupState.initial() {
     return const SignupState(
       pageState: PageState.initial,
-      signupScreens: SignupScreens.claimInvite,
-      claimInviteView: ClaimInviteView.initial,
+      signupScreens: SignupScreens.displayName,
       fromDeepLink: false,
     );
   }
