@@ -10,7 +10,7 @@ class GuardiansRepository with HttpRepository {
   Future<Result> initGuardians(List<String> guardians) async {
     print('[eos] init guardians: $guardians');
 
-    return PolkadotRepository().initGuardians(guardians);
+    return polkadotRepository.initGuardians(guardians);
   }
 
   /// Claim recovered account for user - this switches the new public key live at the end of the
@@ -29,7 +29,7 @@ class GuardiansRepository with HttpRepository {
   /// This cancels any recovery currently in process, and removes all guardians
   ///
   Future<Result> cancelGuardians() async {
-    return PolkadotRepository().cancelGuardians();
+    return polkadotRepository.cancelGuardians();
   }
 
   /// Recover an account via the key guardian system
@@ -47,11 +47,11 @@ class GuardiansRepository with HttpRepository {
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
     print('[http] get account recovery $accountName');
 
-    return PolkadotRepository().getAccountRecovery();
+    return polkadotRepository.getAccountRecovery();
   }
 
   Future<Result<dynamic>> getAccountGuardians(String accountName) async {
-    return PolkadotRepository().getAccountGuardians();
+    return polkadotRepository.getAccountGuardians();
   }
 
   Future<Result<dynamic>> generateRecoveryRequest(String accountName, String publicKey) async {

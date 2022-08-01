@@ -19,7 +19,7 @@ abstract class KeyRepository {
   Future<String?> publicKeyForPrivateKey(String privateKey);
 }
 
-AccountService accountService = AccountService(settingsStorage, PolkadotRepository());
+AccountService accountService = AccountService(settingsStorage, polkadotRepository);
 
 class AccountService {
   final AbstractStorage storage;

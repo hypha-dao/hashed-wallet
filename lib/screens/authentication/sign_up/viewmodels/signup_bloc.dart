@@ -31,7 +31,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   Future<void> _onCreateAccountTapped(OnCreateAccountTapped event, Emitter<SignupState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final words = await PolkadotRepository().createKey();
+    final words = await polkadotRepository.createKey();
     print("secret words: $words");
     final AuthDataModel authData = AuthDataModel.fromString(words);
     emit(state.copyWith(auth: authData, pageState: PageState.success));

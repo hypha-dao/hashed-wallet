@@ -7,12 +7,8 @@ class BalanceRepository extends HttpRepository {
   Future<Result<BalanceModel>> getTokenBalance(String address,
       {required String tokenId, required String symbol}) async {
     print('[http] get seeds getTokenBalance $address for $symbol');
-    // [POLKA] get balance
-
-    final res = await polkadotRepository.getBalance(address);
-
-    print("bal $res");
-
-    return Result(() => const BalanceModel(1.1));
+    final double res = await polkadotRepository.getBalance(address);
+    // [POLKA] need a mapper class for this...
+    return Result(() => BalanceModel(res));
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/transactions_list.dart';
 import 'package:seeds/screens/wallet/components/wallet_appbar.dart';
@@ -28,6 +30,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
             onRefresh: () async {
               BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
               BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
+              eventBus.fire(const OnWalletRefreshEventBus());
             },
             child: Scaffold(
               appBar: const WalletAppBar(),

@@ -60,7 +60,7 @@ const hashedToken = TokenModel(
   symbol: "HSD",
   name: "Hashed Token",
   // ignore: avoid_redundant_argument_values
-  precision: 8,
+  precision: 12,
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
   logoUrl: 'assets/images/hashed_logo_black.png',
   balanceSubTitle: 'Wallet Balance',
