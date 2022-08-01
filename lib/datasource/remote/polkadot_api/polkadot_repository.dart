@@ -119,7 +119,10 @@ class PolkadotRepository extends KeyRepository {
 
   // api.query.system.account(steve.address)
   Future<dynamic> getBalance(String address) async {
+    print("get balance for $address");
+    await _checkInitialized();
     await _checkConnected();
+    await _cryptoWaitReady();
     final res = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
     print("getBalance res: $res");
     return res;

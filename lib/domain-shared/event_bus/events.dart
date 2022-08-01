@@ -20,6 +20,10 @@ class OnFiatCurrencyChangedEventBus extends BusEvent<OnNewTransactionEventBus> {
   const OnFiatCurrencyChangedEventBus();
 }
 
+class OnWalletRefreshEventBus extends BusEvent<OnWalletRefreshEventBus> {
+  const OnWalletRefreshEventBus();
+}
+
 class ShowSnackBar extends BusEvent<OnNewTransactionEventBus> {
   final String message;
   final SnackType snackType;
