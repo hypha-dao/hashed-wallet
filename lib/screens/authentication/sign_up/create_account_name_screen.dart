@@ -34,9 +34,6 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
     if (_signupBloc.state.accountName != null) {
       _keyController.text = _signupBloc.state.accountName!;
     }
-    // else {
-    //   _signupBloc.add(OnGenerateNewUsername(_signupBloc.state.displayName));
-    // }
   }
 
   @override
