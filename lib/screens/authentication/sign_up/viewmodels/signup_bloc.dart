@@ -49,7 +49,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   void _onBackPressed(OnBackPressed event, Emitter<SignupState> emit) {
     switch (state.signupScreens) {
       case SignupScreens.displayName:
-        // [POLKA] test going back from
         emit(state.copyWith(pageCommand: ReturnToLogin()));
         break;
       case SignupScreens.accountName:
