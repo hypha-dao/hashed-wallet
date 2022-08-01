@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -130,14 +131,13 @@ class PolkadotRepository extends KeyRepository {
       await _cryptoWaitReady();
 
       // Debug code, do not check in - checking account with known address
-      final knownAddress = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
-      final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$knownAddress")');
+      // final knownAddress = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
+      // final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$knownAddress")');
 
-      //final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
+      final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
 
-      // flutter: getBalance res: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
-
-      print("result STRING $resJson");
+      // print("result STRING $resJson");
+      // flutter: result STRING: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
 
       /// this value is an int if it's small enough.
       /// Not sure what will happen if the number is too big but one would assume it
@@ -145,7 +145,7 @@ class PolkadotRepository extends KeyRepository {
       final free = resJson["data"]["free"];
       final freeString = "$free";
       final bigNum = BigInt.parse(freeString);
-      final double result = bigNum.toDouble() / pow(10, 12);
+      final double result = bigNum.toDouble() / pow(10, hashedToken.precision);
 
       //print("free type: ${free.runtimeType} ==> $bigNum ==> $result");
 
