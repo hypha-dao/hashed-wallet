@@ -1,6 +1,7 @@
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
 import 'package:seeds/datasource/local/models/account.dart';
+import 'package:seeds/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
 
@@ -103,6 +104,22 @@ class PolkadotRepository extends KeyRepository {
   @override
   Future<String?> publicKeyForPrivateKey(String privateKey) {
     // TODO(n13): implement publicKeyForPrivateKey
+    throw UnimplementedError();
+  }
+
+  Future<Result> initGuardians(List<String> guardians) async {
+    throw UnimplementedError();
+  }
+
+  Future<Result> cancelGuardians() async {
+    throw UnimplementedError();
+  }
+
+  Future<Result> getAccountRecovery() async {
+    throw UnimplementedError();
+  }
+
+  Future<Result> getAccountGuardians() async {
     throw UnimplementedError();
   }
 }

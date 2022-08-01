@@ -1,22 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/mappers/send_amount_change_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/mappers/send_enter_data_state_mapper.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/mappers/send_transaction_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
 part 'send_enter_data_event.dart';
@@ -60,20 +55,21 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
 
   Future<void> _onSendButtonTapped(OnSendButtonTapped event, Emitter<SendEnterDataState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: true));
-    final Result result = await SendTransactionUseCase().run(
-      EOSTransaction.fromAction(
-        account: settingsStorage.selectedToken.contract,
-        actionName: transferAction,
-        data: {
-          'from': settingsStorage.accountName,
-          'to': state.sendTo.account,
-          'quantity': state.tokenAmount.asFormattedString(),
-          'memo': state.memo,
-        },
-      ),
-      null,
-    );
-    final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
-    emit(SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview));
+    throw UnimplementedError("[POLKA] TBD");
+    // final Result result = await SendTransactionUseCase().run(
+    //   EOSTransaction.fromAction(
+    //     account: settingsStorage.selectedToken.contract,
+    //     actionName: transferAction,
+    //     data: {
+    //       'from': settingsStorage.accountName,
+    //       'to': state.sendTo.account,
+    //       'quantity': state.tokenAmount.asFormattedString(),
+    //       'memo': state.memo,
+    //     },
+    //   ),
+    //   null,
+    // );
+    // final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
+    // emit(SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview));
   }
 }

@@ -11,8 +11,6 @@ import 'package:seeds/datasource/remote/model/transaction_results.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/initial_validation_state_mapper.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 
@@ -45,8 +43,10 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
 
   Future<void> _onSendTransaction(OnSendTransactionButtonPressed event, Emitter<SendConfirmationState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result result = await SendTransactionUseCase().run(state.transaction, state.callback);
-    final bool shouldShowInAppReview = await inAppReview.isAvailable();
-    emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates, shouldShowInAppReview));
+    // [POLKA] implement
+    throw UnimplementedError();
+    // final Result result = await SendTransactionUseCase().run(state.transaction, state.callback);
+    // final bool shouldShowInAppReview = await inAppReview.isAvailable();
+    // emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates, shouldShowInAppReview));
   }
 }

@@ -9,19 +9,11 @@ class InitGuardiansUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
   Future<Result<dynamic>> initGuardians(Iterable<GuardianModel> myGuardians) {
-    return _guardiansRepository.setGuardianPermission().then((Result value) {
+    return _guardiansRepository.initGuardians(myGuardians.map((e) => e.walletAddress).toList()).then((Result value) {
       if (value.isError) {
         return value;
       } else {
-        return _guardiansRepository
-            .initGuardians(myGuardians.map((e) => e.walletAddress).toList())
-            .then((Result value) {
-          if (value.isError) {
-            return value;
-          } else {
-            return _firebaseRepository.setGuardiansInitialized(settingsStorage.accountName);
-          }
-        });
+        return _firebaseRepository.setGuardiansInitialized(settingsStorage.accountName);
       }
     });
   }

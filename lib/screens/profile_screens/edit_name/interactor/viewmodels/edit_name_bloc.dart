@@ -5,8 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/mappers/update_profile_state_mapper.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/usecases/update_profile_use_case.dart';
 
 part 'edit_name_event.dart';
 
@@ -24,8 +22,9 @@ class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {
   Future<void> _submitName(SubmitName event, Emitter<EditNameState> emit) async {
     if (state.profileModel.nickname != state.name) {
       emit(state.copyWith(pageState: PageState.loading));
-      final result = await UpdateProfileUseCase().run(newName: state.name, profile: state.profileModel);
-      emit(UpdateProfileStateMapper().mapResultToState(state, result));
+      // [POLKA] Removed - we don't communicate with profile services in polkadot
+      // final result = await UpdateProfileUseCase().run(newName: state.name, profile: state.profileModel);
+      // emit(UpdateProfileStateMapper().mapResultToState(state, result));
     }
   }
 
