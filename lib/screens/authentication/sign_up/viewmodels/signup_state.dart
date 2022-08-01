@@ -55,7 +55,7 @@ class SignupState extends Equatable {
       );
 
   factory SignupState.initial() {
-    return SignupState(
+    return const SignupState(
       pageState: PageState.initial,
       signupScreens: SignupScreens.displayName,
     );

@@ -1,16 +1,12 @@
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
-import 'package:seeds/screens/authentication/sign_up/mappers/create_account_state_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
-import 'package:seeds/screens/authentication/sign_up/usecases/create_account_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/utils/string_extension.dart';
 
