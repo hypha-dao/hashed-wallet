@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
