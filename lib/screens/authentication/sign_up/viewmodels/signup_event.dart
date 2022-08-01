@@ -65,12 +65,13 @@ class OnAccountNameChanged extends SignupEvent {
 }
 
 class OnCreateAccountTapped extends SignupEvent {
-  const OnCreateAccountTapped(this.phoneNumber);
-
-  final String? phoneNumber;
-
   @override
-  String toString() => 'OnCreateAccountTapped { phoneNumber: $phoneNumber }';
+  String toString() => 'OnCreateAccountTapped';
+}
+
+class OnCreateAccountFinished extends SignupEvent {
+  @override
+  String toString() => 'OnCreateAccountFinished';
 }
 
 class OnBackPressed extends SignupEvent {

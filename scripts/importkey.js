@@ -15,7 +15,7 @@ const init = async () => {
   const keyring = new Keyring({ type: "sr25519" });
 
   // Add steve to keyring, using secret words
-  steve = keyring.addFromUri(
+  const steve = keyring.addFromUri(
     process.env.STEVE_WORDS
   );
 
@@ -23,6 +23,23 @@ const init = async () => {
     console.log("Address correct: " + steve.address)
   } else {
     console.error("Address incorrect: "+ steve.address+ " expected: " + process.env.STEVE_ADDRESS)
+  }
+
+  // known mnemonic, well, now it is - don't use it for funds
+  const mnemonic1 = 'sample split bamboo west visual approve brain fox arch impact relief smile';
+  // mnemonic1 as sr25519 ==> 5FLiLdaQQiW7qm7tdZjdonfSV8HAcjLxFVcqv9WDbceTmBXA
+  const pubkey1 = "5FLiLdaQQiW7qm7tdZjdonfSV8HAcjLxFVcqv9WDbceTmBXA"
+
+  const res1 = keyring.addFromUri(
+    mnemonic1
+  );
+
+  console.log("res1 "+JSON.stringify(res1, null, 2))
+
+  if (res1.address == pubkey1) {
+    console.log("res1 Address correct: " + res1.address)
+  } else {
+    console.error("Address incorrect: "+ res1.address+ " expected: " + pubkey1)
   }
 
   process.exit()

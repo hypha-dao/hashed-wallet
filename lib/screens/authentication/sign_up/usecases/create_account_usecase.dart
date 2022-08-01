@@ -3,7 +3,6 @@ import 'package:seeds/datasource/local/models/auth_data_model.dart';
 
 class CreateAccountUseCase {
   Future<Result> run({
-    required String inviteSecret,
     required String displayName,
     required String accountName,
     required AuthDataModel authData,

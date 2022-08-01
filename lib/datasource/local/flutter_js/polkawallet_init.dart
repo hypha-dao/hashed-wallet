@@ -21,6 +21,10 @@ class PolkawalletInit {
 
   bool get isConnected => _connected;
 
+  void Function(bool isConnected) connectionStateHandler;
+
+  PolkawalletInit(this.connectionStateHandler);
+
   bool _initialized = false;
 
   Future<void> init() async {
@@ -52,6 +56,7 @@ class PolkawalletInit {
     final res = await walletSdk.api.service.webView?.connectNode(nodeList);
 
     _connected = res?.endpoint != null;
+    updateConnectionHandler();
 
     if (res == null) {
       return null;
@@ -102,8 +107,10 @@ class PolkawalletInit {
         // and start over.
         // That's a little odd.
         // Note: I am pretty sure this code has bugs and race conditions.
+
         print("Connection dropped, restarting");
         unawaited(_restartWebConnect(node: node));
+
         _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
           _dropsService(node: node);
         });
@@ -131,13 +138,20 @@ class PolkawalletInit {
     _webViewDropsTimer?.cancel();
   }
 
+  void updateConnectionHandler() {
+    connectionStateHandler(_connected);
+  }
+
   Future<void> _restartWebConnect({NetworkParams? node}) async {
     // TODO(n13): Dispose of the web view, and create new one
     _connected = false;
+    updateConnectionHandler();
 
     final res = await walletSdk.api.connectNode(_keyring!, nodeList);
     if (res != null) {
       _connected = true;
+      updateConnectionHandler();
+
       _keyring!.ss58 = res.ss58;
 
       print("COnnected: ${res.endpoint}");

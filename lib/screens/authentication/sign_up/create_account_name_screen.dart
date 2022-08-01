@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
@@ -11,8 +10,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
-import 'package:seeds/utils/debouncer.dart';
 
 class CreateAccountNameScreen extends StatefulWidget {
   const CreateAccountNameScreen({super.key});
@@ -21,11 +18,17 @@ class CreateAccountNameScreen extends StatefulWidget {
   _CreateAccountNameStateScreen createState() => _CreateAccountNameStateScreen();
 }
 
+const wordsTextConstant = """
+You can use these secret words to recover your account.
+
+No one but you has these words so save them somewhere where you can find them again.
+
+Either copy paste them somewhere safe, or write them down on a piece of paper.
+""";
+
 class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
   late SignupBloc _signupBloc;
   final TextEditingController _keyController = TextEditingController();
-  final _usernameFormKey = GlobalKey<FormState>();
-  final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
   @override
   void initState() {
@@ -34,6 +37,12 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
     if (_signupBloc.state.accountName != null) {
       _keyController.text = _signupBloc.state.accountName!;
     }
+  }
+
+  void _copyToClipboard(String words) {
+    print("copy");
+    Clipboard.setData(ClipboardData(text: words));
+    eventBus.fire(const ShowSnackBar.success('Copied Secret Words'));
   }
 
   @override
@@ -55,7 +64,10 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
         builder: (context, state) {
           return Scaffold(
             // From invite link, there isn't a screen below the stack thus no implicit back arrow
-            appBar: AppBar(leading: state.fromDeepLink ? BackButton(onPressed: _navigateBack) : null),
+            appBar: AppBar(
+              title: const Text("Save your secret words"),
+              leading: BackButton(onPressed: _navigateBack),
+            ),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Stack(
@@ -63,34 +75,33 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Form(
-                        key: _usernameFormKey,
-                        child: TextFormFieldCustom(
-                          maxLength: 12,
-                          labelText: context.loc.signUpUsernameTitle,
-                          controller: _keyController,
-                          errorText: state.error?.localizedDescription(context),
-                          suffixIcon: QuadStateClipboardIconButton(
-                            isChecked: state.isUsernameValid,
-                            onClear: () => _keyController.clear(),
-                            isLoading: state.pageState == PageState.loading,
-                            canClear: _keyController.text.isNotEmpty,
+                      InkWell(
+                        onTap: () => _copyToClipboard(state.auth?.wordsString ?? ""),
+                        child: IgnorePointer(
+                          child: TextFormField(
+                            initialValue: state.auth?.wordsString ?? "",
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            style: Theme.of(context).textTheme.subtitle1,
+                            decoration: InputDecoration(
+                              suffixStyle: Theme.of(context).textTheme.subtitle2,
+                              suffixIcon: const Icon(Icons.copy_all),
+                              contentPadding: const EdgeInsets.all(16.0),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
                           ),
-                          onChanged: (text) {
-                            _debouncer.run(() => _signupBloc.add(OnAccountNameChanged(text)));
-                          },
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Expanded(
-                        child: Text(context.loc.signUpUsernameDescription),
+                      const Expanded(
+                        child: Text(wordsTextConstant),
                       ),
                       FlatButtonLong(
-                        title: "Create Account 1",
+                        title: "Create Account",
                         onPressed: state.isNextButtonActive
                             ? () {
                                 FocusScope.of(context).unfocus();
-                                _signupBloc.add(OnCreateAccountTapped(_keyController.text));
+                                _signupBloc.add(OnCreateAccountFinished());
                               }
                             : null,
                       ),
