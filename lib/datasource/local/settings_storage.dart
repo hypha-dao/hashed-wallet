@@ -64,13 +64,13 @@ class _SettingsStorage implements AbstractStorage {
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
-  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? seedsToken.id);
+  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? hashedToken.id);
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 
   String get recoveryLink => _preferences.getString(_kRecoveryLink) ?? '';
 
-  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [seedsToken.id];
+  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [hashedToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 

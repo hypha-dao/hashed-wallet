@@ -10,7 +10,7 @@ class LoadTokenBalancesUseCase {
     final List<Future<Result<BalanceModel>>> list = tokens
         .map((item) => BalanceRepository().getTokenBalance(
               account,
-              tokenContract: item.contract,
+              tokenId: item.id,
               symbol: item.symbol,
             ))
         .toList();

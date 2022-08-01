@@ -11,7 +11,7 @@ class GetAvailableBalanceUseCase extends InputUseCase<BalanceModel, TokenModel> 
   Future<Result<BalanceModel>> run(TokenModel input) {
     return _balanceRepository.getTokenBalance(
       settingsStorage.accountName,
-      tokenContract: input.contract,
+      tokenId: input.id,
       symbol: input.symbol,
     );
   }
