@@ -62,6 +62,6 @@ const hashedToken = TokenModel(
   // ignore: avoid_redundant_argument_values
   precision: 8,
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
-  logoUrl: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+  logoUrl: 'assets/images/hashed_logo_black.png',
   balanceSubTitle: 'Wallet Balance',
 );

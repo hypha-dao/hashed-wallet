@@ -185,6 +185,7 @@ flutter:
     - assets/images/send/telos_logo.png
     - assets/images/transfer/seeds_icon.svg
     - assets/images/transfer/arrow_up.svg
+    - assets/images/hashed_logo_black.png
     - assets/animations/forest.json
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
