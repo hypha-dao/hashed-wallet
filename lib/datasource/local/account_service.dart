@@ -1,26 +1,48 @@
 import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+
+/// An abstract class for storage services, so we can unit test this class
+abstract class AbstractStorage {
+  String? get accounts;
+
+  void saveAccounts(String jsonFromList);
+
+  Future<String?> getPrivateKeysString();
+
+  Future<void> savePrivateKeys(String privateKeysJsonString);
+}
+
+/// An abstract class for key services, so we can unit test this
+abstract class KeyRepository {
+  Future<String?> publicKeyForPrivateKey(String privateKey);
+}
 
 class AccountService {
+  final AbstractStorage storage;
+  final KeyRepository keyRepository;
+
+  AccountService(this.storage, this.keyRepository);
+
+  factory AccountService.instance() => AccountService(settingsStorage, PolkadotRepository());
+
   Future<List<Account>> loadAccounts() async {
-    final accountString = settingsStorage.accounts ?? "[]";
+    final accountString = storage.accounts ?? "[]";
     return Account.listFromJson(accountString);
   }
 
   void saveAccounts(List<Account> accounts) {
-    settingsStorage.saveAccounts(Account.jsonFromList(accounts));
+    storage.saveAccounts(Account.jsonFromList(accounts));
   }
 
-  void addKey(String key) {}
-
-  Future<Account?> createAccount(String name, String privateKey) async {
+  Future<Account?> createAccount({required String name, required String privateKey}) async {
     if (privateKey.contains(",")) {
       throw ArgumentError("illegal character in private key: ',': $privateKey");
     }
     Account? result;
-    final public = await publicKeyForPrivateKey(privateKey);
+    final public = await keyRepository.publicKeyForPrivateKey(privateKey);
     if (public != null) {
-      final account = Account(name, public);
+      final account = Account(name: name, address: public);
       final accounts = await loadAccounts();
       if (!accounts.contains(account)) {
         accounts.add(account);
@@ -36,13 +58,8 @@ class AccountService {
     return result;
   }
 
-  Future<String?> publicKeyForPrivateKey(String privateKey) async {
-    // TODO(n13): replace with repo function
-    return "foo";
-  }
-
   Future<List<String>> getPrivateKeys() async {
-    final privateKeyString = await settingsStorage.getPrivateKeysString();
+    final privateKeyString = await storage.getPrivateKeysString();
     if (privateKeyString != null) {
       return privateKeyString.split(",");
     } else {
@@ -51,6 +68,6 @@ class AccountService {
   }
 
   Future<void> savePrivateKeys(List<String> privateKeys) async {
-    await settingsStorage.savePrivateKeys(privateKeys.join(","));
+    await storage.savePrivateKeys(privateKeys.join(","));
   }
 }

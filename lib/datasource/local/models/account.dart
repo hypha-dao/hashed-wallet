@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class Account extends Equatable {
   final String address;
   final String name;
-  const Account(this.address, this.name);
+  const Account({required this.name, required this.address});
 
   Map<String, dynamic> toJson() {
     return {
@@ -16,8 +16,8 @@ class Account extends Equatable {
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      json["address"],
-      json["name"],
+      name: json["name"],
+      address: json["address"],
     );
   }
 
@@ -28,10 +28,14 @@ class Account extends Equatable {
 
   static String jsonFromList(List<Account> accounts) {
     final res = json.encode(accounts);
-    print("json str: $res");
     return res;
   }
 
   @override
   List<Object?> get props => [name, address];
+
+  @override
+  String toString() {
+    return "${toJson()}";
+  }
 }

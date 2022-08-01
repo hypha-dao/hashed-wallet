@@ -1,22 +1,32 @@
-import 'package:seeds/datasource/local/flutter_js/polkawallet_init_2.dart';
+import 'package:seeds/datasource/local/account_service.dart';
+import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
 
-class PolkadotRepository {
-  late PolkawalletInit2? _polkawalletInit;
+class PolkadotRepository extends KeyRepository {
+  late PolkawalletInit? _polkawalletInit;
 
   bool get isRunning => _polkawalletInit != null;
 
-  Future<bool> startService() async {
+  Future<void> initService() async {
     try {
       print("PolkadotRepository init");
 
-      _polkawalletInit = PolkawalletInit2();
+      _polkawalletInit = PolkawalletInit();
 
-      await _polkawalletInit!.startApp();
+      await _polkawalletInit!.init();
+    } catch (err) {
+      print("Error: $err");
+      rethrow;
+    }
+  }
 
-      print("JS is running...");
-
+  Future<bool> startService() async {
+    try {
+      print("PolkadotRepository start");
+      _polkawalletInit = PolkawalletInit();
+      await _polkawalletInit!.connect();
       return true;
     } catch (err) {
       print("Error: $err");
@@ -31,14 +41,10 @@ class PolkadotRepository {
   }
 
   Future<String> createKey() async {
-    //console.log("hello JS, this is createKey");
-    // Note: "gen" returns a full key JSON, and also adds the new key to the keyring
-
     final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
-    print("create res: $res");
+    //print("create res: $res");
     final String mnemonic = res["mnemonic"];
-    // String mnemonic = res["mnemonic"];
-    print("mnemonic $mnemonic");
+    //print("mnemonic $mnemonic");
     return mnemonic;
   }
 
@@ -56,7 +62,7 @@ class PolkadotRepository {
     return res;
   }
 
-  Future<dynamic> importKey(String mnemonic) async {
+  Future<Account> importKey(String mnemonic) async {
     /// Notes
     /// 1 - Variables declared raw are global variables
     /// 2 - Here we use last_pair to store the last added keypair so we can return it
@@ -87,10 +93,16 @@ class PolkadotRepository {
     try {
       final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
       print("result importKey $res");
-      return res;
+      return Account(name: "", address: res["address"]);
     } catch (err) {
       print("error $err");
       rethrow;
     }
+  }
+
+  @override
+  Future<String?> publicKeyForPrivateKey(String privateKey) {
+    // TODO(n13): implement publicKeyForPrivateKey
+    throw UnimplementedError();
   }
 }
