@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
@@ -55,16 +57,24 @@ class LoginScreen extends StatelessWidget {
                     Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
                     const SizedBox(height: 10),
                     FlatButtonLong(
-                      onPressed: () {
-                        /// We use remoteConfigurations directly here because this page doesnt have blocs.
-                        /// !!!Please do not copy this pattern!!!
-                        if (remoteConfigurations.featureFlagExportRecoveryPhraseEnabled) {
-                          NavigationService.of(context).navigateTo(Routes.importKey);
-                        } else {
-                          NavigationService.of(context).navigateTo(Routes.importKey);
-                        }
+                      onPressed: () async {
+                        // NavigationService.of(context).navigateTo(Routes.importKey);
+                        // testing substrate service - leave this for now
+                        print("test public for priv");
+
+                        // pub for priv test
+                        // known mnemonic, well, now it is - don't use it for funds
+                        const mnemonic1 = 'sample split bamboo west visual approve brain fox arch impact relief smile';
+                        // mnemonic1 as sr25519 ==> 5FLiLdaQQiW7qm7tdZjdonfSV8HAcjLxFVcqv9WDbceTmBXA
+                        final publicKey = await polkadotRepository.publicKeyForPrivateKey(mnemonic1);
+                        print("res $publicKey");
+
+                        await AccountService.instance().createAccount(name: "Test 1", privateKey: mnemonic1);
+
+                        final priv = await polkadotRepository.privateKeyForPublicKey(publicKey!);
+                        print("priv $priv"); // expect sample split ...
                       },
-                      title: "Import Account",
+                      title: 'Import Account',
                     )
                   ],
                 ),
