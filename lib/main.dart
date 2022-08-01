@@ -13,6 +13,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/seeds_app.dart';
 
 InAppLocalhostServer localhostServer = InAppLocalhostServer();
@@ -41,6 +42,8 @@ Future<void> main() async {
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    await polkadotRepository.initService();
 
     // Called whenever the Flutter framework catches an error.
     FlutterError.onError = (details) async {

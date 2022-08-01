@@ -33,7 +33,7 @@ class SignupScreen extends StatelessWidget {
           switch (signupScreens) {
             case SignupScreens.displayName:
               return const CreateDisplayNameScreen();
-            case SignupScreens.accountName:
+            case SignupScreens.createAccount:
               return const CreateAccountNameScreen();
           }
         },

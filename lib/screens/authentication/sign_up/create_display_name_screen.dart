@@ -42,7 +42,10 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
         builder: (context, state) {
           return Scaffold(
             // From invite link, there isn't a screen below the stack thus no implicit back arrow
-            appBar: AppBar(leading: state.fromDeepLink ? BackButton(onPressed: _navigateBack) : null),
+            appBar: AppBar(
+              title: const Text("Choose your name"),
+              leading: BackButton(onPressed: _navigateBack),
+            ),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
@@ -64,7 +67,7 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                     },
                   ),
                   const Expanded(child: Text("Enter a name for this account")),
-                  FlatButtonLong(onPressed: _onNextPressed(), title: context.loc.signUpNextButtonTitle),
+                  FlatButtonLong(onPressed: _onNextPressed(), title: "Next"),
                 ],
               ),
             ),

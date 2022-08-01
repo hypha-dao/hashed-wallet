@@ -112,7 +112,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
 
                             await polkadotRepository.stopService();
 
-                            print("isRunning ${polkadotRepository.isRunning}");
+                            print("isRunning ${polkadotRepository.isConnected}");
                           },
                           buttonType: ButtonsType.receiveButton,
                         ),
