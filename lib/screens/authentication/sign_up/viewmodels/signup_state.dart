@@ -42,6 +42,7 @@ class SignupState extends Equatable {
     SignupScreens? signupScreens,
     String? accountName,
     String? displayName,
+    AuthDataModel? auth,
   }) =>
       SignupState(
         pageState: pageState ?? this.pageState,
@@ -50,10 +51,11 @@ class SignupState extends Equatable {
         signupScreens: signupScreens ?? this.signupScreens,
         accountName: accountName ?? this.accountName,
         displayName: displayName ?? this.displayName,
+        auth: auth ?? this.auth,
       );
 
   factory SignupState.initial() {
-    return const SignupState(
+    return SignupState(
       pageState: PageState.initial,
       signupScreens: SignupScreens.displayName,
     );

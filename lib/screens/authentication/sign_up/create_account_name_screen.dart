@@ -76,11 +76,10 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       InkWell(
-                        onTap: () => _copyToClipboard(state.accountName),
+                        onTap: () => _copyToClipboard(state.auth?.wordsString ?? ""),
                         child: IgnorePointer(
                           child: TextFormField(
-                            initialValue:
-                                "this is the 12 input words and there is way more lets see if we line break yes we do and there is more so this is goo",
+                            initialValue: state.auth?.wordsString ?? "",
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             style: Theme.of(context).textTheme.subtitle1,
@@ -102,7 +101,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                         onPressed: state.isNextButtonActive
                             ? () {
                                 FocusScope.of(context).unfocus();
-                                _signupBloc.add(OnCreateAccountTapped(_keyController.text));
+                                _signupBloc.add(OnCreateAccountFinished());
                               }
                             : null,
                       ),

@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
@@ -32,14 +33,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   Future<void> _onCreateAccountTapped(OnCreateAccountTapped event, Emitter<SignupState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
-    final Result result = await CreateAccountUseCase().run(
-      displayName: state.displayName!,
-      accountName: state.accountName!,
-      authData: authData,
-      phoneNumber: '',
-    );
-    emit(CreateAccountStateMapper().mapResultToState(state, result, authData));
+    final words = await PolkadotRepository().createKey();
+    print("secret words: $words");
+    final AuthDataModel authData = AuthDataModel.fromString(words);
+    emit(state.copyWith(auth: authData, pageState: PageState.success));
   }
 
   void _onBackPressed(OnBackPressed event, Emitter<SignupState> emit) {

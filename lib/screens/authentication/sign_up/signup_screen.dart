@@ -14,7 +14,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SignupBloc(),
+      create: (_) => SignupBloc()..add(OnCreateAccountTapped()),
       child: BlocConsumer<SignupBloc, SignupState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
