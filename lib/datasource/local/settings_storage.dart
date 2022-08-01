@@ -230,7 +230,10 @@ class _SettingsStorage implements AbstractStorage {
 
   @override
   String? get accounts => _preferences.getString(_kAccounts);
+  @override
   String? get currentAccount => _preferences.getString(_kCurrentAccount);
+  set currentAccount(String? value) =>
+      value == null ? _preferences.remove(_kCurrentAccount) : _preferences.setString(_kCurrentAccount, value);
 
   @override
   Future<String?> getPrivateKeysString() async {

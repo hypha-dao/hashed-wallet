@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Account extends Equatable {
+  static const empty = Account(address: "", name: "");
   final String address;
   final String name;
   const Account({required this.name, required this.address});
@@ -38,4 +39,6 @@ class Account extends Equatable {
   String toString() {
     return "${toJson()}";
   }
+
+  bool get isEmpty => this == Account.empty;
 }

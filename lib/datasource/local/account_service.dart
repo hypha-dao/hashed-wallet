@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
@@ -5,6 +6,7 @@ import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 /// An abstract class for storage services, so we can unit test this class
 abstract class AbstractStorage {
   String? get accounts;
+  String? get currentAccount;
 
   void saveAccounts(String jsonFromList);
 
@@ -21,12 +23,17 @@ abstract class KeyRepository {
 class AccountService {
   final AbstractStorage storage;
   final KeyRepository keyRepository;
+  List<Account> get accounts => loadAccounts();
+  Account? get currentAccount => accounts.firstWhere(
+        (e) => e.address == storage.currentAccount,
+        orElse: () => accounts.isNotEmpty ? accounts[0] : Account.empty,
+      );
 
   AccountService(this.storage, this.keyRepository);
 
   factory AccountService.instance() => AccountService(settingsStorage, PolkadotRepository());
 
-  Future<List<Account>> loadAccounts() async {
+  List<Account> loadAccounts() {
     final accountString = storage.accounts ?? "[]";
     return Account.listFromJson(accountString);
   }
@@ -43,7 +50,7 @@ class AccountService {
     final public = await keyRepository.publicKeyForPrivateKey(privateKey);
     if (public != null) {
       final account = Account(name: name, address: public);
-      final accounts = await loadAccounts();
+      final accounts = loadAccounts();
       if (!accounts.contains(account)) {
         accounts.add(account);
         saveAccounts(accounts);
