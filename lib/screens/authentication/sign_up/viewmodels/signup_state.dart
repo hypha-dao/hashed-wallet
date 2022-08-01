@@ -7,18 +7,18 @@ class SignupState extends Equatable {
   final PageCommand? pageCommand;
   final SignUpError? error;
   final SignupScreens signupScreens;
-  final bool fromDeepLink;
   final String? accountName;
   final String? displayName;
+  final AuthDataModel? auth;
 
   const SignupState({
     required this.pageState,
     this.pageCommand,
     this.error,
     required this.signupScreens,
-    required this.fromDeepLink,
     this.accountName,
     this.displayName,
+    this.auth,
   });
 
   @override
@@ -27,7 +27,6 @@ class SignupState extends Equatable {
         pageCommand,
         error,
         signupScreens,
-        fromDeepLink,
         accountName,
         displayName,
       ];
@@ -41,7 +40,6 @@ class SignupState extends Equatable {
     PageCommand? pageCommand,
     SignUpError? error,
     SignupScreens? signupScreens,
-    bool? fromDeepLink,
     String? accountName,
     String? displayName,
   }) =>
@@ -50,7 +48,6 @@ class SignupState extends Equatable {
         pageCommand: pageCommand,
         error: error,
         signupScreens: signupScreens ?? this.signupScreens,
-        fromDeepLink: fromDeepLink ?? this.fromDeepLink,
         accountName: accountName ?? this.accountName,
         displayName: displayName ?? this.displayName,
       );
@@ -59,7 +56,6 @@ class SignupState extends Equatable {
     return const SignupState(
       pageState: PageState.initial,
       signupScreens: SignupScreens.displayName,
-      fromDeepLink: false,
     );
   }
 }
