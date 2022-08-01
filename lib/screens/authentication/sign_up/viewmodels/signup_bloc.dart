@@ -33,7 +33,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Future<void> _onCreateAccountTapped(OnCreateAccountTapped event, Emitter<SignupState> emit) async {
-    print("on CREATE account");
     emit(state.copyWith(pageState: PageState.loading));
     final String inviteSecret = secretFromMnemonic(state.inviteMnemonic!);
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
