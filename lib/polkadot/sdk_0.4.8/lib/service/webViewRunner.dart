@@ -97,7 +97,11 @@ class WebViewRunner {
           if (message.message.contains("API-WS: disconnected from")) {
             return;
           }
-          print("CONSOLE MESSAGE: ${message.message}");
+          if (message.message.contains("mnemonic")) {
+            print("mnemonic console message hidden");
+          } else {
+            print("CONSOLE MESSAGE: ${message.message}");
+          }
           if (jsCodeStarted < 0) {
             if (message.message.contains('js loaded')) {
               jsCodeStarted = 1;
