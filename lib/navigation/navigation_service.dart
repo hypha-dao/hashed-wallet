@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/create_nickname/create_nickname_screen.dart';
-import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_screen.dart';
@@ -19,7 +18,6 @@ import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_sc
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/settings/settings_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
-import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
@@ -76,7 +74,6 @@ class NavigationService {
   final _appRoutes = {
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
-    Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.createNickname: (_) => const CreateNicknameScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
@@ -90,7 +87,6 @@ class NavigationService {
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
-    Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreenV3(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
