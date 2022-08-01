@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/sign_up/claim_invite_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/create_account_name_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/create_display_name_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
@@ -15,8 +14,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SignupBloc()
-        ..add(OnInviteCodeFromDeepLink(BlocProvider.of<DeeplinkBloc>(context).state.inviteLinkData?.mnemonic)),
+      create: (_) => SignupBloc(),
       child: BlocConsumer<SignupBloc, SignupState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -33,8 +31,6 @@ class SignupScreen extends StatelessWidget {
         builder: (_, state) {
           final SignupScreens signupScreens = state.signupScreens;
           switch (signupScreens) {
-            case SignupScreens.claimInvite:
-              return const ClaimInviteScreen();
             case SignupScreens.displayName:
               return const CreateDisplayNameScreen();
             case SignupScreens.accountName:

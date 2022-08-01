@@ -33,8 +33,6 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
     _signupBloc = BlocProvider.of<SignupBloc>(context);
     if (_signupBloc.state.accountName != null) {
       _keyController.text = _signupBloc.state.accountName!;
-    } else {
-      _signupBloc.add(OnGenerateNewUsername(_signupBloc.state.displayName!));
     }
   }
 
@@ -88,7 +86,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                         child: Text(context.loc.signUpUsernameDescription),
                       ),
                       FlatButtonLong(
-                        title: context.loc.signUpCreateAccountButtonTitle,
+                        title: "Create Account 1",
                         onPressed: state.isNextButtonActive
                             ? () {
                                 FocusScope.of(context).unfocus();

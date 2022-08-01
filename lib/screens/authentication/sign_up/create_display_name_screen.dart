@@ -49,7 +49,10 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   TextFormFieldCustom(
-                    labelText: context.loc.signUpFullNameTitle,
+                    // ignore: avoid_redundant_argument_values
+                    textCapitalization: TextCapitalization.none,
+                    autocorrect: false,
+                    labelText: "Name",
                     onFieldSubmitted: (_) => _onNextPressed(),
                     maxLength: 36,
                     controller: _keyController,
@@ -60,7 +63,7 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                       return null;
                     },
                   ),
-                  Expanded(child: Text(context.loc.signUpFullNameDescription)),
+                  const Expanded(child: Text("Enter a name for this account")),
                   FlatButtonLong(onPressed: _onNextPressed(), title: context.loc.signUpNextButtonTitle),
                 ],
               ),

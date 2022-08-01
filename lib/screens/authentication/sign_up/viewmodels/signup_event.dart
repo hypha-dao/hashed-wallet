@@ -47,7 +47,7 @@ class DisplayNameOnNextTapped extends SignupEvent {
 }
 
 class OnGenerateNewUsername extends SignupEvent {
-  final String fullname;
+  final String? fullname;
 
   const OnGenerateNewUsername(this.fullname);
 

@@ -48,16 +48,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   void _onBackPressed(OnBackPressed event, Emitter<SignupState> emit) {
     switch (state.signupScreens) {
-      case SignupScreens.claimInvite:
-        emit(state);
-        break;
       case SignupScreens.displayName:
-        if (state.fromDeepLink) {
-          // Not return to processing screen if it is from invite link
-          emit(state.copyWith(pageCommand: ReturnToLogin()));
-        } else {
-          emit(state.copyWith(signupScreens: SignupScreens.claimInvite));
-        }
+        emit(state.copyWith(pageCommand: ReturnToLogin()));
         break;
       case SignupScreens.accountName:
         emit(state.copyWith(signupScreens: SignupScreens.displayName));
