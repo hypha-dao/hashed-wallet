@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
@@ -47,7 +48,6 @@ class PolkadotRepository extends KeyRepository {
   Future<bool> startService() async {
     try {
       print("PolkadotRepository start");
-      _polkawalletInit = PolkawalletInit(handleConnectState);
       await _polkawalletInit!.init();
       await _polkawalletInit!.connect();
       state = PolkadotRepositoryState.connected;
@@ -82,12 +82,16 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<void> _checkConnected() async {
+    print("check connected $state");
     switch (state) {
       case PolkadotRepositoryState.stopped:
-      case PolkadotRepositoryState.disconnected:
+        await initService();
         await startService();
         break;
       case PolkadotRepositoryState.initialized:
+      case PolkadotRepositoryState.disconnected:
+        await startService();
+        break;
       case PolkadotRepositoryState.connected:
         return;
     }
@@ -118,14 +122,39 @@ class PolkadotRepository extends KeyRepository {
   }
 
   // api.query.system.account(steve.address)
-  Future<dynamic> getBalance(String address) async {
-    print("get balance for $address");
-    await _checkInitialized();
-    await _checkConnected();
-    await _cryptoWaitReady();
-    final res = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
-    print("getBalance res: $res");
-    return res;
+  Future<double> getBalance(String address) async {
+    try {
+      print("get balance for $address");
+      await _checkInitialized();
+      await _checkConnected();
+      await _cryptoWaitReady();
+
+      // Debug code, do not check in - checking account with known address
+      final knownAddress = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
+      final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$knownAddress")');
+
+      //final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
+
+      // flutter: getBalance res: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
+
+      print("result STRING $resJson");
+
+      /// this value is an int if it's small enough.
+      /// Not sure what will happen if the number is too big but one would assume it
+      /// would then get sent as a string. So we always convert it to a string.
+      final free = resJson["data"]["free"];
+      final freeString = "$free";
+      final bigNum = BigInt.parse(freeString);
+      final double result = bigNum.toDouble() / pow(10, 12);
+
+      //print("free type: ${free.runtimeType} ==> $bigNum ==> $result");
+
+      return result;
+    } catch (error) {
+      print("Error getting balance $error");
+      print(error);
+      rethrow;
+    }
   }
 
   Future<dynamic> testImport() async {
