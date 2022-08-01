@@ -47,8 +47,8 @@ class AccountService {
       if (!accounts.contains(account)) {
         accounts.add(account);
         saveAccounts(accounts);
-        result = account;
       }
+      result = account;
       final privateKeys = await getPrivateKeys();
       if (!privateKeys.contains(privateKey)) {
         privateKeys.add(privateKey);

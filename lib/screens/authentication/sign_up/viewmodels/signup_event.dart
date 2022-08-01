@@ -80,3 +80,8 @@ class OnBackPressed extends SignupEvent {
   @override
   String toString() => 'OnBackPressed';
 }
+
+class CreateAccountComplete extends PageCommand {
+  @override
+  String toString() => 'CreateAccountCompletePageCommand';
+}

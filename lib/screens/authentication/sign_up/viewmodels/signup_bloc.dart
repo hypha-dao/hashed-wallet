@@ -42,7 +42,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     final account =
         await AccountService.instance().createAccount(name: state.displayName!, privateKey: state.auth!.wordsString);
     print("account: ${account?.toJson()}");
-    emit(state.copyWith(pageState: PageState.success));
+    emit(state.copyWith(pageState: PageState.success, pageCommand: CreateAccountComplete()));
   }
 
   void _onBackPressed(OnBackPressed event, Emitter<SignupState> emit) {

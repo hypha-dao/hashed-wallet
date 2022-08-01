@@ -8,6 +8,7 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
@@ -23,7 +24,7 @@ You can use these secret words to recover your account.
 
 No one but you has these words so save them somewhere where you can find them again.
 
-Either copy paste them somewhere safe, or write them down on a piece of paper.
+You can also save them later from Settings -> Export secret words.
 """;
 
 class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
@@ -59,6 +60,10 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
           if (state.pageState == PageState.failure) {
             eventBus.fire(ShowSnackBar(
                 state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context)));
+          }
+
+          if (state.pageCommand is OnCreateAccountFinished) {
+            NavigationService.of(context).pushApp();
           }
         },
         builder: (context, state) {
