@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
@@ -9,8 +10,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/app/interactor/mappers/approve_guardian_recovery_state_mapper.dart';
 import 'package:seeds/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
 import 'package:seeds/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
-import 'package:seeds/screens/app/interactor/usecases/guardians_notification_use_case.dart';
-import 'package:seeds/screens/app/interactor/usecases/guardians_recovery_alert_use_case.dart';
 import 'package:seeds/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
@@ -19,18 +18,18 @@ part 'app_event.dart';
 part 'app_state.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  late StreamSubscription<bool> _hasGuardianNotificationPending;
-  late StreamSubscription<bool> _shouldShowCancelGuardianAlertMessage;
+  // late StreamSubscription<bool> _hasGuardianNotificationPending;
+  // late StreamSubscription<bool> _shouldShowCancelGuardianAlertMessage;
   final DeeplinkBloc _deeplinkBloc;
 
   AppBloc(this._deeplinkBloc) : super(AppState.initial(_deeplinkBloc.state.guardianRecoveryRequestData)) {
-    _hasGuardianNotificationPending = GuardiansNotificationUseCase()
-        .hasGuardianNotificationPending
-        .listen((value) => add(ShouldShowNotificationBadge(value: value)));
+    // _hasGuardianNotificationPending = GuardiansNotificationUseCase()
+    //     .hasGuardianNotificationPending
+    //     .listen((value) => add(ShouldShowNotificationBadge(value: value)));
 
-    _shouldShowCancelGuardianAlertMessage = RecoveryAlertUseCase()
-        .shouldShowCancelGuardianAlertMessage
-        .listen((value) => add(ShouldShowGuardianRecoveryAlert(showGuardianRecoveryAlert: value)));
+    // _shouldShowCancelGuardianAlertMessage = RecoveryAlertUseCase()
+    //     .shouldShowCancelGuardianAlertMessage
+    //     .listen((value) => add(ShouldShowGuardianRecoveryAlert(showGuardianRecoveryAlert: value)));
 
     _deeplinkBloc.stream.listen((state) {
       if (state.guardianRecoveryRequestData != null) {
@@ -54,8 +53,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   @override
   Future<void> close() {
-    _hasGuardianNotificationPending.cancel();
-    _shouldShowCancelGuardianAlertMessage.cancel();
+    // _hasGuardianNotificationPending.cancel();
+    // _shouldShowCancelGuardianAlertMessage.cancel();
     return super.close();
   }
 
