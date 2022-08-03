@@ -1,15 +1,28 @@
-import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+
+class KeyValidationResult {
+  String? publicKey;
+  String? errorMessage;
+  bool get isError => errorMessage != null;
+  KeyValidationResult({this.publicKey, this.errorMessage});
+}
 
 class CheckPrivateKeyUseCase {
-  String? isKeyValid(String privateKey) {
+  Future<KeyValidationResult> isKeyValid(String privateKey) async {
+    final List<String> words = privateKey.trim().split(" ");
+    if (words.length != 12) {
+      return KeyValidationResult(
+          errorMessage:
+              "Secret phrase should have 12 words but this only has ${words.length}. \n\nMake sure words are separated by spaces like this:\norange food spice india ...");
+    }
     try {
-      final EOSPrivateKey eosPrivateKey = EOSPrivateKey.fromString(privateKey);
-      final EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
-      return eosPublicKey.toString();
+      final publicKey = await polkadotRepository.publicKeyForPrivateKey(privateKey);
+      return KeyValidationResult(publicKey: publicKey);
     } catch (e, s) {
-      print("Error EOSPrivateKey.fromString $e");
+      print("Error unable to parse key $privateKey");
+      print("Error: $e");
       print(s);
-      return null;
+      return KeyValidationResult(errorMessage: "Unable to parse key $privateKey");
     }
   }
 }

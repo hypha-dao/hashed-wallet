@@ -8,7 +8,9 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/settings/components/biometric_enabled_dialog.dart';
 import 'package:seeds/screens/settings/components/guardian_security_card.dart';
+import 'package:seeds/screens/settings/components/logout_recovery_phrase_dialog.dart';
 import 'package:seeds/screens/settings/components/settings_card.dart';
+import 'package:seeds/screens/settings/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
@@ -53,6 +55,23 @@ class SettingsScreen extends StatelessWidget {
                 );
               },
             ),
+            BlocListener<SettingsBloc, SettingsState>(
+                listenWhen: (_, current) => current.pageCommand != null,
+                listener: (context, state) {
+                  final pageCommand = state.pageCommand;
+                  BlocProvider.of<SettingsBloc>(context).add(const ClearSettingsPageCommand());
+                  if (pageCommand is ShowLogoutRecoveryPhraseDialog) {
+                    showDialog<void>(
+                      context: context,
+                      builder: (_) {
+                        return BlocProvider.value(
+                          value: BlocProvider.of<SettingsBloc>(context),
+                          child: const LogoutRecoveryPhraseDialog(),
+                        );
+                      },
+                    ).whenComplete(() => BlocProvider.of<SettingsBloc>(context).add(const ResetShowLogoutButton()));
+                  }
+                }),
           ],
           child: BlocBuilder<SettingsBloc, SettingsState>(
             buildWhen: (previous, current) => previous.pageState != current.pageState,
@@ -105,7 +124,7 @@ class SettingsScreen extends StatelessWidget {
                           icon: const Icon(Icons.logout),
                           title: 'Logout',
                           description: "Log out of the app.",
-                          onTap: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
+                          onTap: () => BlocProvider.of<SettingsBloc>(context).add(const OnLogoutButtonPressed()),
                         ),
 
                         /// Secure with Pin disabled

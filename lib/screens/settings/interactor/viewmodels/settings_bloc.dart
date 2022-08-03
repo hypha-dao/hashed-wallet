@@ -7,9 +7,12 @@ import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
+import 'package:seeds/screens/settings/interactor/viewmodels/page_commands.dart';
+import 'package:share/share.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
@@ -32,6 +35,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<OnBiometricPressed>(_onBiometricPressed);
     on<ResetNavigateToVerification>((_, emit) => emit(state.copyWith()));
     on<OnValidVerification>(_onValidVerification);
+    on<OnLogoutButtonPressed>(_onLogoutButtonPressed);
+    on<ClearSettingsPageCommand>((_, emit) => emit(state.copyWith()));
+    on<OnSaveRecoveryPhraseButtonPressed>(_onSaveRecoveryPhraseButtonPressed);
+    on<ResetShowLogoutButton>((_, emit) => emit(state.copyWith(showLogoutButton: false)));
   }
 
   @override
@@ -90,5 +97,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       default:
         return;
     }
+  }
+
+  void _onLogoutButtonPressed(OnLogoutButtonPressed event, Emitter<SettingsState> emit) {
+    emit(state.copyWith(pageCommand: ShowLogoutRecoveryPhraseDialog()));
+  }
+
+  Future<void> _onSaveRecoveryPhraseButtonPressed(
+      OnSaveRecoveryPhraseButtonPressed event, Emitter<SettingsState> emit) async {
+    emit(state.copyWith(showLogoutButton: true));
+    final String? words = await accountService.getCurrentPrivateKey();
+    if (words != null) {
+      await Share.share(words);
+    }
+    settingsStorage.savePrivateKeyBackedUp(true);
   }
 }

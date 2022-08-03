@@ -27,6 +27,7 @@ class TextFormFieldCustom extends StatelessWidget {
   final String? errorText;
   final String? counterText;
   final bool autocorrect;
+  final int? errorMaxLines;
 
   const TextFormFieldCustom(
       {super.key,
@@ -52,6 +53,7 @@ class TextFormFieldCustom extends StatelessWidget {
       this.labelText,
       this.disabledLabelColor,
       this.errorText,
+      this.errorMaxLines,
       this.counterText = ""});
 
   @override
@@ -84,7 +86,7 @@ class TextFormFieldCustom extends StatelessWidget {
           hintText: hintText,
           labelText: labelText,
           errorText: errorText,
-          errorMaxLines: 2,
+          errorMaxLines: errorMaxLines ?? 2,
           errorStyle: const TextStyle(wordSpacing: 4.0),
           hintStyle: Theme.of(context).textTheme.button,
           contentPadding: const EdgeInsets.all(16.0),
