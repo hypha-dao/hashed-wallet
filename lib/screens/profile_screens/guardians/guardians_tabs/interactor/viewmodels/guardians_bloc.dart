@@ -9,6 +9,7 @@ import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/remove_guardian_usecase.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
 part 'guardians_event.dart';
@@ -38,20 +39,19 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   Future<void> _onRemoveGuardianTapped(OnRemoveGuardianTapped event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
+    print("remov e tapped - TBD");
 
-    /// Remove from server
-    // final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+    // Remove from server
+    // [POLKA] handle result
+    final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
 
-    /// Delete this mock
-    /// Side note: removing a single guardian is not possible
-    /// Except if we cancel all guardians then set them again?!
-    // final guards = state.myGuardians;
-    // guards.remove(event.guardian);
-    // emit(state.copyWith(
-    //   myGuardians: guards,
-    //   actionButtonState: getActionButtonState(areGuardiansActive: false, guardiansCount: guards.length),
-    //   pageState: PageState.success,
-    // ));
+    final guards = state.myGuardians;
+    guards.remove(event.guardian);
+    emit(state.copyWith(
+      myGuardians: guards,
+      actionButtonState: getActionButtonState(areGuardiansActive: false, guardiansCount: guards.length),
+      pageState: PageState.success,
+    ));
   }
 
   FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) async {
@@ -116,6 +116,6 @@ ActionButtonState getActionButtonState({required bool areGuardiansActive, requir
   return ActionButtonState(
     isLoading: false,
     title: 'Activate',
-    isEnabled: guardiansCount >= 3,
+    isEnabled: guardiansCount >= 2,
   );
 }

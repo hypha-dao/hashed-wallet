@@ -28,4 +28,8 @@ class UserGuardiansModel {
       guardians.add(account);
     }
   }
+
+  void remove(Account guardian) {
+    guardians.remove(guardian);
+  }
 }
