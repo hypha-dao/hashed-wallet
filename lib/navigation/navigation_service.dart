@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/create_nickname/create_nickname_screen.dart';
+import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_screen.dart';
@@ -74,6 +75,7 @@ class NavigationService {
   final _appRoutes = {
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
+    Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.createNickname: (_) => const CreateNicknameScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),

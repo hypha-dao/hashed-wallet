@@ -57,23 +57,7 @@ class LoginScreen extends StatelessWidget {
                     Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
                     const SizedBox(height: 10),
                     FlatButtonLong(
-                      onPressed: () async {
-                        // NavigationService.of(context).navigateTo(Routes.importKey);
-                        // testing substrate service - leave this for now
-                        print("test public for priv");
-
-                        // pub for priv test
-                        // known mnemonic, well, now it is - don't use it for funds
-                        const mnemonic1 = 'sample split bamboo west visual approve brain fox arch impact relief smile';
-                        // mnemonic1 as sr25519 ==> 5FLiLdaQQiW7qm7tdZjdonfSV8HAcjLxFVcqv9WDbceTmBXA
-                        final publicKey = await polkadotRepository.publicKeyForPrivateKey(mnemonic1);
-                        print("res $publicKey");
-
-                        await accountService.createAccount(name: "Test 1", privateKey: mnemonic1);
-
-                        final priv = await polkadotRepository.privateKeyForPublicKey(publicKey!);
-                        print("priv $priv"); // expect sample split ...
-                      },
+                      onPressed: () => NavigationService.of(context).navigateTo(Routes.importKey),
                       title: 'Import Account',
                     )
                   ],

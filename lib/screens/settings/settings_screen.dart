@@ -21,14 +21,6 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
-        actions: [
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: IconButton(
-                icon: const Icon(Icons.login_outlined),
-                onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
-              ))
-        ],
       ),
       body: BlocProvider(
         create: (context) =>
@@ -108,42 +100,55 @@ class SettingsScreen extends StatelessWidget {
                           )
                         else
                           const SizedBox.shrink(),
+
                         SettingsCard(
-                          icon: const Icon(Icons.lock_outline),
-                          title: context.loc.securitySecureWithPinTitle,
-                          titleWidget: BlocBuilder<SettingsBloc, SettingsState>(
-                            buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
-                            builder: (context, state) {
-                              return Switch(
-                                value: state.isSecurePasscode!,
-                                onChanged: (_) =>
-                                    BlocProvider.of<SettingsBloc>(context)..add(const OnPasscodePressed()),
-                                // activeTrackColor: AppColors.canopy,
-                                // activeColor: AppColors.white,
-                              );
-                            },
-                          ),
-                          description: context.loc.securitySecureWithPinDescription,
+                          icon: const Icon(Icons.logout),
+                          title: 'Logout',
+                          description: "Log out of the app.",
+                          onTap: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
                         ),
-                        SettingsCard(
-                          icon: const Icon(Icons.fingerprint),
-                          title: context.loc.securitySecureWithTouchFaceIDTitle,
-                          titleWidget: BlocBuilder<SettingsBloc, SettingsState>(
-                            builder: (context, state) {
-                              return Switch(
-                                value: state.isSecureBiometric!,
-                                onChanged: state.isSecurePasscode!
-                                    ? (_) {
-                                        BlocProvider.of<SettingsBloc>(context).add(const OnBiometricPressed());
-                                      }
-                                    : null,
-                                // activeTrackColor: AppColors.canopy,
-                                // activeColor: AppColors.white,
-                              );
-                            },
-                          ),
-                          description: context.loc.securitySecureWithTouchFaceIDDescription,
-                        ),
+
+                        /// Secure with Pin disabled
+                        ///
+                        // SettingsCard(
+                        //   icon: const Icon(Icons.lock_outline),
+                        //   title: "Secure with Pin",
+                        //   titleWidget: BlocBuilder<SettingsBloc, SettingsState>(
+                        //     buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
+                        //     builder: (context, state) {
+                        //       return Switch(
+                        //         value: state.isSecurePasscode!,
+                        //         onChanged: (_) =>
+                        //             BlocProvider.of<SettingsBloc>(context)..add(const OnPasscodePressed()),
+                        //         // activeTrackColor: AppColors.canopy,
+                        //         // activeColor: AppColors.white,
+                        //       );
+                        //     },
+                        //   ),
+                        //   description: context.loc.securitySecureWithPinDescription,
+                        // ),
+
+                        /// Secure with Face ID disabled
+                        ///
+                        // SettingsCard(
+                        //   icon: const Icon(Icons.fingerprint),
+                        //   title: "Secure with Touch/Face ID",
+                        //   titleWidget: BlocBuilder<SettingsBloc, SettingsState>(
+                        //     builder: (context, state) {
+                        //       return Switch(
+                        //         value: state.isSecureBiometric!,
+                        //         onChanged: state.isSecurePasscode!
+                        //             ? (_) {
+                        //                 BlocProvider.of<SettingsBloc>(context).add(const OnBiometricPressed());
+                        //               }
+                        //             : null,
+                        //         // activeTrackColor: AppColors.canopy,
+                        //         // activeColor: AppColors.white,
+                        //       );
+                        //     },
+                        //   ),
+                        //   description: context.loc.securitySecureWithTouchFaceIDDescription,
+                        // ),
                       ],
                     ),
                   );
