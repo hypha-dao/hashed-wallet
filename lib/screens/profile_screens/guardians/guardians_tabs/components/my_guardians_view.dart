@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
@@ -23,14 +23,14 @@ class MyGuardiansView extends StatelessWidget {
           );
         } else {
           final List<ListTile> items = [];
-          items.addAll(state.myGuardians.map((e) => ListTile(
+          items.addAll(state.myGuardians.guardians.map((e) => ListTile(
                 title: Text(
-                  e.nickname ?? e.walletAddress,
+                  e.name ?? e.address,
                   style: const TextStyle(overflow: TextOverflow.ellipsis),
                 ),
-                subtitle: e.nickname != null
+                subtitle: e.name != null
                     ? Text(
-                        e.walletAddress,
+                        e.address,
                         style: const TextStyle(overflow: TextOverflow.ellipsis),
                       )
                     : null,
@@ -66,7 +66,7 @@ class MyGuardiansView extends StatelessWidget {
     );
   }
 
-  void _onAddGuardianResult(GuardianModel? value, BuildContext context) {
+  void _onAddGuardianResult(Account? value, BuildContext context) {
     if (value != null) {
       BlocProvider.of<GuardiansBloc>(context).add(OnGuardianAdded(value));
     }

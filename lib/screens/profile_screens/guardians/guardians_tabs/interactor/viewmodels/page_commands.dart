@@ -1,14 +1,14 @@
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 
 class ShowRemoveGuardianView extends PageCommand {
-  final GuardianModel guardian;
+  final Account guardian;
 
   ShowRemoveGuardianView(this.guardian);
 }
 
 class ShowRecoveryStarted extends PageCommand {
-  final GuardianModel guardian;
+  final Account guardian;
 
   ShowRecoveryStarted(this.guardian);
 }

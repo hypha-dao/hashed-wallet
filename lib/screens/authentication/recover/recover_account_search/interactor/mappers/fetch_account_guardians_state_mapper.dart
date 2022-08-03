@@ -21,7 +21,7 @@ class FetchAccountGuardiansStateMapper extends StateMapper {
         return currentState.copyWith(
           pageState: PageState.success,
           isGuardianActive: true,
-          userGuardians: accountGuardiansModel.guardians,
+          userGuardians: accountGuardiansModel.guardianAddresses,
         );
       }
     }

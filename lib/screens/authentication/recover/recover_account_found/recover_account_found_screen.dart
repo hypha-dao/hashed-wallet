@@ -141,7 +141,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                             .map((e) => GuardianRowWidget(
                                   guardianModel: e,
                                   showGuardianSigned: state.alreadySignedGuardians
-                                      .where((String element) => element == e.account)
+                                      .where((String element) => element == e.address)
                                       .isNotEmpty,
                                 ))
                             .toList(),

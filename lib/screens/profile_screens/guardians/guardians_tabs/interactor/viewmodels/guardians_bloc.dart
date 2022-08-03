@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/account_service.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
@@ -42,25 +43,27 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     // final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
 
     /// Delete this mock
-    final guards = state.myGuardians;
-    guards.remove(event.guardian);
-    emit(state.copyWith(
-      myGuardians: guards,
-      actionButtonState: getActionButtonState(areGuardiansActive: false, guardiansCount: guards.length),
-      pageState: PageState.success,
-    ));
+    /// Side note: removing a single guardian is not possible
+    /// Except if we cancel all guardians then set them again?!
+    // final guards = state.myGuardians;
+    // guards.remove(event.guardian);
+    // emit(state.copyWith(
+    //   myGuardians: guards,
+    //   actionButtonState: getActionButtonState(areGuardiansActive: false, guardiansCount: guards.length),
+    //   pageState: PageState.success,
+    // ));
   }
 
-  FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) {
+  FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final result = _getGuardiansDataUseCase.getGuardiansData();
-
+    final result = await _getGuardiansDataUseCase.getGuardiansData();
+    final guardiansModel = result.asValue!.value;
     emit(state.copyWith(
-      myGuardians: result.guardians,
-      areGuardiansActive: result.areGuardiansActive,
+      myGuardians: guardiansModel,
+      areGuardiansActive: guardiansModel.areGuardiansActive,
       actionButtonState: getActionButtonState(
-        areGuardiansActive: result.areGuardiansActive,
-        guardiansCount: result.guardians.length,
+        areGuardiansActive: guardiansModel.areGuardiansActive,
+        guardiansCount: guardiansModel.length,
       ),
       pageState: PageState.success,
     ));
@@ -68,7 +71,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   FutureOr<void> _onGuardianAdded(OnGuardianAdded event, Emitter<GuardiansState> emit) {
     final guards = state.myGuardians;
-    guards.add(event.guardian);
+    guards.add(event.account);
     emit(state.copyWith(
         myGuardians: guards,
         actionButtonState: getActionButtonState(

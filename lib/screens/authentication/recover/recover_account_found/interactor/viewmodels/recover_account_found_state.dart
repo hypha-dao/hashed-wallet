@@ -6,7 +6,7 @@ class RecoverAccountFoundState extends Equatable {
   final String userAccount;
   final Uri? linkToActivateGuardians;
   final List<String> alreadySignedGuardians;
-  final List<ProfileModel> userGuardiansData;
+  final List<Account> userGuardiansData;
   final int confirmedGuardianSignatures;
   final RecoveryStatus recoveryStatus;
   final int timeLockExpirySeconds;
@@ -48,7 +48,7 @@ class RecoverAccountFoundState extends Equatable {
     PageState? pageState,
     Uri? linkToActivateGuardians,
     List<String>? userGuardians,
-    List<ProfileModel>? userGuardiansData,
+    List<Account>? userGuardiansData,
     RecoverAccountFoundError? error,
     int? confirmedGuardianSignatures,
     List<String>? alreadySignedGuardians,
