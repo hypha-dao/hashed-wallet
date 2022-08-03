@@ -43,6 +43,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
     // Remove from server
     // [POLKA] handle result
+    // ignore: unused_local_variable
     final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
 
     final guards = state.myGuardians;
