@@ -3,7 +3,7 @@ part of 'import_key_bloc.dart';
 class ImportKeyState extends Equatable {
   final String? error;
   final AuthDataModel? authData;
-  final List<ProfileModel> accounts;
+  final List<String> accounts;
   final String mnemonicPhrase;
   final bool isButtonLoading;
   final bool enableButton;
@@ -36,7 +36,7 @@ class ImportKeyState extends Equatable {
   ImportKeyState copyWith({
     PageState? pageState,
     String? error,
-    List<ProfileModel>? accounts,
+    List<String>? accounts,
     String? mnemonicPhrase,
     bool? isButtonLoading,
     AuthDataModel? authData,

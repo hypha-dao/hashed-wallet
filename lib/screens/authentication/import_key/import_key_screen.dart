@@ -18,7 +18,7 @@ class ImportKeyScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ImportKeyBloc(),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Import account")),
+        appBar: AppBar(title: const Text("Import Account")),
         body: BlocListener<ImportKeyBloc, ImportKeyState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -66,8 +66,6 @@ class ImportKeyScreen extends StatelessWidget {
                                     // ignore: use_build_context_synchronously
                                     BlocProvider.of<ImportKeyBloc>(context)
                                         .add(OnMnemonicPhraseChange(newMnemonicPhrase: clipboardText));
-                                    // ignore: use_build_context_synchronously
-                                    BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountByKey());
                                   },
                                 ),
                                 onChanged: (value) {
@@ -95,7 +93,7 @@ class ImportKeyScreen extends StatelessWidget {
                               enabled: state.enableButton,
                               isLoading: state.isButtonLoading,
                               title: "Next (1/2)",
-                              onPressed: () => {BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountByKey())},
+                              onPressed: () => {BlocProvider.of<ImportKeyBloc>(context).add(const GetAccountByKey())},
                             );
                           },
                         ),

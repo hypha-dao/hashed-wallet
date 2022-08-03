@@ -4,7 +4,6 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/create_nickname/viewmodels/create_nickname_bloc.dart';
 
@@ -14,7 +13,7 @@ class CreateNicknameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _arguments = ModalRoute.of(context)!.settings.arguments as List<Object?>?;
-    final ProfileModel? _profileModel = _arguments!.first as ProfileModel?;
+    final String? _account = _arguments!.first as String?;
     final _authData = _arguments.last as AuthDataModel?;
 
     return Scaffold(
@@ -24,8 +23,7 @@ class CreateNicknameScreen extends StatelessWidget {
         child: BlocListener<CreateNicknameBloc, CreateNicknameState>(
           listenWhen: (previous, current) => current.continueToAccount != previous.continueToAccount,
           listener: (context, state) {
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(OnImportAccount(account: _profileModel!.account, authData: _authData!));
+            BlocProvider.of<AuthenticationBloc>(context).add(OnImportAccount(account: _account!, authData: _authData!));
           },
           child: Builder(
             builder: (context) {

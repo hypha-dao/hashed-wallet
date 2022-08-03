@@ -7,8 +7,8 @@ abstract class ImportKeyEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FindAccountByKey extends ImportKeyEvent {
-  const FindAccountByKey();
+class GetAccountByKey extends ImportKeyEvent {
+  const GetAccountByKey();
 
   @override
   String toString() => 'FindAccountByKey';
