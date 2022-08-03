@@ -100,7 +100,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   void _onLogoutButtonPressed(OnLogoutButtonPressed event, Emitter<SettingsState> emit) {
-    print("logout pressed...");
     emit(state.copyWith(pageCommand: ShowLogoutRecoveryPhraseDialog()));
   }
 

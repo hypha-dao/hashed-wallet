@@ -61,7 +61,6 @@ class SettingsScreen extends StatelessWidget {
                   final pageCommand = state.pageCommand;
                   BlocProvider.of<SettingsBloc>(context).add(const ClearSettingsPageCommand());
                   if (pageCommand is ShowLogoutRecoveryPhraseDialog) {
-                    print("show dialog");
                     showDialog<void>(
                       context: context,
                       builder: (_) {
