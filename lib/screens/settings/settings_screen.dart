@@ -79,7 +79,7 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         SettingsCard(
                           icon: const Icon(Icons.update),
-                          title: context.loc.securityExportPrivateKeyTitle,
+                          title: "Export Private Key",
                           description: context.loc.securityExportPrivateKeyDescription,
                           // TODO(n13): Fix share secret words
                           onTap: () async {
