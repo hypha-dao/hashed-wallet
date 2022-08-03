@@ -44,11 +44,11 @@ class ImportKeyScreen extends StatelessWidget {
                         children: [
                           BlocBuilder<ImportKeyBloc, ImportKeyState>(
                             buildWhen: (previous, current) {
-                              return previous.mneumonicPhrase != current.mneumonicPhrase ||
+                              return previous.mnemonicPhrase != current.mnemonicPhrase ||
                                   previous.error != current.error;
                             },
                             builder: (context, state) {
-                              final clipboardText = TextEditingController(text: state.mneumonicPhrase);
+                              final clipboardText = TextEditingController(text: state.mnemonicPhrase);
                               clipboardText.selection =
                                   TextSelection.fromPosition(TextPosition(offset: clipboardText.text.length));
                               return TextFormFieldCustom(
@@ -65,14 +65,14 @@ class ImportKeyScreen extends StatelessWidget {
                                     final clipboardText = clipboardData?.text ?? '';
                                     // ignore: use_build_context_synchronously
                                     BlocProvider.of<ImportKeyBloc>(context)
-                                        .add(OnMneumonicPhraseChange(newMneumonicPhrase: clipboardText));
+                                        .add(OnMnemonicPhraseChange(newMnemonicPhrase: clipboardText));
                                     // ignore: use_build_context_synchronously
                                     BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountByKey());
                                   },
                                 ),
                                 onChanged: (value) {
                                   BlocProvider.of<ImportKeyBloc>(context)
-                                      .add(OnMneumonicPhraseChange(newMneumonicPhrase: value));
+                                      .add(OnMnemonicPhraseChange(newMnemonicPhrase: value));
                                 },
                               );
                             },

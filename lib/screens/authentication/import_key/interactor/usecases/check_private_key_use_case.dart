@@ -1,13 +1,13 @@
-import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class CheckPrivateKeyUseCase {
-  String? isKeyValid(String privateKey) {
+  Future<String?> isKeyValid(String privateKey) async {
     try {
-      final EOSPrivateKey eosPrivateKey = EOSPrivateKey.fromString(privateKey);
-      final EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
-      return eosPublicKey.toString();
+      final publicKey = await polkadotRepository.publicKeyForPrivateKey(privateKey);
+      return publicKey;
     } catch (e, s) {
-      print("Error EOSPrivateKey.fromString $e");
+      print("Error unable to parse key $privateKey");
+      print("Error: $e");
       print(s);
       return null;
     }

@@ -16,20 +16,20 @@ const int wordsMax = 12;
 
 class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
   ImportKeyBloc() : super(ImportKeyState.initial()) {
-    on<OnMneumonicPhraseChange>(_onMneumonicPhraseChange);
+    on<OnMnemonicPhraseChange>(_onMnemonicPhraseChange);
     on<FindAccountByKey>(_findAccountByKey);
 
     on<AccountSelected>((event, emit) => emit(state.copyWith(accountSelected: event.account)));
     on<ClearPageCommand>((event, emit) => emit(state.copyWith()));
   }
 
-  void _onMneumonicPhraseChange(OnMneumonicPhraseChange event, Emitter<ImportKeyState> emit) {
-    emit(state.copyWith(enableButton: event.newMneumonicPhrase.isNotEmpty, mneumonicPhrase: event.newMneumonicPhrase));
+  void _onMnemonicPhraseChange(OnMnemonicPhraseChange event, Emitter<ImportKeyState> emit) {
+    emit(state.copyWith(enableButton: event.newMnemonicPhrase.isNotEmpty, mnemonicPhrase: event.newMnemonicPhrase));
   }
 
   Future<void> _findAccountByKey(FindAccountByKey event, Emitter<ImportKeyState> emit) async {
     emit(state.copyWith(isButtonLoading: true));
-    final publicKey = CheckPrivateKeyUseCase().isKeyValid(state.mneumonicPhrase);
+    final publicKey = await CheckPrivateKeyUseCase().isKeyValid(state.mnemonicPhrase);
 
     if (publicKey == null || publicKey.isEmpty) {
       emit(state.copyWith(error: "Invalid account phrase", isButtonLoading: false, enableButton: false));
@@ -38,7 +38,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       emit(
         ImportKeyStateMapper().mapResultsToState(
           currentState: state,
-          authData: AuthDataModel(state.mneumonicPhrase.split(" ")),
+          authData: AuthDataModel(state.mnemonicPhrase.split(" ")),
           results: results,
         ),
       );

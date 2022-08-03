@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 

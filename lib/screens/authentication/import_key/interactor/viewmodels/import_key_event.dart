@@ -23,13 +23,13 @@ class AccountSelected extends ImportKeyEvent {
   String toString() => 'AccountSelected: { account: $account }';
 }
 
-class OnMneumonicPhraseChange extends ImportKeyEvent {
-  final String newMneumonicPhrase;
+class OnMnemonicPhraseChange extends ImportKeyEvent {
+  final String newMnemonicPhrase;
 
-  const OnMneumonicPhraseChange({required this.newMneumonicPhrase});
+  const OnMnemonicPhraseChange({required this.newMnemonicPhrase});
 
   @override
-  String toString() => 'OnMneumonicPhraseChange: { inputChange: $newMneumonicPhrase }';
+  String toString() => 'OnMnemonicPhraseChange: { inputChange: $newMnemonicPhrase }';
 }
 
 class ClearPageCommand extends ImportKeyEvent {

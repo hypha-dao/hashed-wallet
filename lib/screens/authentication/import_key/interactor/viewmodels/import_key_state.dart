@@ -4,7 +4,7 @@ class ImportKeyState extends Equatable {
   final String? error;
   final AuthDataModel? authData;
   final List<ProfileModel> accounts;
-  final String mneumonicPhrase;
+  final String mnemonicPhrase;
   final bool isButtonLoading;
   final bool enableButton;
   final String? accountSelected;
@@ -13,7 +13,7 @@ class ImportKeyState extends Equatable {
   const ImportKeyState({
     this.error,
     required this.accounts,
-    required this.mneumonicPhrase,
+    required this.mnemonicPhrase,
     required this.isButtonLoading,
     this.authData,
     required this.enableButton,
@@ -26,7 +26,7 @@ class ImportKeyState extends Equatable {
         error,
         authData,
         accounts,
-        mneumonicPhrase,
+        mnemonicPhrase,
         isButtonLoading,
         enableButton,
         accountSelected,
@@ -37,7 +37,7 @@ class ImportKeyState extends Equatable {
     PageState? pageState,
     String? error,
     List<ProfileModel>? accounts,
-    String? mneumonicPhrase,
+    String? mnemonicPhrase,
     bool? isButtonLoading,
     AuthDataModel? authData,
     bool? enableButton,
@@ -47,7 +47,7 @@ class ImportKeyState extends Equatable {
     return ImportKeyState(
         error: error,
         accounts: accounts ?? this.accounts,
-        mneumonicPhrase: mneumonicPhrase ?? this.mneumonicPhrase,
+        mnemonicPhrase: mnemonicPhrase ?? this.mnemonicPhrase,
         isButtonLoading: isButtonLoading ?? this.isButtonLoading,
         authData: authData ?? this.authData,
         enableButton: enableButton ?? this.enableButton,
@@ -58,7 +58,7 @@ class ImportKeyState extends Equatable {
   factory ImportKeyState.initial() {
     return const ImportKeyState(
       accounts: [],
-      mneumonicPhrase: "",
+      mnemonicPhrase: "",
       enableButton: false,
       isButtonLoading: false,
     );
