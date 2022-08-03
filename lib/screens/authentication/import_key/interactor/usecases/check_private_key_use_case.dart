@@ -17,7 +17,6 @@ class CheckPrivateKeyUseCase {
     }
     try {
       final publicKey = await polkadotRepository.publicKeyForPrivateKey(privateKey);
-      //print("publicKey: $publicKey");
       return KeyValidationResult(publicKey: publicKey);
     } catch (e, s) {
       print("Error unable to parse key $privateKey");
