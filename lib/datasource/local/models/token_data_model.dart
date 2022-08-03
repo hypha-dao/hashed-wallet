@@ -22,9 +22,10 @@ class TokenDataModel extends AmountDataModel {
   // ignore: prefer_constructors_over_static_methods
   static TokenDataModel fromSelected(double amount) => TokenDataModel(amount, token: settingsStorage.selectedToken);
 
-  // display formatted number, no symbol, example "10.00", "10,000,000.00"
+  /// display formatted number, no symbol, example "10.00", "10,000,000.00"
+  /// format amount by precision, or 4 digits if the precision is > 4 digits.
   String amountString() {
-    if (precision == 4) {
+    if (precision >= 4) {
       return fourDigitNumberFormat.format(amount);
     } else if (precision == 2) {
       return twoDigitNumberFormat.format(amount);
@@ -41,8 +42,6 @@ class TokenDataModel extends AmountDataModel {
   TokenDataModel copyWith(double amount) {
     return TokenDataModel(amount, token: TokenModel.fromId(id!));
   }
-
-  
 }
 
 extension FormatterTokenModel on TokenDataModel {
