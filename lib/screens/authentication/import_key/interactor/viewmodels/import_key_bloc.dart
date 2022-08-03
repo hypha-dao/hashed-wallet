@@ -39,7 +39,6 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       final publicKey = publicKeyValdiation.publicKey!;
       final autData = AuthDataModel.fromString(state.mnemonicPhrase);
       emit(state.copyWith(
-        error: "",
         isButtonLoading: false,
         accounts: [publicKey],
         authData: autData,

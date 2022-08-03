@@ -57,3 +57,30 @@ class OnValidVerification extends SettingsEvent {
   @override
   String toString() => 'OnValidVerification';
 }
+
+class OnLogoutButtonPressed extends SettingsEvent {
+  const OnLogoutButtonPressed();
+  @override
+  String toString() => 'OnLoguoutButtonPressed';
+}
+
+class ClearSettingsPageCommand extends SettingsEvent {
+  const ClearSettingsPageCommand();
+
+  @override
+  String toString() => 'ClearProfilePageCommand';
+}
+
+class OnSaveRecoveryPhraseButtonPressed extends SettingsEvent {
+  const OnSaveRecoveryPhraseButtonPressed();
+
+  @override
+  String toString() => 'OnSaveRecoveryPhraseButtonPressed';
+}
+
+class ResetShowLogoutButton extends SettingsEvent {
+  const ResetShowLogoutButton();
+
+  @override
+  String toString() => 'ResetShowLogoutButton';
+}

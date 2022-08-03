@@ -76,4 +76,13 @@ class AccountService {
   Future<void> savePrivateKeys(List<String> privateKeys) async {
     await storage.savePrivateKeys(privateKeys.join(","));
   }
+
+  Future<String?> getCurrentPrivateKey() async {
+    if (currentAccount.isEmpty) {
+      return null;
+    }
+    final currentPublicKey = currentAccount.address;
+    final private = await polkadotRepository.privateKeyForPublicKey(currentPublicKey);
+    return private;
+  }
 }
