@@ -27,7 +27,7 @@ class CurrencyInfoCard extends StatelessWidget {
       width: cardWidth,
       height: cardHeight,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         image: DecorationImage(image: tokenBalance.token.backgroundImage, fit: BoxFit.fill),
       ),
       child: Stack(
