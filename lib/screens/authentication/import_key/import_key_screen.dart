@@ -55,7 +55,8 @@ class ImportKeyScreen extends StatelessWidget {
                                 controller: clipboardText,
                                 maxLines: 2,
                                 autofocus: true,
-                                labelText: "Mneumonic Phrase",
+                                labelText: "Your Secret Words",
+                                hintText: "Enter your secret words",
                                 errorText: state.error,
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.paste),
