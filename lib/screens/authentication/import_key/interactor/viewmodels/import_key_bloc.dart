@@ -27,20 +27,24 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
 
   Future<void> _findAccountByKey(GetAccountByKey event, Emitter<ImportKeyState> emit) async {
     emit(state.copyWith(isButtonLoading: true));
-    final publicKey = await CheckPrivateKeyUseCase().isKeyValid(state.mnemonicPhrase);
+    final publicKeyValdiation = await CheckPrivateKeyUseCase().isKeyValid(state.mnemonicPhrase);
 
-    if (publicKey == null || publicKey.isEmpty) {
-      emit(state.copyWith(error: "Invalid account phrase", isButtonLoading: false, enableButton: false));
+    if (publicKeyValdiation.isError) {
+      emit(state.copyWith(
+        error: "Invalid mnemonic: ${publicKeyValdiation.errorMessage}",
+        isButtonLoading: false,
+        enableButton: false,
+      ));
     } else {
+      final publicKey = publicKeyValdiation.publicKey!;
       final autData = AuthDataModel.fromString(state.mnemonicPhrase);
-      emit(
-        state.copyWith(
-          isButtonLoading: false,
-          accounts: [publicKey],
-          authData: autData,
-          pageCommand: NavigateToRouteWithArguments(route: Routes.createNickname, arguments: [publicKey, autData]),
-        ),
-      );
+      emit(state.copyWith(
+        error: "",
+        isButtonLoading: false,
+        accounts: [publicKey],
+        authData: autData,
+        pageCommand: NavigateToRouteWithArguments(route: Routes.createNickname, arguments: [publicKey, autData]),
+      ));
     }
   }
 }

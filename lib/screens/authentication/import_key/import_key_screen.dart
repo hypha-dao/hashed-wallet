@@ -58,6 +58,7 @@ class ImportKeyScreen extends StatelessWidget {
                                 labelText: "Your Secret Words",
                                 hintText: "Enter your secret words",
                                 errorText: state.error,
+                                errorMaxLines: 10,
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.paste),
                                   onPressed: () async {
