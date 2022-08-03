@@ -51,7 +51,7 @@ class GuardiansRepository with HttpRepository {
   }
 
   Future<Result<dynamic>> getAccountGuardians(String accountName) async {
-    return polkadotRepository.getAccountGuardians();
+    return polkadotRepository.getAccountGuardians(accountName);
   }
 
   Future<Result<dynamic>> generateRecoveryRequest(String accountName, String publicKey) async {

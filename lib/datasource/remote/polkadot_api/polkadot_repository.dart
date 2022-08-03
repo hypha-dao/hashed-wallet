@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
+import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/utils/result_extension.dart';
 
@@ -256,7 +257,8 @@ class PolkadotRepository extends KeyRepository {
     throw UnimplementedError();
   }
 
-  Future<Result> getAccountGuardians() async {
-    throw UnimplementedError();
+  Future<Result<UserGuardiansModel>> getAccountGuardians(String account) async {
+    // [POLKA] implement this
+    return Future.value(Result.value(UserGuardiansModel(guardians: [], timeDelaySec: 60 * 60 * 24)));
   }
 }
