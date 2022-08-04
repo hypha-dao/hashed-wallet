@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -5,6 +6,8 @@ import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
+import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 import 'package:seeds/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -246,6 +249,20 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<Result> initGuardians(List<String> guardians) async {
+    final account = accountService.currentAccount;
+//     final code = '''
+// const createRecovery = await api.tx.recovery.createRecovery(
+//     [
+//       <friend_1_public_key>,
+//       <friend_2_public_key>
+//     ], 2, 0)
+//     .signAndSend(steve);
+// console.log( createRecovery.toHex() );
+// '''
+    final code = 'api.tx.recovery.createRecovery([${guardians.join(",")}], 2, 0).signAndSend(steve)';
+    final res = await _polkawalletInit?.webView?.evalJavascript(code);
+    print("res: $res");
+
     throw UnimplementedError();
   }
 
@@ -257,8 +274,92 @@ class PolkadotRepository extends KeyRepository {
     throw UnimplementedError();
   }
 
-  Future<Result<UserGuardiansModel>> getAccountGuardians(String account) async {
+  Future<Result<UserGuardiansModel>> getAccountGuardians(String address) async {
+    print("get guardians for $address");
     // [POLKA] implement this
+    //    address = "J4sW13h2HNerfxTzPGpLT66B3HVvuU32S6upxwSeFJQnAzg";
+    final code = 'api.query.recovery.recoverable("$address")';
+    final res = await _polkawalletInit?.webView?.evalJavascript(code);
+    if (res != null) {
+      res['address'] = address;
+    }
+
+    print("res type: ${res.runtimeType}");
+    print("res: $res");
+
     return Future.value(Result.value(UserGuardiansModel(guardians: [], timeDelaySec: 60 * 60 * 24)));
+  }
+}
+
+// This code extracted from the SDK
+class SendTransactionHelper {
+  final WebViewRunner _webView;
+
+  SendTransactionHelper(this._webView);
+
+  Future<void> sendTx({
+    required String address,
+    required String pubKey,
+    required String to,
+    required String amount,
+  }) async {
+    final sender = TxSenderData(
+      address,
+      pubKey,
+    );
+    final txInfo = TxInfoData('balances', 'transfer', sender);
+    try {
+      final hash = await signAndSend(
+        txInfo,
+        [
+          to,
+          amount,
+          // // _testAddressGav,
+          // 'GvrJix8vF8iKgsTAfuazEDrBibiM6jgG66C6sT2W56cEZr3',
+          // // params.amount
+          // '10000000000'
+        ],
+        "",
+        onStatusChange: (status) {
+          print("onStatusChange: $status");
+        },
+      );
+      print('sendTx ${hash.toString()}');
+    } catch (err) {
+      print('sendTx ERROR $err');
+    }
+  }
+
+  Future<Map> signAndSend(
+    TxInfoData txInfo,
+    List params,
+    String password, {
+    Function(String)? onStatusChange,
+    String? rawParam,
+  }) async {
+    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final Map tx = txInfo.toJson();
+    print(tx);
+    print(param);
+    final res = await (serviceSignAndSend(
+      tx,
+      param,
+      password,
+      onStatusChange ?? (status) => print(status),
+    ) as FutureOr<Map<dynamic, dynamic>>);
+    if (res['error'] != null) {
+      throw Exception(res['error']);
+    }
+    return res;
+  }
+
+  Future<Map?> serviceSignAndSend(Map txInfo, String params, String password, Function(String) onStatusChange) async {
+    final msgId = "onStatusChange${_webView.getEvalJavascriptUID()}";
+    _webView.addMsgHandler(msgId, onStatusChange);
+    final code = 'keyring.sendTx(api, ${jsonEncode(txInfo)}, $params, "$password", "$msgId")';
+    print("serviceSignAndSend: $code");
+    final dynamic res = await _webView.evalJavascript(code);
+    _webView.removeMsgHandler(msgId);
+    return res;
   }
 }

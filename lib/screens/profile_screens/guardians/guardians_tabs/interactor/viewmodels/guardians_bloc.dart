@@ -6,6 +6,7 @@ import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
@@ -91,7 +92,8 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     }
   }
 
-  FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) {
+  FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
+    final result = await polkadotRepository.cancelGuardians();
     emit(GuardiansState.initial());
   }
 
