@@ -17,6 +17,8 @@ const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf"
 const init = async () => {
   // Initialize the provider to connect to the local node
   const provider = new WsProvider(process.env.NODE_ENDPOINT);
+  // const provider = new WsProvider("wss://md5.network");
+  //wss://n1.hashed.systems
 
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
@@ -84,21 +86,66 @@ const createAccounts = async (number) => {
   return accounts
 }
 
+// let response = await new Promise((resolve) => {
+//   myAPI.exec('SomeCommand', (response) => { resolve(response); });
+// });
+
 const createRecovery = async () => {
 
   const { api, keyring, steve } = await init()
 
-  const createRecovery = await api.tx.recovery.createRecovery(
-    [
-      acct_0,
-      acct_1,
-      acct_2
-    ], 2, 0)
-    .signAndSend(steve);
+  // const createRecovery = await api.tx.recovery.createRecovery(
+  //   [
+  //     acct_0,
+  //     acct_1,
+  //     acct_2
+  //   ], 2, 0)
+  //   .signAndSend(steve);
 
-  console.log(createRecovery.toHex());
+  // Make a transfer from Alice to BOB, waiting for inclusion
 
-  return createRecovery.toHex()
+  let response = await new Promise((resolve) => {
+    api.tx.recovery.createRecovery(
+      [
+        acct_0,
+        acct_1,
+        acct_2
+      ].sort(), 2, 0)
+      .signAndSend(steve, ({ events = [], status, txHash }) => {
+        console.log(`Current status is ${status.type}`);
+  
+        if (status.isFinalized) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.asFinalized}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+  
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            } 
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+          // => 
+          // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
+          // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
+         
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          });
+  
+        }
+      });
+  });
+
+  console.log("tx result " + JSON.stringify(response, null, 2))
 
 }
 
@@ -106,17 +153,11 @@ const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
 
-  const recoverable = await api.query.recovery.recoverable.entries(steve.address);
+  const recoverable = await api.query.recovery.recoverable(steve.address);
 
   console.log("recoverable: " + JSON.stringify(recoverable, null, 2))
 
   return recoverable
-
-  // console.log("process recoverable: ")
-  // const recoveryMap = getActiveRecovery.map(([k, v]) => { return { key: k.toHuman(), val: v.toHuman() } })
-  // console.log(recoveryMap);
-
-  // return recoveryMap
 }
 
 const queryActiveRecovery = async () => {
