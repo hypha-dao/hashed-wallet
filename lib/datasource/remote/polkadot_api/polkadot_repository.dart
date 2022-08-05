@@ -248,8 +248,15 @@ class PolkadotRepository extends KeyRepository {
     return null;
   }
 
+  Future<Result> getKeyPair(String address) async {
+    final code = 'keyring.pKeyring.getPair("$address")';
+    final res = await _polkawalletInit?.webView?.evalJavascript(code);
+    print("getKeyPair res: $res");
+    return Result.value(res);
+  }
+
   Future<Result> initGuardians(List<String> guardians) async {
-    final account = accountService.currentAccount;
+    final address = accountService.currentAccount.address;
 //     final code = '''
 // const createRecovery = await api.tx.recovery.createRecovery(
 //     [
@@ -259,25 +266,28 @@ class PolkadotRepository extends KeyRepository {
 //     .signAndSend(steve);
 // console.log( createRecovery.toHex() );
 // '''
-    final code = 'api.tx.recovery.createRecovery([${guardians.join(",")}], 2, 0).signAndSend(steve)';
+    final code =
+        'api.tx.recovery.createRecovery([${guardians.join(",")}].sort(), 2, 0).signAndSend(keyring.pKeyring.getPair("$address"))';
     final res = await _polkawalletInit?.webView?.evalJavascript(code);
-    print("res: $res");
-
-    throw UnimplementedError();
+    print("initGuardians res: $res");
+    return Result.value(res);
   }
 
   Future<Result> cancelGuardians() async {
+    final address = accountService.currentAccount.address;
+
+    final code = 'api.tx.recovery.removeRecovery().signAndSend(keyring.pKeyring.getPair($address))';
+    final res = await _polkawalletInit?.webView?.evalJavascript(code);
+    print("cancelGuardians res: $res");
+    return Result.value(res);
+  }
+
+  Future<Result> getActiveRecovery() async {
     throw UnimplementedError();
   }
 
-  Future<Result> getAccountRecovery() async {
-    throw UnimplementedError();
-  }
-
-  Future<Result<UserGuardiansModel>> getAccountGuardians(String address) async {
+  Future<Result<UserGuardiansModel>> getRecoveryConfig(String address) async {
     print("get guardians for $address");
-    // [POLKA] implement this
-    //    address = "J4sW13h2HNerfxTzPGpLT66B3HVvuU32S6upxwSeFJQnAzg";
     final code = 'api.query.recovery.recoverable("$address")';
     final res = await _polkawalletInit?.webView?.evalJavascript(code);
     if (res != null) {
@@ -285,7 +295,7 @@ class PolkadotRepository extends KeyRepository {
     }
 
     print("res type: ${res.runtimeType}");
-    print("res: $res");
+    print("getRecoveryConfig res: $res");
 
     return Future.value(Result.value(UserGuardiansModel(guardians: [], timeDelaySec: 60 * 60 * 24)));
   }
@@ -337,6 +347,7 @@ class SendTransactionHelper {
     Function(String)? onStatusChange,
     String? rawParam,
   }) async {
+    // ignore: prefer_if_null_operators
     final param = rawParam != null ? rawParam : jsonEncode(params);
     final Map tx = txInfo.toJson();
     print(tx);

@@ -30,6 +30,10 @@ const init = async () => {
   const steve = keyring.addFromUri(
     process.env.STEVE_WORDS
   );
+  // Add alice to keyring, debug account
+  const alice = keyring.addFromUri(
+    "//ALICE"
+  );
 
   if (steve.address == process.env.STEVE_ADDRESS) {
     console.log("Address correct: " + steve.address)
@@ -86,32 +90,30 @@ const createAccounts = async (number) => {
   return accounts
 }
 
-// let response = await new Promise((resolve) => {
-//   myAPI.exec('SomeCommand', (response) => { resolve(response); });
-// });
+// find keypair by address - may not be needed?
+const findKeyring = async (address) => {
+  // 5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym
+  const { api, keyring, steve } = await init()
+
+}
 
 const createRecovery = async () => {
 
   const { api, keyring, steve } = await init()
 
-  // const createRecovery = await api.tx.recovery.createRecovery(
-  //   [
-  //     acct_0,
-  //     acct_1,
-  //     acct_2
-  //   ], 2, 0)
-  //   .signAndSend(steve);
+  const address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"
 
-  // Make a transfer from Alice to BOB, waiting for inclusion
-
-  let response = await new Promise((resolve) => {
-    api.tx.recovery.createRecovery(
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  // Alternatively we can pass in the correct keypair
+  
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.createRecovery(
       [
         acct_0,
         acct_1,
         acct_2
       ].sort(), 2, 0)
-      .signAndSend(steve, ({ events = [], status, txHash }) => {
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
         console.log(`Current status is ${status.type}`);
   
         if (status.isFinalized) {
@@ -130,6 +132,9 @@ const createRecovery = async () => {
               transactionSuccess = true
             }
           });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
           // => 
           // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
           // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
@@ -139,13 +144,72 @@ const createRecovery = async () => {
             status,
             txHash,
             transactionSuccess,
+          })
+  
+        }
+      });
+  });
+
+  //console.log("tx result " + JSON.stringify(response, null, 2))
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
+}
+
+const removeRecovery = async () => {
+
+  const { api, keyring, steve } = await init()
+
+  const address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.removeRecovery()
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Remove Recovery: Current status is ${status.type}`);
+  
+        if (status.isFinalized) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.asFinalized}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+  
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            } 
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
           });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+          // => 
+          // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
+          // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
+         
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
   
         }
       });
   });
 
   console.log("tx result " + JSON.stringify(response, null, 2))
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
 
 }
 
@@ -156,6 +220,11 @@ const queryRecovery = async () => {
   const recoverable = await api.query.recovery.recoverable(steve.address);
 
   console.log("recoverable: " + JSON.stringify(recoverable, null, 2))
+
+  console.log("disconnecting")
+
+  await api.disconnect()
+  console.log("disconnecting done")
 
   return recoverable
 }
@@ -217,8 +286,6 @@ program
 
     console.log("Query recovery...")
 
-
-
     const result = await queryRecovery()
 
     console.log("result: " + JSON.stringify(result, null, 2))
@@ -237,15 +304,15 @@ program
   })
 
 program
-  .command('cancel_recovery')
+  .command('remove_recovery')
   .description('Cancel recovery')
   .action(async function () {
 
-    console.log("Cancel recovery...")
+    console.log("Remove recovery...")
 
-    const result = await createRecovery()
+    const result = await removeRecovery()
 
-    console.log("transaction ID: " + JSON.stringify(result, null, 2))
+    console.log("result: " + JSON.stringify(result, null, 2))
   })
 
 

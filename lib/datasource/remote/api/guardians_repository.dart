@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
+import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class GuardiansRepository with HttpRepository {
@@ -47,11 +48,11 @@ class GuardiansRepository with HttpRepository {
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
     print('[http] get account recovery $accountName');
 
-    return polkadotRepository.getAccountRecovery();
+    return polkadotRepository.getActiveRecovery();
   }
 
-  Future<Result<dynamic>> getAccountGuardians(String accountName) async {
-    return polkadotRepository.getAccountGuardians(accountName);
+  Future<Result<UserGuardiansModel>> getAccountGuardians(String accountName) async {
+    return polkadotRepository.getRecoveryConfig(accountName);
   }
 
   Future<Result<dynamic>> generateRecoveryRequest(String accountName, String publicKey) async {

@@ -93,6 +93,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   }
 
   FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
+    // ignore: unused_local_variable
     final result = await polkadotRepository.cancelGuardians();
     emit(GuardiansState.initial());
   }

@@ -5,6 +5,6 @@ import 'package:seeds/utils/result_extension.dart';
 
 class GetGuardiansUseCase {
   Future<Result<UserGuardiansModel>> getGuardians() async {
-    return polkadotRepository.getAccountGuardians(accountService.currentAccount.address);
+    return polkadotRepository.getRecoveryConfig(accountService.currentAccount.address);
   }
 }
