@@ -14,7 +14,7 @@ class ExportPrivateKeyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Export Private Key")),
+      appBar: AppBar(title: const Text("Export Secret Words")),
       body: BlocProvider(
         create: (_) => ExportPrivateKeyBloc()..add(const LoadSecretWords()),
         child: BlocListener<ExportPrivateKeyBloc, ExportPrivateKeyState>(
