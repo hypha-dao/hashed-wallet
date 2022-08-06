@@ -13,6 +13,7 @@ import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
+import 'package:seeds/screens/profile_screens/export_private_key/export_private_key_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen_v3.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
@@ -66,6 +67,7 @@ class Routes {
   static const support = 'support';
   static const security = 'security';
   static const editName = 'editName';
+  static const exportPrivateKey = ' exportPrivateKey';
   static const setCurrency = 'setCurrency';
   static const citizenship = 'citizenship';
 }
@@ -94,6 +96,7 @@ class NavigationService {
     Routes.guardianTabs: (_) => const GuardiansScreen(),
     Routes.security: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
+    Routes.exportPrivateKey: (_) => const ExportPrivateKeyScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const SettingsScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),

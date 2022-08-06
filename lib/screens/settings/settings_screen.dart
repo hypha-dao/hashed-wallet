@@ -4,6 +4,7 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/account_service.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/settings/components/biometric_enabled_dialog.dart';
@@ -70,6 +71,8 @@ class SettingsScreen extends StatelessWidget {
                         );
                       },
                     ).whenComplete(() => BlocProvider.of<SettingsBloc>(context).add(const ResetShowLogoutButton()));
+                  } else if (pageCommand is NavigateToRoute) {
+                    NavigationService.of(context).navigateTo(pageCommand.route);
                   }
                 }),
           ],
@@ -94,9 +97,10 @@ class SettingsScreen extends StatelessWidget {
                           description: context.loc.securityExportPrivateKeyDescription,
                           // TODO(n13): Fix share secret words
                           onTap: () async {
-                            final pk = await accountService.getPrivateKeys();
+                            BlocProvider.of<SettingsBloc>(context).add(const OnExportPrivateKeyCardTapped());
+                             final pk = await accountService.getPrivateKeys();
                             // ignore: unawaited_futures
-                            Share.share(pk[0]);
+                            //  Share.share(pk[0]);
                           },
                         ),
                         BlocBuilder<SettingsBloc, SettingsState>(

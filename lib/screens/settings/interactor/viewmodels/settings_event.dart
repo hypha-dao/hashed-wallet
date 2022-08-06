@@ -13,6 +13,12 @@ class SetUpInitialValues extends SettingsEvent {
   String toString() => 'SetUpInitialValues';
 }
 
+class OnExportPrivateKeyCardTapped extends SettingsEvent {
+  const OnExportPrivateKeyCardTapped();
+  @override
+  String toString() => 'OnExportPrivateKeyCardTapped';
+}
+
 class ShouldShowNotificationBadge extends SettingsEvent {
   final bool value;
   const ShouldShowNotificationBadge({required this.value});
@@ -61,7 +67,7 @@ class OnValidVerification extends SettingsEvent {
 class OnLogoutButtonPressed extends SettingsEvent {
   const OnLogoutButtonPressed();
   @override
-  String toString() => 'OnLoguoutButtonPressed';
+  String toString() => 'OnLogoutButtonPressed';
 }
 
 class ClearSettingsPageCommand extends SettingsEvent {

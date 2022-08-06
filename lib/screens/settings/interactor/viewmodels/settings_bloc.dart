@@ -11,10 +11,12 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/settings/interactor/viewmodels/page_commands.dart';
 import 'package:share/share.dart';
 
 part 'settings_event.dart';
+
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -31,6 +33,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SetUpInitialValues>(_setUpInitialValues);
     on<ShouldShowNotificationBadge>((event, emit) => emit(state.copyWith(hasNotification: event.value)));
     on<OnGuardiansCardTapped>(_onGuardiansCardTapped);
+    on<OnExportPrivateKeyCardTapped>(
+        (event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(Routes.exportPrivateKey))));
     on<OnPasscodePressed>(_onPasscodePressed);
     on<OnBiometricPressed>(_onBiometricPressed);
     on<ResetNavigateToVerification>((_, emit) => emit(state.copyWith()));
