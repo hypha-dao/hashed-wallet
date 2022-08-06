@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/flutter_js/polkawallet_init.dart';
-import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
 import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
@@ -12,38 +12,43 @@ import 'package:seeds/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
 
-enum PolkadotRepositoryState {
-  stopped,
-  initialized,
-  connected,
-  disconnected,
+class PolkadotRepositoryState {
+  bool isInitialized = false;
+  bool isConnected = false;
 }
 
 class PolkadotRepository extends KeyRepository {
   late PolkawalletInit? _polkawalletInit;
 
-  bool get isInitialized => state == PolkadotRepositoryState.initialized;
-  bool get isConnected => state == PolkadotRepositoryState.connected;
-  PolkadotRepositoryState state = PolkadotRepositoryState.stopped;
+  bool get isInitialized => state.isInitialized;
+  bool get isConnected => state.isConnected;
+
+  PolkadotRepositoryState state = PolkadotRepositoryState();
 
   void handleConnectState(bool isConnected) {
     print("PolkadotRepository connection state ${isConnected ? 'Connected' : 'Disconnected'}");
-    if (isConnected) {
-      state = PolkadotRepositoryState.connected;
-    } else {
-      state = PolkadotRepositoryState.disconnected;
-    }
+    state.isConnected = isConnected;
   }
 
+  bool initialized = false;
   Future<void> initService() async {
     try {
+      if (initialized) {
+        print("ignore second init");
+        print(StackTrace.current);
+        return;
+      }
+      initialized = true;
       print("PolkadotRepository init");
 
       _polkawalletInit = PolkawalletInit(handleConnectState);
 
       await _polkawalletInit!.init();
 
-      state = PolkadotRepositoryState.initialized;
+      state.isInitialized = true;
+
+      await _cryptoWaitReady();
+      await _initKeys();
     } catch (err) {
       print("Error: $err");
       rethrow;
@@ -55,12 +60,12 @@ class PolkadotRepository extends KeyRepository {
       print("PolkadotRepository start");
       await _polkawalletInit!.init();
       await _polkawalletInit!.connect();
-      state = PolkadotRepositoryState.connected;
+      state.isConnected = true;
 
       return true;
     } catch (err) {
       print("Error: $err");
-      state = PolkadotRepositoryState.disconnected;
+      state.isConnected = false;
 
       rethrow;
     }
@@ -69,36 +74,21 @@ class PolkadotRepository extends KeyRepository {
   Future<bool> stopService() async {
     await _polkawalletInit?.stop();
     _polkawalletInit = null;
-    state = PolkadotRepositoryState.stopped;
+    state.isInitialized = false;
 
     return true;
   }
 
   Future<void> _checkInitialized() async {
-    switch (state) {
-      case PolkadotRepositoryState.stopped:
-        await initService();
-        break;
-      case PolkadotRepositoryState.initialized:
-      case PolkadotRepositoryState.connected:
-      case PolkadotRepositoryState.disconnected:
-        return;
+    if (state.isInitialized == false) {
+      await initService();
     }
   }
 
   Future<void> _checkConnected() async {
-    print("check connected $state");
-    switch (state) {
-      case PolkadotRepositoryState.stopped:
-        await initService();
-        await startService();
-        break;
-      case PolkadotRepositoryState.initialized:
-      case PolkadotRepositoryState.disconnected:
-        await startService();
-        break;
-      case PolkadotRepositoryState.connected:
-        return;
+    await _checkInitialized();
+    if (state.isConnected == false) {
+      await startService();
     }
   }
 
@@ -115,10 +105,18 @@ class PolkadotRepository extends KeyRepository {
     print("wait ready res: $res");
   }
 
+  Future<void> _initKeys() async {
+    final keys = await accountService.getPrivateKeys();
+
+    for (final mnemonic in keys) {
+      print("PJS: import key $mnemonic");
+      await importKey(mnemonic);
+    }
+  }
+
   Future<String> createKey() async {
     await _checkInitialized();
 
-    await _cryptoWaitReady();
     final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
     //print("create res: $res");
     final String mnemonic = res["mnemonic"];
@@ -132,7 +130,6 @@ class PolkadotRepository extends KeyRepository {
       print("get balance for $address");
       await _checkInitialized();
       await _checkConnected();
-      await _cryptoWaitReady();
 
       // Debug code, do not check in - checking account with known address
       // final knownAddress = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
@@ -212,7 +209,6 @@ class PolkadotRepository extends KeyRepository {
   @override
   Future<String?> publicKeyForPrivateKey(String privateKey) async {
     await _checkInitialized();
-    await _cryptoWaitReady();
 
     /// 1 - set format
     /// 2 - call addFromUri, which returns a keypair object
@@ -235,7 +231,6 @@ class PolkadotRepository extends KeyRepository {
 
   Future<String?> privateKeyForPublicKey(String publicKey) async {
     await _checkInitialized();
-    await _cryptoWaitReady();
 
     final keys = await accountService.getPrivateKeys();
 
@@ -286,18 +281,28 @@ class PolkadotRepository extends KeyRepository {
     throw UnimplementedError();
   }
 
-  Future<Result<UserGuardiansModel>> getRecoveryConfig(String address) async {
+  Future<Result<GuardiansConfigModel>> getRecoveryConfig(String address) async {
     print("get guardians for $address");
-    final code = 'api.query.recovery.recoverable("$address")';
-    final res = await _polkawalletInit?.webView?.evalJavascript(code);
-    if (res != null) {
-      res['address'] = address;
+
+    // TODO(n13): Create a mapper for polkadot API results - similar to httpmapper
+    // then add model mappers for all the different possible responses.
+    // But, make it work first -
+    try {
+      // const testAddr = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"; // DEBUG REMOVE
+      final code = 'api.query.recovery.recoverable("$address")';
+      final res = await _polkawalletInit?.webView?.evalJavascript(code);
+      print("getRecoveryConfig res: $res");
+      GuardiansConfigModel guardiansModel;
+      if (res != null) {
+        res['address'] = address;
+        guardiansModel = GuardiansConfigModel.fromJson(res);
+      } else {
+        guardiansModel = GuardiansConfigModel.empty;
+      }
+      return Future.value(Result.value(guardiansModel));
+    } catch (err) {
+      return Future.value(Result.error(err));
     }
-
-    print("res type: ${res.runtimeType}");
-    print("getRecoveryConfig res: $res");
-
-    return Future.value(Result.value(UserGuardiansModel(guardians: [], timeDelaySec: 60 * 60 * 24)));
   }
 }
 

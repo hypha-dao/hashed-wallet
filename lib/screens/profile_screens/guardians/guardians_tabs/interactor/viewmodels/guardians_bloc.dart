@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
-import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
 import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -98,8 +98,13 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     emit(GuardiansState.initial());
   }
 
-  FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) {
+  FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+
+    final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+
     emit(state.copyWith(
+        pageState: PageState.success,
         areGuardiansActive: true,
         actionButtonState: getActionButtonState(
           areGuardiansActive: true,
