@@ -41,7 +41,8 @@ Future<void> main() async {
     });
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    await polkadotRepository.initService();
+    // ignore: unawaited_futures
+    polkadotRepository.initService();
 
     // Called whenever the Flutter framework catches an error.
     FlutterError.onError = (details) async {
