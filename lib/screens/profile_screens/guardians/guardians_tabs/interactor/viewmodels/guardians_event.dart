@@ -20,7 +20,7 @@ class OnStopRecoveryForUser extends GuardiansEvent {
 }
 
 class OnRemoveGuardianTapped extends GuardiansEvent {
-  final GuardianModel guardian;
+  final Account guardian;
 
   const OnRemoveGuardianTapped(this.guardian);
 
@@ -29,12 +29,12 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
 }
 
 class OnGuardianAdded extends GuardiansEvent {
-  final GuardianModel guardian;
+  final Account account;
 
-  const OnGuardianAdded(this.guardian);
+  const OnGuardianAdded(this.account);
 
   @override
-  String toString() => 'OnGuardianAdded : { OnGuardianAdded: $guardian }';
+  String toString() => 'OnGuardianAdded : { OnGuardianAdded: $account }';
 }
 
 class Initial extends GuardiansEvent {

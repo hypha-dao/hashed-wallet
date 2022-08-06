@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -63,7 +63,7 @@ class SelectGuardiansScreenV3 extends StatelessWidget {
                         onPressed: () {
                           /// Make call to add guardian
                           Navigator.of(context).pop(
-                            GuardianModel(walletAddress: state.guardianKey!, nickname: state.guardianName),
+                            Account(address: state.guardianKey!, name: state.guardianName),
                           );
                         },
                       ),

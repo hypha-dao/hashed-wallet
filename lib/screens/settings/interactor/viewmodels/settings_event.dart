@@ -21,7 +21,7 @@ class ShouldShowNotificationBadge extends SettingsEvent {
 }
 
 class OnLoadingGuardians extends SettingsEvent {
-  final List<GuardianModel> guardians;
+  final List<Account> guardians;
 
   const OnLoadingGuardians({required this.guardians});
   @override

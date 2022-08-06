@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/account_service.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/remove_guardian_usecase.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
 part 'guardians_event.dart';
@@ -37,11 +40,13 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   Future<void> _onRemoveGuardianTapped(OnRemoveGuardianTapped event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
+    print("remov e tapped - TBD");
 
-    /// Remove from server
-    // final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+    // Remove from server
+    // [POLKA] handle result
+    // ignore: unused_local_variable
+    final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
 
-    /// Delete this mock
     final guards = state.myGuardians;
     guards.remove(event.guardian);
     emit(state.copyWith(
@@ -51,16 +56,16 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     ));
   }
 
-  FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) {
+  FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final result = _getGuardiansDataUseCase.getGuardiansData();
-
+    final result = await _getGuardiansDataUseCase.getGuardiansData();
+    final guardiansModel = result.asValue!.value;
     emit(state.copyWith(
-      myGuardians: result.guardians,
-      areGuardiansActive: result.areGuardiansActive,
+      myGuardians: guardiansModel,
+      areGuardiansActive: guardiansModel.areGuardiansActive,
       actionButtonState: getActionButtonState(
-        areGuardiansActive: result.areGuardiansActive,
-        guardiansCount: result.guardians.length,
+        areGuardiansActive: guardiansModel.areGuardiansActive,
+        guardiansCount: guardiansModel.length,
       ),
       pageState: PageState.success,
     ));
@@ -68,7 +73,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   FutureOr<void> _onGuardianAdded(OnGuardianAdded event, Emitter<GuardiansState> emit) {
     final guards = state.myGuardians;
-    guards.add(event.guardian);
+    guards.add(event.account);
     emit(state.copyWith(
         myGuardians: guards,
         actionButtonState: getActionButtonState(
@@ -87,7 +92,9 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     }
   }
 
-  FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) {
+  FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
+    // ignore: unused_local_variable
+    final result = await polkadotRepository.cancelGuardians();
     emit(GuardiansState.initial());
   }
 
@@ -113,6 +120,6 @@ ActionButtonState getActionButtonState({required bool areGuardiansActive, requir
   return ActionButtonState(
     isLoading: false,
     title: 'Activate',
-    isEnabled: guardiansCount >= 3,
+    isEnabled: guardiansCount >= 2,
   );
 }

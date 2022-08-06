@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class RemoveGuardianConfirmationDialog extends StatelessWidget {
-  final GuardianModel guardian;
+  final Account guardian;
   final GestureTapCallback? onDismiss;
   final GestureTapCallback? onConfirm;
 
@@ -22,8 +22,8 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
       iconPadding: 0,
       icon: ProfileAvatar(
         size: 80,
-        account: guardian.walletAddress,
-        nickname: guardian.nickname,
+        account: guardian.address,
+        nickname: guardian.name,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           // color: AppColors.blue,
@@ -45,7 +45,7 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
                 text: 'Are you sure you want to remove '.i18n,
                 style: Theme.of(context).textTheme.subtitle2,
                 children: <TextSpan>[
-                  TextSpan(text: guardian.nickname, style: Theme.of(context).textTheme.subtitle2),
+                  TextSpan(text: guardian.name, style: Theme.of(context).textTheme.subtitle2),
                   TextSpan(text: ' as your Guardian?'.i18n, style: Theme.of(context).textTheme.subtitle2)
                 ]),
           ),
