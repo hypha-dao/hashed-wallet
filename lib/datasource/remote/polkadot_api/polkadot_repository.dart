@@ -340,6 +340,24 @@ class SendTransactionHelper {
     }
   }
 
+  /// Send tx, [params] will be ignored if we have [rawParam].
+  /// [onStatusChange] is a callback when tx status change.
+  /// @return txHash [string] if tx finalized success.
+  /// 
+  /// Sign and send is a complex structure that's simplified with this API
+  /// 
+  /// All we need to do is create a TxInfoData object and parameters and we're
+  /// good to go
+  /// 
+  /// onStatusChange will be called when the event changes status - is included in a block
+  /// or finalized of has an error
+  /// 
+  /// The function returns txHash on success, and throws an error if not successful
+  /// 
+  /// Execution takes block time, meaning around 6 seconds. As it is waiting for the 
+  /// transaction to be processed. 
+  /// 
+  /// 
   Future<Map> signAndSend(
     TxInfoData txInfo,
     List params,
