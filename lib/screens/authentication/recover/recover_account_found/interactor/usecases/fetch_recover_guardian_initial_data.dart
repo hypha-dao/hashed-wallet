@@ -1,18 +1,16 @@
 import 'package:async/async.dart';
 import 'package:seeds/datasource/local/account_service.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/guardians_repository.dart';
-import 'package:seeds/datasource/remote/api/members_repository.dart';
-import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
 
 class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
-  final MembersRepository _membersRepository = MembersRepository();
   final CreateFirebaseDynamicLinkUseCase _createFirebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
   Future<RecoverGuardianInitialDTO> run(String accountName) async {
@@ -21,10 +19,9 @@ class FetchRecoverGuardianInitialDataUseCase {
     final Result accountRecovery = await _guardiansRepository.getAccountRecovery(accountName);
     final Result accountGuardians = await _guardiansRepository.getAccountGuardians(accountName);
 
-    List<Result> membersData = [];
+    List<Account> membersData = [];
     if (accountGuardians.isValue) {
-      final UserGuardiansModel guardians = accountGuardians.asValue!.value;
-      membersData = await _getMembersData(guardians.guardians);
+      membersData = accountGuardians.asValue!.value;
     }
 
     if (settingsStorage.currentAccount != null && settingsStorage.inRecoveryMode) {
@@ -32,14 +29,6 @@ class FetchRecoverGuardianInitialDataUseCase {
     } else {
       return _startNewRecovery(accountRecovery, accountGuardians, membersData, accountName);
     }
-  }
-
-  Future<List<Result>> _getMembersData(List<String> guardians) async {
-    final Iterable<Future<Result>> futures = guardians.map((String e) => _membersRepository.getMemberByAccountName(e));
-    final List<Result> results = await Future.wait(futures);
-    final Iterable<Result<dynamic>> filtered = results.where((Result element) => element.isValue);
-
-    return filtered.toList();
   }
 
   Future<Result<dynamic>> generateFirebaseDynamicLink(Result<dynamic> link) async {
@@ -56,7 +45,7 @@ class FetchRecoverGuardianInitialDataUseCase {
   Future<RecoverGuardianInitialDTO> _continueWithRecovery(
     Result accountRecovery,
     Result accountGuardians,
-    List<Result> membersData,
+    List<Account> membersData,
   ) async {
     final recoveryWords = await accountService.getPrivateKeys();
     return RecoverGuardianInitialDTO(
@@ -72,7 +61,7 @@ class FetchRecoverGuardianInitialDataUseCase {
   Future<RecoverGuardianInitialDTO> _startNewRecovery(
     Result accountRecovery,
     Result accountGuardians,
-    List<Result> membersData,
+    List<Account> membersData,
     String accountName,
   ) async {
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
@@ -95,7 +84,7 @@ class FetchRecoverGuardianInitialDataUseCase {
 
 class RecoverGuardianInitialDTO {
   final Result link;
-  final List<Result> membersData;
+  final List<Account> membersData;
   final Result userRecoversModel;
   final Result accountGuardians;
   final AuthDataModel authData;

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 
 class GuardianRowWidget extends StatelessWidget {
-  final ProfileModel guardianModel;
+  final Account guardianModel;
   final bool showGuardianSigned;
 
   const GuardianRowWidget({
@@ -19,15 +18,16 @@ class GuardianRowWidget extends StatelessWidget {
         trailing: showGuardianSigned ? const Icon(Icons.check_circle) : const SizedBox.shrink(),
         leading: ProfileAvatar(
           size: 60,
-          image: guardianModel.image,
-          account: guardianModel.account,
-          nickname: guardianModel.nickname,
+          // ignore: avoid_redundant_argument_values
+          image: null,
+          account: guardianModel.address,
+          nickname: guardianModel.name,
         ),
         title: Text(
-          (!guardianModel.nickname.isNullOrEmpty) ? guardianModel.nickname : guardianModel.account,
+          guardianModel.name != null ? guardianModel.name! : guardianModel.address,
           style: Theme.of(context).textTheme.button,
         ),
-        subtitle: Text(guardianModel.account),
+        subtitle: Text(guardianModel.name != null ? guardianModel.address : ""),
         onTap: () {});
   }
 }

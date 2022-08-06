@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:seeds/datasource/local/models/account.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardians_data.dart';
 
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
@@ -8,19 +8,19 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     return false;
   }
 
-  List<GuardianModel> getGuardiansForUser(String userId) {
+  List<Account> getGuardiansForUser11(String userId) {
     return [
-      GuardianModel(walletAddress: "walletAddress", nickname: 'GERY'),
-      GuardianModel(walletAddress: "walletAddress1", nickname: 'Nik'),
-      GuardianModel(walletAddress: "walletAddress3", nickname: 'Gaby')
+      const Account(address: "walletAddress", name: 'GERY'),
+      const Account(address: "walletAddress1", name: 'Nik'),
+      const Account(address: "walletAddress3", name: 'Gaby')
     ];
   }
 
-  GuardiansData getGuardiansDataForUser(String userId) {
+  GuardiansData getGuardiansDataForUse11r(String userId) {
     return GuardiansData(true, [
-      GuardianModel(walletAddress: "walletAddress"),
-      GuardianModel(walletAddress: "walletAddress1", nickname: 'Nik'),
-      GuardianModel(walletAddress: "walletAddress3", nickname: 'Gaby')
+      const Account(address: "walletAddress"),
+      const Account(address: "walletAddress1", name: 'Nik'),
+      const Account(address: "walletAddress3", name: 'Gaby')
     ]);
   }
 

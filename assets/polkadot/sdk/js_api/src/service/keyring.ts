@@ -233,6 +233,26 @@ export function _getDispatchError(dispatchError: DispatchError): string {
 
 /**
  * sign and send extrinsic to network and wait for result.
+ * 
+ * Nik - some documentation on this crazy code
+ * 
+ * txInfo = {
+ *    module = "",
+ *    call = "",
+ *    txName = "",    // (optional, only used for 'treasury.approveProposal' and 'treasury.rejectProposal')
+ *    isUnsigned = true   // (optional),
+ *    proxy = {       //  (optional) - i guess also a keypair?
+ *      pubKey = ?,
+ *      address = ""
+ *    }
+ *    sender = {   // I think this is a keypair type
+ *      pubKey = ?,
+ *      address = ""
+ *    },
+ *    tip = ?? // whaaaaaa - not optional
+ * }
+ * 
+ * 
  */
 function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string, msgId: string) {
   return new Promise(async (resolve) => {
