@@ -77,6 +77,7 @@ class PolkawalletInit {
     _webViewDropsTimer?.cancel();
     _dropsServiceTimer?.cancel();
     _chainTimer?.cancel();
+    await walletSdk.webView?.evalJavascript('api.disconnect()');
     await walletSdk.webView?.dispose();
     _initialized = false;
   }
