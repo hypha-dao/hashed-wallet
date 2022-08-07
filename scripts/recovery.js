@@ -266,7 +266,9 @@ program
 
     const result = await init()
 
-    //console.log("result: " + JSON.stringify(result, null, 2))
+    console.log("result: " + JSON.stringify(result, null, 2))
+
+    await result.api.disconnect();
   })
 
 program

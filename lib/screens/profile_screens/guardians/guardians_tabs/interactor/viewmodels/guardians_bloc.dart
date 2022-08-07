@@ -10,6 +10,7 @@ import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/init_guardians_usecase.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/remove_guardian_usecase.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
@@ -59,7 +60,12 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final result = await _getGuardiansDataUseCase.getGuardiansData();
-    final guardiansModel = result.asValue!.value;
+
+    // TODO(n13): Should use mapper
+    final guardiansModel = (result.isValue && result.asValue!.value != GuardiansConfigModel.empty)
+        ? result.asValue!.value
+        : GuardiansConfigModel(guardians: [], delayPeriod: GuardiansConfigModel.defaultDelayPeriod, threshold: 0);
+
     emit(state.copyWith(
       myGuardians: guardiansModel,
       areGuardiansActive: guardiansModel.areGuardiansActive,
@@ -101,7 +107,9 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
 
-    final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+    final result = await ActivateGuardiansUseCase().initGuardians(event.guards);
+
+    print("res $result");
 
     emit(state.copyWith(
         pageState: PageState.success,

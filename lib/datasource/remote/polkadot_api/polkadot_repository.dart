@@ -250,20 +250,17 @@ class PolkadotRepository extends KeyRepository {
     return Result.value(res);
   }
 
-  Future<Result> initGuardians(List<String> guardians) async {
+  Future<Result> initGuardians(GuardiansConfigModel guardians) async {
     final address = accountService.currentAccount.address;
-//     final code = '''
-// const createRecovery = await api.tx.recovery.createRecovery(
-//     [
-//       <friend_1_public_key>,
-//       <friend_2_public_key>
-//     ], 2, 0)
-//     .signAndSend(steve);
-// console.log( createRecovery.toHex() );
-// '''
+
+    final addresses = guardians.guardians.map((e) => e.address);
+    final threshold = guardians.threshold;
+    final delay = guardians.delayPeriod;
+
     final code =
-        'api.tx.recovery.createRecovery([${guardians.join(",")}].sort(), 2, 0).signAndSend(keyring.pKeyring.getPair("$address"))';
+        'api.tx.recovery.createRecovery([${addresses.join(",")}].sort(), $threshold, $delay).signAndSend(keyring.pKeyring.getPair("$address"))';
     final res = await _polkawalletInit?.webView?.evalJavascript(code);
+
     print("initGuardians res: $res");
     return Result.value(res);
   }
@@ -333,6 +330,37 @@ class SendTransactionHelper {
           // 'GvrJix8vF8iKgsTAfuazEDrBibiM6jgG66C6sT2W56cEZr3',
           // // params.amount
           // '10000000000'
+        ],
+        "",
+        onStatusChange: (status) {
+          print("onStatusChange: $status");
+        },
+      );
+      print('sendTx ${hash.toString()}');
+    } catch (err) {
+      print('sendTx ERROR $err');
+    }
+  }
+
+  Future<void> sendRecovery({
+    required String address,
+    required List<String> guardians,
+    required int threshold,
+    required int delayPeriod,
+  }) async {
+    final sender = TxSenderData(
+      address,
+      "", // I think this is not needed, but maybe we should store the pub keya
+    );
+    final txInfo = TxInfoData('balances', 'transfer', sender);
+    guardians.sort();
+    try {
+      final hash = await signAndSend(
+        txInfo,
+        [
+          guardians,
+          threshold,
+          delayPeriod,
         ],
         "",
         onStatusChange: (status) {

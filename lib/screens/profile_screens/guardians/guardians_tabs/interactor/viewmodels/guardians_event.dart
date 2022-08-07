@@ -53,6 +53,8 @@ class OnResetConfirmed extends GuardiansEvent {
 }
 
 class OnActivateConfirmed extends GuardiansEvent {
+  final GuardiansConfigModel guards;
+  const OnActivateConfirmed(this.guards);
   @override
   String toString() => 'OnActivateConfirmed';
 }

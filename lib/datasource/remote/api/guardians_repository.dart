@@ -8,7 +8,7 @@ class GuardiansRepository with HttpRepository {
   ///
   /// guardians - list of public keys that are the guardians - between 2 and N accounts
   ///
-  Future<Result> initGuardians(List<String> guardians) async {
+  Future<Result> initGuardians(GuardiansConfigModel guardians) async {
     print('[eos] init guardians: $guardians');
 
     return polkadotRepository.initGuardians(guardians);

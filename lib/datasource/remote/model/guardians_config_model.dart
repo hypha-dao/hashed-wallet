@@ -1,10 +1,11 @@
 import 'package:seeds/datasource/local/models/account.dart';
 
 class GuardiansConfigModel {
-  static final empty = GuardiansConfigModel(guardians: [], delayPeriod: 0, threshold: 0);
+  static const int defaultDelayPeriod = 10 * 60 * 24;
+  static final empty = GuardiansConfigModel(guardians: [], delayPeriod: defaultDelayPeriod, threshold: 0);
   final List<Account> guardians;
   final int delayPeriod;
-  final int threshold;
+  int threshold;
   bool get isEmpty => guardians.isEmpty;
   bool get areGuardiansActive => !isEmpty;
 
@@ -12,17 +13,6 @@ class GuardiansConfigModel {
   List<String> get guardianAddresses => guardians.map((e) => e.address).toList();
 
   GuardiansConfigModel({required this.guardians, required this.delayPeriod, required this.threshold});
-
-  // factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
-  //   if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
-  //     final List<String> guardians = List<String>.from(rows[0]['guardians']);
-  //     final int timeDelaySec = rows[0]['time_delay_sec'];
-  //     final List<Account> guardianAccounts = guardians.map((e) => Account(address: e)).toList();
-  //     return UserGuardiansModel(guardians: guardianAccounts, timeDelaySec: timeDelaySec, threshold: 2);
-  //   } else {
-  //     return UserGuardiansModel(guardians: [], timeDelaySec: 0, threshold: 0);
-  //   }
-  // }
 
   factory GuardiansConfigModel.fromJson(Map<String, dynamic> json) {
     final List<String> guardians = List<String>.from(json['friends']);
@@ -46,9 +36,28 @@ class GuardiansConfigModel {
     if (!guardians.contains(account)) {
       guardians.add(account);
     }
+    autoConfigureThreshold();
   }
 
   void remove(Account guardian) {
     guardians.remove(guardian);
+    autoConfigureThreshold();
+  }
+
+  void autoConfigureThreshold() {
+    final count = guardians.length;
+    if (count == 0) {
+      threshold = 0;
+    } else if (count <= 2) {
+      threshold = 1; // 1/1, 1/2
+    } else if (count == 3) {
+      threshold = 2; // 2/3
+    } else if (count <= 5) {
+      threshold = 3; // 3/4, 3/5
+    } else if (count <= 7) {
+      threshold = 4; // 4/6, 4/7
+    } else {
+      threshold = count * 2 ~/ 3; // 5/8, 6/9, ...
+    }
   }
 }
