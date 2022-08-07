@@ -35,7 +35,11 @@ class PolkadotRepository extends KeyRepository {
     try {
       if (initialized) {
         print("ignore second init");
-        print(StackTrace.current);
+        //print(StackTrace.current);
+        // Note:
+        // Currently some code - like get balance - is checking for init, and when not initialized,
+        // it calls initialize. This gets called during initialization a few times, so this code is still
+        // needed. Check init should probably just stall while initialize is happening?
         return;
       }
       initialized = true;
@@ -260,26 +264,29 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<Result> initGuardians(GuardiansConfigModel guardians) async {
-    final address = accountService.currentAccount.address;
-
-    final addresses = guardians.guardians.map((e) => e.address);
-    final threshold = guardians.threshold;
-    final delay = guardians.delayPeriod;
-
-    final code =
-        'api.tx.recovery.createRecovery([${addresses.join(",")}].sort(), $threshold, $delay).signAndSend(keyring.pKeyring.getPair("$address"))';
-    final res = await _polkawalletInit?.webView?.evalJavascript(code);
+    print("create recovery: ${guardians.toJson()}");
+    final res = SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
+      address: accountService.currentAccount.address,
+      guardians: guardians.guardianAddresses,
+      threshold: guardians.threshold,
+      delayPeriod: guardians.delayPeriod,
+    );
 
     print("initGuardians res: $res");
     return Result.value(res);
   }
 
   Future<Result> cancelGuardians() async {
-    final address = accountService.currentAccount.address;
+    // final address = accountService.currentAccount.address;
 
-    final code = 'api.tx.recovery.removeRecovery().signAndSend(keyring.pKeyring.getPair($address))';
-    final res = await _polkawalletInit?.webView?.evalJavascript(code);
-    print("cancelGuardians res: $res");
+    // final code = 'api.tx.recovery.removeRecovery().signAndSend(keyring.pKeyring.getPair("$address"))';
+    // final res = await _polkawalletInit?.webView?.evalJavascript(code);
+    // print("cancelGuardians res: $res");
+    // return Result.value(res);
+
+    final res = SendTransactionHelper(_polkawalletInit!.webView!)
+        .sendRemoveRecovery(address: accountService.currentAccount.address);
+
     return Result.value(res);
   }
 
@@ -294,7 +301,6 @@ class PolkadotRepository extends KeyRepository {
     // then add model mappers for all the different possible responses.
     // But, make it work first -
     try {
-      // const testAddr = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"; // DEBUG REMOVE
       final code = 'api.query.recovery.recoverable("$address")';
       final res = await _polkawalletInit?.webView?.evalJavascript(code);
       print("getRecoveryConfig res: $res");
@@ -311,8 +317,8 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  Future<void> testSendRecovery() async {
-    print("test send");
+  Future<String?> testSendRecovery() async {
+    print("execute testSendRecovery");
     // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
     const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
     // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
@@ -328,10 +334,13 @@ class PolkadotRepository extends KeyRepository {
 
     print("publicKey ${publicKey}");
 
-    throw new UnimplementedError();
-    return SendTransactionHelper(_polkawalletInit!.webView!).sendRecovery(
+    return SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
       address: accountService.currentAccount.address,
-      guardians: [acct_0, acct_1, acct_2],
+      guardians: [
+        acct_0,
+        acct_1,
+        acct_2,
+      ],
       threshold: 2,
       delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
     );
@@ -377,7 +386,53 @@ class SendTransactionHelper {
     }
   }
 
-  Future<void> sendRecovery({
+  Future<String?> sendRecovery2() async {
+    final code = '''
+new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.removeRecovery()
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Remove Recovery: Current status is \${status.type}`);
+  
+        if (status.isFinalized) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash \${status.asFinalized}`);
+          console.log(`Transaction hash \${txHash.toHex()}`);
+  
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log(`\t' \${phase}: \${section}.\${method}:: \${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            } 
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+          // => 
+          // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
+          // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
+         
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+  
+        }
+      });
+  })
+    ''';
+    final res = await _webView.evalJavascript(code);
+    print("sendRecovery2 res: $res");
+    return res;
+  }
+
+  Future<String?> sendCreateRecovery({
     required String address,
     required List<String> guardians,
     required int threshold,
@@ -385,9 +440,9 @@ class SendTransactionHelper {
   }) async {
     final sender = TxSenderData(
       address,
-      "", // I think this is not needed, but maybe we should store the pub keya
+      "",
     );
-    final txInfo = TxInfoData('balances', 'transfer', sender);
+    final txInfo = TxInfoData('recovery', 'createRecovery', sender);
     guardians.sort();
     print("sorted guards: $guardians");
 
@@ -405,8 +460,36 @@ class SendTransactionHelper {
         },
       );
       print('sendTx ${hash.toString()}');
+      return hash.toString();
     } catch (err) {
       print('sendTx ERROR $err');
+      return null;
+    }
+  }
+
+  Future<String?> sendRemoveRecovery({
+    required String address,
+  }) async {
+    final sender = TxSenderData(
+      address,
+      "",
+    );
+    final txInfo = TxInfoData('recovery', 'removeRecovery', sender);
+
+    try {
+      final hash = await signAndSend(
+        txInfo,
+        [],
+        null,
+        onStatusChange: (status) {
+          print("onStatusChange: $status");
+        },
+      );
+      print('sendRemoveRecovery ${hash.toString()}');
+      return hash.toString();
+    } catch (err) {
+      print('sendRemoveRecovery ERROR $err');
+      return null;
     }
   }
 
@@ -430,7 +513,7 @@ class SendTransactionHelper {
   Future<Map> signAndSend(
     TxInfoData txInfo,
     List params,
-    String password, {
+    String? password, {
     Function(String)? onStatusChange,
     String? rawParam,
   }) async {
@@ -451,10 +534,10 @@ class SendTransactionHelper {
     return res;
   }
 
-  Future<Map?> serviceSignAndSend(Map txInfo, String params, String password, Function(String) onStatusChange) async {
+  Future<Map?> serviceSignAndSend(Map txInfo, String params, String? password, Function(String) onStatusChange) async {
     final msgId = "onStatusChange${_webView.getEvalJavascriptUID()}";
     _webView.addMsgHandler(msgId, onStatusChange);
-    final code = 'keyring.sendTx(api, ${jsonEncode(txInfo)}, $params, "$password", "$msgId")';
+    final code = 'keyring.sendTransaction(api, ${jsonEncode(txInfo)}, $params, "$msgId")';
     print("serviceSignAndSend: $code");
     final dynamic res = await _webView.evalJavascript(code);
     _webView.removeMsgHandler(msgId);
