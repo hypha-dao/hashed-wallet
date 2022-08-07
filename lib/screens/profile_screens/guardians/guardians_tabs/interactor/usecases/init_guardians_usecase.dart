@@ -3,7 +3,7 @@ import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/utils/result_extension.dart';
 
 class ActivateGuardiansUseCase {
-  Future<Result> initGuardians(GuardiansConfigModel myGuardians) async {
-    return polkadotRepository.initGuardians(myGuardians);
+  Future<Result> createRecovery(GuardiansConfigModel myGuardians) async {
+    return polkadotRepository.createRecovery(myGuardians);
   }
 }

@@ -100,14 +100,14 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
     // ignore: unused_local_variable
-    final result = await polkadotRepository.cancelGuardians();
+    final result = await polkadotRepository.removeGuardians();
     emit(GuardiansState.initial());
   }
 
   FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
 
-    final result = await ActivateGuardiansUseCase().initGuardians(event.guards);
+    final result = await ActivateGuardiansUseCase().createRecovery(event.guards);
 
     print("res $result");
 

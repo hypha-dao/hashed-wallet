@@ -16,21 +16,21 @@ class GuardiansConfigModel {
 
   factory GuardiansConfigModel.fromJson(Map<String, dynamic> json) {
     final List<String> guardians = List<String>.from(json['friends']);
-    final int timeDelaySec = json['delayPeriod'];
+    final int delayPeriod = json['delayPeriod'];
     final List<Account> guardianAccounts = guardians.map((e) => Account(address: e)).toList();
     final int threshold = json['threshold'];
     return GuardiansConfigModel(
       guardians: guardianAccounts,
-      delayPeriod: timeDelaySec,
+      delayPeriod: delayPeriod,
       threshold: threshold,
     );
-    // flutter: getRecoveryConfig res:
-    //{delayPeriod: 0,
-    //deposit: 21666666450,
-    //friends: [5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf, 5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T, 5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH],
-    //threshold: 2,
-    //address: 5FLiLdaQQiW7qm7tdZjdonfSV8HAcjLxFVcqv9WDbceTmBXA}
   }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'friends': guardians.map((e) => e.address).toList(),
+        'delayPeriod': delayPeriod,
+        'threshold': threshold,
+      };
 
   void add(Account account) {
     if (!guardians.contains(account)) {

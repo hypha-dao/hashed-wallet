@@ -6,6 +6,6 @@ import 'package:seeds/utils/result_extension.dart';
 
 class RemoveGuardianUseCase {
   Future<Result> removeGuardian(Account guardian) {
-    return polkadotRepository.cancelGuardians();
+    return polkadotRepository.removeGuardians();
   }
 }

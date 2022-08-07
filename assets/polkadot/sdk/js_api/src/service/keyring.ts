@@ -315,6 +315,86 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
   });
 }
 
+
+/**
+ * sign and send extrinsic to network and wait for result.
+ * 
+ * Nik - some documentation on this crazy code
+ * 
+ * txInfo = {
+ *    module = "",
+ *    call = "",
+ *    txName = "",    // (optional, only used for 'treasury.approveProposal' and 'treasury.rejectProposal')
+ *    isUnsigned = true   // (optional),
+ *    proxy = {       //  (optional) - i guess also a keypair?
+ *      pubKey = ?,
+ *      address = ""
+ *    }
+ *    sender = {   // I think this is a keypair type
+ *      address = ""
+ *    },
+ *    tip = ?? // '0' by default - so this is a string containing a number
+ * }
+ * 
+ * 
+ */
+/// Same as sendTx, but without password, and no pubKey - only address needed
+ function sendTransaction(api: ApiPromise, txInfo: any, paramList: any[], msgId: string) {
+  return new Promise(async (resolve) => {
+    let tx: SubmittableExtrinsic<"promise">;
+    // wrap tx with council.propose for treasury propose
+    if (txInfo.txName == "treasury.approveProposal") {
+      tx = await gov.makeTreasuryProposalSubmission(api, paramList[0], false);
+    } else if (txInfo.txName == "treasury.rejectProposal") {
+      tx = await gov.makeTreasuryProposalSubmission(api, paramList[0], true);
+    } else {
+      tx = api.tx[txInfo.module][txInfo.call](...paramList);
+    }
+    let unsub = () => {};
+    const onStatusChange = (result: SubmittableResult) => {
+      if (result.status.isInBlock || result.status.isFinalized) {
+        const { success, error } = _extractEvents(api, result);
+        if (success) {
+          resolve({ hash: tx.hash.toString(), blockHash: (result.status.asInBlock || result.status.asFinalized).toHex() });
+        }
+        if (error) {
+          resolve({ error });
+        }
+        unsub();
+      } else {
+        (<any>window).send(msgId, result.status.type);
+      }
+    };
+    if (txInfo.isUnsigned) {
+      tx.send(onStatusChange)
+        .then((res) => {
+          unsub = res;
+        })
+        .catch((err) => {
+          resolve({ error: err.message });
+        });
+      return;
+    }
+
+    let keyPair: KeyringPair;
+    if (!txInfo.proxy) {
+      keyPair = keyring.getPair(txInfo.sender.address);
+    } else {
+      // wrap tx with recovery.asRecovered for proxy tx
+      tx = api.tx.recovery.asRecovered(txInfo.sender.address, tx);
+      keyPair = keyring.getPair(txInfo.proxy.address);
+    }
+
+    tx.signAndSend(keyPair, { tip: new BN(txInfo.tip, 10) }, onStatusChange)
+      .then((res) => {
+        unsub = res;
+      })
+      .catch((err) => {
+        resolve({ error: err.message });
+      });
+  });
+}
+
 /**
  * check password of an account.
  */
@@ -514,6 +594,7 @@ export default {
   recover,
   txFeeEstimate,
   sendTx,
+  sendTransaction,
   checkPassword,
   changePassword,
   checkDerivePath,
