@@ -249,7 +249,7 @@ export function _getDispatchError(dispatchError: DispatchError): string {
  *      pubKey = ?,
  *      address = ""
  *    },
- *    tip = ?? // whaaaaaa - not optional
+ *    tip = ?? // '0' by default - so this is a string containing a number
  * }
  * 
  * 

@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
@@ -10,7 +10,7 @@ class FetchAccountGuardiansStateMapper extends StateMapper {
       return currentState.copyWith(
           pageState: PageState.failure, errorMessage: RecoverAccountSearchError.unableToLoadGuardians);
     } else {
-      final accountGuardiansModel = result.asValue!.value as UserGuardiansModel;
+      final accountGuardiansModel = result.asValue!.value as GuardiansConfigModel;
       if (accountGuardiansModel.guardians.isEmpty) {
         return currentState.copyWith(
           pageState: PageState.success,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/activate_guardians_confirmation_dialog.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_view.dart';
@@ -25,7 +26,7 @@ class GuardiansScreen extends StatelessWidget {
           if (pageCommand is ShowResetGuardians) {
             _showResetGuardiansDialog(context);
           } else if (pageCommand is ShowActivateGuardians) {
-            _showResetActivateDialog(context);
+            _showActivateDialog(context, state.myGuardians);
           }
         },
         child: BlocBuilder<GuardiansBloc, GuardiansState>(
@@ -77,13 +78,13 @@ void _showResetGuardiansDialog(BuildContext buildContext) {
   );
 }
 
-void _showResetActivateDialog(BuildContext buildContext) {
+void _showActivateDialog(BuildContext buildContext, GuardiansConfigModel guards) {
   showDialog(
     context: buildContext,
     builder: (context) {
       return ActivateGuardiansConfirmationDialog(
         onConfirm: () {
-          BlocProvider.of<GuardiansBloc>(buildContext).add(OnActivateConfirmed());
+          BlocProvider.of<GuardiansBloc>(buildContext).add(OnActivateConfirmed(guards));
           Navigator.pop(context);
         },
         onDismiss: () => Navigator.pop(context),
