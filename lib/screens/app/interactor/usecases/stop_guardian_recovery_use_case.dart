@@ -8,7 +8,7 @@ class StopGuardianRecoveryUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
   Future<Result> stopRecovery() {
-    return _guardiansRepository.cancelGuardians().then((Result value) {
+    return _guardiansRepository.removeGuardians().then((Result value) {
       if (value.isError) {
         // cancelGuardians fails if the user does not have guardians.
         // We dont want to fail, our purpose is to remove guardians, and if the user doesnt have guardians

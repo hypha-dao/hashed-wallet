@@ -276,17 +276,9 @@ class PolkadotRepository extends KeyRepository {
     return Result.value(res);
   }
 
-  Future<Result> cancelGuardians() async {
-    // final address = accountService.currentAccount.address;
-
-    // final code = 'api.tx.recovery.removeRecovery().signAndSend(keyring.pKeyring.getPair("$address"))';
-    // final res = await _polkawalletInit?.webView?.evalJavascript(code);
-    // print("cancelGuardians res: $res");
-    // return Result.value(res);
-
+  Future<Result> removeGuardians() async {
     final res = SendTransactionHelper(_polkawalletInit!.webView!)
         .sendRemoveRecovery(address: accountService.currentAccount.address);
-
     return Result.value(res);
   }
 
