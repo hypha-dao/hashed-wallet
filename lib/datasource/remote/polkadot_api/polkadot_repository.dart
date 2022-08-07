@@ -243,11 +243,20 @@ class PolkadotRepository extends KeyRepository {
     return null;
   }
 
-  Future<Result> getKeyPair(String address) async {
-    final code = 'keyring.pKeyring.getPair("$address")';
-    final res = await _polkawalletInit?.webView?.evalJavascript(code);
-    print("getKeyPair res: $res");
-    return Result.value(res);
+  Future<Map<String, dynamic>> getKeyPair(String address) async {
+    final code = 'JSON.stringify(keyring.pKeyring.getPair("$address"))';
+    final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+    final keyPair = jsonDecode(res);
+    return keyPair;
+  }
+
+  /// Note: The APIs sometimes take a public key instead of an address - this converts
+  /// one into the other. Public key is in map format but the function u8aToHex converts that
+  /// correctly to hex.
+  Future<Map<String, dynamic>> getPublicKey(String address) async {
+    final keyPair = await getKeyPair(address);
+    final pubkey = keyPair["publicKey"];
+    return pubkey;
   }
 
   Future<Result> initGuardians(GuardiansConfigModel guardians) async {
@@ -300,6 +309,32 @@ class PolkadotRepository extends KeyRepository {
     } catch (err) {
       return Future.value(Result.error(err));
     }
+  }
+
+  Future<void> testSendRecovery() async {
+    print("test send");
+    // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
+    const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
+    // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
+    const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
+    // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
+    const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
+
+    final keyPair = await getKeyPair(accountService.currentAccount.address);
+
+    print("keyPair ${keyPair}");
+
+    final publicKey = await getPublicKey(accountService.currentAccount.address);
+
+    print("publicKey ${publicKey}");
+
+    throw new UnimplementedError();
+    return SendTransactionHelper(_polkawalletInit!.webView!).sendRecovery(
+      address: accountService.currentAccount.address,
+      guardians: [acct_0, acct_1, acct_2],
+      threshold: 2,
+      delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
+    );
   }
 }
 
@@ -354,6 +389,8 @@ class SendTransactionHelper {
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
     guardians.sort();
+    print("sorted guards: $guardians");
+
     try {
       final hash = await signAndSend(
         txInfo,

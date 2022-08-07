@@ -6,6 +6,7 @@ const program = require('commander')
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
 const { mnemonicGenerate } = require('@polkadot/util-crypto');
+const { hexToU8a, u8aToHex } = require("@polkadot/util");
 
 // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
 const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH"
@@ -266,7 +267,13 @@ program
 
     const result = await init()
 
-    console.log("result: " + JSON.stringify(result, null, 2))
+    console.log("keypair: " + JSON.stringify(result.steve, null, 2))
+
+    const publicKey = result.steve.publicKey
+
+    const keyPair = result.keyring.getPair(u8aToHex(publicKey));
+    
+    console.log("res 2 pair "+JSON.stringify(keyPair, null, 2))
 
     await result.api.disconnect();
   })
