@@ -8,10 +8,10 @@ class GuardiansRepository with HttpRepository {
   ///
   /// guardians - list of public keys that are the guardians - between 2 and N accounts
   ///
-  Future<Result> initGuardians(GuardiansConfigModel guardians) async {
-    print('[eos] init guardians: $guardians');
+  Future<Result> createRecovery(GuardiansConfigModel guardians) async {
+    print('[eos] create recovery: $guardians');
 
-    return polkadotRepository.initGuardians(guardians);
+    return polkadotRepository.createRecovery(guardians);
   }
 
   /// Claim recovered account for user - this switches the new public key live at the end of the

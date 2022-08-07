@@ -72,7 +72,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                           child: WalletButtons(
                               onPressed: () {
                                 print("testSendRecovery...");
-                                polkadotRepository.testSendRecovery();
+                                polkadotRepository.testCreateRecovery();
                               },
                               title: 'Send')),
                       const SizedBox(width: 16),

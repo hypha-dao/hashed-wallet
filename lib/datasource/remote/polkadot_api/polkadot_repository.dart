@@ -263,7 +263,7 @@ class PolkadotRepository extends KeyRepository {
     return pubkey;
   }
 
-  Future<Result> initGuardians(GuardiansConfigModel guardians) async {
+  Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     final res = SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
       address: accountService.currentAccount.address,
@@ -272,7 +272,7 @@ class PolkadotRepository extends KeyRepository {
       delayPeriod: guardians.delayPeriod,
     );
 
-    print("initGuardians res: $res");
+    print("createRecovery res: $res");
     return Result.value(res);
   }
 
@@ -309,7 +309,7 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  Future<String?> testSendRecovery() async {
+  Future<String?> testCreateRecovery() async {
     print("execute testSendRecovery");
     // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
     const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
@@ -320,11 +320,11 @@ class PolkadotRepository extends KeyRepository {
 
     final keyPair = await getKeyPair(accountService.currentAccount.address);
 
-    print("keyPair ${keyPair}");
+    print("keyPair $keyPair");
 
     final publicKey = await getPublicKey(accountService.currentAccount.address);
 
-    print("publicKey ${publicKey}");
+    print("publicKey $publicKey");
 
     return SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
       address: accountService.currentAccount.address,

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/datasource/local/account_service.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -14,7 +13,6 @@ import 'package:seeds/screens/settings/components/settings_card.dart';
 import 'package:seeds/screens/settings/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
-import 'package:share/share.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -98,9 +96,6 @@ class SettingsScreen extends StatelessWidget {
                           // TODO(n13): Fix share secret words
                           onTap: () async {
                             BlocProvider.of<SettingsBloc>(context).add(const OnExportPrivateKeyCardTapped());
-                             final pk = await accountService.getPrivateKeys();
-                            // ignore: unawaited_futures
-                            //  Share.share(pk[0]);
                           },
                         ),
                         BlocBuilder<SettingsBloc, SettingsState>(
