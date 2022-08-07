@@ -1,5 +1,5 @@
 import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
 import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -18,7 +18,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
 
     final Uri? link = linkResult.asValue?.value;
     final UserRecoversModel? userRecoversModelData = userRecoversModel.asValue?.value;
-    final UserGuardiansModel? userGuardiansModel = accountGuardians.asValue?.value;
+    final GuardiansConfigModel? userGuardiansModel = accountGuardians.asValue?.value;
 
     final hasFetchedGuardians = true; // [POLKA] clean up
     final hasGuardians = members.isNotEmpty;
@@ -35,7 +35,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       final confirmedGuardianSignatures = userRecoversModelData.alreadySignedGuardians.length;
 
       // check how long we have to wait before we can claim (24h delay is standard)
-      final timeLockExpirySeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.timeDelaySec;
+      final timeLockExpirySeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.delayPeriod;
 
       RecoveryStatus recoveryStatus;
       // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.

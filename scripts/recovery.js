@@ -105,7 +105,7 @@ const createRecovery = async () => {
 
   // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
   // Alternatively we can pass in the correct keypair
-  
+
   let response = await new Promise(async (resolve) => {
     const unsubscribe = await api.tx.recovery.createRecovery(
       [
@@ -217,6 +217,8 @@ const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
 
+  console.log("query for steve "+steve.address)
+
   const recoverable = await api.query.recovery.recoverable(steve.address);
 
   console.log("recoverable: " + JSON.stringify(recoverable, null, 2))
@@ -264,7 +266,9 @@ program
 
     const result = await init()
 
-    //console.log("result: " + JSON.stringify(result, null, 2))
+    console.log("result: " + JSON.stringify(result, null, 2))
+
+    await result.api.disconnect();
   })
 
 program
