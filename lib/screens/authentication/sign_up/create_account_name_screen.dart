@@ -62,7 +62,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                 state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context)));
           }
 
-          if (state.pageCommand is OnCreateAccountFinished) {
+          if (state.pageCommand is CreateAccountComplete) {
             NavigationService.of(context).pushApp();
           }
         },
