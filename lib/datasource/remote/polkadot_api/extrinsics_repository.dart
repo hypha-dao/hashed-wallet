@@ -94,7 +94,8 @@ class ExtrinsicsRepository {
     }
   }
 
-  /// Send tx, [params] will be ignored if we have [rawParam].
+  /// Sign and send a transaction
+  /// [txInfo] and [params] define the transaction details
   /// [onStatusChange] is a callback when tx status change.
   /// @return txHash [string] if tx finalized success.
   ///
@@ -119,8 +120,8 @@ class ExtrinsicsRepository {
     // ignore: prefer_if_null_operators
     final param = jsonEncode(params);
     final Map tx = txInfo.toJson();
-    print(tx);
-    print(param);
+    //print(tx);
+    //print(param);
     final res = await _serviceSignAndSend(tx, param, onStatusChange);
     if (res['error'] != null) {
       throw Exception(res['error']);
