@@ -386,52 +386,6 @@ class SendTransactionHelper {
     }
   }
 
-  Future<String?> sendRecovery2() async {
-    final code = '''
-new Promise(async (resolve) => {
-    const unsubscribe = await api.tx.recovery.removeRecovery()
-      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
-        console.log(`Remove Recovery: Current status is \${status.type}`);
-  
-        if (status.isFinalized) {
-          var transactionSuccess = false
-
-          console.log(`Transaction included at blockHash \${status.asFinalized}`);
-          console.log(`Transaction hash \${txHash.toHex()}`);
-  
-          // Loop through Vec<EventRecord> to display all events
-          events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log(`\t' \${phase}: \${section}.\${method}:: \${data}`);
-            if (section == "system" && method == "ExtrinsicFailed") {
-              transactionSuccess = false
-            } 
-            if (section == "system" && method == "ExtrinsicSuccess") {
-              transactionSuccess = true
-            }
-          });
-
-          console.log("unsubscribing from updates..")
-          unsubscribe()
-          // => 
-          // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
-          // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
-         
-          resolve({
-            events,
-            status,
-            txHash,
-            transactionSuccess,
-          })
-  
-        }
-      });
-  })
-    ''';
-    final res = await _webView.evalJavascript(code);
-    print("sendRecovery2 res: $res");
-    return res;
-  }
-
   Future<String?> sendCreateRecovery({
     required String address,
     required List<String> guardians,
@@ -444,7 +398,6 @@ new Promise(async (resolve) => {
     );
     final txInfo = TxInfoData('recovery', 'createRecovery', sender);
     guardians.sort();
-    print("sorted guards: $guardians");
 
     try {
       final hash = await signAndSend(
