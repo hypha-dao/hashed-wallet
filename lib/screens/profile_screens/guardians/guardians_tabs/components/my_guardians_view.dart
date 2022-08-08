@@ -43,7 +43,10 @@ class MyGuardiansView extends StatelessWidget {
                     }),
               )));
 
-          if (state.myGuardians.length < 3 && !state.myGuardians.areGuardiansActive) {
+          /// Gery - areGuardiansActive does not seem to get set correctly after reset guardians.
+          /// So after reset, after adding the first guardian, the "add guardian" button then would not appear
+          ///
+          if (state.myGuardians.length < 9 /* &&  !state.myGuardians.areGuardiansActive*/) {
             items.add(ListTile(
                 title: const Text('Add Guardian'),
                 trailing: IconButton(

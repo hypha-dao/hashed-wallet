@@ -267,7 +267,7 @@ class PolkadotRepository extends KeyRepository {
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     try {
-      final res = ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
         address: accountService.currentAccount.address,
         guardians: guardians.guardianAddresses,
         threshold: guardians.threshold,
@@ -282,11 +282,11 @@ class PolkadotRepository extends KeyRepository {
   /// Removes user's guardians. User must Start from scratch.
   Future<Result> removeGuardians() async {
     try {
-      final res = ExtrinsicsRepository(_polkawalletInit!.webView!)
+      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!)
           .removeRecovery(address: accountService.currentAccount.address);
       return Result.value(res);
-    } on Exception catch (e) {
-      return Result.error(e);
+    } on Exception catch (err) {
+      return Result.error(err);
     }
   }
 
@@ -306,47 +306,46 @@ class PolkadotRepository extends KeyRepository {
       print("getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
-        res['address'] = address;
         guardiansModel = GuardiansConfigModel.fromJson(res);
       } else {
         return Result.value(GuardiansConfigModel.empty());
       }
       return Result.value(guardiansModel);
     } catch (err) {
-      print(err.toString());
-      return Result.error(ErrorResult("Error Loading Guardians"));
+      print('getRecoveryConfig error: $err');
+      return Result.error(err);
     }
   }
 
   /// Ignore, only test.
-  Future<String?> testCreateRecovery() async {
-    print("execute testSendRecovery");
-    // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
-    const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
-    // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
-    const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
-    // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
-    const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
+  // Future<String?> testCreateRecovery() async {
+  //   print("execute testSendRecovery");
+  //   // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
+  //   const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
+  //   // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
+  //   const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
+  //   // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
+  //   const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
 
-    final keyPair = await getKeyPair(accountService.currentAccount.address);
+  //   final keyPair = await getKeyPair(accountService.currentAccount.address);
 
-    print("keyPair $keyPair");
+  //   print("keyPair $keyPair");
 
-    final publicKey = await getPublicKey(accountService.currentAccount.address);
+  //   final publicKey = await getPublicKey(accountService.currentAccount.address);
 
-    print("publicKey $publicKey");
+  //   print("publicKey $publicKey");
 
-    return ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
-      address: accountService.currentAccount.address,
-      guardians: [
-        acct_0,
-        acct_1,
-        acct_2,
-      ],
-      threshold: 2,
-      delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
-    );
-  }
+  //   return ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+  //     address: accountService.currentAccount.address,
+  //     guardians: [
+  //       acct_0,
+  //       acct_1,
+  //       acct_2,
+  //     ],
+  //     threshold: 2,
+  //     delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
+  //   );
+  // }
 }
 
 // This code extracted from the SDK
@@ -394,6 +393,7 @@ class ExtrinsicsRepository {
       "",
     );
     final txInfo = TxInfoData('recovery', 'createRecovery', sender);
+
     guardians.sort();
 
     try {
