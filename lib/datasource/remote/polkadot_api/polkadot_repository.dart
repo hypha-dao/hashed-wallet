@@ -266,23 +266,23 @@ class PolkadotRepository extends KeyRepository {
   /// Activates your guardians - Min 2 for now. (UI enforced)
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
-    final res = SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
-      address: accountService.currentAccount.address,
-      guardians: guardians.guardianAddresses,
-      threshold: guardians.threshold,
-      delayPeriod: guardians.delayPeriod,
-    );
-
-    print("createRecovery res: $res");
-
-    /// Nik add error case
-    return Result.value(res);
+    try {
+      final res = ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+        address: accountService.currentAccount.address,
+        guardians: guardians.guardianAddresses,
+        threshold: guardians.threshold,
+        delayPeriod: guardians.delayPeriod,
+      );
+      return Result.value(res);
+    } catch (err) {
+      return Result.error(err);
+    }
   }
 
   /// Removes user's guardians. User must Start from scratch.
   Future<Result> removeGuardians() async {
-    final res = SendTransactionHelper(_polkawalletInit!.webView!)
-        .sendRemoveRecovery(address: accountService.currentAccount.address);
+    final res =
+        ExtrinsicsRepository(_polkawalletInit!.webView!).removeRecovery(address: accountService.currentAccount.address);
 
     /// Nik add error case
     return Result.value(res);
@@ -334,7 +334,7 @@ class PolkadotRepository extends KeyRepository {
 
     print("publicKey $publicKey");
 
-    return SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
+    return ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
       address: accountService.currentAccount.address,
       guardians: [
         acct_0,
@@ -348,45 +348,40 @@ class PolkadotRepository extends KeyRepository {
 }
 
 // This code extracted from the SDK
-class SendTransactionHelper {
+class ExtrinsicsRepository {
   final WebViewRunner _webView;
 
-  SendTransactionHelper(this._webView);
+  ExtrinsicsRepository(this._webView);
 
-  Future<void> sendTx({
+  Future<void> sendTransfer({
     required String address,
-    required String pubKey,
     required String to,
     required String amount,
   }) async {
     final sender = TxSenderData(
       address,
-      pubKey,
+      "",
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
     try {
-      final hash = await signAndSend(
+      final hash = await _signAndSend(
         txInfo,
         [
           to,
           amount,
-          // // _testAddressGav,
-          // 'GvrJix8vF8iKgsTAfuazEDrBibiM6jgG66C6sT2W56cEZr3',
-          // // params.amount
-          // '10000000000'
         ],
-        "",
         onStatusChange: (status) {
           print("onStatusChange: $status");
         },
       );
       print('sendTx ${hash.toString()}');
     } catch (err) {
-      print('sendTx ERROR $err');
+      print('sendTransfer ERROR $err');
+      rethrow;
     }
   }
 
-  Future<String?> sendCreateRecovery({
+  Future<String> createRecovery({
     required String address,
     required List<String> guardians,
     required int threshold,
@@ -400,29 +395,26 @@ class SendTransactionHelper {
     guardians.sort();
 
     try {
-      final hash = await signAndSend(
+      final hash = await _signAndSend(
         txInfo,
         [
           guardians,
           threshold,
           delayPeriod,
         ],
-        "",
         onStatusChange: (status) {
           print("onStatusChange: $status");
         },
       );
-      print('sendTx ${hash.toString()}');
+      print('sendCreateRecovery ${hash.toString()}');
       return hash.toString();
     } catch (err) {
-      print('sendTx ERROR $err');
-      return null;
+      print('sendCreateRecovery ERROR $err');
+      rethrow;
     }
   }
 
-  Future<String?> sendRemoveRecovery({
-    required String address,
-  }) async {
+  Future<String?> removeRecovery({required String address}) async {
     final sender = TxSenderData(
       address,
       "",
@@ -430,10 +422,9 @@ class SendTransactionHelper {
     final txInfo = TxInfoData('recovery', 'removeRecovery', sender);
 
     try {
-      final hash = await signAndSend(
+      final hash = await _signAndSend(
         txInfo,
         [],
-        null,
         onStatusChange: (status) {
           print("onStatusChange: $status");
         },
@@ -442,7 +433,7 @@ class SendTransactionHelper {
       return hash.toString();
     } catch (err) {
       print('sendRemoveRecovery ERROR $err');
-      return null;
+      rethrow;
     }
   }
 
@@ -463,31 +454,24 @@ class SendTransactionHelper {
   /// Execution takes block time, meaning around 6 seconds. As it is waiting for the
   /// transaction to be processed.
   ///
-  Future<Map> signAndSend(
+  Future<Map<String, dynamic>> _signAndSend(
     TxInfoData txInfo,
-    List params,
-    String? password, {
-    Function(String)? onStatusChange,
-    String? rawParam,
+    List params, {
+    required Function(String) onStatusChange,
   }) async {
     // ignore: prefer_if_null_operators
-    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final param = jsonEncode(params);
     final Map tx = txInfo.toJson();
     print(tx);
     print(param);
-    final res = await (serviceSignAndSend(
-      tx,
-      param,
-      password,
-      onStatusChange ?? (status) => print(status),
-    ) as FutureOr<Map<dynamic, dynamic>>);
+    final res = await _serviceSignAndSend(tx, param, onStatusChange);
     if (res['error'] != null) {
       throw Exception(res['error']);
     }
     return res;
   }
 
-  Future<Map?> serviceSignAndSend(Map txInfo, String params, String? password, Function(String) onStatusChange) async {
+  Future<Map<String, dynamic>> _serviceSignAndSend(Map txInfo, String params, Function(String) onStatusChange) async {
     final msgId = "onStatusChange${_webView.getEvalJavascriptUID()}";
     _webView.addMsgHandler(msgId, onStatusChange);
     final code = 'keyring.sendTransaction(api, ${jsonEncode(txInfo)}, $params, "$msgId")';
