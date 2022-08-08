@@ -74,6 +74,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
         pageState: PageState.success,
       ));
     } else {
+      /// Show UI error
       emit(state.copyWith(pageState: PageState.failure));
     }
   }

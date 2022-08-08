@@ -263,6 +263,7 @@ class PolkadotRepository extends KeyRepository {
     return pubkey;
   }
 
+  /// Activates your guardians - Min 2 for now. (UI enforced)
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     final res = SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
@@ -273,12 +274,17 @@ class PolkadotRepository extends KeyRepository {
     );
 
     print("createRecovery res: $res");
+
+    /// Nik add error case
     return Result.value(res);
   }
 
+  /// Removes user's guardians. User must Start from scratch.
   Future<Result> removeGuardians() async {
     final res = SendTransactionHelper(_polkawalletInit!.webView!)
         .sendRemoveRecovery(address: accountService.currentAccount.address);
+
+    /// Nik add error case
     return Result.value(res);
   }
 
@@ -301,7 +307,7 @@ class PolkadotRepository extends KeyRepository {
         res['address'] = address;
         guardiansModel = GuardiansConfigModel.fromJson(res);
       } else {
-        return Result.error(ErrorResult("Error Loading Guardians"));
+        return Result.value(GuardiansConfigModel.empty());
       }
       return Result.value(guardiansModel);
     } catch (err) {
@@ -310,6 +316,7 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
+  /// Ignore, only test.
   Future<String?> testCreateRecovery() async {
     print("execute testSendRecovery");
     // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
