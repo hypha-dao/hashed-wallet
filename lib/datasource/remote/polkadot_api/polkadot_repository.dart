@@ -301,11 +301,12 @@ class PolkadotRepository extends KeyRepository {
         res['address'] = address;
         guardiansModel = GuardiansConfigModel.fromJson(res);
       } else {
-        guardiansModel = GuardiansConfigModel.empty;
+        return Result.error(ErrorResult("Error Loading Guardians"));
       }
-      return Future.value(Result.value(guardiansModel));
+      return Result.value(guardiansModel);
     } catch (err) {
-      return Future.value(Result.error(err));
+      print(err.toString());
+      return Result.error(ErrorResult("Error Loading Guardians"));
     }
   }
 

@@ -57,7 +57,7 @@ class GuardiansState extends Equatable {
       areGuardiansActive: false,
       isAddGuardianButtonLoading: false,
       actionButtonState: ActionButtonState(title: 'Activate', isEnabled: false, isLoading: false),
-      myGuardians: GuardiansConfigModel.empty,
+      myGuardians: GuardiansConfigModel.empty(),
     );
   }
 }

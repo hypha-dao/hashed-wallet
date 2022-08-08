@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/src/result/result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/account_service.dart';
@@ -59,22 +60,22 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final result = await _getGuardiansDataUseCase.getGuardiansData();
+    final Result<GuardiansConfigModel> result = await _getGuardiansDataUseCase.getGuardiansData();
 
-    // TODO(n13): Should use mapper
-    final guardiansModel = (result.isValue && result.asValue!.value != GuardiansConfigModel.empty)
-        ? result.asValue!.value
-        : GuardiansConfigModel(guardians: [], delayPeriod: GuardiansConfigModel.defaultDelayPeriod, threshold: 0);
-
-    emit(state.copyWith(
-      myGuardians: guardiansModel,
-      areGuardiansActive: guardiansModel.areGuardiansActive,
-      actionButtonState: getActionButtonState(
+    if (result.isValue) {
+      final guardiansModel = result.asValue!.value;
+      emit(state.copyWith(
+        myGuardians: guardiansModel,
         areGuardiansActive: guardiansModel.areGuardiansActive,
-        guardiansCount: guardiansModel.length,
-      ),
-      pageState: PageState.success,
-    ));
+        actionButtonState: getActionButtonState(
+          areGuardiansActive: guardiansModel.areGuardiansActive,
+          guardiansCount: guardiansModel.length,
+        ),
+        pageState: PageState.success,
+      ));
+    } else {
+      emit(state.copyWith(pageState: PageState.failure));
+    }
   }
 
   FutureOr<void> _onGuardianAdded(OnGuardianAdded event, Emitter<GuardiansState> emit) {
