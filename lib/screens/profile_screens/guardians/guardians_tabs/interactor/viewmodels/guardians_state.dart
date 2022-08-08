@@ -6,7 +6,7 @@ class GuardiansState extends Equatable {
   final PageCommand? pageCommand;
   final bool isAddGuardianButtonLoading;
   final bool areGuardiansActive;
-  final GuardiansConfigModel myGuardians;
+  final GuardiansConfigModel? myGuardians;
   final ActionButtonState actionButtonState;
 
   const GuardiansState({
@@ -57,7 +57,7 @@ class GuardiansState extends Equatable {
       areGuardiansActive: false,
       isAddGuardianButtonLoading: false,
       actionButtonState: ActionButtonState(title: 'Activate', isEnabled: false, isLoading: false),
-      myGuardians: GuardiansConfigModel.empty,
+      myGuardians: null,
     );
   }
 }

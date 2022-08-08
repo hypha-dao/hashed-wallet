@@ -2,14 +2,16 @@ import 'package:seeds/datasource/local/models/account.dart';
 
 class GuardiansConfigModel {
   static const int defaultDelayPeriod = 10 * 60 * 24;
-  static final empty = GuardiansConfigModel(guardians: [], delayPeriod: defaultDelayPeriod, threshold: 0);
   final List<Account> guardians;
   final int delayPeriod;
   int threshold;
+
   bool get isEmpty => guardians.isEmpty;
+
   bool get areGuardiansActive => !isEmpty;
 
   int get length => guardians.length;
+
   List<String> get guardianAddresses => guardians.map((e) => e.address).toList();
 
   GuardiansConfigModel({required this.guardians, required this.delayPeriod, required this.threshold});
