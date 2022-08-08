@@ -49,6 +49,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     final guards = state.myGuardians;
     guards.remove(event.guardian);
     emit(state.copyWith(
+      areGuardiansActive: false,
       myGuardians: guards,
       actionButtonState: getActionButtonState(areGuardiansActive: false, guardiansCount: guards.length),
       pageState: PageState.success,
@@ -63,9 +64,9 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       final guardiansModel = result.asValue!.value;
       emit(state.copyWith(
         myGuardians: guardiansModel,
-        areGuardiansActive: guardiansModel.areGuardiansActive,
+        areGuardiansActive: !guardiansModel.isEmpty,
         actionButtonState: getActionButtonState(
-          areGuardiansActive: guardiansModel.areGuardiansActive,
+          areGuardiansActive: !guardiansModel.isEmpty,
           guardiansCount: guardiansModel.length,
         ),
         pageState: PageState.success,
