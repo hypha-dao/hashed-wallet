@@ -2,7 +2,7 @@ import 'package:seeds/datasource/local/models/account.dart';
 
 class GuardiansConfigModel {
   static const int defaultDelayPeriod = 10 * 60 * 24;
-  final List<Account> guardians;
+  final Set<Account> guardians;
   final int delayPeriod;
   int threshold;
 
@@ -16,10 +16,14 @@ class GuardiansConfigModel {
 
   GuardiansConfigModel({required this.guardians, required this.delayPeriod, required this.threshold});
 
+  factory GuardiansConfigModel.empty() {
+    return GuardiansConfigModel(guardians: {}, delayPeriod: defaultDelayPeriod, threshold: 0);
+  }
+
   factory GuardiansConfigModel.fromJson(Map<String, dynamic> json) {
     final List<String> guardians = List<String>.from(json['friends']);
     final int delayPeriod = json['delayPeriod'];
-    final List<Account> guardianAccounts = guardians.map((e) => Account(address: e)).toList();
+    final Set<Account> guardianAccounts = guardians.map((e) => Account(address: e)).toSet();
     final int threshold = json['threshold'];
     return GuardiansConfigModel(
       guardians: guardianAccounts,
@@ -35,9 +39,7 @@ class GuardiansConfigModel {
       };
 
   void add(Account account) {
-    if (!guardians.contains(account)) {
-      guardians.add(account);
-    }
+    guardians.add(account);
     autoConfigureThreshold();
   }
 
