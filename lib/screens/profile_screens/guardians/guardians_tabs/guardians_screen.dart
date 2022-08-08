@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/activate_guardians_confirmation_dialog.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_view.dart';
@@ -27,6 +30,8 @@ class GuardiansScreen extends StatelessWidget {
             _showResetGuardiansDialog(context);
           } else if (pageCommand is ShowActivateGuardians) {
             _showActivateDialog(context, state.myGuardians);
+          } else if (pageCommand is ShowErrorMessage) {
+            eventBus.fire(ShowSnackBar(pageCommand.message));
           }
         },
         child: BlocBuilder<GuardiansBloc, GuardiansState>(
