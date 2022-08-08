@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/dots_indicator.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
@@ -71,8 +70,8 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       Expanded(
                           child: WalletButtons(
                               onPressed: () {
-                                print("testSendRecovery...");
-                                polkadotRepository.testCreateRecovery();
+                                print("testSendRecovery disabled...");
+                                //olkadotRepository.testCreateRecovery();
                               },
                               title: 'Send')),
                       const SizedBox(width: 16),

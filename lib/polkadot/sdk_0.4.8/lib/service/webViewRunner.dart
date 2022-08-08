@@ -216,6 +216,7 @@ class WebViewRunner {
         '  console.log(JSON.stringify({ path: "$method", data: res }));res;'
         '}).catch(function(err) {'
         '  console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));'
+        '  JSON.stringify({call: "$method", error: err.message });'
         '});';
     _web!.webViewController.evaluateJavascript(source: script);
 

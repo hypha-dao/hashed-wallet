@@ -266,26 +266,28 @@ class PolkadotRepository extends KeyRepository {
   /// Activates your guardians - Min 2 for now. (UI enforced)
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
-    final res = SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
-      address: accountService.currentAccount.address,
-      guardians: guardians.guardianAddresses,
-      threshold: guardians.threshold,
-      delayPeriod: guardians.delayPeriod,
-    );
-
-    print("createRecovery res: $res");
-
-    /// Nik add error case
-    return Result.value(res);
+    try {
+      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+        address: accountService.currentAccount.address,
+        guardians: guardians.guardianAddresses,
+        threshold: guardians.threshold,
+        delayPeriod: guardians.delayPeriod,
+      );
+      return Result.value(res);
+    } catch (err) {
+      return Result.error(err);
+    }
   }
 
   /// Removes user's guardians. User must Start from scratch.
   Future<Result> removeGuardians() async {
-    final res = SendTransactionHelper(_polkawalletInit!.webView!)
-        .sendRemoveRecovery(address: accountService.currentAccount.address);
-
-    /// Nik add error case
-    return Result.value(res);
+    try {
+      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!)
+          .removeRecovery(address: accountService.currentAccount.address);
+      return Result.value(res);
+    } on Exception catch (err) {
+      return Result.error(err);
+    }
   }
 
   Future<Result> getActiveRecovery() async {
@@ -304,135 +306,83 @@ class PolkadotRepository extends KeyRepository {
       print("getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
-        res['address'] = address;
         guardiansModel = GuardiansConfigModel.fromJson(res);
       } else {
         return Result.value(GuardiansConfigModel.empty());
       }
       return Result.value(guardiansModel);
     } catch (err) {
-      print(err.toString());
-      return Result.error(ErrorResult("Error Loading Guardians"));
+      print('getRecoveryConfig error: $err');
+      return Result.error(err);
     }
   }
 
   /// Ignore, only test.
-  Future<String?> testCreateRecovery() async {
-    print("execute testSendRecovery");
-    // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
-    const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
-    // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
-    const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
-    // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
-    const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
+  // Future<String?> testCreateRecovery() async {
+  //   print("execute testSendRecovery");
+  //   // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
+  //   const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
+  //   // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
+  //   const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
+  //   // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
+  //   const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
 
-    final keyPair = await getKeyPair(accountService.currentAccount.address);
+  //   final keyPair = await getKeyPair(accountService.currentAccount.address);
 
-    print("keyPair $keyPair");
+  //   print("keyPair $keyPair");
 
-    final publicKey = await getPublicKey(accountService.currentAccount.address);
+  //   final publicKey = await getPublicKey(accountService.currentAccount.address);
 
-    print("publicKey $publicKey");
+  //   print("publicKey $publicKey");
 
-    return SendTransactionHelper(_polkawalletInit!.webView!).sendCreateRecovery(
-      address: accountService.currentAccount.address,
-      guardians: [
-        acct_0,
-        acct_1,
-        acct_2,
-      ],
-      threshold: 2,
-      delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
-    );
-  }
+  //   return ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+  //     address: accountService.currentAccount.address,
+  //     guardians: [
+  //       acct_0,
+  //       acct_1,
+  //       acct_2,
+  //     ],
+  //     threshold: 2,
+  //     delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
+  //   );
+  // }
 }
 
 // This code extracted from the SDK
-class SendTransactionHelper {
+class ExtrinsicsRepository {
   final WebViewRunner _webView;
 
-  SendTransactionHelper(this._webView);
+  ExtrinsicsRepository(this._webView);
 
-  Future<void> sendTx({
+  Future<void> sendTransfer({
     required String address,
-    required String pubKey,
     required String to,
     required String amount,
   }) async {
     final sender = TxSenderData(
       address,
-      pubKey,
+      "",
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
     try {
-      final hash = await signAndSend(
+      final hash = await _signAndSend(
         txInfo,
         [
           to,
           amount,
-          // // _testAddressGav,
-          // 'GvrJix8vF8iKgsTAfuazEDrBibiM6jgG66C6sT2W56cEZr3',
-          // // params.amount
-          // '10000000000'
         ],
-        "",
         onStatusChange: (status) {
           print("onStatusChange: $status");
         },
       );
       print('sendTx ${hash.toString()}');
     } catch (err) {
-      print('sendTx ERROR $err');
+      print('sendTransfer ERROR $err');
+      rethrow;
     }
   }
 
-  Future<String?> sendRecovery2() async {
-    final code = '''
-new Promise(async (resolve) => {
-    const unsubscribe = await api.tx.recovery.removeRecovery()
-      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
-        console.log(`Remove Recovery: Current status is \${status.type}`);
-  
-        if (status.isFinalized) {
-          var transactionSuccess = false
-
-          console.log(`Transaction included at blockHash \${status.asFinalized}`);
-          console.log(`Transaction hash \${txHash.toHex()}`);
-  
-          // Loop through Vec<EventRecord> to display all events
-          events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log(`\t' \${phase}: \${section}.\${method}:: \${data}`);
-            if (section == "system" && method == "ExtrinsicFailed") {
-              transactionSuccess = false
-            } 
-            if (section == "system" && method == "ExtrinsicSuccess") {
-              transactionSuccess = true
-            }
-          });
-
-          console.log("unsubscribing from updates..")
-          unsubscribe()
-          // => 
-          // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
-          // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
-         
-          resolve({
-            events,
-            status,
-            txHash,
-            transactionSuccess,
-          })
-  
-        }
-      });
-  })
-    ''';
-    final res = await _webView.evalJavascript(code);
-    print("sendRecovery2 res: $res");
-    return res;
-  }
-
-  Future<String?> sendCreateRecovery({
+  Future<String> createRecovery({
     required String address,
     required List<String> guardians,
     required int threshold,
@@ -443,33 +393,30 @@ new Promise(async (resolve) => {
       "",
     );
     final txInfo = TxInfoData('recovery', 'createRecovery', sender);
+
     guardians.sort();
-    print("sorted guards: $guardians");
 
     try {
-      final hash = await signAndSend(
+      final hash = await _signAndSend(
         txInfo,
         [
           guardians,
           threshold,
           delayPeriod,
         ],
-        "",
         onStatusChange: (status) {
           print("onStatusChange: $status");
         },
       );
-      print('sendTx ${hash.toString()}');
+      print('sendCreateRecovery ${hash.toString()}');
       return hash.toString();
     } catch (err) {
-      print('sendTx ERROR $err');
-      return null;
+      print('sendCreateRecovery ERROR $err');
+      rethrow;
     }
   }
 
-  Future<String?> sendRemoveRecovery({
-    required String address,
-  }) async {
+  Future<String?> removeRecovery({required String address}) async {
     final sender = TxSenderData(
       address,
       "",
@@ -477,10 +424,9 @@ new Promise(async (resolve) => {
     final txInfo = TxInfoData('recovery', 'removeRecovery', sender);
 
     try {
-      final hash = await signAndSend(
+      final hash = await _signAndSend(
         txInfo,
         [],
-        null,
         onStatusChange: (status) {
           print("onStatusChange: $status");
         },
@@ -489,7 +435,7 @@ new Promise(async (resolve) => {
       return hash.toString();
     } catch (err) {
       print('sendRemoveRecovery ERROR $err');
-      return null;
+      rethrow;
     }
   }
 
@@ -510,31 +456,24 @@ new Promise(async (resolve) => {
   /// Execution takes block time, meaning around 6 seconds. As it is waiting for the
   /// transaction to be processed.
   ///
-  Future<Map> signAndSend(
+  Future<Map<String, dynamic>> _signAndSend(
     TxInfoData txInfo,
-    List params,
-    String? password, {
-    Function(String)? onStatusChange,
-    String? rawParam,
+    List params, {
+    required Function(String) onStatusChange,
   }) async {
     // ignore: prefer_if_null_operators
-    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final param = jsonEncode(params);
     final Map tx = txInfo.toJson();
     print(tx);
     print(param);
-    final res = await (serviceSignAndSend(
-      tx,
-      param,
-      password,
-      onStatusChange ?? (status) => print(status),
-    ) as FutureOr<Map<dynamic, dynamic>>);
+    final res = await _serviceSignAndSend(tx, param, onStatusChange);
     if (res['error'] != null) {
       throw Exception(res['error']);
     }
     return res;
   }
 
-  Future<Map?> serviceSignAndSend(Map txInfo, String params, String? password, Function(String) onStatusChange) async {
+  Future<Map<String, dynamic>> _serviceSignAndSend(Map txInfo, String params, Function(String) onStatusChange) async {
     final msgId = "onStatusChange${_webView.getEvalJavascriptUID()}";
     _webView.addMsgHandler(msgId, onStatusChange);
     final code = 'keyring.sendTransaction(api, ${jsonEncode(txInfo)}, $params, "$msgId")';

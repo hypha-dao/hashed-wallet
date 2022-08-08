@@ -40,15 +40,13 @@ class TxSenderData {
   final String? address;
   final String? pubKey;
 
-  static TxSenderData fromJson(Map<String, dynamic> json) =>
-      _$TxSenderDataFromJson(json);
+  static TxSenderData fromJson(Map<String, dynamic> json) => _$TxSenderDataFromJson(json);
   Map<String, dynamic> toJson() => _$TxSenderDataToJson(this);
 }
 
 @JsonSerializable()
 class TxFeeEstimateResult extends _TxFeeEstimateResult {
-  static TxFeeEstimateResult fromJson(Map<String, dynamic> json) =>
-      _$TxFeeEstimateResultFromJson(json);
+  static TxFeeEstimateResult fromJson(Map<String, dynamic> json) => _$TxFeeEstimateResultFromJson(json);
   Map<String, dynamic> toJson() => _$TxFeeEstimateResultToJson(this);
 }
 
