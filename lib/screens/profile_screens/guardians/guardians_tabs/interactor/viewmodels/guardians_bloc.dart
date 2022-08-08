@@ -114,12 +114,17 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(actionButtonState: state.actionButtonState.setLoading(true)));
 
-    final result = await ActivateGuardiansUseCase().createRecovery(event.guards);
+    final Result result = await ActivateGuardiansUseCase().createRecovery(event.guards);
 
     print("res $result");
 
     if (result.isValue) {
-      add(Initial());
+      emit(state.copyWith(
+        actionButtonState: getActionButtonState(
+          areGuardiansActive: true,
+          guardiansCount: state.myGuardians.delayPeriod,
+        ),
+      ));
     } else {
       emit(state.copyWith(
         actionButtonState: state.actionButtonState.setLoading(false),

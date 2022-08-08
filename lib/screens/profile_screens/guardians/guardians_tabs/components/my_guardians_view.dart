@@ -43,7 +43,7 @@ class MyGuardiansView extends StatelessWidget {
                     }),
               )));
 
-          if (state.myGuardians.length < 3) {
+          if (state.myGuardians.length < 3 && !state.myGuardians.areGuardiansActive) {
             items.add(ListTile(
                 title: const Text('Add Guardian'),
                 trailing: IconButton(
