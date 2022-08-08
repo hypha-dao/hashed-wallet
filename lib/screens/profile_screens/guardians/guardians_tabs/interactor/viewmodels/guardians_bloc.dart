@@ -116,13 +116,12 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
     final Result result = await ActivateGuardiansUseCase().createRecovery(event.guards);
 
-    print("res $result");
-
     if (result.isValue) {
       emit(state.copyWith(
+        areGuardiansActive: true,
         actionButtonState: getActionButtonState(
           areGuardiansActive: true,
-          guardiansCount: state.myGuardians.delayPeriod,
+          guardiansCount: event.guards.length,
         ),
       ));
     } else {
