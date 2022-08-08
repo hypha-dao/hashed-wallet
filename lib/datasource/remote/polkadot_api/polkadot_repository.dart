@@ -281,11 +281,13 @@ class PolkadotRepository extends KeyRepository {
 
   /// Removes user's guardians. User must Start from scratch.
   Future<Result> removeGuardians() async {
-    final res =
-        ExtrinsicsRepository(_polkawalletInit!.webView!).removeRecovery(address: accountService.currentAccount.address);
-
-    /// Nik add error case
-    return Result.value(res);
+    try {
+      final res = ExtrinsicsRepository(_polkawalletInit!.webView!)
+          .removeRecovery(address: accountService.currentAccount.address);
+      return Result.value(res);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
   }
 
   Future<Result> getActiveRecovery() async {
