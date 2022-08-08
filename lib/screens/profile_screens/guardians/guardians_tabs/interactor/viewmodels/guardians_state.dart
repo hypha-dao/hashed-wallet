@@ -68,4 +68,10 @@ class ActionButtonState {
   final bool isLoading;
 
   ActionButtonState({required this.title, required this.isEnabled, required this.isLoading});
+
+  ActionButtonState setLoading(bool isLoading) => ActionButtonState(
+        title: title,
+        isEnabled: isEnabled,
+        isLoading: isLoading,
+      );
 }

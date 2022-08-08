@@ -42,11 +42,6 @@ class Initial extends GuardiansEvent {
   String toString() => 'Initial';
 }
 
-class ActivateGuardians extends GuardiansEvent {
-  @override
-  String toString() => 'ActivateGuardians';
-}
-
 class OnResetConfirmed extends GuardiansEvent {
   @override
   String toString() => 'OnResetConfirmed';

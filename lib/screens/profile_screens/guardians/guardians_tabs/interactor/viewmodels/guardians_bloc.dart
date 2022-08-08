@@ -23,7 +23,6 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   GuardiansBloc() : super(GuardiansState.initial()) {
-    on<ActivateGuardians>(_activateGuardians);
     on<Initial>(_initial);
     on<OnMyGuardianActionButtonTapped>(_onMyGuardianActionButtonTapped);
     on<OnStopRecoveryForUser>(_onStopRecoveryForUser);
@@ -33,8 +32,6 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     on<OnActivateConfirmed>(_onActivateConfirmed);
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
-
-  Future<void> _activateGuardians(ActivateGuardians event, Emitter<GuardiansState> emit) async {}
 
   Future<void> _onStopRecoveryForUser(OnStopRecoveryForUser event, Emitter<GuardiansState> emit) async {
     await _repository.stopRecoveryForUser(accountService.currentAccount.address);
@@ -101,25 +98,34 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   }
 
   FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
-    // ignore: unused_local_variable
+    emit(state.copyWith(actionButtonState: state.actionButtonState.setLoading(true)));
+
     final result = await polkadotRepository.removeGuardians();
-    emit(GuardiansState.initial());
+    if (result.isValue) {
+      emit(GuardiansState.initial());
+    } else {
+      emit(state.copyWith(
+        actionButtonState: state.actionButtonState.setLoading(false),
+        pageCommand: ShowErrorMessage(result.asError?.error.toString() ?? 'Oops, something went wrong'),
+      ));
+    }
   }
 
   FutureOr<void> _onActivateConfirmed(OnActivateConfirmed event, Emitter<GuardiansState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
+    emit(state.copyWith(actionButtonState: state.actionButtonState.setLoading(true)));
 
     final result = await ActivateGuardiansUseCase().createRecovery(event.guards);
 
     print("res $result");
 
-    emit(state.copyWith(
-        pageState: PageState.success,
-        areGuardiansActive: true,
-        actionButtonState: getActionButtonState(
-          areGuardiansActive: true,
-          guardiansCount: state.myGuardians.length,
-        )));
+    if (result.isValue) {
+      add(Initial());
+    } else {
+      emit(state.copyWith(
+        actionButtonState: state.actionButtonState.setLoading(false),
+        pageCommand: ShowErrorMessage(result.asError?.error.toString() ?? 'Oops, something went wrong'),
+      ));
+    }
   }
 }
 
