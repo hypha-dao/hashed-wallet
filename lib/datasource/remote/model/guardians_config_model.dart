@@ -8,8 +8,6 @@ class GuardiansConfigModel {
 
   bool get isEmpty => guardians.isEmpty;
 
-  bool get areGuardiansActive => !isEmpty;
-
   int get length => guardians.length;
 
   List<String> get guardianAddresses => guardians.map((e) => e.address).toList();
