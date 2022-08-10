@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_page_commands.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_page_commands.dart';
 
 part 'export_private_key_events.dart';
 

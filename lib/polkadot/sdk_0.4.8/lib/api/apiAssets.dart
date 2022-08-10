@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/store/balances.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/assets.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/plugin/store/balances.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/assets.dart';
 
 class ApiAssets {
   ApiAssets(this.apiRoot, this.service);

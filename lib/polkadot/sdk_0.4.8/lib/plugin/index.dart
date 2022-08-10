@@ -4,16 +4,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkStateData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/homeNavItem.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/store/balances.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/utils/app.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkStateData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/plugin/homeNavItem.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/plugin/store/balances.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/utils/app.dart';
 
 // const String sdk_cache_key = 'polka_wallet_sdk_cache';
 // const String net_state_cache_key = 'network_state';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/flat_button_long_outlined.dart';
-import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
-import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/flat_button_long_outlined.dart';
+import 'package:hashed/i18n/profile_screens/profile/profile.i18n.dart';
+import 'package:hashed/screens/settings/interactor/viewmodels/settings_bloc.dart';
 
 class LogoutRecoveryPhraseDialog extends StatelessWidget {
   const LogoutRecoveryPhraseDialog({super.key});

@@ -1,5 +1,5 @@
-import 'package:seeds/crypto/dart_esr/dart_esr.dart';
-import 'package:seeds/domain-shared/page_command.dart';
+import 'package:hashed/crypto/dart_esr/dart_esr.dart';
+import 'package:hashed/domain-shared/page_command.dart';
 
 class BottomBarNavigateToIndex extends PageCommand {
   final int index;

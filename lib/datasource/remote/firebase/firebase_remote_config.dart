@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:seeds/datasource/remote/model/firebase_eos_servers.dart';
+import 'package:hashed/datasource/remote/model/firebase_eos_servers.dart';
 
 const String _activeEOSEndpointKey = 'eos_endpoints';
 const String _hyphaEndPointKey = 'hypha_end_point';

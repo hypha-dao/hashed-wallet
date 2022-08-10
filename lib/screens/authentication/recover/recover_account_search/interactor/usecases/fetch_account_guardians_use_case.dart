@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/remote/api/guardians_repository.dart';
+import 'package:hashed/datasource/remote/api/guardians_repository.dart';
 
 class FetchAccountRecoveryUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();

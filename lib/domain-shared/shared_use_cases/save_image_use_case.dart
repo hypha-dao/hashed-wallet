@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:path/path.dart' as path_lib;
-import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:uuid/uuid.dart';
 
 class SaveImageUseCase extends InputUseCase<String, SaveImageUseCaseInput> {

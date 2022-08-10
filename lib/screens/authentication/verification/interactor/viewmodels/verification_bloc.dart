@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:seeds/datasource/local/biometrics_service.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/verification/interactor/mappers/verification_status_state_mapper.dart';
-import 'package:seeds/screens/authentication/verification/interactor/usecases/initialize_biometric_authentication_use_case.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/datasource/local/biometrics_service.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/authentication/verification/interactor/mappers/verification_status_state_mapper.dart';
+import 'package:hashed/screens/authentication/verification/interactor/usecases/initialize_biometric_authentication_use_case.dart';
+import 'package:hashed/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 part 'verification_event.dart';
 part 'verification_state.dart';

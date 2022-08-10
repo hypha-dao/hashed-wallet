@@ -2,8 +2,7 @@
 
 import 'dart:async';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/index.dart';
-
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/index.dart';
 
 class ServiceSetting {
   ServiceSetting(this.serviceRoot);
@@ -24,15 +23,14 @@ class ServiceSetting {
   }
 
   Future<Map> queryNetworkConst() async {
-    final dynamic res = await serviceRoot.webView!
-        .evalJavascript('settings.getNetworkConst(api)');
+    final dynamic res = await serviceRoot.webView!.evalJavascript('settings.getNetworkConst(api)');
     return res;
   }
 
   Future<Map?> queryNetworkProps() async {
     // fetch network info
-    List res = await serviceRoot.webView!.evalJavascript(
-        'Promise.all([settings.getNetworkProperties(api), api.rpc.system.chain()])');
+    List res = await serviceRoot.webView!
+        .evalJavascript('Promise.all([settings.getNetworkProperties(api), api.rpc.system.chain()])');
     if (res[0] == null || res[1] == null) {
       return null;
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class CurrencyInfoCard extends StatelessWidget {
   static const defaultBgImage = 'assets/images/wallet/currency_info_cards/tlos/background.jpg';

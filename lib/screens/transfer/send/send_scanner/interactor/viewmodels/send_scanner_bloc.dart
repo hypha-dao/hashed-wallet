@@ -1,11 +1,11 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
-import 'package:seeds/screens/transfer/send/send_scanner/interactor/usecases/scanner_use_case.dart';
+import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:hashed/screens/transfer/send/send_scanner/interactor/usecases/scanner_use_case.dart';
 
 part 'send_scanner_event.dart';
 part 'send_scanner_state.dart';

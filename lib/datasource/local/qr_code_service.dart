@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/util/seeds_esr.dart';
+import 'package:hashed/datasource/local/util/seeds_esr.dart';
 
 class QrCodeService {
   Future<Result<dynamic>> processQrCode(String scanResult, String accountName) {

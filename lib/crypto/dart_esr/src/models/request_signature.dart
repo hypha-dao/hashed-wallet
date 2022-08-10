@@ -1,6 +1,7 @@
 import 'dart:typed_data';
+
+import 'package:hashed/crypto/eosdart/eosdart.dart' as eos;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
 
 part 'request_signature.g.dart';
 

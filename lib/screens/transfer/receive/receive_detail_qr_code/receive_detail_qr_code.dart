@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/components/balance_row.dart';
-import 'package:seeds/components/divider_jungle.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/qr_code_generator_widget.dart';
-import 'package:seeds/components/share_link_row.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/components/receive_paid_success_dialog.dart';
-import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
-import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/components/balance_row.dart';
+import 'package:hashed/components/divider_jungle.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/qr_code_generator_widget.dart';
+import 'package:hashed/components/share_link_row.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/components/receive_paid_success_dialog.dart';
+import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
+import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details_bloc.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class ReceiveDetailQrCodeScreen extends StatelessWidget {
   final ReceiveDetails details;

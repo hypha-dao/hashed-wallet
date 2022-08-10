@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/utils/read_times_tamp.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:hashed/datasource/remote/model/generic_transaction_model.dart';
+import 'package:hashed/utils/read_times_tamp.dart';
+import 'package:hashed/utils/string_extension.dart';
 
 class TransactionModel extends Equatable {
   final String from;

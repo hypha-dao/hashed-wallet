@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/datasource/local/models/eos_action.dart';
-import 'package:seeds/utils/cap_utils.dart';
+import 'package:hashed/datasource/local/models/eos_action.dart';
+import 'package:hashed/utils/cap_utils.dart';
 
 class TransactionActionCard extends StatelessWidget {
   final EOSAction action;

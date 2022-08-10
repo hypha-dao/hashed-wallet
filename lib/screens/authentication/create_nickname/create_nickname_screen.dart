@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/authentication/create_nickname/viewmodels/create_nickname_bloc.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/screens/authentication/create_nickname/viewmodels/create_nickname_bloc.dart';
 
 class CreateNicknameScreen extends StatelessWidget {
   const CreateNicknameScreen({super.key});

@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/local/models/eos_transaction.dart';
+import 'package:hashed/datasource/local/models/eos_transaction.dart';
 
 class GenericTransactionModel {
   final EOSTransaction transaction;

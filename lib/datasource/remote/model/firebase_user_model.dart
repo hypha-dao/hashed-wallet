@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_database_repository.dart';
 
 class FirebaseUserModel extends Equatable {
   final String account;

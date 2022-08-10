@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/profile_avatar.dart';
+import 'package:hashed/components/profile_avatar.dart';
 
 class AccountActionRow extends StatelessWidget {
   final String image;

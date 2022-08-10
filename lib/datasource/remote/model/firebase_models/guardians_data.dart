@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/local/models/account.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 
 class GuardiansData {
   final bool areGuardiansActive;

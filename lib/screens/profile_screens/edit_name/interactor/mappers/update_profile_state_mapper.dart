@@ -1,8 +1,8 @@
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
+import 'package:hashed/screens/profile_screens/edit_name/interactor/viewmodels/page_commands.dart';
 
 class UpdateProfileStateMapper extends StateMapper {
   EditNameState mapResultToState(EditNameState currentState, Result result) {

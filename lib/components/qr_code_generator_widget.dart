@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hashed/domain-shared/global_error.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:seeds/domain-shared/global_error.dart';
 
 class QrCodeGeneratorWidget extends StatelessWidget {
   final String data;

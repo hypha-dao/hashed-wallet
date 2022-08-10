@@ -1,8 +1,8 @@
-import 'package:seeds/datasource/local/biometrics_service.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
+import 'package:hashed/datasource/local/biometrics_service.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 
 class VerificationStatusStateMapper extends StateMapper {
   VerificationState mapResultToState(VerificationState currentState, Result result) {

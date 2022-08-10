@@ -2,10 +2,10 @@
 
 import 'dart:async';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/staking/accountBondedInfo.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/staking/ownStashInfo.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/staking.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/staking/accountBondedInfo.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/staking/ownStashInfo.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/staking.dart';
 
 class ApiStaking {
   ApiStaking(this.apiRoot, this.service);
@@ -30,14 +30,12 @@ class ApiStaking {
 
   /// query staking stash-controller relationship of a list of pubKeys,
   /// return list of [pubKey, controllerAddress, stashAddress].
-  Future<Map<String?, AccountBondedInfo>> queryBonded(
-      List<String> pubKeys) async {
+  Future<Map<String?, AccountBondedInfo>> queryBonded(List<String> pubKeys) async {
     if (pubKeys.length == 0) {
       return {};
     }
     final res = Map<String?, AccountBondedInfo>();
-    final List data =
-        await (service.queryBonded(pubKeys) as FutureOr<List<dynamic>>);
+    final List data = await (service.queryBonded(pubKeys) as FutureOr<List<dynamic>>);
     data.forEach((e) {
       res[e[0]] = AccountBondedInfo(e[0], e[1], e[2]);
     });
@@ -45,10 +43,8 @@ class ApiStaking {
   }
 
   Future<OwnStashInfoData> queryOwnStashInfo(String accountId) async {
-    final Map data = await (service.queryOwnStashInfo(accountId)
-        as FutureOr<Map<dynamic, dynamic>>);
-    return OwnStashInfoData.fromJson(
-        Map<String, dynamic>.of(data as Map<String, dynamic>));
+    final Map data = await (service.queryOwnStashInfo(accountId) as FutureOr<Map<dynamic, dynamic>>);
+    return OwnStashInfoData.fromJson(Map<String, dynamic>.of(data as Map<String, dynamic>));
   }
 
   Future<Map?> loadValidatorRewardsData(String validatorId) async {

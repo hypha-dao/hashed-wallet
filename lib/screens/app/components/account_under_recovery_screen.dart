@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/app/app.i18.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/i18n/app/app.i18.dart';
+import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
 
 class AccountUnderRecoveryScreen extends StatelessWidget {
   const AccountUnderRecoveryScreen({super.key});

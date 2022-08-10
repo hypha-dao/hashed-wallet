@@ -1,13 +1,13 @@
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
-import 'package:seeds/datasource/remote/model/user_recover_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
-import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
+import 'package:hashed/datasource/remote/model/user_recover_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/domain-shared/shared_use_cases/save_account_use_case.dart';
+import 'package:hashed/domain-shared/shared_use_cases/start_recovery_use_case.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {

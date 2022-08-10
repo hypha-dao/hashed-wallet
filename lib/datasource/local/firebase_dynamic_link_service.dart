@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
-import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:hashed/domain-shared/app_constants.dart';
+import 'package:hashed/domain-shared/base_use_case.dart';
 
 class FirebaseDynamicLinkService {
   Future<Result<Uri>> createDynamicLink(String targetLink, String link) async {

@@ -8,10 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/webviewWithExtension/types/signExtrinsicParam.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewWithExtension extends StatefulWidget {

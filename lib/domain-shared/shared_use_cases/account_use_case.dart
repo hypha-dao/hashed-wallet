@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_message_token_repository.dart';
 
 abstract class AccountUseCase {
   Future<void> updateFirebaseToken({required String oldAccount, String newAccount = ""}) async {

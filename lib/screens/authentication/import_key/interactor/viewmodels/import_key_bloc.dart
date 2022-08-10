@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/usecases/check_private_key_use_case.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/authentication/import_key/interactor/usecases/check_private_key_use_case.dart';
 
 part 'import_key_event.dart';
 

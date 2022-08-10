@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:seeds/domain-shared/base_use_case.dart';
 
 class PickImageUseCase extends NoInputUseCase<File?> {
   @override

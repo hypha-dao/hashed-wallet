@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/sign_up/create_account_name_screen.dart';
-import 'package:seeds/screens/authentication/sign_up/create_display_name_screen.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/authentication/sign_up/create_account_name_screen.dart';
+import 'package:hashed/screens/authentication/sign_up/create_display_name_screen.dart';
+import 'package:hashed/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:hashed/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});

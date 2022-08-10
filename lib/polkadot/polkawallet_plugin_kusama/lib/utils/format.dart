@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison, always_put_control_body_on_new_line, prefer_is_empty, unused_local_variable
 
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/staking/types/validatorData.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/store/staking/types/validatorData.dart';
 
 class PluginFmt {
   static Map formatRewardsChartData(Map chartData) {

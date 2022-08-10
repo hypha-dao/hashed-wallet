@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 
 /// A short flat widget button with rounded corners
 class FlatButtonShort extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 
 /// A long flat widget button with rounded corners and white outline
 class FlatButtonLongOutlined extends StatelessWidget {

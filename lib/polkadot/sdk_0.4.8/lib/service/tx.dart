@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/index.dart';
 
 class ServiceTx {
   ServiceTx(this.serviceRoot);

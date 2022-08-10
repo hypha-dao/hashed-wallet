@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_is_not_operator
 
-import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:hashed/crypto/dart_esr/dart_esr.dart' as esr;
 
 class SigningRequestCreateArguments {
   SigningRequestCreateArguments(

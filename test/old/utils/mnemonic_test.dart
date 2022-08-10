@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seeds/datasource/local/auth_service.dart';
-import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
+import 'package:hashed/datasource/local/auth_service.dart';
+import 'package:hashed/utils/mnemonic_code/mnemonic_code.dart';
 
 void main() {
   group('mnemonic', () {

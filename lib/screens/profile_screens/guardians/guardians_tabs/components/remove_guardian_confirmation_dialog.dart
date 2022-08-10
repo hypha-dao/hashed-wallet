@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class RemoveGuardianConfirmationDialog extends StatelessWidget {
   final Account guardian;

@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/rates/mappers/rates_state_mapper.dart';
-import 'package:seeds/blocs/rates/usecases/get_rates_use_case.dart';
-import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
-import 'package:seeds/datasource/remote/model/rate_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+import 'package:hashed/blocs/rates/mappers/rates_state_mapper.dart';
+import 'package:hashed/blocs/rates/usecases/get_rates_use_case.dart';
+import 'package:hashed/datasource/remote/model/fiat_rate_model.dart';
+import 'package:hashed/datasource/remote/model/rate_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
 
 part 'rates_event.dart';
 part 'rates_state.dart';

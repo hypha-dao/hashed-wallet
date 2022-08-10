@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_dark_colors.dart';
-import 'package:seeds/design/app_light_colors.dart';
+import 'package:hashed/design/app_dark_colors.dart';
+import 'package:hashed/design/app_light_colors.dart';
 
 class AppColorSchemes {
   // TODO(gguij004): not completed or being used yet, most colors are just there for testing.

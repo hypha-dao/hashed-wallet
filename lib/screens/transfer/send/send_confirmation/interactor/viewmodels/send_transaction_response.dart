@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/transaction_model.dart';
+import 'package:hashed/datasource/remote/model/generic_transaction_model.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/datasource/remote/model/transaction_model.dart';
 
 class SendTransactionResponse {
   final GenericTransactionModel transactionModel;

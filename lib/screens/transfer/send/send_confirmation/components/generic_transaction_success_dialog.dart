@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/datasource/remote/model/generic_transaction_model.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/utils/build_context_extension.dart';
 
 class GenericTransactionSuccessDialog extends StatelessWidget {
   final GenericTransactionModel transactionModel;

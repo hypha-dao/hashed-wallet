@@ -1,4 +1,4 @@
-import 'package:seeds/utils/double_extension.dart';
+import 'package:hashed/utils/double_extension.dart';
 
 extension StringExtension on String {
   String get seedsFormatted {

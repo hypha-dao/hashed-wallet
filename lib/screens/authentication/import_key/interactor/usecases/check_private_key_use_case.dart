@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class KeyValidationResult {
   String? publicKey;

@@ -1,5 +1,5 @@
-import 'package:seeds/datasource/local/models/eos_transaction.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:hashed/datasource/local/models/eos_transaction.dart';
+import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 
 class SendConfirmationArguments {
   final EOSTransaction transaction;

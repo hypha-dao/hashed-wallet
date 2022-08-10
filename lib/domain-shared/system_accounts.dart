@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 // Seeds system accounts with special icons. Harvest account, onboarding account, etc.
 

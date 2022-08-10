@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/authentication/sign_up/signup_errors.dart';
+import 'package:hashed/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:hashed/utils/string_extension.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';

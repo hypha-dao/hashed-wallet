@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
+import 'package:hashed/screens/profile_screens/edit_name/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class EditNameScreen extends StatelessWidget {
   const EditNameScreen({super.key});

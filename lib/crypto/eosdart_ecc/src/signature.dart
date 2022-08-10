@@ -10,7 +10,7 @@ import 'package:pointycastle/ecc/api.dart' show ECPublicKey, ECSignature, ECPoin
 import "package:pointycastle/signers/ecdsa_signer.dart";
 import 'package:pointycastle/macs/hmac.dart';
 import "package:pointycastle/digests/sha256.dart";
-import 'package:seeds/crypto/eosdart_ecc/src/big_int_encoder.dart';
+import 'package:hashed/crypto/eosdart_ecc/src/big_int_encoder.dart';
 
 import './exception.dart';
 import './key.dart';

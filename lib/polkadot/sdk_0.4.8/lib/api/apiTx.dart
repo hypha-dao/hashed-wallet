@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/tx.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/tx.dart';
 
 class ApiTx {
   ApiTx(this.apiRoot, this.service);

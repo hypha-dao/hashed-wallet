@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hashed/datasource/local/member_model_cache_item.dart';
+import 'package:hashed/datasource/local/models/vote_model_adapter.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/seeds_app.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:seeds/datasource/local/member_model_cache_item.dart';
-import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
-import 'package:seeds/seeds_app.dart';
 
 InAppLocalhostServer localhostServer = InAppLocalhostServer();
 

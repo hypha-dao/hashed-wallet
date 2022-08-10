@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/remote/model/transaction_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/wallet/interactor/viewmodels/member_bloc.dart';
+import 'package:hashed/utils/string_extension.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/remote/model/transaction_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/member_bloc.dart';
-import 'package:seeds/utils/string_extension.dart';
 import 'package:share/share.dart';
 
 class TransactionDetailsBottomSheet extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/models/account.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 
 class GuardianRowWidget extends StatelessWidget {
   final Account guardianModel;

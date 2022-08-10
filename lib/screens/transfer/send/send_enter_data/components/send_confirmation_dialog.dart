@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/models/fiat_data_model.dart';
+import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
   final TokenDataModel tokenAmount;
@@ -122,8 +122,7 @@ class DialogRow extends StatelessWidget {
           ),
         ),
         Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
+          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
           child: Padding(
             padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
             child: Text(toOrFromText!, style: Theme.of(context).textTheme.subtitle2),

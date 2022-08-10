@@ -1,8 +1,8 @@
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/transaction_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
+import 'package:hashed/datasource/local/models/fiat_data_model.dart';
+import 'package:hashed/datasource/remote/model/generic_transaction_model.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/datasource/remote/model/transaction_model.dart';
+import 'package:hashed/domain-shared/page_command.dart';
 
 abstract class TransactionPageCommand extends PageCommand {}
 

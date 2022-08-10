@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
-import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/settings/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
+import 'package:hashed/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/settings/interactor/viewmodels/page_commands.dart';
 import 'package:share/share.dart';
 
 part 'settings_event.dart';

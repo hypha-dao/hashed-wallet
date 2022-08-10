@@ -1,5 +1,5 @@
+import 'package:hashed/datasource/remote/model/profile_model.dart';
 import 'package:hive/hive.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
 
 class MemberModelCacheItem {
   ProfileModel member;

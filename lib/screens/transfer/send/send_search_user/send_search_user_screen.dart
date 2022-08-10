@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/components/search_user/search_user.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/search_user/search_user.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class SendSearchUserScreen extends StatelessWidget {
   const SendSearchUserScreen({super.key});

@@ -6,7 +6,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:pointycastle/ecc/api.dart' show ECSignature, ECPoint;
-import 'package:seeds/crypto/eosdart_ecc/src/big_int_encoder.dart';
+import 'package:hashed/crypto/eosdart_ecc/src/big_int_encoder.dart';
 
 import './exception.dart';
 import './key_base.dart';

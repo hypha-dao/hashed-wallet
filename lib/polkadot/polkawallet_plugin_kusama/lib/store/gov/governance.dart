@@ -1,10 +1,10 @@
 // import 'package:mobx/mobx.dart';
-// import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/cache/storeCache.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/councilInfoData.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/proposalInfoData.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/referendumInfoData.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryOverviewData.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryTipData.dart';
+// import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/store/cache/storeCache.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/councilInfoData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/proposalInfoData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/referendumInfoData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryOverviewData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryTipData.dart';
 
 // part 'governance.g.dart';
 

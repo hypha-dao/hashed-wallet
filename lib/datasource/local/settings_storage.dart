@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Keys

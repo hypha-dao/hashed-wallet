@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 
-import 'package:seeds/crypto/dart_esr/src/models/authorization.dart';
-import 'package:seeds/crypto/dart_esr/src/signing_request_abi.dart' as signing_request_abis;
-import 'package:seeds/crypto/dart_esr/src/signing_request_abi_v3.dart' as signing_request_v3_abis;
-import 'package:seeds/crypto/eosdart/eosdart.dart' as eosDart;
+import 'package:hashed/crypto/dart_esr/src/models/authorization.dart';
+import 'package:hashed/crypto/dart_esr/src/signing_request_abi.dart' as signing_request_abis;
+import 'package:hashed/crypto/dart_esr/src/signing_request_abi_v3.dart' as signing_request_v3_abis;
+import 'package:hashed/crypto/eosdart/eosdart.dart' as eosDart;
 
 enum ChainName { RESERVED, EOS, TELOS, EOS_JUNGLE2, KYLIN, WORBLI, BOS, MEETONE, INSIGHTS, BEOS, WAX, PROTON, FIO }
 

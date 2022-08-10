@@ -1,6 +1,6 @@
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/parachain/bidData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/parachain/fundData.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/parachain/bidData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/parachain/fundData.dart';
 
 part 'auctionData.g.dart';
 

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/models/fiat_data_model.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:hashed/utils/build_context_extension.dart';
+import 'package:hashed/utils/double_extension.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/utils/build_context_extension.dart';
-import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
@@ -112,7 +112,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.copy),
-                 // color: AppColors.lightGreen6,
+                  // color: AppColors.lightGreen6,
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: transactionID))
                         .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
@@ -125,8 +125,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(
@@ -172,8 +171,7 @@ class DialogRow extends StatelessWidget {
           ),
         ),
         Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
+          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
           child: Padding(
             padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
             child: Text(toOrFromText!, style: Theme.of(context).textTheme.subtitle2),

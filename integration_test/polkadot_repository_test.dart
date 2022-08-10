@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+
 // ignore: avoid_relative_lib_imports
 import '../lib/main.dart' as app;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/datasource/local/models/eos_action.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/datasource/local/models/eos_action.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class TransactionActionsScreen extends StatelessWidget {
   const TransactionActionsScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/divider_jungle.dart';
-import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:hashed/components/divider_jungle.dart';
+import 'package:hashed/components/notification_badge.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 
 /// SECURITY CARD
 class SettingsCard extends StatelessWidget {

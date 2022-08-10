@@ -1,6 +1,6 @@
-import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
-import 'package:seeds/utils/result_extension.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/utils/result_extension.dart';
 
 class ActivateGuardiansUseCase {
   Future<Result> createRecovery(GuardiansConfigModel myGuardians) async {

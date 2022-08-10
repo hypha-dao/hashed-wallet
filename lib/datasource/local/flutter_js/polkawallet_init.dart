@@ -4,10 +4,10 @@
 import 'dart:async';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 /// This class packages all calls into the original Polkawallet API code
 /// It isolates our app from the original Polkawallet code.

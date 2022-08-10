@@ -1,6 +1,6 @@
+import 'package:hashed/datasource/local/member_model_cache_item.dart';
+import 'package:hashed/datasource/remote/model/vote_model.dart';
 import 'package:hive/hive.dart';
-import 'package:seeds/datasource/local/member_model_cache_item.dart';
-import 'package:seeds/datasource/remote/model/vote_model.dart';
 
 // Hive box names
 

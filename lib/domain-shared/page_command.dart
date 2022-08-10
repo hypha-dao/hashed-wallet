@@ -1,5 +1,5 @@
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 abstract class PageCommand {}
 

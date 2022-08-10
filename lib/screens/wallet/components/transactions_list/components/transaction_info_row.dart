@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/member_bloc.dart';
-import 'package:seeds/utils/read_times_tamp.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:hashed/screens/wallet/interactor/viewmodels/member_bloc.dart';
+import 'package:hashed/utils/read_times_tamp.dart';
+import 'package:hashed/utils/string_extension.dart';
 
 class TransactionInfoRow extends StatelessWidget {
   final String profileAccount;

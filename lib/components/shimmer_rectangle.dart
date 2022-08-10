@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:seeds/design/app_dark_colors.dart';
+// import 'package:hashed/design/app_dark_colors.dart';
 // import 'package:shimmer/shimmer.dart';
 //
 // class ShimmerRectangle extends StatelessWidget {

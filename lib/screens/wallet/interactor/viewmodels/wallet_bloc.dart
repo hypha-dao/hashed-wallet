@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
 
 part 'wallet_event.dart';
 

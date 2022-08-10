@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_initializing_formals, prefer_const_constructors
 
 import 'package:flutter/cupertino.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/gov.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/staking.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/service/gov.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/service/staking.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
 
 class PluginApi {
   PluginApi(PluginKusama plugin, Keyring keyring)

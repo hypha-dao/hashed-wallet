@@ -1,7 +1,7 @@
 // ignore_for_file: use_named_constants
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seeds/domain-shared/user_input_number_formatter.dart';
+import 'package:hashed/domain-shared/user_input_number_formatter.dart';
 
 void main() {
   final inputFormatter = UserInputNumberFormatter();

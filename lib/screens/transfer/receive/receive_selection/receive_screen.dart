@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/transfer/receive/receive_selection/components/receive_selection_card.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/transfer/receive/receive_selection/components/receive_selection_card.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class ReceiveScreen extends StatelessWidget {
   const ReceiveScreen({super.key});

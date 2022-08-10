@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardians_data.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:hashed/datasource/remote/model/firebase_models/guardians_data.dart';
 
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   bool hasGuardianNotificationPending(String userAccount) {

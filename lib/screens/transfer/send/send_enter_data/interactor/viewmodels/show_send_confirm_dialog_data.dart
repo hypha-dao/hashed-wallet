@@ -1,6 +1,6 @@
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
+import 'package:hashed/datasource/local/models/fiat_data_model.dart';
+import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/domain-shared/page_command.dart';
 
 class ShowSendConfirmDialog extends PageCommand {
   final TokenDataModel tokenAmount;

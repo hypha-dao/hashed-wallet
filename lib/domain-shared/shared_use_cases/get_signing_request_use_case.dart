@@ -1,8 +1,8 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 
-import 'package:seeds/datasource/local/util/seeds_esr.dart';
+import 'package:hashed/datasource/local/util/seeds_esr.dart';
 
 /// Use case to handle an incoming ESR - EOSIO Signing Request
 class GetSigningRequestUseCase {

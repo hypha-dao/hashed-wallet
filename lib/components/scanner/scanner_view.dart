@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/components/scanner/components/qr_code_view.dart';
+import 'package:hashed/components/scanner/interactor/viewmodels/scanner_bloc.dart';
+import 'package:hashed/utils/string_extension.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:seeds/components/scanner/components/qr_code_view.dart';
-import 'package:seeds/components/scanner/interactor/viewmodels/scanner_bloc.dart';
-import 'package:seeds/utils/string_extension.dart';
 
 class ScannerView extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();

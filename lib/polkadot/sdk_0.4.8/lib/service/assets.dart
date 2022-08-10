@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/index.dart';
 
 class ServiceAssets {
   ServiceAssets(this.serviceRoot);
@@ -8,8 +8,7 @@ class ServiceAssets {
   final SubstrateService serviceRoot;
 
   Future<List?> getAssetsAll() async {
-    final dynamic res =
-        await serviceRoot.webView!.evalJavascript('assets.getAssetsAll(api)');
+    final dynamic res = await serviceRoot.webView!.evalJavascript('assets.getAssetsAll(api)');
     return res;
   }
 

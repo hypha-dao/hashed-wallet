@@ -1,8 +1,8 @@
-import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
 
 class FetchAccountGuardiansStateMapper extends StateMapper {
   RecoverAccountSearchState mapResultToState(RecoverAccountSearchState currentState, Result result) {

@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/utils/result_extension.dart';
+import 'package:hashed/utils/result_extension.dart';
 
 const String FIREBASE_DATABASE_USERS_COLLECTION = 'users';
 

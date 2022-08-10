@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/domain-shared/global_error.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/domain-shared/global_error.dart';
 
 class FullPageErrorIndicator extends StatelessWidget {
   final String? errorMessage;

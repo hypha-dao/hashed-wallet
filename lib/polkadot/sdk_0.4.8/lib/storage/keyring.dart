@@ -4,11 +4,11 @@ import 'dart:async';
 
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiKeyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/localStorage.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/utils/index.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/utils/localStorage.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiKeyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/localStorage.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/utils/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/utils/localStorage.dart';
 
 /// A [Keyring] instance maintains the local storage
 /// of key-pairs for users.

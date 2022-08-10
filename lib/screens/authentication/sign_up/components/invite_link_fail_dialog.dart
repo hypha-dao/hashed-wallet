@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class InviteLinkFailDialog extends StatelessWidget {
   const InviteLinkFailDialog({super.key});

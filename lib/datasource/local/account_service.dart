@@ -1,6 +1,6 @@
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 /// An abstract class for storage services, so we can unit test this class
 abstract class AbstractStorage {

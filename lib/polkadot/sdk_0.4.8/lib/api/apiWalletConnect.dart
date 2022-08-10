@@ -1,9 +1,9 @@
 // ignore_for_file: unnecessary_await_in_return
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/walletConnect/pairingData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/walletConnect/payloadData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/walletConnect.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/walletConnect/pairingData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/walletConnect/payloadData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/walletConnect.dart';
 
 class ApiWalletConnect {
   ApiWalletConnect(this.apiRoot, this.service);

@@ -1,12 +1,11 @@
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryOverviewData.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryOverviewData.dart';
 
 part 'proposalInfoData.g.dart';
 
 @JsonSerializable()
 class ProposalInfoData extends _ProposalInfoData {
-  static ProposalInfoData fromJson(Map<String, dynamic> json) =>
-      _$ProposalInfoDataFromJson(json);
+  static ProposalInfoData fromJson(Map<String, dynamic> json) => _$ProposalInfoDataFromJson(json);
 }
 
 abstract class _ProposalInfoData {
@@ -20,8 +19,7 @@ abstract class _ProposalInfoData {
 
 @JsonSerializable()
 class ProposalImageData extends _ProposalImageData {
-  static ProposalImageData fromJson(Map<String, dynamic> json) =>
-      _$ProposalImageDataFromJson(json);
+  static ProposalImageData fromJson(Map<String, dynamic> json) => _$ProposalImageDataFromJson(json);
 }
 
 abstract class _ProposalImageData {

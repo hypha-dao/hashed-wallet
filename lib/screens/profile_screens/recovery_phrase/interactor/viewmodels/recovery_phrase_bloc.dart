@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
 
 part 'recovery_phrase_event.dart';
 part 'recovery_phrase_state.dart';

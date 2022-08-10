@@ -1,9 +1,9 @@
 import 'package:async/async.dart';
 import 'package:flutter/services.dart';
+import 'package:hashed/datasource/local/biometrics_service.dart';
+import 'package:hashed/domain-shared/base_use_case.dart';
+import 'package:hashed/utils/cap_utils.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:seeds/datasource/local/biometrics_service.dart';
-import 'package:seeds/domain-shared/base_use_case.dart';
-import 'package:seeds/utils/cap_utils.dart';
 
 class InitializeBiometricAuthenticationUseCase extends NoInputUseCase<BiometricAuthStatus> {
   final BiometricsService _biometricsService = BiometricsService(LocalAuthentication());
