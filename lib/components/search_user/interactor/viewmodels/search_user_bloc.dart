@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/components/search_user/interactor/mappers/search_user_state_mapper.dart';
+import 'package:hashed/components/search_user/interactor/usecases/search_for_user_use_case.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:seeds/components/search_user/interactor/mappers/search_user_state_mapper.dart';
-import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-
 
 part 'search_user_event.dart';
 part 'search_user_state.dart';

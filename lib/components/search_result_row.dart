@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
 
 class SearchResultRow extends StatelessWidget {
   final ProfileModel member;

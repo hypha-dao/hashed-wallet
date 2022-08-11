@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/components/full_page_error_indicator.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/settings/components/biometric_enabled_dialog.dart';
-import 'package:seeds/screens/settings/components/guardian_security_card.dart';
-import 'package:seeds/screens/settings/components/logout_recovery_phrase_dialog.dart';
-import 'package:seeds/screens/settings/components/settings_card.dart';
-import 'package:seeds/screens/settings/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/screens/settings/interactor/viewmodels/settings_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/components/full_page_error_indicator.dart';
+import 'package:hashed/components/full_page_loading_indicator.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/settings/components/biometric_enabled_dialog.dart';
+import 'package:hashed/screens/settings/components/guardian_security_card.dart';
+import 'package:hashed/screens/settings/components/logout_recovery_phrase_dialog.dart';
+import 'package:hashed/screens/settings/components/settings_card.dart';
+import 'package:hashed/screens/settings/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/screens/settings/interactor/viewmodels/settings_bloc.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

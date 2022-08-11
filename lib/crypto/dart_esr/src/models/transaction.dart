@@ -1,7 +1,8 @@
 import 'dart:typed_data';
+
+import 'package:hashed/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:hashed/crypto/eosdart/eosdart.dart' as eos;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
-import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
 
 part 'transaction.g.dart';
 

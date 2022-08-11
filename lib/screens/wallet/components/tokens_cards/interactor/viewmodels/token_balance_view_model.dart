@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
 
 class TokenBalanceViewModel {
   final TokenModel token;

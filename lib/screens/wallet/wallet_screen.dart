@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/tokens_cards.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/transactions_list.dart';
-import 'package:seeds/screens/wallet/components/wallet_appbar.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/screens/wallet/components/tokens_cards/tokens_cards.dart';
+import 'package:hashed/screens/wallet/components/transactions_list/transactions_list.dart';
+import 'package:hashed/screens/wallet/components/wallet_appbar.dart';
+import 'package:hashed/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});

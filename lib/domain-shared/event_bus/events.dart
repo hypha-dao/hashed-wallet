@@ -1,6 +1,6 @@
+import 'package:hashed/components/snack.dart';
+import 'package:hashed/datasource/remote/model/transaction_model.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/components/snack.dart';
-import 'package:seeds/datasource/remote/model/transaction_model.dart';
 
 /// --- EVENT BUS EVENTS
 ///

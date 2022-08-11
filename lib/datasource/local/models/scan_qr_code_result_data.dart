@@ -1,5 +1,5 @@
-import 'package:seeds/datasource/local/models/eos_transaction.dart';
-import 'package:seeds/datasource/local/util/seeds_esr.dart';
+import 'package:hashed/datasource/local/models/eos_transaction.dart';
+import 'package:hashed/datasource/local/util/seeds_esr.dart';
 
 class ScanQrCodeResultData {
   final EOSTransaction transaction;

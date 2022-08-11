@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/firebase_dynamic_link_service.dart';
+import 'package:hashed/datasource/local/firebase_dynamic_link_service.dart';
 
 class CreateFirebaseDynamicLinkUseCase {
   final FirebaseDynamicLinkService _firebaseDynamicLinkService = FirebaseDynamicLinkService();

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:http/http.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 
 class Endpoint {
   final String url;

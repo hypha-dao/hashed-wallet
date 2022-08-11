@@ -3,10 +3,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiKeyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/addressIconData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/index.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiKeyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/addressIconData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 class ServiceKeyring {
   ServiceKeyring(this.serviceRoot);

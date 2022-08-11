@@ -1,5 +1,5 @@
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_user_repository.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_user_repository.dart';
 
 class RecoveryAlertUseCase {
   Stream<bool> get shouldShowCancelGuardianAlertMessage {

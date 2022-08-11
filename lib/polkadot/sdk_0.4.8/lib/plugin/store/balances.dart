@@ -1,5 +1,5 @@
 // import 'package:mobx/mobx.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/balanceData.dart';
 
 // part 'balances.g.dart';
 

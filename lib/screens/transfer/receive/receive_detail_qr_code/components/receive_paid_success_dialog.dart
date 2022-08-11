@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/models/fiat_data_model.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/datasource/remote/model/transaction_model.dart';
+import 'package:hashed/utils/build_context_extension.dart';
+import 'package:hashed/utils/double_extension.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/transaction_model.dart';
-import 'package:seeds/utils/build_context_extension.dart';
-import 'package:seeds/utils/double_extension.dart';
 
 class ReceivePaidSuccessArgs {
   final TransactionModel transaction;

@@ -2,20 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:hashed/crypto/eosdart/src/eosdart_base.dart';
+import 'package:hashed/crypto/eosdart/src/jsons.dart';
+import 'package:hashed/crypto/eosdart/src/models/abi.dart';
+import 'package:hashed/crypto/eosdart/src/models/account.dart';
+import 'package:hashed/crypto/eosdart/src/models/action.dart';
+import 'package:hashed/crypto/eosdart/src/models/action_block.dart';
+import 'package:hashed/crypto/eosdart/src/models/block.dart';
+import 'package:hashed/crypto/eosdart/src/models/block_header_state.dart';
+import 'package:hashed/crypto/eosdart/src/models/node_info.dart';
+import 'package:hashed/crypto/eosdart/src/models/primary_wrapper.dart';
+import 'package:hashed/crypto/eosdart/src/models/transaction.dart';
+import 'package:hashed/crypto/eosdart/src/serialize.dart' as ser;
+import 'package:hashed/crypto/eosdart_ecc/eosdart_ecc.dart' as ecc;
 import 'package:http/http.dart' as http;
-import 'package:seeds/crypto/eosdart/src/eosdart_base.dart';
-import 'package:seeds/crypto/eosdart/src/jsons.dart';
-import 'package:seeds/crypto/eosdart/src/models/abi.dart';
-import 'package:seeds/crypto/eosdart/src/models/account.dart';
-import 'package:seeds/crypto/eosdart/src/models/action.dart';
-import 'package:seeds/crypto/eosdart/src/models/action_block.dart';
-import 'package:seeds/crypto/eosdart/src/models/block.dart';
-import 'package:seeds/crypto/eosdart/src/models/block_header_state.dart';
-import 'package:seeds/crypto/eosdart/src/models/node_info.dart';
-import 'package:seeds/crypto/eosdart/src/models/primary_wrapper.dart';
-import 'package:seeds/crypto/eosdart/src/models/transaction.dart';
-import 'package:seeds/crypto/eosdart/src/serialize.dart' as ser;
-import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart' as ecc;
 
 /// EOSClient calls APIs against given EOS nodes
 class EOSClient {

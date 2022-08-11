@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
-import 'package:seeds/components/search_result_row.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/domain-shared/global_error.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
-import 'package:seeds/utils/debouncer.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/quadstate_clipboard_icon_button.dart';
+import 'package:hashed/components/search_result_row.dart';
+import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/domain-shared/global_error.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
+import 'package:hashed/utils/build_context_extension.dart';
+import 'package:hashed/utils/debouncer.dart';
 
 class RecoverAccountSearchScreen extends StatefulWidget {
   const RecoverAccountSearchScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 
 class GuardianDialogSingleAction extends StatelessWidget {
   final String image;

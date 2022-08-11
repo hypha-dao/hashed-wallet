@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_bloc.dart';
 
 class SelectGuardiansScreenV3 extends StatelessWidget {
   const SelectGuardiansScreenV3({super.key});

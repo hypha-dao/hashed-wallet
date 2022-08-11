@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/push_notification_data.dart';
-import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/components/receive_paid_success_dialog.dart';
-import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
+import 'package:hashed/datasource/remote/model/firebase_models/push_notification_data.dart';
+import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/components/receive_paid_success_dialog.dart';
+import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
 
 part 'receive_details_event.dart';
 part 'receive_details_state.dart';

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/verification/components/passcode_created_dialog.dart';
-import 'package:seeds/screens/authentication/verification/components/passcode_screen.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/authentication/verification/components/passcode_created_dialog.dart';
+import 'package:hashed/screens/authentication/verification/components/passcode_screen.dart';
+import 'package:hashed/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class VerificationScreen extends StatelessWidget {
   final bool _isUnpoppable;

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/serialization_helpers.dart';
+import 'package:hashed/datasource/remote/model/serialization_helpers.dart';
 
 enum ProfileStatus { visitor, resident, citizen, unknown }
 
@@ -48,7 +48,7 @@ class ProfileModel extends Equatable {
 
   /// Returns the status as a capitalized String.
   String get statusString {
-    if(ProfileStatus.unknown == status) {
+    if (ProfileStatus.unknown == status) {
       return '';
     }
     final str = status.name;

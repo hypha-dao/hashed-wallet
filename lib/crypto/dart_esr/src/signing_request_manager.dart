@@ -3,12 +3,12 @@
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:seeds/crypto/dart_esr/dart_esr.dart';
-import 'package:seeds/crypto/dart_esr/src/models/request_signature.dart';
-import 'package:seeds/crypto/dart_esr/src/utils/base64u.dart';
+import 'package:hashed/crypto/dart_esr/dart_esr.dart';
+import 'package:hashed/crypto/dart_esr/src/models/request_signature.dart';
+import 'package:hashed/crypto/dart_esr/src/utils/base64u.dart';
 
 // ignore: library_prefixes
-import 'package:seeds/crypto/eosdart/eosdart.dart' as eosDart;
+import 'package:hashed/crypto/eosdart/eosdart.dart' as eosDart;
 
 class SigningRequestManager {
   static eosDart.Type? type(int version) => ESRConstants.signingRequestAbiType(version)['signing_request'];

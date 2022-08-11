@@ -1,13 +1,12 @@
 import 'package:async/async.dart';
+import 'package:hashed/datasource/remote/api/http_repo/http_repository.dart';
+import 'package:hashed/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:hashed/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
-import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
-import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 
 /// Retrieve token metadata (used for display of currency cards etc) from
 /// a table in the token master smart contract (tmastr.seeds)
 class TokenModelsRepository extends HttpRepository {
-
   /// acceptances table in tmastr.seeds lists (by internal id) all tokens accepted for a usecase
   Future<Result<Map<String, dynamic>>> getAcceptedTokenIds(String useCase, int lowerBound) async {
     final request = createRequest(
@@ -18,10 +17,8 @@ class TokenModelsRepository extends HttpRepository {
       limit: 100,
     );
     return http
-        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) =>
-            mapHttpResponse<Map<String, dynamic>>(response, (dynamic body) {
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<Map<String, dynamic>>(response, (dynamic body) {
               return body;
             }))
         .catchError((error) => mapHttpError(error));
@@ -38,10 +35,8 @@ class TokenModelsRepository extends HttpRepository {
       limit: 100,
     );
     return http
-        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) =>
-            mapHttpResponse<Map<String, dynamic>>(response, (dynamic body) {
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<Map<String, dynamic>>(response, (dynamic body) {
               return body;
             }))
         .catchError((error) => mapHttpError(error));
@@ -58,10 +53,8 @@ class TokenModelsRepository extends HttpRepository {
       limit: 1,
     );
     return http
-        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) =>
-            mapHttpResponse<Map<String, dynamic>>(response, (dynamic body) {
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<Map<String, dynamic>>(response, (dynamic body) {
               return body;
             }))
         .catchError((error) => mapHttpError(error));

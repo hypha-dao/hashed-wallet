@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/components/dotted_border/dotted_border.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:hashed/components/dotted_border/dotted_border.dart';
+import 'package:hashed/components/full_page_loading_indicator.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 
 enum PictureBoxState { loading, pickImage, imagePicked }
 

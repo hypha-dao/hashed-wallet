@@ -1,5 +1,5 @@
+import 'package:hashed/datasource/remote/model/vote_model.dart';
 import 'package:hive/hive.dart';
-import 'package:seeds/datasource/remote/model/vote_model.dart';
 
 class VoteModelAdapter extends TypeAdapter<VoteModel> {
   @override

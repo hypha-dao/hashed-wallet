@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_redundant_argument_values, unawaited_futures, prefer_final_locals, unused_local_variable, unnecessary_parenthesis
 
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/walletApi.dart';
-// import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/utils/format.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/subscan.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/service/walletApi.dart';
+// import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/utils/format.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/subscan.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 class ApiStaking {
   ApiStaking(this.plugin, this.keyring) : api = plugin.sdk.api;

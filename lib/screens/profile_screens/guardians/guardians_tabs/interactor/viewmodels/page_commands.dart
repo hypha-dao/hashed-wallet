@@ -1,5 +1,5 @@
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/domain-shared/page_command.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/domain-shared/page_command.dart';
 
 class ShowRemoveGuardianView extends PageCommand {
   final Account guardian;

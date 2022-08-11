@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
+import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 
 class MyGuardiansView extends StatelessWidget {
   const MyGuardiansView({super.key});

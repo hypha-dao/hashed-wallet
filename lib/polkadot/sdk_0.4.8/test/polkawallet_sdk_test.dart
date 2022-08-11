@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
 // import 'package:polkawallet_sdk/service/account.dart';
 // import 'package:polkawallet_sdk/service/index.dart';
 // import 'package:polkawallet_sdk/storage/keyring.dart';

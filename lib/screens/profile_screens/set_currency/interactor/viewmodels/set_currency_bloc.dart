@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/currency.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/set_currency/interactor/mappers/rates_state_mapper.dart';
+import 'package:hashed/datasource/local/models/currency.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/profile_screens/set_currency/interactor/mappers/rates_state_mapper.dart';
 
 part 'set_currency_event.dart';
 part 'set_currency_state.dart';

@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_bloc.dart';
 
 const _numberOfWords = 12;
 const _numberOfColumns = 3;

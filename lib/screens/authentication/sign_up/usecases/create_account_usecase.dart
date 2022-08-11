@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
 
 class CreateAccountUseCase {
   Future<Result> run({

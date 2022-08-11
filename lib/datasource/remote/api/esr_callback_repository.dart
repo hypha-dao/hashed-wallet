@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:async/async.dart';
+import 'package:hashed/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 
 /// Implements EOSIO Signing Request callback function
 /// https://github.com/greymass/eosio-signing-request/blob/master/protocol-specification.md

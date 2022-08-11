@@ -1,7 +1,7 @@
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 class UserAccountStateMapper extends StateMapper {
   WalletState mapResultToState(WalletState currentState, Result result) {

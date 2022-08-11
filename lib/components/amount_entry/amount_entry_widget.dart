@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
-import 'package:seeds/components/amount_entry/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/domain-shared/user_input_decimal_precision.dart';
-import 'package:seeds/domain-shared/user_input_number_formatter.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
+import 'package:hashed/components/amount_entry/interactor/viewmodels/page_commands.dart';
+import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/domain-shared/user_input_decimal_precision.dart';
+import 'package:hashed/domain-shared/user_input_number_formatter.dart';
 
 class AmountEntryWidget extends StatelessWidget {
   final TokenDataModel tokenDataModel;

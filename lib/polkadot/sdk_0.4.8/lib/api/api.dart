@@ -2,21 +2,21 @@
 
 import 'dart:convert';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiAccount.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiAssets.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiGov.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiKeyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiParachain.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiRecovery.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiSetting.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiStaking.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiTx.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiUOS.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/apiWalletConnect.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/subscan.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/index.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiAccount.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiAssets.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiGov.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiKeyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiParachain.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiRecovery.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiSetting.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiStaking.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiTx.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiUOS.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/apiWalletConnect.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/subscan.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 /// The [PolkawalletApi] instance is the wrapper of `polkadot-js/api`.
 /// It provides:

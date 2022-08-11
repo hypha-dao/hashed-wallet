@@ -1,13 +1,13 @@
 // ignore_for_file: unused_import, unused_local_variable, unnecessary_null_checks
 
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/walletApi.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/api.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/proposalInfoData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/referendumInfoData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryOverviewData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/polkawallet_plugin_kusama.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/service/walletApi.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/api.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/proposalInfoData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/referendumInfoData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/gov/treasuryOverviewData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 class ApiGov {
   ApiGov(this.plugin, this.keyring) : api = plugin.sdk.api; //,

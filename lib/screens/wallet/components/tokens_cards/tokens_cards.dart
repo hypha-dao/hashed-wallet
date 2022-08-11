@@ -2,13 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/components/dots_indicator.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
-import 'package:seeds/screens/wallet/components/wallet_buttons.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/components/dots_indicator.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
+import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
+import 'package:hashed/screens/wallet/components/wallet_buttons.dart';
+import 'package:hashed/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 class TokenCards extends StatefulWidget {
   const TokenCards({super.key});

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
 
 class ImportKeyScreen extends StatelessWidget {
   const ImportKeyScreen({super.key});

@@ -1,6 +1,6 @@
 // // import 'package:mobx/mobx.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/parachain/auctionData.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/parachain/parasOverviewData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/parachain/auctionData.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/parachain/parasOverviewData.dart';
 
 // part 'parachain.g.dart';
 

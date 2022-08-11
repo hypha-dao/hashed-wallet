@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/models/account.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 
 class MockSettingsStorage extends AbstractStorage {
   String? _accounts;

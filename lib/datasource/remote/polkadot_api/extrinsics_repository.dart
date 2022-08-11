@@ -1,8 +1,8 @@
 // This code extracted from the SDK
 import 'dart:convert';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 
 class ExtrinsicsRepository {
   final WebViewRunner _webView;

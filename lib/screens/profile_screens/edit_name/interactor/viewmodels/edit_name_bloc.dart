@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
 
 part 'edit_name_event.dart';
 

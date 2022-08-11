@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
-import 'package:seeds/datasource/remote/model/guardians_config_model.dart';
-import 'package:seeds/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/datasource/remote/api/http_repo/http_repository.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class GuardiansRepository with HttpRepository {
   /// Step 1 setting up guardians - set the guardians for an account

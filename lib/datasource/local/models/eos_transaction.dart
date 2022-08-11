@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
-import 'package:seeds/datasource/local/models/eos_action.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
+import 'package:hashed/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:hashed/datasource/local/models/eos_action.dart';
+import 'package:hashed/domain-shared/app_constants.dart';
 
 class EOSTransaction extends Equatable {
   final List<EOSAction> actions;

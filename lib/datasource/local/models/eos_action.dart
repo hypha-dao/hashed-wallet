@@ -1,5 +1,5 @@
-import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
-import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
+import 'package:hashed/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:hashed/crypto/eosdart/eosdart.dart' as eos;
 
 /// Simple EOS Action data container
 class EOSAction {

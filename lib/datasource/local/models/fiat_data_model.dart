@@ -1,5 +1,5 @@
-import 'package:seeds/datasource/local/models/amount_data_model.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/local/models/amount_data_model.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 
 class FiatDataModel extends AmountDataModel {
   FiatDataModel(double amount, {String? fiatSymbol})

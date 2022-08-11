@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/remote/api/guardians_repository.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/remote/api/guardians_repository.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 
 class StopGuardianRecoveryUseCase {
   final FirebaseDatabaseGuardiansRepository _firebaseRepository = FirebaseDatabaseGuardiansRepository();

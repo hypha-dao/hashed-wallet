@@ -6,18 +6,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/common/constants.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/service/index.dart';
-// import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/cache/storeCache.dart';
-// import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
-import 'package:seeds/polkadot/polkawallet_plugin_kusama/lib/utils/i18n/index.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/homeNavItem.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/common/constants.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/service/index.dart';
+// import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/store/cache/storeCache.dart';
+// import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/store/index.dart';
+import 'package:hashed/polkadot/polkawallet_plugin_kusama/lib/utils/i18n/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/plugin/homeNavItem.dart';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/plugin/index.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
-// import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/utils/i18n.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/plugin/index.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+// import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/types/keyPairData.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/utils/i18n.dart';
 
 class PluginKusama extends PolkawalletPlugin {
   /// the kusama plugin support two networks: kusama & polkadot,

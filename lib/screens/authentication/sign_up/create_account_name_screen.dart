@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/global_error.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/full_page_loading_indicator.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/global_error.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:hashed/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
 class CreateAccountNameScreen extends StatefulWidget {
   const CreateAccountNameScreen({super.key});

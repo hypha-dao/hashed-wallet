@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/utils/double_extension.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/utils/double_extension.dart';
+import 'package:hashed/utils/string_extension.dart';
 
 class InviteModel extends Equatable {
   final int inviteId;

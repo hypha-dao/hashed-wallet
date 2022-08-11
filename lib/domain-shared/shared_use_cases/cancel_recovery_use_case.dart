@@ -1,4 +1,4 @@
-import 'package:seeds/domain-shared/shared_use_cases/account_use_case.dart';
+import 'package:hashed/domain-shared/shared_use_cases/account_use_case.dart';
 
 class CancelRecoveryProcessUseCase extends AccountUseCase {
   void run() {

@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/account.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/assets.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/gov.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/keyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/parachain.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/recovery.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/setting.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/staking.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/tx.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/uos.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/walletConnect.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/account.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/assets.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/gov.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/parachain.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/recovery.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/setting.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/staking.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/tx.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/uos.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/walletConnect.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 /// The service calling JavaScript API of `polkadot-js/api` directly
 /// through [WebViewRunner], providing APIs for [PolkawalletApi].

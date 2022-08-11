@@ -1,8 +1,8 @@
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
-import 'package:seeds/datasource/remote/model/rate_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/datasource/remote/model/fiat_rate_model.dart';
+import 'package:hashed/datasource/remote/model/rate_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 
 class RatesStateMapper extends StateMapper {
   static const husdTokenId = 'husd.hypha#HUSD';

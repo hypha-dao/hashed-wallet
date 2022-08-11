@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_bloc.dart';
-import 'package:seeds/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_page_commands.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_bloc.dart';
+import 'package:hashed/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_page_commands.dart';
 import 'package:share/share.dart';
 
 class ExportPrivateKeyScreen extends StatelessWidget {

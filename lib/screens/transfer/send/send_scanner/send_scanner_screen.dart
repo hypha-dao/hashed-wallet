@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/scanner/scanner_view.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_bloc.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/scanner/scanner_view.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_bloc.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class SendScannerScreen extends StatefulWidget {
   const SendScannerScreen({super.key});

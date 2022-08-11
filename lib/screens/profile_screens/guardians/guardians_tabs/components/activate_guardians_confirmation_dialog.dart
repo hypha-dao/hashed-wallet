@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/custom_dialog.dart';
+import 'package:hashed/components/custom_dialog.dart';
 
 class ActivateGuardiansConfirmationDialog extends StatelessWidget {
   final GestureTapCallback? onDismiss;

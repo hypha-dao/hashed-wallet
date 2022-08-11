@@ -2,9 +2,9 @@ import 'dart:core';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/screens/authentication/verification/components/circle.dart';
-import 'package:seeds/screens/authentication/verification/components/keyboard.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/screens/authentication/verification/components/circle.dart';
+import 'package:hashed/screens/authentication/verification/components/keyboard.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class _ShakeCurve extends Curve {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
 
 class ReceiveSelectionCard extends StatelessWidget {
   final String title;

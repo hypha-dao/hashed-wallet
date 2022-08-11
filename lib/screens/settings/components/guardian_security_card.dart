@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/components/divider_jungle.dart';
-import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/divider_jungle.dart';
+import 'package:hashed/components/notification_badge.dart';
+import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
   final GestureTapCallback? onTap;

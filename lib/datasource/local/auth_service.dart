@@ -1,10 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:hashed/crypto/eosdart_ecc/eosdart_ecc.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/utils/mnemonic_code/hex.dart';
+import 'package:hashed/utils/mnemonic_code/mnemonic_code.dart';
 import 'package:hdkey/hdkey.dart';
-import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/utils/mnemonic_code/hex.dart';
-import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
 
 const STRENGTH_FOR_TWELVE_WORDS = 16;
 

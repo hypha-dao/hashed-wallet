@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/utils/build_context_extension.dart';
+import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/utils/build_context_extension.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/remote/api/guardians_repository.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+import 'package:hashed/datasource/remote/api/guardians_repository.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 
 class ResetUserAccountUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();

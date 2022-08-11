@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/account.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/shared_use_cases/cancel_recovery_use_case.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/fetch_recover_guardian_state_mapper.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/reset_user_account_use_case.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/shared_use_cases/cancel_recovery_use_case.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/mappers/fetch_recover_guardian_state_mapper.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/usecases/reset_user_account_use_case.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
 
 part 'recover_account_found_event.dart';
 

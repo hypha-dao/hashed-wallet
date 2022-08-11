@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/app/interactor/mappers/approve_guardian_recovery_state_mapper.dart';
-import 'package:seeds/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
-import 'package:seeds/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
-import 'package:seeds/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
+import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/app/interactor/mappers/approve_guardian_recovery_state_mapper.dart';
+import 'package:hashed/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
+import 'package:hashed/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
+import 'package:hashed/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
+import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';

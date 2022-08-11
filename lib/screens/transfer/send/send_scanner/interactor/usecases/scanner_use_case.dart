@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
-import 'package:seeds/datasource/local/account_service.dart';
-import 'package:seeds/datasource/local/qr_code_service.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/local/qr_code_service.dart';
 
 class ProcessScanResultUseCase {
   QrCodeService qrCodeService = QrCodeService();

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
-import 'package:seeds/datasource/remote/model/firebase_user_model.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:hashed/datasource/remote/model/firebase_user_model.dart';
 
 class FirebaseUserRepository extends FirebaseDatabaseService {
   Stream<FirebaseUserModel> getUserData(String accountName) {

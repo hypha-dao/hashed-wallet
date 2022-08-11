@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:hashed/datasource/remote/model/firebase_models/push_notification_data.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/push_notification_data.dart';
 
 /// This is the [BackgroundMessageHandler] that will be called when a notification is received, when the app is in
 /// background or terminated state. This is a top level function, outside of any class, and will run outside of app's

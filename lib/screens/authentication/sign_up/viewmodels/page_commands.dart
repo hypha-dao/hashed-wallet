@@ -1,5 +1,5 @@
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
+import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/domain-shared/page_command.dart';
 
 class OnAccountNameGenerated extends PageCommand {}
 

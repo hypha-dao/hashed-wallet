@@ -3,9 +3,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:seeds/crypto/dart_esr/src/models/request_signature.dart';
-import 'package:seeds/crypto/dart_esr/zlib/archive.dart';
-import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:hashed/crypto/dart_esr/src/models/request_signature.dart';
+import 'package:hashed/crypto/dart_esr/zlib/archive.dart';
+import 'package:hashed/crypto/eosdart/eosdart.dart';
 
 SigningRequestEncodingOptions defaultSigningRequestEncodingOptions(
         {String nodeUrl = 'https://eos.eosn.io', String nodeVersion = 'v1'}) =>

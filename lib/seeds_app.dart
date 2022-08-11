@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/blocs/root/root_bloc.dart';
+import 'package:hashed/components/snack.dart';
+import 'package:hashed/design/app_theme.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/blocs/root/root_bloc.dart';
-import 'package:seeds/components/snack.dart';
-import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/navigation/navigation_service.dart';
 
 class SeedsApp extends StatelessWidget {
   const SeedsApp({super.key});

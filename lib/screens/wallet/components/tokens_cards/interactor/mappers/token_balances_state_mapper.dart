@@ -1,12 +1,12 @@
-import 'package:seeds/datasource/local/color_pallette_repository.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/balance_model.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
+import 'package:hashed/datasource/local/color_pallette_repository.dart';
+import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
+import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 
 class TokenBalancesStateMapper {
   Future<TokenBalancesState> mapResultToState(

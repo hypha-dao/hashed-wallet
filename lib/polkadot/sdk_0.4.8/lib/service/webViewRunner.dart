@@ -6,9 +6,9 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/service/keyring.dart';
-import 'package:seeds/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/service/keyring.dart';
+import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 extension PlatformExtension on Platform {
   static bool isIos14OrAbove() {
