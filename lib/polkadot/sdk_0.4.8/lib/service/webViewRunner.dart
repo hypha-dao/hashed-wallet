@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
@@ -100,7 +101,9 @@ class WebViewRunner {
           if (message.message.contains("mnemonic")) {
             print("mnemonic console message hidden");
           } else {
-            print("CONSOLE MESSAGE: ${message.message}");
+            if (kDebugMode) {
+              print("CONSOLE MESSAGE: ${message.message}");
+            }
           }
           if (jsCodeStarted < 0) {
             if (message.message.contains('js loaded')) {
