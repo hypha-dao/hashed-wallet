@@ -38,14 +38,6 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   }
 
   Future<void> _onRemoveGuardianTapped(OnRemoveGuardianTapped event, Emitter<GuardiansState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
-    print("remov e tapped - TBD");
-
-    // Remove from server
-    // [POLKA] handle result
-    // ignore: unused_local_variable
-    final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
-
     final guards = state.myGuardians;
     guards.remove(event.guardian);
     emit(state.copyWith(
