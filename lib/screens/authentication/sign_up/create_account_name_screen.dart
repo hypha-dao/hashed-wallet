@@ -9,7 +9,6 @@ import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/global_error.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
-import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:hashed/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
