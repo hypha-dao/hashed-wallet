@@ -17,7 +17,6 @@ A build of Polkadot JS is packaged with webpack and delivered with the app.
 The source code for the build is in /assets/polkadot/sdk/js_api and based on the approach and code used in Polkawallet
 
 ### Flutter Application
-This project follows the architecture in the Seeds Light Wallet
 
 We use the [BLoC](https://www.raywenderlich.com/31973428-getting-started-with-the-bloc-pattern) pattern with several additions and improvements for state management. [Flutter Bloc Package](https://pub.dev/packages/flutter_bloc)
 
