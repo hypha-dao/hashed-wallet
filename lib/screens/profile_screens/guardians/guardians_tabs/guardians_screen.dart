@@ -49,13 +49,22 @@ class GuardiansScreen extends StatelessWidget {
                   ? const SizedBox.shrink()
                   : SafeArea(
                       minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
-                      child: FlatButtonLong(
-                        title: state.actionButtonState.title,
-                        isLoading: state.actionButtonState.isLoading,
-                        enabled: state.actionButtonState.isEnabled,
-                        onPressed: () {
-                          BlocProvider.of<GuardiansBloc>(context).add(OnMyGuardianActionButtonTapped());
-                        },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text((state.myGuardians.length > 1)
+                              ? "Threshold: ${state.myGuardians.threshold} / ${state.myGuardians.length}"
+                              : ""),
+                          const SizedBox(height: 16),
+                          FlatButtonLong(
+                            title: state.actionButtonState.title,
+                            isLoading: state.actionButtonState.isLoading,
+                            enabled: state.actionButtonState.isEnabled,
+                            onPressed: () {
+                              BlocProvider.of<GuardiansBloc>(context).add(OnMyGuardianActionButtonTapped());
+                            },
+                          ),
+                        ],
                       ),
                     ),
               body: state.pageState == PageState.loading
