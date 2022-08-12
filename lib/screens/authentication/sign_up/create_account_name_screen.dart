@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
@@ -63,7 +64,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
           }
 
           if (state.pageCommand is CreateAccountComplete) {
-            NavigationService.of(context).pushApp();
+            BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthStatus());
           }
         },
         builder: (context, state) {

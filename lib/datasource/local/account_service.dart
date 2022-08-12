@@ -60,6 +60,8 @@ class AccountService {
         privateKeys.add(privateKey);
         await savePrivateKeys(privateKeys);
       }
+    } else {
+      print("Error: Unable to save account");
     }
     return result;
   }
