@@ -2,8 +2,10 @@
 
 ## Systems Used
 
-[Flutter](https://flutter.dev/) for cross platform development
+[Flutter](https://flutter.dev/) for cross platform development.
+
 [Polkadot JS](https://polkadot.js.org) for API calls into substrate compatible blockchains
+
 
 ## Architecture and Approach
 
@@ -18,6 +20,7 @@ The source code for the build is in /assets/polkadot/sdk/js_api and based on the
 This project follows the architecture in the Seeds Light Wallet
 
 We use the [BLoC](https://www.raywenderlich.com/31973428-getting-started-with-the-bloc-pattern) pattern with several additions and improvements for state management. [Flutter Bloc Package](https://pub.dev/packages/flutter_bloc)
+
 
 Business logic happens in BLoC components. 
 
