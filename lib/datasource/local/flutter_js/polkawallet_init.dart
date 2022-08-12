@@ -13,11 +13,10 @@ import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 /// It isolates our app from the original Polkawallet code.
 class PolkawalletInit {
   Keyring? _keyring;
-  WalletSDK walletSdk = WalletSDK();
+  WalletSDK? walletSdk;
   final nodeList = hashedNetworkParams;
-  bool _connected = false;
-  InAppWebViewController? get controller => walletSdk.webView?.webViewController;
-  WebViewRunner? get webView => walletSdk.webView;
+  InAppWebViewController? get controller => walletSdk?.webView?.webViewController;
+  WebViewRunner? get webView => walletSdk?.webView;
 
   bool get isConnected => _connected;
 
@@ -26,18 +25,24 @@ class PolkawalletInit {
   PolkawalletInit(this.connectionStateHandler);
 
   bool _initialized = false;
+  bool _connected = false;
 
   Future<void> init() async {
-    _keyring ??= Keyring();
+    if (walletSdk != null) {
+      await stop();
+    }
+    _keyring = Keyring();
+    walletSdk = WalletSDK();
 
     print("PolkawalletInit init");
 
     await _keyring?.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
 
     /// init the SDK
-    await walletSdk.init(
+    await walletSdk?.init(
       _keyring!,
       socketDisconnectedAction: () {
+        // Note: This does not reliably get invoked.
         print("WARNING: socket disconnected action invoked");
       },
     );
@@ -53,16 +58,17 @@ class PolkawalletInit {
     }
 
     /// Connect to a node
-    final res = await walletSdk.api.service.webView?.connectNode(nodeList);
+    final res = await walletSdk?.api.service.webView?.connectNode(nodeList);
 
     _connected = res?.endpoint != null;
+
     updateConnectionHandler();
 
     if (res == null) {
       return null;
     }
 
-    walletSdk.api.connectedNode = res;
+    walletSdk?.api.connectedNode = res;
     _keyring!.ss58 = res.ss58;
 
     print("connected: ${res.endpoint}");
@@ -77,9 +83,11 @@ class PolkawalletInit {
     _webViewDropsTimer?.cancel();
     _dropsServiceTimer?.cancel();
     _chainTimer?.cancel();
-    await walletSdk.webView?.evalJavascript('api.disconnect()');
-    await walletSdk.webView?.dispose();
+    await walletSdk?.webView?.evalJavascript('api.disconnect()');
+    await walletSdk?.webView?.dispose();
     _initialized = false;
+    walletSdk = null;
+    _keyring = null;
   }
 
   Timer? _webViewDropsTimer;
@@ -90,7 +98,7 @@ class PolkawalletInit {
   void _dropsService({NetworkParams? node}) {
     // every time this is called, all timers are canceled.
     _dropsServiceCancel();
-    walletSdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
+    walletSdk?.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
       print("Check 0: api.rpc.system.chain value: $value");
     });
 
@@ -110,6 +118,13 @@ class PolkawalletInit {
         // Note: I am pretty sure this code has bugs and race conditions.
 
         print("Connection dropped, restarting");
+
+        await stop();
+
+        await init();
+
+        await connect();
+
         unawaited(_restartWebConnect(node: node));
 
         _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
@@ -118,7 +133,7 @@ class PolkawalletInit {
       });
       // TODO(n13): This is how we can just make all chain calls, and not worry about the "sdk" functions
       // ignore: unawaited_futures
-      walletSdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
+      walletSdk?.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
         print("api.rpc.system.chain value: $value");
         _dropsService(node: node);
       });
@@ -148,7 +163,7 @@ class PolkawalletInit {
     _connected = false;
     updateConnectionHandler();
 
-    final res = await walletSdk.api.connectNode(_keyring!, nodeList);
+    final res = await walletSdk?.api.connectNode(_keyring!, nodeList);
     if (res != null) {
       _connected = true;
       updateConnectionHandler();

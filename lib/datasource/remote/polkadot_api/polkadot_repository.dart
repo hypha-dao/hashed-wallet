@@ -26,7 +26,13 @@ class PolkadotRepository extends KeyRepository {
 
   void handleConnectState(bool isConnected) {
     print("PolkadotRepository connection state ${isConnected ? 'Connected' : 'Disconnected'}");
-    state.isConnected = isConnected;
+    if (state.isConnected != isConnected) {
+      if (isConnected) {
+        print("init keys after reconnect");
+        _initKeys();
+      }
+      state.isConnected = isConnected;
+    }
   }
 
   bool initialized = false;
@@ -301,8 +307,9 @@ class PolkadotRepository extends KeyRepository {
     // But, make it work first -
     try {
       final code = 'api.query.recovery.recoverable("$address")';
+      print("TRY CODE");
       final res = await _polkawalletInit?.webView?.evalJavascript(code);
-      print("getRecoveryConfig res: $res");
+      print("====== getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
         guardiansModel = GuardiansConfigModel.fromJson(res);
