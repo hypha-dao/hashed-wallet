@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
@@ -59,7 +60,9 @@ class GuardiansScreen extends StatelessWidget {
                     ),
               body: state.pageState == PageState.loading
                   ? const FullPageLoadingIndicator()
-                  : const SafeArea(child: MyGuardiansView()),
+                  : state.pageState == PageState.failure
+                      ? const FullPageErrorIndicator()
+                      : const SafeArea(child: MyGuardiansView()),
             );
           },
         ),
