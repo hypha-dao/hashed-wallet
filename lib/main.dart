@@ -10,7 +10,6 @@ import 'package:hashed/datasource/local/member_model_cache_item.dart';
 import 'package:hashed/datasource/local/models/vote_model_adapter.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/seeds_app.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -30,7 +29,6 @@ Future<void> main() async {
     await Firebase.initializeApp();
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
-    await remoteConfigurations.initialise();
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
     Hive.registerAdapter(VoteModelAdapter());

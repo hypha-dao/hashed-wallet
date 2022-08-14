@@ -2,17 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/datasource/local/cache_repository.dart';
-import 'package:hashed/datasource/local/member_model_cache_item.dart';
 import 'package:hashed/datasource/remote/model/profile_model.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/system_accounts.dart';
-import 'package:hashed/screens/wallet/interactor/mappers/member_state_mapper.dart';
-import 'package:hashed/screens/wallet/interactor/usecases/load_member_data_usecase.dart';
 
 part 'member_event.dart';
 part 'member_state.dart';
-
-const int _cacheExpiryMinutes = 30;
 
 class MemberBloc extends Bloc<MemberEvent, MemberState> {
   MemberBloc(String currentAccount) : super(MemberState.initial(currentAccount)) {
@@ -36,18 +31,18 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
         return;
       }
     }
-    final result = await LoadMemberDataUseCase().run(account);
+
     // store result in cache
-    if (!result.isError && result.asValue != null && result.asValue!.value is ProfileModel) {
-      final ProfileModel member = result.asValue!.value;
-      await cacheRepository.saveMemberCacheItem(
-        account,
-        MemberModelCacheItem(
-            member: member,
-            refreshTimeStamp:
-                DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * _cacheExpiryMinutes),
-      );
-    }
-    emit(MemberStateMapper().mapResultToState(state, result));
+    // if (!result.isError && result.asValue != null && result.asValue!.value is ProfileModel) {
+    //   final ProfileModel member = result.asValue!.value;
+    //   await cacheRepository.saveMemberCacheItem(
+    //     account,
+    //     MemberModelCacheItem(
+    //         member: member,
+    //         refreshTimeStamp:
+    //             DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * _cacheExpiryMinutes),
+    //   );
+    // }
+    // emit(MemberStateMapper().mapResultToState(state, result));
   }
 }
