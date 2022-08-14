@@ -11,7 +11,6 @@ import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
 import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/init_guardians_usecase.dart';
-import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/remove_guardian_usecase.dart';
 import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 import 'package:hashed/utils/result_extension.dart';
 
