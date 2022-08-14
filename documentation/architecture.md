@@ -1,8 +1,8 @@
 # Hashed Wallet - A Social Recovery Wallet for Polkadot
 
-## Systems Used
+## Systems And Platforms Used
 
-[Flutter](https://flutter.dev/) for cross platform development.
+[Flutter](https://flutter.dev/) for cross platform mobile development.
 
 [Polkadot JS](https://polkadot.js.org) for API calls into substrate compatible blockchains
 
@@ -14,7 +14,7 @@ Polkadot JS runs inside a hidden web view - both Android and iOS have the capabi
 
 A build of Polkadot JS is packaged with webpack and delivered with the app. 
 
-The source code for the build is in /assets/polkadot/sdk/js_api and based on the approach and code used in Polkawallet
+The source code for the JavaScript build is in [/assets/polkadot/sdk/js_api](https://github.com/hypha-dao/hashed-wallet/tree/v1.0.0_M1_00/assets/polkadot/sdk/js_api) and based on the approach and code used in Polkawallet
 
 ### Flutter Application
 
@@ -41,6 +41,7 @@ The new code is visible in the screens - startup screen, sign in screen, create 
 
 While we would love to remove all unused code now, it would cause more work later on when we have to add bits and pieces back, so we decided to hold off on it now. 
 
+Same for inline documentation - removing legacy code, or doing work in order to have a better and cleaner documentation for this milestone will cause more work for the next milestone when we have to add in some of the code again. The codebase will be cleaned in Milestone 2. 
 
 
 
