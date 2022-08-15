@@ -92,7 +92,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(actionButtonState: state.actionButtonState.setLoading(true)));
 
-    final result = await polkadotRepository.removeGuardians();
+    final result = await polkadotRepository.removeRecovery();
     if (result.isValue) {
       emit(GuardiansState.initial());
     } else {

@@ -278,17 +278,6 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  /// Removes user's guardians. User must Start from scratch.
-  Future<Result> removeGuardians() async {
-    try {
-      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!)
-          .removeRecovery(address: accountService.currentAccount.address);
-      return Result.value(res);
-    } on Exception catch (err) {
-      return Result.error(err);
-    }
-  }
-
   Future<Result> getActiveRecovery() async {
     throw UnimplementedError();
   }
@@ -316,33 +305,80 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  /// Ignore, only test.
-  // Future<String?> testCreateRecovery() async {
-  //   print("execute testSendRecovery");
-  //   // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
-  //   const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
-  //   // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
-  //   const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
-  //   // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
-  //   const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
+  Future<Result<dynamic>> initiateRecovery(String address) async {
+    print("initiate recovery for $address");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   final keyPair = await getKeyPair(accountService.currentAccount.address);
+  /// return recoveries that are currently in process for the address in question
+  /// Params: Address to be recovered
+  Future<Result<List<dynamic>>> getActiveRecoveries(String address) async {
+    print("get active recovery for $address");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value(["Ok"]));
+  }
 
-  //   print("keyPair $keyPair");
+  Future<Result<dynamic>> vouch({required String lostAccountAddress, required String newAccountAddress}) async {
+    print("vouch for recovering $lostAccountAddress on behalf of $newAccountAddress");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   final publicKey = await getPublicKey(accountService.currentAccount.address);
+  /// Claim recovery
+  /// after that account can make calls with asRecovered
+  ///
+  /// Also after that we can close, remove and cancel.
+  ///
+  /// Close recovery - claims some fees back
+  /// Remove recovery - claims some fees back
+  /// Cancel recovered - removes ability to call asRecovered
+  ///
+  Future<Result<dynamic>> claimRecovery(String lostAccountAddress) async {
+    print("claim recovered account $lostAccountAddress");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   print("publicKey $publicKey");
+  Future<Result<dynamic>> asRecovered(String recoveredAccount, dynamic polkadotCall) async {
+    print("make a call on behalf of $recoveredAccount");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   return ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
-  //     address: accountService.currentAccount.address,
-  //     guardians: [
-  //       acct_0,
-  //       acct_1,
-  //       acct_2,
-  //     ],
-  //     threshold: 2,
-  //     delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
-  //   );
-  // }
+  /// This transfers all funds from recoveredAccount to the currently active account
+  /// It's a shortcut to a transfer through asRecovered.
+  Future<Result<dynamic>> recoverFundsFor(String recoveredAccount) async {
+    print("transfer funds from $recoveredAccount to currently active account");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
+
+  ///
+  /// As the controller of a recoverable account, close an active recovery process for your account.
+  /// Payment: By calling this function, the recoverable account will receive the recovery deposit RecoveryDeposit placed by the rescuer.
+  /// The dispatch origin for this call must be Signed and must be a recoverable account with an active recovery process for it.
+  /// Parameters:
+  /// rescuer: The account trying to rescue this recoverable account.
+  ///
+  /// Note: this can be used to end a malicious recovery attempt.
+  ///
+  Future<Result<dynamic>> closeRecovery(String rescuerAccount) async {
+    final account = accountService.currentAccount.address;
+    print("closing recovery on $account by $rescuerAccount");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
+
+  /// Removes user's guardians. User must Start from scratch.
+  /// Recovers fees.
+  Future<Result> removeRecovery() async {
+    try {
+      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!)
+          .removeRecovery(address: accountService.currentAccount.address);
+      return Result.value(res);
+    } on Exception catch (err) {
+      return Result.error(err);
+    }
+  }
+
+  /// I am guessing this removes the "as_recovered" recovery entry from the pallet, freeing up some storage
+  /// and recovering some fees.
+  Future<Result<dynamic>> cancelRecovered(String recoveredAccount) async {
+    print("cancel recovery for $recoveredAccount");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 }
