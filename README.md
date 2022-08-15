@@ -6,9 +6,30 @@ by Hypha Hashed Partners
 
 ## Getting Started
 
+### Prerequisites
+
+Install [Flutter](https://docs.flutter.dev/get-started/install)
+
+There is three ways to run the app: Native on device, on iOS Simulator, or on Android Emulator.
+
+#### 1 - Native on Phone
+
+Provide email and I will add you to Google Play Store Testing Track, and iOS Testflight, to install the app natively through the respective app stores. 
+
+#### 2 - MacOS
+On MacOS, install [XCode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+
+This will install an app called "Simluator" - run Simulator
+
+#### 3 - Other platforms
+On other platforms, [install the Android Emulator and Android Studio](https://developer.android.com/studio/run/emulator)
+
+### Run the app (Milestone 1)
+
 ```
-git clone _this_repo
+git clone git@github.com:hypha-dao/hashed-wallet.git
 cd hashed-wallet
+git checkout v1.0.0_M1_00 
 flutter pub get
 flutter run
 ```
