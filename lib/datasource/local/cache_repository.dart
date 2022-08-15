@@ -1,10 +1,6 @@
 import 'package:hashed/datasource/local/member_model_cache_item.dart';
 import 'package:hive/hive.dart';
 
-// Hive box names
-
-const String _proposalVotesBox = 'proposalVotesBox';
-const String _referendumsVotesBox = 'referendumsVotesBox';
 const String _membersBox = 'membersBox001';
 
 // Cache Repo
