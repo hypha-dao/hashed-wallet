@@ -41,27 +41,19 @@ class Routes {
   static const recoverAccountFound = 'recoverAccountFound';
   static const transfer = 'transfer';
   static const sendEnterData = 'sendEnterData';
-  static const delegate = 'delegate';
-  static const delegateAUser = 'delegateAUser';
+
   static const createInvite = 'createInvite';
-  static const flag = 'flag';
-  static const flagUser = 'flagUser';
-  static const vote = 'vote';
-  static const proposalDetails = 'proposalDetails';
-  static const plantSeeds = 'plantSeeds';
-  static const vouch = 'vouch';
-  static const vouchForAMember = 'vouchForAMember';
-  static const unPlantSeeds = 'unPlantSeeds';
+
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
-  static const swapSeeds = 'swapSeeds';
+
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
   static const guardianTabs = 'guardianTabs';
-  static const manageInvites = 'manageInvites';
+
   static const support = 'support';
   static const security = 'security';
   static const editName = 'editName';
