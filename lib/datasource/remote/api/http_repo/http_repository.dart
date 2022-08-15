@@ -3,14 +3,10 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:hashed/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:hashed/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:hashed/datasource/remote/util/response_extension.dart';
 import 'package:http/http.dart' as http;
 
 abstract class HttpRepository {
-  String baseURL = remoteConfigurations.defaultEndPointUrl;
-  String v2historyURL = remoteConfigurations.defaultV2EndPointUrl;
-  String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String mapsApiKey = 'AIzaSyB3Ghs8i_Lw55vmSyh5mxLA9cGcWuc1A54';
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};

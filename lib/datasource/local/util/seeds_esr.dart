@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:hashed/crypto/dart_esr/dart_esr.dart';
 import 'package:hashed/datasource/local/models/eos_transaction.dart';
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
 
 class SeedsESR {
   late SigningRequestManager manager;
@@ -39,8 +38,7 @@ class SeedsESR {
 
 extension TelosSigningManager on SigningRequestManager {
   static SigningRequestManager from(String? uri) {
-    return SigningRequestManager.from(uri,
-        options: defaultSigningRequestEncodingOptions(nodeUrl: remoteConfigurations.defaultEndPointUrl));
+    return SigningRequestManager.from(uri, options: defaultSigningRequestEncodingOptions());
   }
 
   Future<List<Action>> fetchActions({String? account, String permission = "active"}) async {
