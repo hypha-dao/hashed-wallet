@@ -34,7 +34,6 @@ dependencies:
   firebase_core: ^1.10.0
   firebase_storage: ^10.1.0
   cloud_firestore: ^3.1.0
-  geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
   share: ^2.0.4
   image_cropper: ^2.0.3
@@ -56,12 +55,10 @@ dependencies:
   hdkey: ^0.0.1
   permission_handler: ^10.0.0
   json_schema2: ^2.0.2
-  # get_storage: ^2.0.3
   flutter_inappwebview: ^5.4.3+7
   google_fonts: ^3.0.1
   flutter_aes_ecb_pkcs5: ^0.1.2
   flutter_native_splash: ^2.2.6
-  # mobx: ^2.0.7+4
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
