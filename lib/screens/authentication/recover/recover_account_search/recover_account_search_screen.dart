@@ -50,7 +50,9 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: const Text("Recover Account"),
+            ),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Stack(
@@ -60,9 +62,8 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         TextFormFieldCustom(
-                          maxLength: 12,
-                          counterText: null,
-                          labelText: context.loc.recoverAccountSearchTextFormTitle,
+                          maxLines: 2,
+                          labelText: "Enter Account Address",
                           controller: _keyController,
                           suffixIcon: QuadStateClipboardIconButton(
                             isChecked: state.isGuardianActive,
@@ -75,6 +76,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                                 () => BlocProvider.of<RecoverAccountSearchBloc>(context).add(OnUsernameChanged(value)));
                           },
                         ),
+                        const Text("[TBD] This is not implemented yet"),
                         if (state.accountFound)
                           Container(
                             decoration: BoxDecoration(
