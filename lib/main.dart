@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hashed/datasource/local/member_model_cache_item.dart';
-import 'package:hashed/datasource/local/models/vote_model_adapter.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
@@ -31,7 +30,6 @@ Future<void> main() async {
     await PushNotificationService().initialise();
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
-    Hive.registerAdapter(VoteModelAdapter());
     GoogleFonts.config.allowRuntimeFetching = false;
     LicenseRegistry.addLicense(() async* {
       final license = await rootBundle.loadString('assets/google_fonts/OFL.txt');
