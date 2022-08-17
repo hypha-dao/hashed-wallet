@@ -33,6 +33,10 @@ class SettingsScreen extends StatelessWidget {
               listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             ),
             BlocListener<SettingsBloc, SettingsState>(
+              listenWhen: (_, current) => current.navigateToRecoverAccount != null,
+              listener: (context, _) => NavigationService.of(context).navigateTo(Routes.recoverAccountSearch),
+            ),
+            BlocListener<SettingsBloc, SettingsState>(
               listenWhen: (_, current) => current.navigateToVerification != null,
               listener: (context, _) {
                 BlocProvider.of<SettingsBloc>(context).add(const ResetNavigateToVerification());
@@ -92,8 +96,7 @@ class SettingsScreen extends StatelessWidget {
                         SettingsCard(
                           icon: const Icon(Icons.update),
                           title: "Export Private Key",
-                          description: context.loc.securityExportPrivateKeyDescription,
-                          // TODO(n13): Fix share secret words
+                          description: "Export your private key so you can easily recover and access your account.",
                           onTap: () async {
                             BlocProvider.of<SettingsBloc>(context).add(const OnExportPrivateKeyCardTapped());
                           },
@@ -107,6 +110,16 @@ class SettingsScreen extends StatelessWidget {
                             );
                           },
                         ),
+                        SettingsCard(
+                          icon: const Icon(Icons.shield),
+                          title: "Recover Account",
+                          description: "Recover an account with the help of the guardians set for that account.",
+                          // TODO(n13): Fix share secret words
+                          onTap: () async {
+                            BlocProvider.of<SettingsBloc>(context).add(const OnRecoverAccountTapped());
+                          },
+                        ),
+
                         if (state.shouldShowExportRecoveryPhrase)
                           SettingsCard(
                             icon: const Icon(Icons.insert_drive_file),

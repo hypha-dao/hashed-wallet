@@ -40,6 +40,12 @@ class OnGuardiansCardTapped extends SettingsEvent {
   String toString() => 'OnGuardiansCardTapped';
 }
 
+class OnRecoverAccountTapped extends SettingsEvent {
+  const OnRecoverAccountTapped();
+  @override
+  String toString() => 'OnRecoverAccountTapped';
+}
+
 class OnPasscodePressed extends SettingsEvent {
   const OnPasscodePressed();
   @override

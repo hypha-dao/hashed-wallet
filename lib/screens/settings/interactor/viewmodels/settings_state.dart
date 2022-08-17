@@ -16,6 +16,7 @@ class SettingsState extends Equatable {
   final bool? isSecurePasscode;
   final bool? isSecureBiometric;
   final bool shouldShowExportRecoveryPhrase;
+  final bool? navigateToRecoverAccount;
 
   const SettingsState({
     required this.pageState,
@@ -29,6 +30,7 @@ class SettingsState extends Equatable {
     this.isSecurePasscode,
     this.isSecureBiometric,
     required this.shouldShowExportRecoveryPhrase,
+    this.navigateToRecoverAccount,
   });
 
   @override
@@ -44,6 +46,7 @@ class SettingsState extends Equatable {
         isSecurePasscode,
         isSecureBiometric,
         shouldShowExportRecoveryPhrase,
+        navigateToRecoverAccount,
       ];
 
   SettingsState copyWith({
@@ -59,6 +62,7 @@ class SettingsState extends Equatable {
     bool? isSecureBiometric,
     GuardiansStatus? guardiansStatus,
     bool? shouldShowExportRecoveryPhrase,
+    bool? navigateToRecoverAccount,
   }) {
     return SettingsState(
       pageState: pageState ?? this.pageState,
@@ -68,6 +72,7 @@ class SettingsState extends Equatable {
       navigateToGuardians: navigateToGuardians,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       navigateToVerification: navigateToVerification,
+      navigateToRecoverAccount: navigateToRecoverAccount,
       currentChoice: currentChoice ?? this.currentChoice,
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
