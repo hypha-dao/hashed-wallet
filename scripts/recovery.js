@@ -202,7 +202,7 @@ const removeRecovery = async () => {
 
           // Loop through Vec<EventRecord> to display all events
           events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
             if (section == "system" && method == "ExtrinsicFailed") {
               transactionSuccess = false
             }
@@ -213,9 +213,6 @@ const removeRecovery = async () => {
 
           console.log("unsubscribing from updates..")
           unsubscribe()
-          // => 
-          // ' {"applyExtrinsic":1}: balances.Withdraw:: ["5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",85795211]
-          // ' {"applyExtrinsic":1}: system.ExtrinsicFailed:: [{"module":{"index":10,"error":"0x04000000"}},{"weight":148937000,"class":"Normal","paysFee":"Yes"}]
 
           resolve({
             events,
@@ -235,6 +232,69 @@ const removeRecovery = async () => {
 
   const cost = balanceBefore - balanceAfter
   console.log("remove transaction cost: "+cost)
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
+
+}
+
+const initiateRecovery = async (rescuer, lostAccount) => {
+
+  const { api, keyring, steve } = await init()
+
+  console.log("init recovery: recover "+lostAccount+" from new account "+rescuer)
+
+  const address = rescuer
+
+  console.log("balance before initiateRecovery")
+  const balanceBefore = await getBalance(address, api);
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.initiateRecovery(lostAccount)
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Initiate Recovery: Current status is ${status.type}`);
+
+        if (status.isFinalized || status.isInBlock) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.isFinalized ? status.asFinalized : status.asInBlock}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            }
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+          
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+
+        }
+      });
+  });
+
+  //console.log("tx result " + JSON.stringify(response, null, 2))
+
+  console.log("balance after initiate recovery")
+  const balanceAfter = await getBalance(address, api);
+
+  const cost = balanceBefore - balanceAfter
+  console.log("initiate transaction cost: "+cost)
 
   await api.disconnect()
   console.log("disconnecting done")
@@ -339,7 +399,7 @@ program
     console.log("active: " + JSON.stringify(result, null, 2))
   })
 
-program
+  program
   .command('remove_recovery')
   .description('Cancel recovery')
   .action(async function () {
@@ -347,6 +407,21 @@ program
     console.log("Remove recovery...")
 
     const result = await removeRecovery()
+
+    //console.log("result: " + JSON.stringify(result, null, 2))
+  })
+
+  program
+  .command('initiate_recovery')
+  .description('initiate recovery')
+  .action(async function () {
+
+    const rescuer = process.env.RESCUER_ADDRESS
+    const lostAccount = process.env.STEVE_ADDRESS
+
+    console.log("Initiate recovery of " + lostAccount + " from new account " + rescuer)
+
+    const result = await initiateRecovery(rescuer, lostAccount)
 
     //console.log("result: " + JSON.stringify(result, null, 2))
   })
