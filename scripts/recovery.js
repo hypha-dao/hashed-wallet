@@ -562,6 +562,73 @@ const claimRecovery = async ({ rescuer, lostAccount }) => {
 
 }
 
+const recoverFunds = async ({ rescuer, lostAccount }) => {
+
+  const { api, keyring, steve } = await init()
+
+  console.log("recoverFunds by new account " + rescuer)
+
+  const address = rescuer
+
+  console.log("balance before recover")
+  const balanceBefore = await getBalance(address, api);
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery
+      .asRecovered(
+        lostAccount,
+        api.tx.balances.transferAll(address, false)
+      )
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Recover Funds: Current status is ${status.type}`);
+
+        if (status.isFinalized || status.isInBlock) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.isFinalized ? status.asFinalized : status.asInBlock}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            }
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+
+        }
+      });
+  });
+
+  //console.log("tx result " + JSON.stringify(response, null, 2))
+
+  console.log("balance after recover")
+  const balanceAfter = await getBalance(address, api);
+
+  const cost = balanceBefore - balanceAfter
+  console.log("recovered: " + cost)
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
+
+}
+
 const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
@@ -793,6 +860,20 @@ program
     console.log("Claim recovery of " + lostAccount + " from new account " + rescuer)
 
     const result = await claimRecovery({rescuer, lostAccount})
+  })
+
+  program
+  .command('recover_funds')
+  .description('Recover all funds')
+  .action(async function () {
+    console.log("Recover funds")
+
+    const rescuer = process.env.RESCUER_ADDRESS
+    const lostAccount = process.env.STEVE_ADDRESS
+
+    console.log("Claim recovery of " + lostAccount + " from new account " + rescuer)
+
+    const result = await recoverFunds({rescuer, lostAccount})
   })
 
 program
