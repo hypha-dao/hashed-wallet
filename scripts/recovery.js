@@ -502,6 +502,66 @@ const closeRecoveryFinalize = async ({ rescuer, lostAccount }) => {
 
 }
 
+const claimRecovery = async ({ rescuer, lostAccount }) => {
+
+  const { api, keyring, steve } = await init()
+
+  console.log("claim recovery by new account " + rescuer)
+
+  const address = rescuer
+
+  console.log("balance before claim")
+  const balanceBefore = await getBalance(address, api);
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.claimRecovery(lostAccount)
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Claim Recovery: Current status is ${status.type}`);
+
+        if (status.isFinalized || status.isInBlock) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.isFinalized ? status.asFinalized : status.asInBlock}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            }
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+
+        }
+      });
+  });
+
+  console.log("balance after claim")
+  const balanceAfter = await getBalance(address, api);
+
+  const cost = balanceBefore - balanceAfter
+  console.log("claim transaction cost: " + cost)
+
+  await api.disconnect()
+
+  return response
+
+}
+
 const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
@@ -719,6 +779,20 @@ program
 
     const result = await vouchRecovery({ guardian, rescuer, lostAccount })
 
+  })
+
+  program
+  .command('claim_recovery')
+  .description('Claim an active recovery')
+  .action(async function () {
+    console.log("Claim active recovery")
+
+    const rescuer = process.env.RESCUER_ADDRESS
+    const lostAccount = process.env.STEVE_ADDRESS
+
+    console.log("Claim recovery of " + lostAccount + " from new account " + rescuer)
+
+    const result = await claimRecovery({rescuer, lostAccount})
   })
 
 program
