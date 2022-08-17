@@ -240,7 +240,7 @@ const removeRecovery = async () => {
 
 }
 
-const initiateRecovery = async (rescuer, lostAccount) => {
+const initiateRecovery = async ({rescuer, lostAccount}) => {
 
   const { api, keyring, steve } = await init()
 
@@ -629,6 +629,73 @@ const recoverFunds = async ({ rescuer, lostAccount }) => {
 
 }
 
+const removeRecoveryFinalize = async ({ rescuer, lostAccount }) => {
+
+  const { api, keyring } = await init()
+
+  console.log(" remove recovery finalize recovery by new account " + rescuer)
+
+  const address = rescuer
+
+  console.log("balance before remove")
+  const balanceBefore = await getBalance(address, api);
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery
+      .asRecovered(
+        lostAccount,
+        api.tx.recovery.removeRecovery()
+      )
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Close Recovery: Current status is ${status.type}`);
+
+        if (status.isFinalized || status.isInBlock) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.isFinalized ? status.asFinalized : status.asInBlock}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            }
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+
+        }
+      });
+  });
+
+  //console.log("tx result " + JSON.stringify(response, null, 2))
+
+  console.log("balance after remove")
+  const balanceAfter = await getBalance(address, api);
+
+  const cost = balanceBefore - balanceAfter
+  console.log("remove transaction cost: " + cost)
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
+
+}
+
 const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
@@ -824,7 +891,7 @@ program
 
     console.log("Initiate recovery of " + lostAccount + " from new account " + rescuer)
 
-    const result = await initiateRecovery(rescuer, lostAccount)
+    const result = await initiateRecovery({ rescuer, lostAccount})
   })
 
 program
@@ -893,9 +960,9 @@ program
 
   program
   .command('close_recovery_final')
-  .description('Close an active recovery with the rescurer account')
+  .description('Close an active recovery with the rescuer account')
   .action(async function () {
-    console.log("Close active recovery with the rescurer account")
+    console.log("Close active recovery with the rescuer account")
 
     const rescuer = process.env.RESCUER_ADDRESS
     const lostAccount = process.env.STEVE_ADDRESS
@@ -903,6 +970,20 @@ program
     console.log("Close recovery of " + lostAccount + " from new account " + rescuer)
 
     const result = await closeRecoveryFinalize({rescuer, lostAccount})
+  })
+
+  program
+  .command('remove_recovery_final')
+  .description('Remove a recovery config using the rescuer account')
+  .action(async function () {
+    console.log("Remove a recovery config with rescuer account")
+
+    const rescuer = process.env.RESCUER_ADDRESS
+    const lostAccount = process.env.STEVE_ADDRESS
+
+    console.log("Remove recovery")
+
+    const result = await removeRecoveryFinalize({rescuer, lostAccount})
   })
 
 program.parse(process.argv)
