@@ -303,6 +303,69 @@ const initiateRecovery = async (rescuer, lostAccount) => {
 
 }
 
+const vouchRecovery = async ({guardian, rescuer, lostAccount}) => {
+
+  const { api, keyring, steve } = await init()
+
+  console.log(guardian + " vouch recovery: recover "+lostAccount+" from new account "+rescuer)
+
+  const address = guardian
+
+  console.log("balance before vouch")
+  const balanceBefore = await getBalance(address, api);
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.vouchRecovery(lostAccount, rescuer)
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Initiate Recovery: Current status is ${status.type}`);
+
+        if (status.isFinalized || status.isInBlock) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.isFinalized ? status.asFinalized : status.asInBlock}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            }
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+          
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+
+        }
+      });
+  });
+
+  //console.log("tx result " + JSON.stringify(response, null, 2))
+
+  console.log("balance after vouch")
+  const balanceAfter = await getBalance(address, api);
+
+  const cost = balanceBefore - balanceAfter
+  console.log("vouch transaction cost: "+cost)
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
+
+}
+
 const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
@@ -326,12 +389,28 @@ const queryActiveRecovery = async () => {
 
   const getActiveRecovery = await api.query.recovery.activeRecoveries.entries(steve.address);
 
-  console.log("active recovery: " + JSON.stringify(getActiveRecovery))
+  console.log("active recovery: " + JSON.stringify(getActiveRecovery, null, 2))
 
   console.log("process active: ")
+
+
+  // the object is an array of an array of key, value
   console.log(getActiveRecovery.map(
     ([k, v]) => { return { key: k.toHuman(), val: v.toHuman() } })
   );
+
+  const recoveryObjects = getActiveRecovery.map(
+    ([k, v]) => { return { key: k.toHuman(), val: v.toHuman() } })
+
+    for (obj of recoveryObjects) {
+      console.log("recovery found: ")
+      const rescuerAccount = obj.key.filter((e) => e != steve.address)[0]
+      console.log("rescuer account: "+rescuerAccount)
+      console.log("num signatures: " + obj.val.friends.length)
+    }
+
+  await api.disconnect()
+  console.log("disconnecting done")
 
 }
 
@@ -397,6 +476,67 @@ program
     const result = await queryActiveRecovery()
 
     console.log("active: " + JSON.stringify(result, null, 2))
+
+
+/// QUERY ACTIVE RESULT with no signers
+// active recovery: [["0xa2ce73642c549ae79c14f0a671cf45f9dff9094d7baf1e2d9b2e3a4253b096f86c7090fd2359d471e63883edb4a6a0cdebfac75f34f14f34d3cbffc154ae4c7f28ea266addddf8501493c613e8bdafc0b25475e47c779546c9b6ab58e0bdbdc2245503284a8dfe4c324e6dc285c88a1d",{"created":898726,"deposit":16666666500,"friends":[]}]]
+// process active: 
+// [
+//   {
+//     key: [
+//       '5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym',
+//       '5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW'
+//     ],
+//     val: { created: '898,726', deposit: '16,666,666,500', friends: [] }
+//   }
+// ]
+// active: undefined
+
+
+/// After 1 friend vouched
+/// note the key is an array of 2 keys- it seems - and the value is a string that's a json object?!
+/// toHuman() converts values...
+
+// active recovery: [
+//   [
+//     "0xa2ce73642c549ae79c14f0a671cf45f9dff9094d7baf1e2d9b2e3a4253b096f86c7090fd2359d471e63883edb4a6a0cdebfac75f34f14f34d3cbffc154ae4c7f28ea266addddf8501493c613e8bdafc0b25475e47c779546c9b6ab58e0bdbdc2245503284a8dfe4c324e6dc285c88a1d",
+//     {
+//       "created": 898726,
+//       "deposit": 16666666500,
+//       "friends": [
+//         "5GEbpz29EkSM3vKtzuUEXtwpK8vguYm2TRRsmekQufYJDJpz"
+//       ]
+//     }
+//   ]
+// ]
+// process active: 
+// [
+//   {
+//     key: [
+//       '5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym',
+//       '5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW'
+//     ],
+//     val: { created: '898,726', deposit: '16,666,666,500', friends: [Array] }
+//   }
+// ]
+
+/// And the recovery object needs to be looked up separately to find
+/// theshold etc
+
+// query for steve 5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym
+// recoverable: {
+//   "delayPeriod": 0,
+//   "deposit": 21666666450,
+//   "friends": [
+//     "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
+//     "5EUqh98iKNwWQjpzYQPVw3LEQiiaVMaB4Yp2ugXA5fMKFDLk",
+//     "5GEbpz29EkSM3vKtzuUEXtwpK8vguYm2TRRsmekQufYJDJpz"
+//   ],
+//   "threshold": 2
+// }
+
+
+
   })
 
   program
@@ -422,8 +562,27 @@ program
     console.log("Initiate recovery of " + lostAccount + " from new account " + rescuer)
 
     const result = await initiateRecovery(rescuer, lostAccount)
+  })
 
-    //console.log("result: " + JSON.stringify(result, null, 2))
+  program
+  .command('vouch_recovery <n>')
+  .description('vouch recovery')
+  .action(async function (n) {
+
+    const guardians = [
+      process.env.G0_ADDRESS,
+      process.env.G1_ADDRESS,
+      process.env.G2_ADDRESS,
+    ]
+
+    const guardian = guardians[n]
+    const rescuer = process.env.RESCUER_ADDRESS
+    const lostAccount = process.env.STEVE_ADDRESS
+
+    console.log("vouch recovery of " + lostAccount + " with account " + n + " => " + guardian)
+
+    const result = await vouchRecovery({guardian, rescuer, lostAccount})
+
   })
 
 
