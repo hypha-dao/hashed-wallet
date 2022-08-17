@@ -30,6 +30,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SetUpInitialValues>(_setUpInitialValues);
     on<ShouldShowNotificationBadge>((event, emit) => emit(state.copyWith(hasNotification: event.value)));
     on<OnGuardiansCardTapped>(_onGuardiansCardTapped);
+    on<OnRecoverAccountTapped>(_onRecoverAccountTapped);
     on<OnExportPrivateKeyCardTapped>(
         (event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(Routes.exportPrivateKey))));
     on<OnPasscodePressed>(_onPasscodePressed);
@@ -66,6 +67,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(accountService.currentAccount.address);
     }
     emit(state.copyWith(navigateToGuardians: true));
+  }
+
+  Future<void> _onRecoverAccountTapped(OnRecoverAccountTapped event, Emitter<SettingsState> emit) async {
+    emit(state.copyWith()); //reset
+    emit(state.copyWith(navigateToRecoverAccount: true));
   }
 
   void _onPasscodePressed(OnPasscodePressed event, Emitter<SettingsState> emit) {
