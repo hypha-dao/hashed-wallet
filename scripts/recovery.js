@@ -53,7 +53,7 @@ const init = async () => {
     const a = keyring.addFromUri(
       acct
     );
-    console.log("added " + a.address)
+    // console.log("added " + a.address)
   }
 
   return {
@@ -366,6 +366,69 @@ const vouchRecovery = async ({guardian, rescuer, lostAccount}) => {
 
 }
 
+const closeRecoveryDirect = async ({rescuer}) => {
+
+  const { api, keyring, steve } = await init()
+
+  console.log(" close recovery by new account "+rescuer)
+
+  const address = steve.address
+
+  console.log("balance before close")
+  const balanceBefore = await getBalance(address, api);
+
+  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
+  let response = await new Promise(async (resolve) => {
+    const unsubscribe = await api.tx.recovery.closeRecovery(rescuer)
+      .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+        console.log(`Close Recovery: Current status is ${status.type}`);
+
+        if (status.isFinalized || status.isInBlock) {
+          var transactionSuccess = false
+
+          console.log(`Transaction included at blockHash ${status.isFinalized ? status.asFinalized : status.asInBlock}`);
+          console.log(`Transaction hash ${txHash.toHex()}`);
+
+          // Loop through Vec<EventRecord> to display all events
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            //console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            if (section == "system" && method == "ExtrinsicFailed") {
+              transactionSuccess = false
+            }
+            if (section == "system" && method == "ExtrinsicSuccess") {
+              transactionSuccess = true
+            }
+          });
+
+          console.log("unsubscribing from updates..")
+          unsubscribe()
+          
+          resolve({
+            events,
+            status,
+            txHash,
+            transactionSuccess,
+          })
+
+        }
+      });
+  });
+
+  //console.log("tx result " + JSON.stringify(response, null, 2))
+
+  console.log("balance after close")
+  const balanceAfter = await getBalance(address, api);
+
+  const cost = balanceBefore - balanceAfter
+  console.log("close transaction cost: "+cost)
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return response
+
+}
+
 const queryRecovery = async () => {
 
   const { api, keyring, steve } = await init()
@@ -582,6 +645,21 @@ program
     console.log("vouch recovery of " + lostAccount + " with account " + n + " => " + guardian)
 
     const result = await vouchRecovery({guardian, rescuer, lostAccount})
+
+  })
+
+  program
+  .command('close_recovery')
+  .description('Close an active recovery - direct by owner account')
+  .action(async function () {
+
+    console.log("Close active recovery direct by owner account")
+
+    const rescuer = process.env.RESCUER_ADDRESS
+
+    console.log("close recovery of " + rescuer)
+
+    const result = await closeRecoveryDirect({rescuer})
 
   })
 
