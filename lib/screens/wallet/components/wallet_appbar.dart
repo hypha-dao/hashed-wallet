@@ -45,8 +45,8 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  void _copyToClipboard(String words) {
-    Clipboard.setData(ClipboardData(text: words));
+  Future<void> _copyToClipboard(String words) async {
+    await Clipboard.setData(ClipboardData(text: words));
     eventBus.fire(const ShowSnackBar.success('Copied Account Address'));
   }
 }
