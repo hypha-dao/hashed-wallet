@@ -32,7 +32,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(
                   width: 8,
                 ),
-                const Icon(Icons.copy),
+                const Icon(Icons.copy_all_rounded),
               ],
             ),
           ),
