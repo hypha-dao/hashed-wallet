@@ -74,7 +74,7 @@ import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 //! this pallet makes it near-zero cost to re-configure the recovery settings and
 //! remove/replace friends who are acting inappropriately.
 
-class ExtrinsicsRepository {
+abstract class ExtrinsicsRepository {
   final WebViewRunner _webView;
 
   ExtrinsicsRepository(this._webView);
@@ -90,7 +90,7 @@ class ExtrinsicsRepository {
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
     try {
-      final hash = await _signAndSend(
+      final hash = await signAndSend(
         txInfo,
         [
           to,
@@ -103,63 +103,6 @@ class ExtrinsicsRepository {
       print('sendTx ${hash.toString()}');
     } catch (err) {
       print('sendTransfer ERROR $err');
-      rethrow;
-    }
-  }
-
-  Future<String> createRecovery({
-    required String address,
-    required List<String> guardians,
-    required int threshold,
-    required int delayPeriod,
-  }) async {
-    final sender = TxSenderData(
-      address,
-      "",
-    );
-    final txInfo = TxInfoData('recovery', 'createRecovery', sender);
-
-    guardians.sort();
-
-    try {
-      final hash = await _signAndSend(
-        txInfo,
-        [
-          guardians,
-          threshold,
-          delayPeriod,
-        ],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
-      print('sendCreateRecovery ${hash.toString()}');
-      return hash.toString();
-    } catch (err) {
-      print('sendCreateRecovery ERROR $err');
-      rethrow;
-    }
-  }
-
-  Future<String?> removeRecovery({required String address}) async {
-    final sender = TxSenderData(
-      address,
-      "",
-    );
-    final txInfo = TxInfoData('recovery', 'removeRecovery', sender);
-
-    try {
-      final hash = await _signAndSend(
-        txInfo,
-        [],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
-      print('sendRemoveRecovery ${hash.toString()}');
-      return hash.toString();
-    } catch (err) {
-      print('sendRemoveRecovery ERROR $err');
       rethrow;
     }
   }
@@ -182,7 +125,7 @@ class ExtrinsicsRepository {
   /// Execution takes block time, meaning around 6 seconds. As it is waiting for the
   /// transaction to be processed.
   ///
-  Future<Map<String, dynamic>> _signAndSend(
+  Future<Map<String, dynamic>> signAndSend(
     TxInfoData txInfo,
     List params, {
     required Function(String) onStatusChange,
