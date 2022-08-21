@@ -6,7 +6,7 @@ import 'package:hashed/datasource/local/models/substrate_chain_model.dart';
 
 /// This class packages all calls into the original Polkawallet API code
 /// It isolates our app from the original Polkawallet code.
-class PolkawalletInit {
+class SubstrateService {
   final nodeList = hashedNetworkParams;
   bool _connected = false;
   InAppWebViewController? get controller => webView.webViewController;
@@ -17,7 +17,7 @@ class PolkawalletInit {
 
   void Function(bool isConnected) connectionStateHandler;
 
-  PolkawalletInit(this.connectionStateHandler);
+  SubstrateService(this.connectionStateHandler);
 
   Future<void> init() async {
     print("PolkawalletInit init");
@@ -34,14 +34,7 @@ class PolkawalletInit {
       },
     );
 
-    // OLD code - we try to remove the entire SKD except fot the web view runner
-    // await WalletSDK().init(
-    //   socketDisconnectedAction: () {
-    //     print("WARNING: socket disconnected action invoked");
-    //   },
-    // );
-
-    print("service.plugin.start ${nodeList.map((e) => e.endpoint)}");
+    print("Substrate service initialized ${nodeList.map((e) => e.endpoint)}");
 
     _initialized = true;
 
@@ -49,9 +42,9 @@ class PolkawalletInit {
   }
 
   Future<int?> connect() async {
-    // if (!_initialized) {
-    //   await init();
-    // }
+    if (!_initialized) {
+      throw "you have to initialize the service before connecting";
+    }
 
     /// Connect to a node
     final res = await webView.connectNode(nodeList);
