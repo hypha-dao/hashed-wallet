@@ -8,8 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/service/keyring.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
 
 extension PlatformExtension on Platform {
   static bool isIos14OrAbove() {
@@ -43,7 +41,6 @@ extension PlatformExtension on Platform {
 
 class WebViewRunner {
   HeadlessInAppWebView? _web;
-  Function? _onLaunched;
 
   late String _jsCode;
   Map<String, Function> _msgHandlers = {};
@@ -57,11 +54,7 @@ class WebViewRunner {
   // For direct JS execution - we don't get the wrapper here
   InAppWebViewController? get webViewController => _web?.webViewController;
 
-  Future<void> launch(
-    ServiceKeyring? keyring,
-    Keyring keyringStorage,
-    Function? onLaunched, {
-    String? jsCode,
+  Future<void> launch({
     Function? socketDisconnectedAction,
   }) async {
     // Get the operating system as a string.
@@ -74,11 +67,10 @@ class WebViewRunner {
     _msgHandlers = {};
     _msgCompleters = {};
     _evalJavascriptUID = 0;
-    _onLaunched = onLaunched;
     webViewLoaded = false;
     jsCodeStarted = -1;
 
-    _jsCode = jsCode ?? await rootBundle.loadString('assets/polkadot/sdk/js_api/dist/main.js');
+    _jsCode = await rootBundle.loadString('assets/polkadot/sdk/js_api/dist/main.js');
     print('js file loaded ${_jsCode.length}');
 
     if (_web == null) {
@@ -148,7 +140,7 @@ class WebViewRunner {
           }
 
           _handleReloaded();
-          await _startJSCode(keyring, keyringStorage);
+          await _startJSCode();
         },
       );
 
@@ -177,11 +169,9 @@ class WebViewRunner {
     webViewLoaded = true;
   }
 
-  Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
+  Future<void> _startJSCode() async {
     // inject js file to webView
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
-
-    _onLaunched!();
   }
 
   int getEvalJavascriptUID() {

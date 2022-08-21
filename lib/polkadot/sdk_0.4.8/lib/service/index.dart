@@ -55,8 +55,7 @@ class SubstrateService {
 
     walletConnect = ServiceWalletConnect(this);
 
-    _web = webViewParam ?? WebViewRunner();
-    await _web!.launch(keyring, keyringStorage, onInitiated,
-        jsCode: jsCode, socketDisconnectedAction: socketDisconnectedAction);
+    _web = WebViewRunner();
+    await _web!.launch(socketDisconnectedAction: socketDisconnectedAction);
   }
 }
