@@ -50,19 +50,15 @@ class PolkadotRepository extends KeyRepository {
 
       await _polkawalletInit!.init();
 
-      print("calling crypto ready");
-
       await _cryptoWaitReady();
-
-      print("calling init keys");
 
       await _initKeys();
 
       state.isInitialized = true;
 
-      print("init service finished");
+      print("PolkadotRepository initService success");
     } catch (err) {
-      print("initService Error: $err");
+      print("PolkadotRepository initService Error: $err");
       rethrow;
     }
   }
@@ -73,6 +69,9 @@ class PolkadotRepository extends KeyRepository {
 
       if (state.isInitialized == false) {
         throw "repo not initialized";
+      }
+      if (state.isConnected == true) {
+        throw "service already started";
       }
 
       await _polkawalletInit!.connect();
