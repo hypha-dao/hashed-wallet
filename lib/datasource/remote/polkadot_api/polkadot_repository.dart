@@ -6,7 +6,7 @@ import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/polkawallet_init.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
-import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
+import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
 import 'package:hashed/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -266,7 +266,7 @@ class PolkadotRepository extends KeyRepository {
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     try {
-      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+      final res = await RecoveryRepositry(_polkawalletInit!.webView!).createRecovery(
         address: accountService.currentAccount.address,
         guardians: guardians.guardianAddresses,
         threshold: guardians.threshold,
@@ -367,7 +367,7 @@ class PolkadotRepository extends KeyRepository {
   /// Recovers fees.
   Future<Result> removeRecovery() async {
     try {
-      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!)
+      final res = await RecoveryRepositry(_polkawalletInit!.webView!)
           .removeRecovery(address: accountService.currentAccount.address);
       return Result.value(res);
     } on Exception catch (err) {
