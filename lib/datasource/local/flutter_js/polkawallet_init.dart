@@ -24,13 +24,11 @@ class PolkawalletInit {
 
     final c = Completer();
 
-    Future<void> onInitiated() async {
-      print("ON INITIATED...");
-      c.complete();
-    }
-
     await webView.launch(
-      onInitiated,
+      () async {
+        print("ON INITIATED...");
+        c.complete();
+      },
       socketDisconnectedAction: () {
         print("WARNING: socket disconnected action invoked");
       },

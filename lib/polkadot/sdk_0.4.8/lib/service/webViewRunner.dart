@@ -58,6 +58,8 @@ class WebViewRunner {
   InAppWebViewController? get webViewController => _web?.webViewController;
 
   Future<void> launch(
+    ServiceKeyring? keyring,
+    Keyring keyringStorage,
     Function? onLaunched, {
     String? jsCode,
     Function? socketDisconnectedAction,
@@ -146,7 +148,7 @@ class WebViewRunner {
           }
 
           _handleReloaded();
-          await _startJSCode();
+          await _startJSCode(keyring, keyringStorage);
         },
       );
 
@@ -175,7 +177,7 @@ class WebViewRunner {
     webViewLoaded = true;
   }
 
-  Future<void> _startJSCode() async {
+  Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
     // inject js file to webView
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
 
