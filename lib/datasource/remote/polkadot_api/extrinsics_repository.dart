@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
+import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
 
 //! ### Recovery Life Cycle
 //!
@@ -88,7 +88,7 @@ abstract class ExtrinsicsRepository {
       address,
       "",
     );
-    final txInfo = TxInfoData('balances', 'transfer', sender);
+    final txInfo = SubstrateTransactionModel('balances', 'transfer', sender);
     try {
       final hash = await signAndSend(
         txInfo,
@@ -126,7 +126,7 @@ abstract class ExtrinsicsRepository {
   /// transaction to be processed.
   ///
   Future<Map<String, dynamic>> signAndSend(
-    TxInfoData txInfo,
+    SubstrateTransactionModel txInfo,
     List params, {
     required Function(String) onStatusChange,
   }) async {

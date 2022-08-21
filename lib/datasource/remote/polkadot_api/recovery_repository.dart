@@ -1,9 +1,8 @@
+import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
 
 class RecoveryRepositry extends ExtrinsicsRepository {
   RecoveryRepositry(super.webView);
-
 
   Future<String> createRecovery({
     required String address,
@@ -15,7 +14,7 @@ class RecoveryRepositry extends ExtrinsicsRepository {
       address,
       "",
     );
-    final txInfo = TxInfoData('recovery', 'createRecovery', sender);
+    final txInfo = SubstrateTransactionModel('recovery', 'createRecovery', sender);
 
     guardians.sort();
 
@@ -44,7 +43,7 @@ class RecoveryRepositry extends ExtrinsicsRepository {
       address,
       "",
     );
-    final txInfo = TxInfoData('recovery', 'removeRecovery', sender);
+    final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
 
     try {
       final hash = await signAndSend(
