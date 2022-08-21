@@ -35,11 +35,8 @@ class SubstrateService {
 
   WebViewRunner? get webView => _web;
 
-  Future<void> init(
-    Keyring keyringStorage, {
-    WebViewRunner? webViewParam,
+  Future<void> init({
     Function? onInitiated,
-    String? jsCode,
     Function? socketDisconnectedAction,
   }) async {
     keyring = ServiceKeyring(this);
@@ -55,8 +52,7 @@ class SubstrateService {
 
     walletConnect = ServiceWalletConnect(this);
 
-    _web = webViewParam ?? WebViewRunner();
-    await _web!.launch(keyring, keyringStorage, onInitiated,
-        jsCode: jsCode, socketDisconnectedAction: socketDisconnectedAction);
+    _web = WebViewRunner();
+    await _web!.launch(onInitiated, socketDisconnectedAction: socketDisconnectedAction);
   }
 }

@@ -34,26 +34,24 @@ class WalletSDK {
 
   /// param [jsCode] is customized js code of parachain,
   /// the api works without [jsCode] param in Kusama/Polkadot.
-  Future<void> init(
-    Keyring keyring, {
-    WebViewRunner? webView,
-    String? jsCode,
+  Future<void> init({
     Function? socketDisconnectedAction,
   }) async {
     final c = Completer();
 
     await _service.init(
-      keyring,
-      webViewParam: webView,
-      jsCode: jsCode,
       socketDisconnectedAction: socketDisconnectedAction,
-      onInitiated: () {
+      onInitiated: () async {
+        final keyring = Keyring();
+        await keyring.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
+
         // inject keyPairs after webView launched
         // we need to do this - but don't need this class for it.
-        _service.keyring.injectKeyPairsToWebView(keyring);
+        await _service.keyring.injectKeyPairsToWebView(keyring);
 
         // and initiate pubKeyIconsMap
-        api.keyring.updatePubKeyIconsMap(keyring);
+        // we don't use ucons - Nik
+        //await api.keyring.updatePubKeyIconsMap(keyring);
 
         // _updateBlackList();
 

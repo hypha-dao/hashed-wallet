@@ -36,7 +36,6 @@ class PolkawalletInit {
 
     /// init the SDK
     await walletSdk.init(
-      _keyring!,
       socketDisconnectedAction: () {
         print("WARNING: socket disconnected action invoked");
       },
