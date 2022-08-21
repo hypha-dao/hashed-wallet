@@ -1,8 +1,8 @@
 // This code extracted from the SDK
 import 'dart:convert';
 
+import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
 import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/txInfoData.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
 
 //! ### Recovery Life Cycle
 //!

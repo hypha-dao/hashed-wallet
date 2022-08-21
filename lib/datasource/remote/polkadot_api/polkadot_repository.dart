@@ -7,6 +7,8 @@ import 'package:hashed/datasource/local/flutter_js/polkawallet_init.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -48,12 +50,19 @@ class PolkadotRepository extends KeyRepository {
 
       await _polkawalletInit!.init();
 
-      state.isInitialized = true;
+      print("calling crypto ready");
 
       await _cryptoWaitReady();
+
+      print("calling init keys");
+
       await _initKeys();
+
+      state.isInitialized = true;
+
+      print("init service finished");
     } catch (err) {
-      print("Error: $err");
+      print("initService Error: $err");
       rethrow;
     }
   }
@@ -61,9 +70,15 @@ class PolkadotRepository extends KeyRepository {
   Future<bool> startService() async {
     try {
       print("PolkadotRepository start");
-      await _polkawalletInit!.init();
+
+      if (state.isInitialized == false) {
+        throw "repo not initialized";
+      }
+
       await _polkawalletInit!.connect();
       state.isConnected = true;
+
+      eventBus.fire(const OnWalletRefreshEventBus());
 
       return true;
     } catch (err) {
@@ -103,8 +118,7 @@ class PolkadotRepository extends KeyRepository {
   /// do anything else.
   /// [POLKA] Fix the JS API to export cryptoWaitReady - when we have time
   Future<void> _cryptoWaitReady() async {
-    // async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
-    final res = await _polkawalletInit?.webView?.evalJavascript('keyring.initKeys([], [])');
+    final res = await _polkawalletInit?.webView.evalJavascript('keyring.initKeys([], [])');
     print("wait ready res: $res");
   }
 
@@ -120,7 +134,7 @@ class PolkadotRepository extends KeyRepository {
   Future<String> createKey() async {
     await _checkInitialized();
 
-    final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
+    final res = await _polkawalletInit?.webView.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
     //print("create res: $res");
     final String mnemonic = res["mnemonic"];
     //print("mnemonic $mnemonic");
@@ -136,9 +150,9 @@ class PolkadotRepository extends KeyRepository {
 
       // Debug code, do not check in - checking account with known address
       // final knownAddress = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
-      // final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$knownAddress")');
+      // final resJson = await _polkawalletInit?.webView.evalJavascript('api.query.system.account("$knownAddress")');
 
-      final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
+      final resJson = await _polkawalletInit?.webView.evalJavascript('api.query.system.account("$address")');
 
       // print("result STRING $resJson");
       // flutter: result STRING: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
@@ -200,11 +214,16 @@ class PolkadotRepository extends KeyRepository {
       JSON.stringify(last_pair);
     ''';
     try {
-      final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+      final res = await _polkawalletInit?.webView.evalJavascript(code, wrapPromise: false);
       print("result importKey $res");
-      return res["address"];
+      if (res is String) {
+        final jsonRes = jsonDecode(res);
+        return jsonRes["address"];
+      } else {
+        return res["address"];
+      }
     } catch (err) {
-      print("error $err");
+      print("import key error $err");
       rethrow;
     }
   }
@@ -223,7 +242,7 @@ class PolkadotRepository extends KeyRepository {
       JSON.stringify(last_pair);
     ''';
     try {
-      final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+      final res = await _polkawalletInit?.webView.evalJavascript(code, wrapPromise: false);
       final json = jsonDecode(res);
       return json["address"];
     } catch (err) {
@@ -248,7 +267,7 @@ class PolkadotRepository extends KeyRepository {
 
   Future<Map<String, dynamic>> getKeyPair(String address) async {
     final code = 'JSON.stringify(keyring.pKeyring.getPair("$address"))';
-    final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+    final res = await _polkawalletInit?.webView.evalJavascript(code, wrapPromise: false);
     final keyPair = jsonDecode(res);
     return keyPair;
   }
@@ -266,7 +285,7 @@ class PolkadotRepository extends KeyRepository {
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     try {
-      final res = await RecoveryRepositry(_polkawalletInit!.webView!).createRecovery(
+      final res = await RecoveryRepositry(_polkawalletInit!.webView).createRecovery(
         address: accountService.currentAccount.address,
         guardians: guardians.guardianAddresses,
         threshold: guardians.threshold,
@@ -290,7 +309,7 @@ class PolkadotRepository extends KeyRepository {
     // But, make it work first -
     try {
       final code = 'api.query.recovery.recoverable("$address")';
-      final res = await _polkawalletInit?.webView?.evalJavascript(code);
+      final res = await _polkawalletInit?.webView.evalJavascript(code);
       print("getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
@@ -367,7 +386,7 @@ class PolkadotRepository extends KeyRepository {
   /// Recovers fees.
   Future<Result> removeRecovery() async {
     try {
-      final res = await RecoveryRepositry(_polkawalletInit!.webView!)
+      final res = await RecoveryRepositry(_polkawalletInit!.webView)
           .removeRecovery(address: accountService.currentAccount.address);
       return Result.value(res);
     } on Exception catch (err) {
