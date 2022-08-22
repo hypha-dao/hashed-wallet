@@ -6,9 +6,13 @@ import 'package:hashed/utils/result_extension.dart';
 class BalanceRepository extends HttpRepository {
   Future<Result<BalanceModel>> getTokenBalance(String address,
       {required String tokenId, required String symbol}) async {
-    print('[http] get seeds getTokenBalance $address for $symbol');
-    final double res = await polkadotRepository.getBalance(address);
+    print('[http] getTokenBalance $address for $symbol');
+    final double? res = await polkadotRepository.getBalance(address);
     // [POLKA] need a mapper class for this...
-    return Result(() => BalanceModel(res));
+    if (res != null) {
+      return Result.value(BalanceModel(res));
+    } else {
+      return Result.error("Unable to fetch balance");
+    }
   }
 }

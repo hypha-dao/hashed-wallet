@@ -1,59 +1,53 @@
-// _startApp
-// _startPlugin
-
 import 'dart:async';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/api/types/networkParams.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/polkawallet_sdk.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/service/webViewRunner.dart';
-import 'package:hashed/polkadot/sdk_0.4.8/lib/storage/keyring.dart';
+import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
+import 'package:hashed/datasource/local/models/substrate_chain_model.dart';
 
 /// This class packages all calls into the original Polkawallet API code
 /// It isolates our app from the original Polkawallet code.
-class PolkawalletInit {
-  Keyring? _keyring;
-  WalletSDK walletSdk = WalletSDK();
+class SubstrateService {
   final nodeList = hashedNetworkParams;
   bool _connected = false;
-  InAppWebViewController? get controller => walletSdk.webView?.webViewController;
-  WebViewRunner? get webView => walletSdk.webView;
-
+  InAppWebViewController? get controller => webView.webViewController;
+  WebViewRunner webView = WebViewRunner();
   bool get isConnected => _connected;
+  SubstrateChainModel? connectedNode;
+  bool _initialized = false;
 
   void Function(bool isConnected) connectionStateHandler;
 
-  PolkawalletInit(this.connectionStateHandler);
-
-  bool _initialized = false;
+  SubstrateService(this.connectionStateHandler);
 
   Future<void> init() async {
-    _keyring ??= Keyring();
-
     print("PolkawalletInit init");
 
-    await _keyring?.init([0, 2, 42]); // 42 - generic substrate chain, 2 - kusama, 0 - polkadot
+    final c = Completer();
 
-    /// init the SDK
-    await walletSdk.init(
-      _keyring!,
+    await webView.launch(
+      () async {
+        print("ON INITIATED...");
+        c.complete();
+      },
       socketDisconnectedAction: () {
         print("WARNING: socket disconnected action invoked");
       },
     );
 
-    print("service.plugin.start ${nodeList.map((e) => e.endpoint)}");
+    print("Substrate service initialized ${nodeList.map((e) => e.endpoint)}");
 
     _initialized = true;
+
+    return c.future;
   }
 
   Future<int?> connect() async {
     if (!_initialized) {
-      await init();
+      throw "you have to initialize the service before connecting";
     }
 
     /// Connect to a node
-    final res = await walletSdk.api.service.webView?.connectNode(nodeList);
+    final res = await webView.connectNode(nodeList);
 
     _connected = res?.endpoint != null;
     updateConnectionHandler();
@@ -62,23 +56,22 @@ class PolkawalletInit {
       return null;
     }
 
-    walletSdk.api.connectedNode = res;
-    _keyring!.ss58 = res.ss58;
+    connectedNode = res;
 
     print("connected: ${res.endpoint}");
 
     /// start up the reconnect service
     _dropsService(node: res);
 
-    return _keyring!.allAccounts.length;
+    return 0;
   }
 
   Future<void> stop() async {
     _webViewDropsTimer?.cancel();
     _dropsServiceTimer?.cancel();
     _chainTimer?.cancel();
-    await walletSdk.webView?.evalJavascript('api.disconnect()');
-    await walletSdk.webView?.dispose();
+    await webView.evalJavascript('api.disconnect()');
+    await webView.dispose();
     _initialized = false;
   }
 
@@ -87,10 +80,10 @@ class PolkawalletInit {
   Timer? _chainTimer;
   // implementation of a reconnect service.
   // with three timers.
-  void _dropsService({NetworkParams? node}) {
+  void _dropsService({SubstrateChainModel? node}) {
     // every time this is called, all timers are canceled.
     _dropsServiceCancel();
-    walletSdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
+    webView.evalJavascript('api.rpc.system.chain()').then((value) {
       print("Check 0: api.rpc.system.chain value: $value");
     });
 
@@ -118,7 +111,7 @@ class PolkawalletInit {
       });
       // TODO(n13): This is how we can just make all chain calls, and not worry about the "sdk" functions
       // ignore: unawaited_futures
-      walletSdk.webView?.evalJavascript('api.rpc.system.chain()').then((value) {
+      webView.evalJavascript('api.rpc.system.chain()').then((value) {
         print("api.rpc.system.chain value: $value");
         _dropsService(node: node);
       });
@@ -143,17 +136,15 @@ class PolkawalletInit {
     connectionStateHandler(_connected);
   }
 
-  Future<void> _restartWebConnect({NetworkParams? node}) async {
+  Future<void> _restartWebConnect({SubstrateChainModel? node}) async {
     // TODO(n13): Dispose of the web view, and create new one
     _connected = false;
     updateConnectionHandler();
 
-    final res = await walletSdk.api.connectNode(_keyring!, nodeList);
+    final res = await webView.connectNode(nodeList);
     if (res != null) {
       _connected = true;
       updateConnectionHandler();
-
-      _keyring!.ss58 = res.ss58;
 
       print("COnnected: ${res.endpoint}");
       // setState(() {
@@ -165,9 +156,12 @@ class PolkawalletInit {
   }
 }
 
-late List<NetworkParams> kusamaNetworkParams = nodeListKusama.map((e) => NetworkParams.fromJson(e)).toList();
-late List<NetworkParams> polkadotNetworkParams = nodeListPolkadot.map((e) => NetworkParams.fromJson(e)).toList();
-late List<NetworkParams> hashedNetworkParams = nodeListHashed.map((e) => NetworkParams.fromJson(e)).toList();
+late List<SubstrateChainModel> kusamaNetworkParams =
+    nodeListKusama.map((e) => SubstrateChainModel.fromJson(e)).toList();
+late List<SubstrateChainModel> polkadotNetworkParams =
+    nodeListPolkadot.map((e) => SubstrateChainModel.fromJson(e)).toList();
+late List<SubstrateChainModel> hashedNetworkParams =
+    nodeListHashed.map((e) => SubstrateChainModel.fromJson(e)).toList();
 
 const nodeListHashed = [
   {
