@@ -141,14 +141,17 @@ class PolkadotRepository extends KeyRepository {
         return Result.error("not ready");
       }
 
-      final resJson = await _substrateService?.webView.evalJavascript('api.query.identity.identityOf("$address")');
+      final resJson =
+          await _substrateService?.webView.evalJavascript('account.getAccountIndex(api, ${jsonEncode([address])})');
 
-      print("result STRING $resJson");
+      // print("result  $resJson");
+      // : result  [{accountId: 5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k, identity: {display: Nikolaus Heger, judgements: [], other: {}}}]
 
-// flutter: CONSOLE MESSAGE: {"path":"uid=381;api.query.identity.identityOf","data":{"judgements":[],"deposit":33333333000,"info":{"additional":[],"display":{"raw":"0x4e696b6f6c617573204865676572"},"legal":{"none":null},"web":{"none":null},"riot":{"none":null},"email":{"none":null},"pgpFingerprint":null,"image":{"none":null},"twitter":{"none":null}}}}
-// flutter: result STRING {judgements: [], deposit: 33333333000, info: {additional: [], display: {raw: 0x4e696b6f6c617573204865676572}, legal: {none: null}, web: {none: null}, riot: {none: null}, email: {none: null}, pgpFingerprint: null, image: {none: null}, twitter: {none: null}}}
+      final displayName = resJson[0]["identity"]["display"];
 
-      return Result.value(Account(address: address, name: "TBD to do"));
+      print("displayName $displayName");
+
+      return Result.value(Account(address: address, name: displayName));
     } catch (error) {
       print("Error getting identity $error");
       return Result.error("Error getting identity: $error");
