@@ -3,55 +3,45 @@ part of 'search_user_bloc.dart';
 class SearchUserState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final List<ProfileModel> users;
+  final Account? account;
   final bool showClearIcon;
-  final List<String>? noShowUsers;
-  final ProfileStatus? showOnlyCitizenshipStatus;
+
+  bool get hasName => account?.name != null && account!.name!.isNotEmpty;
+  String get name => account!.name!;
 
   const SearchUserState({
     required this.pageState,
     this.errorMessage,
-    required this.users,
+    this.account,
     required this.showClearIcon,
-    this.noShowUsers,
-    this.showOnlyCitizenshipStatus,
   });
 
   @override
   List<Object?> get props => [
         pageState,
         errorMessage,
-        users,
+        account,
         showClearIcon,
-        noShowUsers,
-        showOnlyCitizenshipStatus,
       ];
 
   SearchUserState copyWith({
     PageState? pageState,
     String? errorMessage,
-    List<ProfileModel>? users,
+    Account? account,
     bool? showClearIcon,
-    List<String>? noShowUsers,
-    ProfileStatus? showOnlyCitizenshipStatus,
   }) {
     return SearchUserState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
-      users: users ?? this.users,
+      account: account ?? this.account,
       showClearIcon: showClearIcon ?? this.showClearIcon,
-      noShowUsers: noShowUsers ?? this.noShowUsers,
-      showOnlyCitizenshipStatus: showOnlyCitizenshipStatus ?? this.showOnlyCitizenshipStatus,
     );
   }
 
-  factory SearchUserState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus) {
-    return SearchUserState(
+  factory SearchUserState.initial() {
+    return const SearchUserState(
       pageState: PageState.initial,
-      users: [],
       showClearIcon: false,
-      noShowUsers: noShowUsers,
-      showOnlyCitizenshipStatus: filterByCitizenshipStatus,
     );
   }
 }

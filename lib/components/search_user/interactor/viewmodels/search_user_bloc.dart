@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hashed/components/search_user/interactor/mappers/search_user_state_mapper.dart';
 import 'package:hashed/components/search_user/interactor/usecases/search_for_user_use_case.dart';
-import 'package:hashed/datasource/remote/model/profile_model.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,8 +11,7 @@ part 'search_user_state.dart';
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final int _minTextLengthBeforeValidSearch = 2;
 
-  SearchUserBloc(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus)
-      : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus)) {
+  SearchUserBloc() : super(SearchUserState.initial()) {
     on<OnSearchChange>(_onSearchChange, transformer: _transformEvents);
     on<ClearIconTapped>(_clearIconTapped);
   }
@@ -28,20 +26,24 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   Future<void> _onSearchChange(OnSearchChange event, Emitter<SearchUserState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showClearIcon: event.searchQuery.isNotEmpty));
     if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
-      final results = await SearchForMemberUseCase().run(event.searchQuery.toLowerCase());
-      emit(SearchUserStateMapper().mapResultToState(
-        currentState: state,
-        seedsMembersResult: results[0],
-        telosResult: results[1],
-        fullNameResult: results[2],
-        noShowUsers: state.noShowUsers,
-      ));
+      final result = await SearchForMemberUseCase().run(event.searchQuery);
+
+      if (result.isValue) {
+        emit(state.copyWith(
+          pageState: PageState.success,
+          account: result.asValue!.value,
+        ));
+      } else {
+        emit(state.copyWith(
+          pageState: PageState.failure,
+        ));
+      }
     } else {
       emit(state.copyWith(pageState: PageState.success));
     }
   }
 
   void _clearIconTapped(ClearIconTapped event, Emitter<SearchUserState> emit) {
-    emit(SearchUserState.initial(state.noShowUsers, state.showOnlyCitizenshipStatus));
+    emit(SearchUserState.initial());
   }
 }

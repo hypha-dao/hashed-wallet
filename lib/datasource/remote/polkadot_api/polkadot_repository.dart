@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
@@ -130,6 +131,28 @@ class PolkadotRepository extends KeyRepository {
     final String mnemonic = res["mnemonic"];
     //print("mnemonic $mnemonic");
     return mnemonic;
+  }
+
+  Future<Result<Account?>> getIdentity(String address) async {
+    try {
+      print("get identity for $address");
+      if (!isReady) {
+        print("getBalance: service not ready...");
+        return Result.error("not ready");
+      }
+
+      final resJson = await _substrateService?.webView.evalJavascript('api.query.identity.identityOf("$address")');
+
+      print("result STRING $resJson");
+
+// flutter: CONSOLE MESSAGE: {"path":"uid=381;api.query.identity.identityOf","data":{"judgements":[],"deposit":33333333000,"info":{"additional":[],"display":{"raw":"0x4e696b6f6c617573204865676572"},"legal":{"none":null},"web":{"none":null},"riot":{"none":null},"email":{"none":null},"pgpFingerprint":null,"image":{"none":null},"twitter":{"none":null}}}}
+// flutter: result STRING {judgements: [], deposit: 33333333000, info: {additional: [], display: {raw: 0x4e696b6f6c617573204865676572}, legal: {none: null}, web: {none: null}, riot: {none: null}, email: {none: null}, pgpFingerprint: null, image: {none: null}, twitter: {none: null}}}
+
+      return Result.value(Account(address: address, name: "TBD to do"));
+    } catch (error) {
+      print("Error getting identity $error");
+      return Result.error("Error getting identity: $error");
+    }
   }
 
   // api.query.system.account(steve.address)
