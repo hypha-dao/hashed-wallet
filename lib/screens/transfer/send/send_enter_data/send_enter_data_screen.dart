@@ -10,6 +10,7 @@ import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/components/search_result_row.dart';
 import 'package:hashed/components/send_loading_indicator.dart';
 import 'package:hashed/components/text_form_field_light.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/profile_model.dart';
@@ -23,6 +24,7 @@ import 'package:hashed/screens/transfer/send/send_enter_data/components/send_con
 import 'package:hashed/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 import 'package:hashed/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 import 'package:hashed/utils/build_context_extension.dart';
+import 'package:hashed/utils/short_string.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 class SendEnterDataScreen extends StatelessWidget {
@@ -30,7 +32,7 @@ class SendEnterDataScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileModel memberModel = ModalRoute.of(context)!.settings.arguments! as ProfileModel;
+    final Account memberModel = ModalRoute.of(context)!.settings.arguments! as Account;
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
       create: (_) => SendEnterDataBloc(memberModel, rates)..add(InitSendDataArguments()),
@@ -105,7 +107,8 @@ class SendEnterDataScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              SearchResultRow(member: memberModel),
+                              Text("TBD -> ${memberModel.address.shorter}"),
+                              //SearchResultRow(member: memberModel),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),

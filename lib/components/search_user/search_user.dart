@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/search_user/interactor/viewmodels/search_user_bloc.dart';
 import 'package:hashed/components/text_form_field_custom.dart';
 import 'package:hashed/datasource/local/models/account.dart';
@@ -9,8 +10,9 @@ import 'package:hashed/domain-shared/ui_constants.dart';
 
 class SearchUser extends StatelessWidget {
   final ValueSetter<Account> onUserSelected;
+  final clipboardTextController = TextEditingController();
 
-  const SearchUser({
+  SearchUser({
     super.key,
     required this.onUserSelected,
   });
@@ -25,18 +27,19 @@ class SearchUser extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
                 child: TextFormFieldCustom(
-                  // controller: clipboardText,
+                  controller: clipboardTextController,
                   maxLines: 2,
                   autofocus: true,
                   labelText: "Send to",
                   hintText: "Address",
-                  errorText: null,
+                  errorText: state.errorMessage,
                   errorMaxLines: 10,
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.paste),
                     onPressed: () async {
                       final clipboardData = await Clipboard.getData('text/plain');
                       final clipboardText = clipboardData?.text ?? '';
+                      clipboardTextController.text = clipboardText;
                       // ignore: use_build_context_synchronously
                       BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: clipboardText));
                     },
@@ -48,8 +51,16 @@ class SearchUser extends StatelessWidget {
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(state.hasName ? state.name : "NAME HERE"),
-            )
+              child: Text(state.hasName ? state.name : ""),
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                child: FlatButtonLong(
+                  title: 'Next',
+                  isLoading: state.pageState == PageState.loading,
+                  enabled: state.account != null,
+                  onPressed: () => onUserSelected(state.account!),
+                )),
           ]);
         },
       ),

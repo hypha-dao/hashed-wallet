@@ -76,13 +76,15 @@ class PolkadotRepository extends KeyRepository {
       }
 
       await _substrateService!.connect();
+
+      print("PolkadotRepository connected");
       state.isConnected = true;
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
       return true;
     } catch (err) {
-      print("Error: $err");
+      print("Polkadot Service start Error: $err");
       state.isConnected = false;
 
       rethrow;

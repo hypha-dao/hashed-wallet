@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/flat_button_long_outlined.dart';
+import 'package:hashed/design/app_dark_colors.dart';
 
 const double _padding = 20;
 const double _avatarRadius = 40;
@@ -34,9 +35,14 @@ class CustomDialog extends StatelessWidget {
   /// Default Navigator pop
   final VoidCallback? onSingleLargeButtonPressed;
 
+  final Color? iconBackground;
+
+  final Widget? topDecorationWidget;
+
   const CustomDialog({
     super.key,
     this.icon,
+    this.iconBackground,
     required this.children,
     this.leftButtonTitle = '',
     this.onLeftButtonPressed,
@@ -45,6 +51,7 @@ class CustomDialog extends StatelessWidget {
     this.singleLargeButtonTitle = '',
     this.onSingleLargeButtonPressed,
     this.iconPadding,
+    this.topDecorationWidget,
   });
 
   @override
@@ -63,7 +70,7 @@ class CustomDialog extends StatelessWidget {
                   left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
               margin: const EdgeInsets.only(top: _avatarRadius),
               decoration: BoxDecoration(
-                //color: AppColors.tagGreen3,
+                color: AppDarkColors.surfaceVariant,
                 borderRadius: BorderRadius.circular(18.0),
                 boxShadow: const [BoxShadow(offset: Offset(0, 10), blurRadius: 10)],
               ),
@@ -123,32 +130,30 @@ class CustomDialog extends StatelessWidget {
                 left: _padding,
                 right: _padding,
                 child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: _avatarRadius,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      //color: AppColors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          // color: AppColors.green1.withOpacity(0.20),
-                          offset: Offset(0.0, 1.0),
-                          blurRadius: 6.0,
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(_avatarRadius)),
+                    radius: _avatarRadius,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: iconBackground ?? Colors.transparent,
+                        boxShadow: [
+                          const BoxShadow(
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                      ),
                       child: Padding(
                         padding: EdgeInsets.all(iconPadding ?? 8.0),
                         child: icon,
                       ),
-                    ),
-                  ),
-                ),
+                    )),
               )
             else
-              const SizedBox.shrink()
+              const SizedBox.shrink(),
+            if (topDecorationWidget != null)
+              Positioned(left: 60, top: 40, child: topDecorationWidget!)
+            else
+              const SizedBox.shrink(),
           ],
         ),
       ),

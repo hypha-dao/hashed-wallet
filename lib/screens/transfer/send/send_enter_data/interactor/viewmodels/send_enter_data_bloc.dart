@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/fiat_data_model.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
-import 'package:hashed/datasource/remote/model/profile_model.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -18,8 +18,7 @@ part 'send_enter_data_event.dart';
 part 'send_enter_data_state.dart';
 
 class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
-  SendEnterDataBloc(ProfileModel memberModel, RatesState rates)
-      : super(SendEnterDataState.initial(memberModel, rates)) {
+  SendEnterDataBloc(Account account, RatesState rates) : super(SendEnterDataState.initial(account, rates)) {
     on<InitSendDataArguments>(_initSendDataArguments);
     on<OnMemoChange>((event, emit) => emit(state.copyWith(memo: event.memoChanged)));
     on<OnAmountChange>(_onAmountChange);
@@ -44,10 +43,10 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
       shouldAutoFocusEnterField: false,
       pageCommand: ShowSendConfirmDialog(
         tokenAmount: state.tokenAmount,
-        toAccount: state.sendTo.account,
+        toAccount: state.sendTo.address,
         memo: state.memo,
-        toName: state.sendTo.nickname,
-        toImage: state.sendTo.image,
+        toName: state.sendTo.name,
+        //toImage: state.sendTo.image,
         fiatAmount: state.fiatAmount,
       ),
     ));

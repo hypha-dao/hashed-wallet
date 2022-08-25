@@ -5,6 +5,7 @@ import 'package:hashed/components/profile_avatar.dart';
 import 'package:hashed/datasource/local/models/fiat_data_model.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/utils/build_context_extension.dart';
+import 'package:hashed/utils/short_string.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
   final TokenDataModel tokenAmount;
@@ -32,20 +33,20 @@ class SendConfirmationDialog extends StatelessWidget {
       icon: Stack(
         clipBehavior: Clip.none,
         children: [
-          SvgPicture.asset(
-            "assets/images/transfer/seeds_icon.svg",
-            height: 300,
-            width: 300,
+          Image(
+            image: AssetImage(tokenAmount.asset),
+            fit: BoxFit.fill,
           ),
-          Positioned(left: 12, bottom: -6, child: SvgPicture.asset("assets/images/transfer/arrow_up.svg")),
         ],
       ),
+      iconBackground: Theme.of(context).colorScheme.onSurfaceVariant,
       onRightButtonPressed: () {
         onSendButtonPressed.call();
         Navigator.of(context).pop();
       },
       leftButtonTitle: context.loc.transferSendEditButtonTitle,
       rightButtonTitle: context.loc.transferSendSendButtonTitle,
+      topDecorationWidget: SvgPicture.asset("assets/images/transfer/arrow_up.svg"),
       children: [
         const SizedBox(height: 6),
         Row(
@@ -60,15 +61,13 @@ class SendConfirmationDialog extends StatelessWidget {
         ),
         Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2),
         const SizedBox(height: 30.0),
-        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: context.loc.transferSendTo),
+        DialogRow(imageUrl: toImage, account: toAccount.shorter, name: toName, toOrFromText: ""),
         const SizedBox(height: 24.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(context.loc.transferSendNetworkFee,
-                textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
-            Text(context.loc.transferSendFreeAndInstant,
-                textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
+            Text("Network Fee", textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
+            Text("TBD", textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
           ],
         ),
         const SizedBox(height: 40.0),
@@ -76,8 +75,7 @@ class SendConfirmationDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(context.loc.transferSendMemo,
-                  textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
+              Text("Memo", textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
               const SizedBox(width: 16.0),
               Flexible(
                 child: Text(memo!,

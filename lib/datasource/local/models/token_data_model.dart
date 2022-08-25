@@ -7,6 +7,7 @@ import 'package:hashed/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
   String? id;
+  late String asset;
   TokenDataModel(double amount, {TokenModel token = hashedToken})
       : super(
           amount: amount,
@@ -14,6 +15,7 @@ class TokenDataModel extends AmountDataModel {
           precision: token.precision,
         ) {
     id = token.id;
+    asset = token.logoUrl;
   }
 
   static TokenDataModel? from(double? amount, {TokenModel token = hashedToken}) =>
