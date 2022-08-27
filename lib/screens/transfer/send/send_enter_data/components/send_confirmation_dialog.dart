@@ -4,7 +4,6 @@ import 'package:hashed/components/custom_dialog.dart';
 import 'package:hashed/components/profile_avatar.dart';
 import 'package:hashed/datasource/local/models/fiat_data_model.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
-import 'package:hashed/utils/build_context_extension.dart';
 import 'package:hashed/utils/short_string.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
@@ -44,8 +43,8 @@ class SendConfirmationDialog extends StatelessWidget {
         onSendButtonPressed.call();
         Navigator.of(context).pop();
       },
-      leftButtonTitle: context.loc.transferSendEditButtonTitle,
-      rightButtonTitle: context.loc.transferSendSendButtonTitle,
+      leftButtonTitle: 'Edit',
+      rightButtonTitle: 'Send',
       topDecorationWidget: SvgPicture.asset("assets/images/transfer/arrow_up.svg"),
       children: [
         const SizedBox(height: 6),

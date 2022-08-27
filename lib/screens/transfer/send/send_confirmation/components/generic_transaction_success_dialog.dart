@@ -28,9 +28,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(context.loc.transferTransactionSuccessHeader, style: Theme.of(context).textTheme.headline4)
-              ],
+              children: [Text("Success", style: Theme.of(context).textTheme.headline4)],
             ),
             const SizedBox(height: 30.0),
             Row(
@@ -45,7 +43,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.subtitle2),
+                Text("Transaction ID: ", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(

@@ -7,17 +7,14 @@ import 'package:hashed/components/balance_row.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
-import 'package:hashed/components/search_result_row.dart';
 import 'package:hashed/components/send_loading_indicator.dart';
 import 'package:hashed/components/text_form_field_light.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
-import 'package:hashed/datasource/remote/model/profile_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
-import 'package:hashed/screens/transfer/send/send_confirmation/components/generic_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:hashed/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
@@ -25,7 +22,6 @@ import 'package:hashed/screens/transfer/send/send_enter_data/interactor/viewmode
 import 'package:hashed/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 import 'package:hashed/utils/build_context_extension.dart';
 import 'package:hashed/utils/short_string.dart';
-import 'package:in_app_review/in_app_review.dart';
 
 class SendEnterDataScreen extends StatelessWidget {
   const SendEnterDataScreen({super.key});
@@ -62,15 +58,12 @@ class SendEnterDataScreen extends StatelessWidget {
           } else if (command is ShowTransferSuccess) {
             Navigator.of(context).pop(); // pop send
             Navigator.of(context).pop(); // pop scanner
-            if (command.shouldShowInAppReview) {
-              InAppReview.instance.requestReview();
-              settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
-            }
             SendTransactionSuccessDialog.fromPageCommand(command).show(context);
           } else if (command is ShowTransactionSuccess) {
             Navigator.of(context).pop(); // pop send
             Navigator.of(context).pop(); // pop scanner
-            GenericTransactionSuccessDialog(command.transactionModel).show(context);
+            throw UnimplementedError("generic tx not implemented");
+            //GenericTransactionSuccessDialog(command.transactionHash).show(context);
           }
         },
         child: Scaffold(

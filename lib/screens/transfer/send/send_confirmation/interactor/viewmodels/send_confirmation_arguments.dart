@@ -1,12 +1,11 @@
-import 'package:hashed/datasource/local/models/eos_transaction.dart';
-import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 
 class SendConfirmationArguments {
-  final EOSTransaction transaction;
+  final SendTransaction transaction;
   final String? callback;
 
   const SendConfirmationArguments({required this.transaction, this.callback});
 
-  factory SendConfirmationArguments.from(ScanQrCodeResultData data) =>
-      SendConfirmationArguments(transaction: data.transaction, callback: data.esr.callback);
+  // factory SendConfirmationArguments.from(ScanQrCodeResultData data) =>
+  //     SendConfirmationArguments(transaction: data.transaction, callback: data.esr.callback);
 }

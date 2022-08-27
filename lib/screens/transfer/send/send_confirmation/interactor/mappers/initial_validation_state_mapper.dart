@@ -10,16 +10,15 @@ class InitialValidationStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
       final BalanceModel balance = result.asValue!.value;
-      final eosAction = currentState.transaction.actions.first;
-      final amountRequested = (eosAction.data?['quantity'] as String).split(' ').first;
-      final hasEnoughBalance = (balance.quantity - double.parse(amountRequested)) >= 0;
+      final amountRequested = currentState.transaction.quantity.amount;
+      final hasEnoughBalance = (balance.quantity - amountRequested) >= 0;
       if (hasEnoughBalance) {
         return currentState.copyWith(pageState: PageState.success);
       } else {
-        final tokenRequested = (eosAction.data?['quantity'] as String).split(' ').last;
         return currentState.copyWith(
           pageState: PageState.success,
-          pageCommand: ShowInvalidTransactionReason('You do not have enough $tokenRequested'),
+          pageCommand:
+              ShowInvalidTransactionReason('You do not have enough ${currentState.transaction.quantity.symbol}'),
           invalidTransaction: InvalidTransaction.insufficientBalance,
         );
       }

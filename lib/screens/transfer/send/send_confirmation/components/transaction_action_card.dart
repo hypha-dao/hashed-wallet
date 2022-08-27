@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hashed/datasource/local/models/eos_action.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:hashed/utils/cap_utils.dart';
 
 class TransactionActionCard extends StatelessWidget {
-  final EOSAction action;
+  final SendTransaction action;
 
   const TransactionActionCard(this.action, {super.key});
 
@@ -23,26 +23,25 @@ class TransactionActionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(action.name?.inCaps ?? ""),
-                  Text(action.account ?? "", style: Theme.of(context).textTheme.subtitle2),
+                  Text('transfer'.inCaps),
+                  Text('balances', style: Theme.of(context).textTheme.subtitle2),
                 ],
               ),
               const Divider(),
               Column(
                 children: [
-                  if (action.data != null)
-                    for (final i in action.data!.entries)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(i.key.inCaps),
-                            const SizedBox(width: 4),
-                            Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
-                          ],
-                        ),
+                  for (final i in action.data.entries)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(i.key.inCaps),
+                          const SizedBox(width: 4),
+                          Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
+                        ],
                       ),
+                    ),
                 ],
               )
             ],
