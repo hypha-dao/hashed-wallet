@@ -7,6 +7,7 @@ import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
@@ -24,6 +25,8 @@ class PolkadotRepository extends KeyRepository {
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
+
+  BalancesRepository get balancesRepository => BalancesRepository(_substrateService!.webView);
 
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
