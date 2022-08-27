@@ -67,7 +67,7 @@ class NavigationService {
   final _appRoutes = {
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
-    Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.importKey: (_) => ImportKeyScreen(),
     Routes.createNickname: (_) => const CreateNicknameScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
