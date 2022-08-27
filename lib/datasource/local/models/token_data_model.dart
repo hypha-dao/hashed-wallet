@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/datasource/local/models/amount_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
@@ -34,6 +36,10 @@ class TokenDataModel extends AmountDataModel {
     } else {
       return asFixedString();
     }
+  }
+
+  int unitAmount() {
+    return (amount * pow(10, precision)).toInt();
   }
 
   // display formatted number and symbol, example "10.00 SEEDS", "1,234.56 SEEDS"
