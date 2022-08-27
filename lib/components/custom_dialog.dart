@@ -70,7 +70,7 @@ class CustomDialog extends StatelessWidget {
                   left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
               margin: const EdgeInsets.only(top: _avatarRadius),
               decoration: BoxDecoration(
-                color: AppDarkColors.surfaceVariant,
+                color: Theme.of(context).colorScheme.surfaceVariant,
                 borderRadius: BorderRadius.circular(18.0),
                 boxShadow: const [BoxShadow(offset: Offset(0, 10), blurRadius: 10)],
               ),
