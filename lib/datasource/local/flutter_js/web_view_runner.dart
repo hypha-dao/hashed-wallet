@@ -91,15 +91,8 @@ class WebViewRunner {
           print('HeadlessInAppWebView created!');
         },
         onConsoleMessage: (controller, message) {
-          if (message.message.contains("API-WS: disconnected from")) {
-            return;
-          }
-          if (message.message.contains("mnemonic")) {
-            print("mnemonic console message hidden");
-          } else {
-            if (kDebugMode) {
-              print("CONSOLE MESSAGE: ${message.message}");
-            }
+          if (kDebugMode) {
+            print("CONSOLE MESSAGE: ${message.message}");
           }
           if (jsCodeStarted < 0) {
             if (message.message.contains('js loaded')) {

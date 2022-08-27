@@ -11,7 +11,9 @@ import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
 
 class ImportKeyScreen extends StatelessWidget {
-  const ImportKeyScreen({super.key});
+  final textController = TextEditingController();
+
+  ImportKeyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +50,8 @@ class ImportKeyScreen extends StatelessWidget {
                                   previous.error != current.error;
                             },
                             builder: (context, state) {
-                              final clipboardText = TextEditingController(text: state.mnemonicPhrase);
-                              clipboardText.selection =
-                                  TextSelection.fromPosition(TextPosition(offset: clipboardText.text.length));
                               return TextFormFieldCustom(
-                                controller: clipboardText,
+                                controller: textController,
                                 maxLines: 2,
                                 autofocus: true,
                                 labelText: "Your Secret Words",
@@ -64,9 +63,12 @@ class ImportKeyScreen extends StatelessWidget {
                                   onPressed: () async {
                                     final clipboardData = await Clipboard.getData('text/plain');
                                     final clipboardText = clipboardData?.text ?? '';
+                                    final newText =
+                                        textController.value.replaced(textController.selection, clipboardText).text;
+                                    textController.text = newText;
                                     // ignore: use_build_context_synchronously
                                     BlocProvider.of<ImportKeyBloc>(context)
-                                        .add(OnMnemonicPhraseChange(newMnemonicPhrase: clipboardText));
+                                        .add(OnMnemonicPhraseChange(newMnemonicPhrase: newText));
                                   },
                                 ),
                                 onChanged: (value) {
