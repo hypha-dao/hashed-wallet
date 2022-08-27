@@ -23,7 +23,7 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
     if (event.userName.length == 12) {
       emit(state.copyWith(pageState: PageState.loading));
       final userInfo = Result.value("value");
-      final result = await FetchAccountRecoveryUseCase().run(event.userName.toLowerCase());
+      final result = await FetchAccountRecoveryUseCase().run(event.userName);
       emit(FetchAccountGuardiansStateMapper().mapResultToState(state, result));
       emit(FetchAccountInfoStateMapper().mapResultToState(state, userInfo, event.userName));
     } else {

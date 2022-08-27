@@ -1,30 +1,24 @@
 import 'package:hashed/datasource/local/models/fiat_data_model.dart';
-import 'package:hashed/datasource/remote/model/generic_transaction_model.dart';
-import 'package:hashed/datasource/remote/model/profile_model.dart';
-import 'package:hashed/datasource/remote/model/transaction_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 
 abstract class TransactionPageCommand extends PageCommand {}
 
 class ShowTransactionSuccess extends TransactionPageCommand {
-  final GenericTransactionModel transactionModel;
+  final String transactionHash;
 
-  ShowTransactionSuccess(this.transactionModel);
+  ShowTransactionSuccess(this.transactionHash);
 }
 
 class ShowTransferSuccess extends TransactionPageCommand {
-  final TransactionModel transactionModel;
-  ProfileModel? from;
-  ProfileModel? to;
+  final SendTransaction tokenDataModel;
+  final String transactionHash;
   FiatDataModel? fiatAmount;
-  final bool shouldShowInAppReview;
 
   ShowTransferSuccess({
-    required this.transactionModel,
-    this.from,
-    this.to,
+    required this.tokenDataModel,
+    required this.transactionHash,
     this.fiatAmount,
-    required this.shouldShowInAppReview,
   });
 }
 

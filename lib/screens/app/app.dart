@@ -16,7 +16,6 @@ import 'package:hashed/screens/app/components/guardian_approve_or_deny_recovery_
 import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_screen_item.dart';
-import 'package:hashed/screens/app/interactor/viewmodels/connection_notifier.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
 import 'package:hashed/screens/wallet/wallet_screen.dart';
 
@@ -46,13 +45,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   ];
   final PageController _pageController = PageController();
   late AppBloc _appBloc;
-  late ConnectionNotifier _connectionNotifier;
 
   @override
   void initState() {
     super.initState();
     _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context))..add(const OnAppMounted());
-    _connectionNotifier = ConnectionNotifier()..discoverEndpoints();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance.addObserver(this);
   }
@@ -65,7 +62,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.resumed:
-        _connectionNotifier.discoverEndpoints();
         BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
         break;
       case AppLifecycleState.detached:

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/datasource/local/models/amount_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
@@ -7,6 +9,7 @@ import 'package:hashed/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
   String? id;
+  late String asset;
   TokenDataModel(double amount, {TokenModel token = hashedToken})
       : super(
           amount: amount,
@@ -14,6 +17,7 @@ class TokenDataModel extends AmountDataModel {
           precision: token.precision,
         ) {
     id = token.id;
+    asset = token.logoUrl;
   }
 
   static TokenDataModel? from(double? amount, {TokenModel token = hashedToken}) =>
@@ -32,6 +36,10 @@ class TokenDataModel extends AmountDataModel {
     } else {
       return asFixedString();
     }
+  }
+
+  int unitAmount() {
+    return (amount * pow(10, precision)).toInt();
   }
 
   // display formatted number and symbol, example "10.00 SEEDS", "1,234.56 SEEDS"

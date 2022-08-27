@@ -79,34 +79,6 @@ abstract class ExtrinsicsRepository {
 
   ExtrinsicsRepository(this._webView);
 
-  Future<void> sendTransfer({
-    required String address,
-    required String to,
-    required String amount,
-  }) async {
-    final sender = TxSenderData(
-      address,
-      "",
-    );
-    final txInfo = SubstrateTransactionModel('balances', 'transfer', sender);
-    try {
-      final hash = await signAndSend(
-        txInfo,
-        [
-          to,
-          amount,
-        ],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
-      print('sendTx ${hash.toString()}');
-    } catch (err) {
-      print('sendTransfer ERROR $err');
-      rethrow;
-    }
-  }
-
   /// Sign and send a transaction
   /// [txInfo] and [params] define the transaction details
   /// [onStatusChange] is a callback when tx status change.

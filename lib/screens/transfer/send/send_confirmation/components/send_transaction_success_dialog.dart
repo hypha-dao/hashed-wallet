@@ -9,6 +9,7 @@ import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:hashed/utils/build_context_extension.dart';
 import 'package:hashed/utils/double_extension.dart';
+import 'package:hashed/utils/short_string.dart';
 import 'package:intl/intl.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
@@ -39,16 +40,16 @@ class SendTransactionSuccessDialog extends StatelessWidget {
 
   factory SendTransactionSuccessDialog.fromPageCommand(ShowTransferSuccess pageCommand) {
     return SendTransactionSuccessDialog(
-      amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
-      tokenSymbol: pageCommand.transactionModel.symbol,
+      amount: pageCommand.tokenDataModel.quantity.amount.seedsFormatted,
+      tokenSymbol: pageCommand.tokenDataModel.quantity.symbol,
       fiatAmount: pageCommand.fiatAmount,
-      fromAccount: pageCommand.transactionModel.from,
-      fromImage: pageCommand.from?.image ?? "",
-      fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,
-      toAccount: pageCommand.transactionModel.to,
-      toImage: pageCommand.to?.image ?? "",
-      toName: pageCommand.to?.nickname ?? pageCommand.transactionModel.to,
-      transactionID: pageCommand.transactionModel.transactionId ?? "",
+      fromAccount: pageCommand.tokenDataModel.from.address,
+      fromImage: "",
+      fromName: pageCommand.tokenDataModel.from.name,
+      toAccount: pageCommand.tokenDataModel.to.address,
+      toImage: "",
+      toName: pageCommand.tokenDataModel.to.name,
+      transactionID: pageCommand.transactionHash,
     );
   }
 
@@ -62,7 +63,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
+          singleLargeButtonTitle: "Close",
           children: [
             const SizedBox(height: 6),
             Row(
@@ -79,15 +80,9 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             const SizedBox(height: 30.0),
             DialogRow(
                 imageUrl: toImage,
-                account: toAccount,
+                account: toAccount.shorter,
                 name: toName,
                 toOrFromText: context.loc.transferTransactionSuccessTo),
-            const SizedBox(height: 30.0),
-            DialogRow(
-                imageUrl: fromImage,
-                account: fromAccount,
-                name: fromName,
-                toOrFromText: context.loc.transferTransactionSuccessFrom),
             const SizedBox(height: 30.0),
             Row(
               children: [
@@ -101,7 +96,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.subtitle2),
+                Text("Transaction ID: ", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(

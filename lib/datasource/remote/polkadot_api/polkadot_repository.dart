@@ -4,8 +4,11 @@ import 'dart:math';
 
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
@@ -23,6 +26,8 @@ class PolkadotRepository extends KeyRepository {
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
+
+  BalancesRepository get balancesRepository => BalancesRepository(_substrateService!.webView);
 
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
@@ -75,13 +80,15 @@ class PolkadotRepository extends KeyRepository {
       }
 
       await _substrateService!.connect();
+
+      print("PolkadotRepository connected");
       state.isConnected = true;
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
       return true;
     } catch (err) {
-      print("Error: $err");
+      print("Polkadot Service start Error: $err");
       state.isConnected = false;
 
       rethrow;
@@ -132,35 +139,54 @@ class PolkadotRepository extends KeyRepository {
     return mnemonic;
   }
 
+  Future<Result<Account?>> getIdentity(String address) async {
+    try {
+      print("get identity for $address");
+      if (!isReady) {
+        print("getBalance: service not ready...");
+        return Result.error("not ready");
+      }
+
+      final resJson =
+          await _substrateService?.webView.evalJavascript('account.getAccountIndex(api, ${jsonEncode([address])})');
+
+      // print("result  $resJson");
+      // : result  [{accountId: 5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k, identity: {display: Nikolaus Heger, judgements: [], other: {}}}]
+
+      final displayName = resJson[0]["identity"]["display"];
+
+      print("displayName $displayName");
+
+      return Result.value(Account(address: address, name: displayName));
+    } catch (error) {
+      print("Error getting identity $error");
+      return Result.error("Error getting identity: $error");
+    }
+  }
+
   // api.query.system.account(steve.address)
-  Future<double?> getBalance(String address) async {
+  Future<Result<BalanceModel>> getBalance(String address) async {
     try {
       print("get balance for $address");
       if (!isReady) {
         print("getBalance: service not ready...");
-        return null;
+        return Result.error("Not ready");
       }
 
       final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
       // print("result STRING $resJson");
       // flutter: result STRING: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
-
-      /// this value is an int if it's small enough.
-      /// Not sure what will happen if the number is too big but one would assume it
-      /// would then get sent as a string. So we always convert it to a string.
       final free = resJson["data"]["free"];
       final freeString = "$free";
       final bigNum = BigInt.parse(freeString);
       final double result = bigNum.toDouble() / pow(10, hashedToken.precision);
 
-      //print("free type: ${free.runtimeType} ==> $bigNum ==> $result");
-
-      return result;
+      return Result.value(BalanceModel(result));
     } catch (error) {
       print("Error getting balance $error");
       print(error);
-      rethrow;
+      return Result.error(error);
     }
   }
 
