@@ -8,7 +8,7 @@ import 'package:hashed/screens/authentication/create_nickname/create_nickname_sc
 import 'package:hashed/screens/authentication/import_key/import_key_screen.dart';
 import 'package:hashed/screens/authentication/login_screen.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
-import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_search_screen.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:hashed/screens/authentication/sign_up/signup_screen.dart';
 import 'package:hashed/screens/authentication/splash_screen.dart';
 import 'package:hashed/screens/authentication/verification/verification_screen.dart';
@@ -71,7 +71,7 @@ class NavigationService {
     Routes.createNickname: (_) => const CreateNicknameScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
-    Routes.recoverAccountSearch: (_) => const RecoverAccountSearchScreen(),
+    Routes.recoverAccountSearch: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
     Routes.signup: (_) => const SignupScreen(),
     Routes.app: (_) => const App(),
