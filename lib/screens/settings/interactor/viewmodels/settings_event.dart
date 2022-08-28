@@ -58,12 +58,6 @@ class OnBiometricPressed extends SettingsEvent {
   String toString() => 'OnBiometricPressed';
 }
 
-class ResetNavigateToVerification extends SettingsEvent {
-  const ResetNavigateToVerification();
-  @override
-  String toString() => 'ResetNavigateToVerification';
-}
-
 class OnValidVerification extends SettingsEvent {
   const OnValidVerification();
   @override

@@ -35,7 +35,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         (event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(Routes.exportPrivateKey))));
     on<OnPasscodePressed>(_onPasscodePressed);
     on<OnBiometricPressed>(_onBiometricPressed);
-    on<ResetNavigateToVerification>((_, emit) => emit(state.copyWith()));
     on<OnValidVerification>(_onValidVerification);
     on<OnLogoutButtonPressed>(_onLogoutButtonPressed);
     on<ClearSettingsPageCommand>((_, emit) => emit(state.copyWith()));
@@ -66,23 +65,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (state.hasNotification) {
       await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(accountService.currentAccount.address);
     }
-    emit(state.copyWith(navigateToGuardians: true));
+    emit(state.copyWith(pageCommand: NavigateToRoute(Routes.guardianTabs)));
   }
 
   Future<void> _onRecoverAccountTapped(OnRecoverAccountTapped event, Emitter<SettingsState> emit) async {
-    emit(state.copyWith()); //reset
-    emit(state.copyWith(navigateToRecoverAccount: true));
+    emit(state.copyWith(pageCommand: NavigateToRoute(Routes.recoverAccountSearch)));
   }
 
   void _onPasscodePressed(OnPasscodePressed event, Emitter<SettingsState> emit) {
-    emit(state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.passcodeCard));
+    emit(state.copyWith(pageCommand: NavigateToVerification(), currentChoice: CurrentChoice.passcodeCard));
   }
 
   void _onBiometricPressed(OnBiometricPressed event, Emitter<SettingsState> emit) {
     if (state.isSecureBiometric!) {
-      emit(state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.biometricCard));
+      emit(state.copyWith(pageCommand: NavigateToVerification(), currentChoice: CurrentChoice.biometricCard));
     } else {
-      emit(state.copyWith(isSecureBiometric: true));
+      emit(state.copyWith(pageCommand: ShowBiometricDialog(), isSecureBiometric: true));
       _authenticationBloc.add(const EnableBiometric());
     }
   }
