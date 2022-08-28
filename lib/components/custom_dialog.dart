@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/flat_button_long_outlined.dart';
-import 'package:hashed/design/app_dark_colors.dart';
 
 const double _padding = 20;
 const double _avatarRadius = 40;

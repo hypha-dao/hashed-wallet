@@ -34,12 +34,17 @@ class PolkadotRepository extends KeyRepository {
   void handleConnectState(bool isConnected) {
     print("PolkadotRepository connection state ${isConnected ? 'Connected' : 'Disconnected'}");
     state.isConnected = isConnected;
+    eventBus.fire(OnConnectionStateEventBus(isConnected));
+    if (!isConnected) {
+      print("disconnected - reconnecting...");
+      reconnect();
+    }
   }
 
   bool initialized = false;
-  Future<void> initService() async {
+  Future<void> initService({bool force = false}) async {
     try {
-      if (initialized) {
+      if (initialized && !force) {
         print("ignore second init");
         //print(StackTrace.current);
         // Note:
@@ -96,12 +101,20 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<bool> stopService() async {
-    await _substrateService?.stop();
+    try {
+      await _substrateService?.stop();
+    } catch (error) {
+      print("ignoring substrate service stop error $error");
+    }
     _substrateService = null;
     state.isInitialized = false;
     state.isConnected = false;
 
     return true;
+  }
+
+  Future<void> disconnect() async {
+    await _substrateService!.webView.evalJavascript('api.disconnect()');
   }
 
   bool get isReady => state.isConnected == true;
@@ -137,6 +150,24 @@ class PolkadotRepository extends KeyRepository {
     final String mnemonic = res["mnemonic"];
     //print("mnemonic $mnemonic");
     return mnemonic;
+  }
+
+  bool isReconnecting = false;
+
+  void reconnect() {
+    if (isReconnecting) {
+      return;
+    }
+    isReconnecting = true;
+    _substrateService?.stop();
+    polkadotRepository.initService(force: true).then((value) {
+      polkadotRepository
+          .startService()
+          .then((value) => isReconnecting = false)
+          .onError((error, stackTrace) => isReconnecting = false);
+    }).catchError((err) {
+      isReconnecting = false;
+    });
   }
 
   Future<Result<Account?>> getIdentity(String address) async {

@@ -29,9 +29,9 @@ class SubstrateService {
         print("ON INITIATED...");
         c.complete();
       },
-      socketDisconnectedAction: () {
-        print("WARNING: socket disconnected action invoked");
-      },
+      // socketDisconnectedAction: () {
+      //   print("WARNING: socket disconnected action invoked");
+      // },
     );
 
     print("Substrate service initialized ${nodeList.map((e) => e.endpoint)}");
@@ -70,7 +70,12 @@ class SubstrateService {
     _webViewDropsTimer?.cancel();
     _dropsServiceTimer?.cancel();
     _chainTimer?.cancel();
-    await webView.evalJavascript('api.disconnect()');
+    try {
+      // ignore: unawaited_futures
+      webView.evalJavascript('api.disconnect()');
+    } catch (error) {
+      print("api stop fail $error");
+    }
     await webView.dispose();
     _initialized = false;
   }
@@ -103,7 +108,8 @@ class SubstrateService {
         // Note: I am pretty sure this code has bugs and race conditions.
 
         print("Connection dropped, restarting");
-        unawaited(_restartWebConnect(node: node));
+        _connected = false;
+        updateConnectionHandler();
 
         _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
           _dropsService(node: node);
@@ -134,25 +140,6 @@ class SubstrateService {
 
   void updateConnectionHandler() {
     connectionStateHandler(_connected);
-  }
-
-  Future<void> _restartWebConnect({SubstrateChainModel? node}) async {
-    // TODO(n13): Dispose of the web view, and create new one
-    _connected = false;
-    updateConnectionHandler();
-
-    final res = await webView.connectNode(nodeList);
-    if (res != null) {
-      _connected = true;
-      updateConnectionHandler();
-
-      print("COnnected: ${res.endpoint}");
-      // setState(() {
-      //   _connectedNode = connected;
-      // });
-
-      _dropsService(node: node);
-    }
   }
 }
 
