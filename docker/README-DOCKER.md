@@ -8,5 +8,5 @@ docker build -t flutterdocker .
 
 ## Run tests again
 ```
-docker build --no-cache -t flutterdocker .
+docker build --progress=plain -t flutterdocker .
 ```

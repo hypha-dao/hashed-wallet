@@ -90,7 +90,7 @@ _Note: Older versions of Docker fail to install Ubuntu 20.04_
 
 ```
 cd docker
-docker build -t flutterdocker .
+docker build --progress=plain -t flutterdocker .
 ```
 
 Note: The docker build also runs the unit tests, and fails if the unit tests fail.
