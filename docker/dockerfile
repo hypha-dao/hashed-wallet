@@ -31,6 +31,5 @@ From builder as test
 # This line invalidates the cache if there are new commits - so the tests will run again
 ADD "https://api.github.com/repos/hypha-dao/hashed-wallet/commits?per_page=1" latest_commit
 RUN git clone https://github.com/hypha-dao/hashed-wallet.git
-RUN cd hashed-wallet && flutter test
-
+RUN cd hashed-wallet && flutter test -r expanded
 
