@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/wallet/components/transaction_details_bottom_sheet.dart';
 import 'package:hashed/screens/wallet/components/transactions_list/components/transaction_info_row.dart';
@@ -32,7 +31,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
           child: Row(children: [
             Expanded(
                 child: Text(
-              testnetMode ? 'Transactions TESTNET' : context.loc.walletTransactionHistory,
+              context.loc.walletTransactionHistory,
             )),
           ]),
         ),

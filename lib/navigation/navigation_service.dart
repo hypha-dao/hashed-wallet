@@ -24,7 +24,6 @@ import 'package:hashed/screens/transfer/receive/receive_selection/receive_screen
 import 'package:hashed/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:hashed/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
-import 'package:hashed/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:hashed/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
 /// Add only current routes in the app and that are used by [NavigationService]
@@ -42,28 +41,19 @@ class Routes {
   static const recoverAccountFound = 'recoverAccountFound';
   static const transfer = 'transfer';
   static const sendEnterData = 'sendEnterData';
-  static const delegate = 'delegate';
-  static const delegateAUser = 'delegateAUser';
+
   static const createInvite = 'createInvite';
-  static const flag = 'flag';
-  static const flagUser = 'flagUser';
-  static const vote = 'vote';
-  static const proposalDetails = 'proposalDetails';
-  static const plantSeeds = 'plantSeeds';
-  static const vouch = 'vouch';
-  static const vouchForAMember = 'vouchForAMember';
-  static const unPlantSeeds = 'unPlantSeeds';
+
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
-  static const scanQRCode = 'scanQRCode';
-  static const swapSeeds = 'swapSeeds';
+
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
   static const guardianTabs = 'guardianTabs';
-  static const manageInvites = 'manageInvites';
+
   static const support = 'support';
   static const security = 'security';
   static const editName = 'editName';
@@ -77,7 +67,7 @@ class NavigationService {
   final _appRoutes = {
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
-    Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.importKey: (_) => ImportKeyScreen(),
     Routes.createNickname: (_) => const CreateNicknameScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
@@ -89,7 +79,6 @@ class NavigationService {
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
-    Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreenV3(),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hashed/design/app_color_schemes.dart';
 
 class HashedElevatedButtonTheme {
-  static ElevatedButtonThemeData get elevatedButtonThemeData {
+  static ElevatedButtonThemeData get elevatedButtonThemeDataDark {
     return ElevatedButtonThemeData(
-        style: ButtonStyle(
-      elevation: MaterialStateProperty.all<double>(0.0),
-      padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(16)),
+        style: ElevatedButton.styleFrom(
+      primary: AppColorSchemes.darkColorScheme.secondaryContainer, // secondary container pops more - looks active
+      onPrimary: AppColorSchemes.darkColorScheme.onSecondaryContainer,
+      elevation: 0.0,
+      padding: const EdgeInsets.all(16),
     ));
   }
 }

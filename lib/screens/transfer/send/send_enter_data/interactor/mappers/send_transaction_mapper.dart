@@ -1,36 +1,28 @@
-import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
-import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:hashed/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 
 class SendTransactionMapper extends StateMapper {
-  SendEnterDataState mapResultToState(SendEnterDataState currentState, Result result, bool shouldShowInAppReview) {
+  SendEnterDataState mapResultToState(SendEnterDataState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
-      final resultResponse = result.asValue!.value as SendTransactionResponse;
+      final resultResponse = result.asValue!.value as String;
 
-      final int currentDate = DateTime.now().millisecondsSinceEpoch;
-      bool _shouldShowInAppReview = shouldShowInAppReview;
-
-      if (settingsStorage.dateSinceRateAppPrompted != null && _shouldShowInAppReview) {
-        final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
-        final dateUntilAppRateCanAsk = settingsStorage.dateSinceRateAppPrompted! + millisecondsPerMoth;
-        _shouldShowInAppReview = currentDate > dateUntilAppRateCanAsk;
-      }
+      final transaction = SendTransaction(accountService.currentAccount, currentState.sendTo, currentState.tokenAmount);
 
       final pageCommand = SendTransactionStateMapper.transactionResultPageCommand(
+        transaction,
         resultResponse,
         currentState.ratesState,
-        _shouldShowInAppReview,
       );
-      if (resultResponse.isTransfer) {
-        eventBus.fire(OnNewTransactionEventBus(resultResponse.transferTransactionModel));
-      }
+      eventBus.fire(OnNewTransactionEventBus(transaction));
+
       return currentState.copyWith(pageState: PageState.success, pageCommand: pageCommand);
     }
   }

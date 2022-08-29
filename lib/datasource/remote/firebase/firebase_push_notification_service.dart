@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:hashed/datasource/remote/model/firebase_models/push_notification_data.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -101,7 +100,7 @@ class PushNotificationService {
 
     // If remote config changed, set them to stale. And fetch new config
     if (data.isRefreshConfig) {
-      remoteConfigurations.refresh();
+      // remoteConfigurations.refresh();
     } else if (data.notificationType != null) {
       switch (data.notificationType) {
         case NotificationTypes.paymentReceived:

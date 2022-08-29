@@ -1,15 +1,28 @@
 part of 'send_confirmation_bloc.dart';
 
+class SendTransaction {
+  final Account from;
+  final Account to;
+  final TokenDataModel quantity;
+
+  Map<String, dynamic> get data => {
+        "to": to,
+        "amount": quantity,
+      };
+
+  SendTransaction(this.from, this.to, this.quantity);
+}
+
 class SendConfirmationState extends Equatable {
   final PageState pageState;
   final TransactionPageCommand? pageCommand;
   final String? errorMessage;
-  final EOSTransaction transaction;
+  final SendTransaction transaction;
   final String? callback;
   final TransactionResult transactionResult;
   final InvalidTransaction invalidTransaction;
 
-  bool get isTransfer => transaction.isTransfer;
+  bool get isTransfer => true;
 
   const SendConfirmationState({
     required this.pageState,
@@ -35,7 +48,7 @@ class SendConfirmationState extends Equatable {
     PageState? pageState,
     TransactionPageCommand? pageCommand,
     String? errorMessage,
-    EOSTransaction? transaction,
+    SendTransaction? transaction,
     String? callback,
     TransactionResult? transactionResult,
     InvalidTransaction? invalidTransaction,

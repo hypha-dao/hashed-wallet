@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hashed/datasource/local/models/eos_action.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
+import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:hashed/utils/build_context_extension.dart';
 
 class TransactionActionsScreen extends StatelessWidget {
@@ -9,7 +9,7 @@ class TransactionActionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actions = ModalRoute.of(context)?.settings.arguments as List<EOSAction>?;
+    final actions = ModalRoute.of(context)?.settings.arguments as List<SendTransaction>?;
     return Scaffold(
       appBar: AppBar(title: Text(context.loc.transferTransactionActionsTitle)),
       body: SafeArea(

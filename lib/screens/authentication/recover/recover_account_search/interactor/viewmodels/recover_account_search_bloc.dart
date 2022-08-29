@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/remote/model/profile_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/mappers/fetch_account_guardians_state_mapper.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/mappers/fetch_account_info_state_mapper.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/usecases/fetch_account_guardians_use_case.dart';
-import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/usecases/fetch_account_info_use_case.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
 
@@ -22,8 +22,8 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
   Future<void> _onUsernameChanged(OnUsernameChanged event, Emitter<RecoverAccountSearchState> emit) async {
     if (event.userName.length == 12) {
       emit(state.copyWith(pageState: PageState.loading));
-      final userInfo = await FetchAccountInfoUseCase().run(event.userName.toLowerCase());
-      final result = await FetchAccountRecoveryUseCase().run(event.userName.toLowerCase());
+      final userInfo = Result.value("value");
+      final result = await FetchAccountRecoveryUseCase().run(event.userName);
       emit(FetchAccountGuardiansStateMapper().mapResultToState(state, result));
       emit(FetchAccountInfoStateMapper().mapResultToState(state, userInfo, event.userName));
     } else {

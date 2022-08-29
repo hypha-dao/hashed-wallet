@@ -10,13 +10,11 @@ import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_re
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
-import 'package:hashed/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/settings/interactor/viewmodels/page_commands.dart';
 import 'package:share/share.dart';
 
 part 'settings_event.dart';
-
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -24,8 +22,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   late StreamSubscription<bool> _hasGuardianNotificationPending;
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
-  SettingsBloc(this._authenticationBloc)
-      : super(SettingsState.initial(ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase())) {
+  SettingsBloc(this._authenticationBloc) : super(SettingsState.initial(false)) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
@@ -33,6 +30,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SetUpInitialValues>(_setUpInitialValues);
     on<ShouldShowNotificationBadge>((event, emit) => emit(state.copyWith(hasNotification: event.value)));
     on<OnGuardiansCardTapped>(_onGuardiansCardTapped);
+    on<OnRecoverAccountTapped>(_onRecoverAccountTapped);
     on<OnExportPrivateKeyCardTapped>(
         (event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(Routes.exportPrivateKey))));
     on<OnPasscodePressed>(_onPasscodePressed);
@@ -69,6 +67,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(accountService.currentAccount.address);
     }
     emit(state.copyWith(navigateToGuardians: true));
+  }
+
+  Future<void> _onRecoverAccountTapped(OnRecoverAccountTapped event, Emitter<SettingsState> emit) async {
+    emit(state.copyWith()); //reset
+    emit(state.copyWith(navigateToRecoverAccount: true));
   }
 
   void _onPasscodePressed(OnPasscodePressed event, Emitter<SettingsState> emit) {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
-import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:hashed/utils/short_string.dart';
 
 class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
   const WalletAppBar({super.key});
@@ -17,30 +19,34 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         return AppBar(
-          //ignore: avoid_redundant_argument_values
-          backgroundColor: testnetMode ? Colors.yellow.withOpacity(0.1) : null,
+          leadingWidth: 60,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Image.asset('assets/images/appbar/hashed_logo.png'),
+          ),
+          title: InkWell(
+            onTap: () => _copyToClipboard(accountService.currentAccount.address),
+            child: Row(
+              children: [
+                Text(accountService.currentAccount.address.shorter),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Icon(Icons.copy_all_rounded),
+              ],
+            ),
+          ),
           actions: [
             const SizedBox(width: horizontalEdgePadding + 36),
-            if (testnetMode)
-              const Expanded(
-                  child: Center(
-                child: Text(
-                  "Testnet Mode",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 24),
-                  textAlign: TextAlign.center,
-                ),
-              ))
-            else
-              Expanded(child: Image.asset('assets/images/appbar/hashed_logo.png', fit: BoxFit.fitHeight)),
-            IconButton(
-              splashRadius: 26,
-              icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg', height: 36),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
-            ),
             const SizedBox(width: horizontalEdgePadding),
           ],
         );
       },
     );
+  }
+
+  Future<void> _copyToClipboard(String words) async {
+    await Clipboard.setData(ClipboardData(text: words));
+    eventBus.fire(const ShowSnackBar.success('Copied Account Address'));
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
 import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 import 'package:hashed/screens/wallet/components/wallet_buttons.dart';
@@ -68,12 +69,11 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                          child: WalletButtons(
-                              onPressed: () {
-                                print("testSendRecovery disabled...");
-                                //olkadotRepository.testCreateRecovery();
-                              },
-                              title: 'Send')),
+                        child: WalletButtons(
+                          onPressed: () => NavigationService.of(context).navigateTo(Routes.transfer),
+                          title: 'Send',
+                        ),
+                      ),
                       const SizedBox(width: 16),
                       // ignore: prefer_const_constructors
                       Expanded(

@@ -7,8 +7,6 @@ import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
-import 'package:hashed/domain-shared/shared_use_cases/load_transactions_use_case.dart';
-import 'package:hashed/screens/wallet/components/transactions_list/interactor/mappers/transactions_state_mapper.dart';
 import 'package:hashed/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
 
 part 'transactions_list_event.dart';
@@ -39,11 +37,7 @@ class TransactionsListBloc extends Bloc<TransactionsListEvent, TransactionsListS
     return super.close();
   }
 
-  Future<void> _onLoadTransactionsList(OnLoadTransactionsList event, Emitter<TransactionsListState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
-    final result = await LoadTransactionsUseCase().run();
-    emit(TransactionsListStateMapper().mapResultToState(state, result));
-  }
+  Future<void> _onLoadTransactionsList(OnLoadTransactionsList event, Emitter<TransactionsListState> emit) async {}
 
   void _onTransactionRowTapped(OnTransactionRowTapped event, Emitter<TransactionsListState> emit) {
     emit(state.copyWith(pageCommand: ShowTransactionDetails(event.transaction)));

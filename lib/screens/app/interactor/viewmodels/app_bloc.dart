@@ -12,7 +12,6 @@ import 'package:hashed/screens/app/interactor/mappers/stop_guardian_recovery_sta
 import 'package:hashed/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
 import 'package:hashed/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
-import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -126,7 +125,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onSigningRequest(OnSigningRequest event, Emitter<AppState> emit) {
-    final args = SendConfirmationArguments.from(event.esr);
-    emit(state.copyWith(pageCommand: NavigateToSendConfirmation(args)));
+    throw UnimplementedError("not implemented");
+    // final args = SendConfirmationArguments.from(event.esr);
+    // emit(state.copyWith(pageCommand: NavigateToSendConfirmation(args)));
   }
 }

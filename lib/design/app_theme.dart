@@ -12,7 +12,7 @@ class SeedsAppTheme {
       useMaterial3: true,
       colorScheme: AppColorSchemes.darkColorScheme,
       canvasColor: AppColorSchemes.darkColorScheme.surfaceVariant,
-      elevatedButtonTheme: HashedElevatedButtonTheme.elevatedButtonThemeData,
+      elevatedButtonTheme: HashedElevatedButtonTheme.elevatedButtonThemeDataDark,
       appBarTheme: HashedAppBarTheme.appBarDarkThemeData,
       cardTheme: HashedCardTheme.appCardThemeData,
       textTheme: GoogleFonts.sourceSansProTextTheme(ThemeData.dark().textTheme),

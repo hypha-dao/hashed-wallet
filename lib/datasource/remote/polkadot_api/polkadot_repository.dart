@@ -3,10 +3,15 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/local/flutter_js/polkawallet_init.dart';
+import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
+import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
-import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
+import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
+import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -17,10 +22,12 @@ class PolkadotRepositoryState {
 }
 
 class PolkadotRepository extends KeyRepository {
-  late PolkawalletInit? _polkawalletInit;
+  late SubstrateService? _substrateService;
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
+
+  BalancesRepository get balancesRepository => BalancesRepository(_substrateService!.webView);
 
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
@@ -44,16 +51,19 @@ class PolkadotRepository extends KeyRepository {
       initialized = true;
       print("PolkadotRepository init");
 
-      _polkawalletInit = PolkawalletInit(handleConnectState);
+      _substrateService = SubstrateService(handleConnectState);
 
-      await _polkawalletInit!.init();
+      await _substrateService!.init();
 
       state.isInitialized = true;
 
       await _cryptoWaitReady();
+
       await _initKeys();
+
+      print("PolkadotRepository initService success");
     } catch (err) {
-      print("Error: $err");
+      print("PolkadotRepository initService Error: $err");
       rethrow;
     }
   }
@@ -61,13 +71,24 @@ class PolkadotRepository extends KeyRepository {
   Future<bool> startService() async {
     try {
       print("PolkadotRepository start");
-      await _polkawalletInit!.init();
-      await _polkawalletInit!.connect();
+
+      if (state.isInitialized == false) {
+        throw "startService repo not initialized";
+      }
+      if (state.isConnected == true) {
+        throw "startService service already started";
+      }
+
+      await _substrateService!.connect();
+
+      print("PolkadotRepository connected");
       state.isConnected = true;
+
+      eventBus.fire(const OnWalletRefreshEventBus());
 
       return true;
     } catch (err) {
-      print("Error: $err");
+      print("Polkadot Service start Error: $err");
       state.isConnected = false;
 
       rethrow;
@@ -75,25 +96,15 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<bool> stopService() async {
-    await _polkawalletInit?.stop();
-    _polkawalletInit = null;
+    await _substrateService?.stop();
+    _substrateService = null;
     state.isInitialized = false;
+    state.isConnected = false;
 
     return true;
   }
 
-  Future<void> _checkInitialized() async {
-    if (state.isInitialized == false) {
-      await initService();
-    }
-  }
-
-  Future<void> _checkConnected() async {
-    await _checkInitialized();
-    if (state.isConnected == false) {
-      await startService();
-    }
-  }
+  bool get isReady => state.isConnected == true;
 
   /// This is a little hack
   /// Before any crypto call, we must call cryptoWaitReady in the polkadot JS code
@@ -103,8 +114,7 @@ class PolkadotRepository extends KeyRepository {
   /// do anything else.
   /// [POLKA] Fix the JS API to export cryptoWaitReady - when we have time
   Future<void> _cryptoWaitReady() async {
-    // async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
-    final res = await _polkawalletInit?.webView?.evalJavascript('keyring.initKeys([], [])');
+    final res = await _substrateService?.webView.evalJavascript('keyring.initKeys([], [])');
     print("wait ready res: $res");
   }
 
@@ -112,57 +122,79 @@ class PolkadotRepository extends KeyRepository {
     final keys = await accountService.getPrivateKeys();
 
     for (final mnemonic in keys) {
-      print("PJS: import key $mnemonic");
+      print("PJS: import key ${mnemonic.length}");
       await importKey(mnemonic);
     }
   }
 
   Future<String> createKey() async {
-    await _checkInitialized();
+    if (!isReady) {
+      throw "createKey: service not ready";
+    }
 
-    final res = await _polkawalletInit?.webView?.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
+    final res = await _substrateService?.webView.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
     //print("create res: $res");
     final String mnemonic = res["mnemonic"];
     //print("mnemonic $mnemonic");
     return mnemonic;
   }
 
+  Future<Result<Account?>> getIdentity(String address) async {
+    try {
+      print("get identity for $address");
+      if (!isReady) {
+        print("getBalance: service not ready...");
+        return Result.error("not ready");
+      }
+
+      final resJson =
+          await _substrateService?.webView.evalJavascript('account.getAccountIndex(api, ${jsonEncode([address])})');
+
+      // print("result  $resJson");
+      // : result  [{accountId: 5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k, identity: {display: Nikolaus Heger, judgements: [], other: {}}}]
+
+      final displayName = resJson[0]["identity"]["display"];
+
+      print("displayName $displayName");
+
+      return Result.value(Account(address: address, name: displayName));
+    } catch (error) {
+      print("Error getting identity $error");
+      return Result.error("Error getting identity: $error");
+    }
+  }
+
   // api.query.system.account(steve.address)
-  Future<double> getBalance(String address) async {
+  Future<Result<BalanceModel>> getBalance(String address) async {
     try {
       print("get balance for $address");
-      await _checkInitialized();
-      await _checkConnected();
+      if (!isReady) {
+        print("getBalance: service not ready...");
+        return Result.error("Not ready");
+      }
 
-      // Debug code, do not check in - checking account with known address
-      // final knownAddress = "5GwwAKFomhgd4AHXZLUBVK3B792DvgQUnoHTtQNkwmt5h17k";
-      // final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$knownAddress")');
-
-      final resJson = await _polkawalletInit?.webView?.evalJavascript('api.query.system.account("$address")');
+      final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
       // print("result STRING $resJson");
       // flutter: result STRING: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
-
-      /// this value is an int if it's small enough.
-      /// Not sure what will happen if the number is too big but one would assume it
-      /// would then get sent as a string. So we always convert it to a string.
       final free = resJson["data"]["free"];
       final freeString = "$free";
       final bigNum = BigInt.parse(freeString);
       final double result = bigNum.toDouble() / pow(10, hashedToken.precision);
 
-      //print("free type: ${free.runtimeType} ==> $bigNum ==> $result");
-
-      return result;
+      return Result.value(BalanceModel(result));
     } catch (error) {
       print("Error getting balance $error");
       print(error);
-      rethrow;
+      return Result.error(error);
     }
   }
 
   Future<dynamic> testImport() async {
-    await _checkInitialized();
+    if (!isReady) {
+      throw "testImport: service not ready";
+    }
+
     // known mnemonic, well, now it is - don't use it for funds
     final mnemonicFromPolkaTutorial = 'sample split bamboo west visual approve brain fox arch impact relief smile';
     final res = await importKey(mnemonicFromPolkaTutorial);
@@ -170,7 +202,9 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<String> importKey(String mnemonic) async {
-    await _checkInitialized();
+    if (!isInitialized) {
+      throw "importKey: service not ready";
+    }
 
     /// Notes
     /// 1 - Variables declared raw are global variables
@@ -200,18 +234,25 @@ class PolkadotRepository extends KeyRepository {
       JSON.stringify(last_pair);
     ''';
     try {
-      final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+      final res = await _substrateService?.webView.evalJavascript(code, wrapPromise: false);
       print("result importKey $res");
-      return res["address"];
+      if (res is String) {
+        final jsonRes = jsonDecode(res);
+        return jsonRes["address"];
+      } else {
+        return res["address"];
+      }
     } catch (err) {
-      print("error $err");
+      print("import key error $err");
       rethrow;
     }
   }
 
   @override
   Future<String?> publicKeyForPrivateKey(String privateKey) async {
-    await _checkInitialized();
+    if (!isReady) {
+      throw "publicKeyForPrivateKey: service not ready";
+    }
 
     /// 1 - set format
     /// 2 - call addFromUri, which returns a keypair object
@@ -223,7 +264,7 @@ class PolkadotRepository extends KeyRepository {
       JSON.stringify(last_pair);
     ''';
     try {
-      final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+      final res = await _substrateService?.webView.evalJavascript(code, wrapPromise: false);
       final json = jsonDecode(res);
       return json["address"];
     } catch (err) {
@@ -233,7 +274,9 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<String?> privateKeyForPublicKey(String publicKey) async {
-    await _checkInitialized();
+    if (!isReady) {
+      throw "privateKeyForPublicKey: service not ready";
+    }
 
     final keys = await accountService.getPrivateKeys();
 
@@ -248,7 +291,7 @@ class PolkadotRepository extends KeyRepository {
 
   Future<Map<String, dynamic>> getKeyPair(String address) async {
     final code = 'JSON.stringify(keyring.pKeyring.getPair("$address"))';
-    final res = await _polkawalletInit?.webView?.evalJavascript(code, wrapPromise: false);
+    final res = await _substrateService?.webView.evalJavascript(code, wrapPromise: false);
     final keyPair = jsonDecode(res);
     return keyPair;
   }
@@ -266,7 +309,7 @@ class PolkadotRepository extends KeyRepository {
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     try {
-      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
+      final res = await RecoveryRepositry(_substrateService!.webView).createRecovery(
         address: accountService.currentAccount.address,
         guardians: guardians.guardianAddresses,
         threshold: guardians.threshold,
@@ -274,17 +317,6 @@ class PolkadotRepository extends KeyRepository {
       );
       return Result.value(res);
     } catch (err) {
-      return Result.error(err);
-    }
-  }
-
-  /// Removes user's guardians. User must Start from scratch.
-  Future<Result> removeGuardians() async {
-    try {
-      final res = await ExtrinsicsRepository(_polkawalletInit!.webView!)
-          .removeRecovery(address: accountService.currentAccount.address);
-      return Result.value(res);
-    } on Exception catch (err) {
       return Result.error(err);
     }
   }
@@ -301,7 +333,7 @@ class PolkadotRepository extends KeyRepository {
     // But, make it work first -
     try {
       final code = 'api.query.recovery.recoverable("$address")';
-      final res = await _polkawalletInit?.webView?.evalJavascript(code);
+      final res = await _substrateService?.webView.evalJavascript(code);
       print("getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
@@ -316,33 +348,80 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  /// Ignore, only test.
-  // Future<String?> testCreateRecovery() async {
-  //   print("execute testSendRecovery");
-  //   // mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
-  //   const acct_0 = "5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH";
-  //   // mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
-  //   const acct_1 = "5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T";
-  //   // mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
-  //   const acct_2 = "5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf";
+  Future<Result<dynamic>> initiateRecovery(String address) async {
+    print("initiate recovery for $address");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   final keyPair = await getKeyPair(accountService.currentAccount.address);
+  /// return recoveries that are currently in process for the address in question
+  /// Params: Address to be recovered
+  Future<Result<List<dynamic>>> getActiveRecoveries(String address) async {
+    print("get active recovery for $address");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value(["Ok"]));
+  }
 
-  //   print("keyPair $keyPair");
+  Future<Result<dynamic>> vouch({required String lostAccountAddress, required String newAccountAddress}) async {
+    print("vouch for recovering $lostAccountAddress on behalf of $newAccountAddress");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   final publicKey = await getPublicKey(accountService.currentAccount.address);
+  /// Claim recovery
+  /// after that account can make calls with asRecovered
+  ///
+  /// Also after that we can close, remove and cancel.
+  ///
+  /// Close recovery - claims some fees back
+  /// Remove recovery - claims some fees back
+  /// Cancel recovered - removes ability to call asRecovered
+  ///
+  Future<Result<dynamic>> claimRecovery(String lostAccountAddress) async {
+    print("claim recovered account $lostAccountAddress");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   print("publicKey $publicKey");
+  Future<Result<dynamic>> asRecovered(String recoveredAccount, dynamic polkadotCall) async {
+    print("make a call on behalf of $recoveredAccount");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 
-  //   return ExtrinsicsRepository(_polkawalletInit!.webView!).createRecovery(
-  //     address: accountService.currentAccount.address,
-  //     guardians: [
-  //       acct_0,
-  //       acct_1,
-  //       acct_2,
-  //     ],
-  //     threshold: 2,
-  //     delayPeriod: GuardiansConfigModel.defaultDelayPeriod,
-  //   );
-  // }
+  /// This transfers all funds from recoveredAccount to the currently active account
+  /// It's a shortcut to a transfer through asRecovered.
+  Future<Result<dynamic>> recoverFundsFor(String recoveredAccount) async {
+    print("transfer funds from $recoveredAccount to currently active account");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
+
+  ///
+  /// As the controller of a recoverable account, close an active recovery process for your account.
+  /// Payment: By calling this function, the recoverable account will receive the recovery deposit RecoveryDeposit placed by the rescuer.
+  /// The dispatch origin for this call must be Signed and must be a recoverable account with an active recovery process for it.
+  /// Parameters:
+  /// rescuer: The account trying to rescue this recoverable account.
+  ///
+  /// Note: this can be used to end a malicious recovery attempt.
+  ///
+  Future<Result<dynamic>> closeRecovery(String rescuerAccount) async {
+    final account = accountService.currentAccount.address;
+    print("closing recovery on $account by $rescuerAccount");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
+
+  /// Removes user's guardians. User must Start from scratch.
+  /// Recovers fees.
+  Future<Result> removeRecovery() async {
+    try {
+      final res = await RecoveryRepositry(_substrateService!.webView)
+          .removeRecovery(address: accountService.currentAccount.address);
+      return Result.value(res);
+    } on Exception catch (err) {
+      return Result.error(err);
+    }
+  }
+
+  /// I am guessing this removes the "as_recovered" recovery entry from the pallet, freeing up some storage
+  /// and recovering some fees.
+  Future<Result<dynamic>> cancelRecovered(String recoveredAccount) async {
+    print("cancel recovery for $recoveredAccount");
+    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
 }
