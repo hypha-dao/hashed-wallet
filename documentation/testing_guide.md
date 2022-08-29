@@ -82,11 +82,15 @@ Note: The recovery pallet needs the guardian addresses to be sorted. The wallet 
 
 ## Running Unit Tests
 
-Prerequisites: Docker is [installed](https://docs.docker.com/get-docker/).
+Prerequisites: 
+1. Docker is [installed](https://docs.docker.com/get-docker/).
+2. Docker is at version 4.11.1 (84025) or higher
+
+_Note: Older versions of Docker fail to install Ubuntu 20.04_
 
 ```
 cd docker
-docker build -t flutterdocker .
+docker build --progress=plain -t flutterdocker .
 ```
 
 Note: The docker build also runs the unit tests, and fails if the unit tests fail.
