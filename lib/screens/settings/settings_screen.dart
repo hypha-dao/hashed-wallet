@@ -26,58 +26,36 @@ class SettingsScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             SettingsBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
-        child: MultiBlocListener(
-          listeners: [
-            BlocListener<SettingsBloc, SettingsState>(
-              listenWhen: (_, current) => current.navigateToGuardians != null,
-              listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
-            ),
-            BlocListener<SettingsBloc, SettingsState>(
-              listenWhen: (_, current) => current.navigateToRecoverAccount != null,
-              listener: (context, _) => NavigationService.of(context).navigateTo(Routes.recoverAccountSearch),
-            ),
-            BlocListener<SettingsBloc, SettingsState>(
-              listenWhen: (_, current) => current.navigateToVerification != null,
-              listener: (context, _) {
-                BlocProvider.of<SettingsBloc>(context).add(const ResetNavigateToVerification());
-                NavigationService.of(context).navigateTo(Routes.verification).then((isValid) {
-                  if (isValid ?? false) {
-                    BlocProvider.of<SettingsBloc>(context).add(const OnValidVerification());
-                  }
-                });
-              },
-            ),
-            BlocListener<SettingsBloc, SettingsState>(
-              listenWhen: (previous, current) =>
-                  previous.isSecureBiometric == false && current.isSecureBiometric == true,
-              listener: (context, _) {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => const BiometricEnabledDialog(),
-                );
-              },
-            ),
-            BlocListener<SettingsBloc, SettingsState>(
-                listenWhen: (_, current) => current.pageCommand != null,
-                listener: (context, state) {
-                  final pageCommand = state.pageCommand;
-                  BlocProvider.of<SettingsBloc>(context).add(const ClearSettingsPageCommand());
-                  if (pageCommand is ShowLogoutRecoveryPhraseDialog) {
-                    showDialog<void>(
-                      context: context,
-                      builder: (_) {
-                        return BlocProvider.value(
-                          value: BlocProvider.of<SettingsBloc>(context),
-                          child: const LogoutRecoveryPhraseDialog(),
-                        );
-                      },
-                    ).whenComplete(() => BlocProvider.of<SettingsBloc>(context).add(const ResetShowLogoutButton()));
-                  } else if (pageCommand is NavigateToRoute) {
-                    NavigationService.of(context).navigateTo(pageCommand.route);
-                  }
-                }),
-          ],
+        child: BlocListener<SettingsBloc, SettingsState>(
+          listener: (BuildContext context, SettingsState state) {
+            final pageCommand = state.pageCommand;
+            BlocProvider.of<SettingsBloc>(context).add(const ClearSettingsPageCommand());
+            if (pageCommand is NavigateToRoute) {
+              NavigationService.of(context).navigateTo(pageCommand.route);
+            } else if (pageCommand is ShowLogoutRecoveryPhraseDialog) {
+              showDialog<void>(
+                context: context,
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<SettingsBloc>(context),
+                    child: const LogoutRecoveryPhraseDialog(),
+                  );
+                },
+              ).whenComplete(() => BlocProvider.of<SettingsBloc>(context).add(const ResetShowLogoutButton()));
+            } else if (pageCommand is ShowBiometricDialog) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const BiometricEnabledDialog(),
+              );
+            } else if (pageCommand is NavigateToVerification) {
+              NavigationService.of(context).navigateTo(Routes.verification).then((isValid) {
+                if (isValid ?? false) {
+                  BlocProvider.of<SettingsBloc>(context).add(const OnValidVerification());
+                }
+              });
+            }
+          },
           child: BlocBuilder<SettingsBloc, SettingsState>(
             buildWhen: (previous, current) => previous.pageState != current.pageState,
             builder: (context, state) {
