@@ -7,13 +7,13 @@ abstract class RecoverAccountSearchEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class OnUsernameChanged extends RecoverAccountSearchEvent {
-  final String userName;
+class OnAccountChanged extends RecoverAccountSearchEvent {
+  final String account;
 
-  const OnUsernameChanged(this.userName);
+  const OnAccountChanged(this.account);
 
   @override
-  String toString() => 'OnUsernameChanged { userName: $userName}';
+  String toString() => 'OnAccountChanged { account: $account}';
 }
 
 class OnNextButtonTapped extends RecoverAccountSearchEvent {
