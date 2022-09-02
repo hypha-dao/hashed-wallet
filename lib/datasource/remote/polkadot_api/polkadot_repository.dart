@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
@@ -351,9 +352,27 @@ class PolkadotRepository extends KeyRepository {
 
   /// return recoveries that are currently in process for the address in question
   /// Params: Address to be recovered
-  Future<Result<List<dynamic>>> getActiveRecoveries(String address) async {
+  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address) async {
     print("get active recovery for $address");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value(["Ok"]));
+
+    // no results
+    // return Future.delayed(const Duration(milliseconds: 500), () => Result.value([]));
+
+    // mock result
+    return Future.delayed(
+        const Duration(milliseconds: 500),
+        () => Result.value(
+              [
+                ActiveRecoveryModel(
+                    lostAccount: address,
+                    recoverer: accountService.currentAccount.address,
+                    created: 898726,
+                    deposit: 16666666500,
+                    friends: [
+                      "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
+                    ])
+              ],
+            ));
   }
 
   Future<Result<dynamic>> vouch({required String lostAccountAddress, required String newAccountAddress}) async {
