@@ -321,10 +321,6 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  Future<Result> getActiveRecovery() async {
-    throw UnimplementedError();
-  }
-
   Future<Result<GuardiansConfigModel>> getRecoveryConfig(String address) async {
     print("get guardians for $address");
 
