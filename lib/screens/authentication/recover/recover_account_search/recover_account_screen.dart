@@ -5,6 +5,7 @@ import 'package:hashed/components/quadstate_clipboard_icon_button.dart';
 import 'package:hashed/components/text_form_field_custom.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_search/components/recover_account_confimation_dialog.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
 
@@ -38,14 +39,14 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
-          if (pageCommand is NavigateToRecoverAccountFound) {
-            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.userAccount);
+          if (pageCommand is ShowRecoverAccountConfirmation) {
+            _showRecoverConfirmationDialog(context, pageCommand.userAccount);
           }
         },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Recover Account"),
+              title: const Text("Initiate Recovery"),
             ),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
@@ -90,6 +91,22 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           );
         },
       ),
+    );
+  }
+
+  void _showRecoverConfirmationDialog(BuildContext buildContext, String account) {
+    showDialog(
+      context: buildContext,
+      builder: (context) {
+        return RecoverAccountConfirmationDialog(
+          account: account,
+          onConfirm: () {
+            Navigator.pop(context);
+            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, account);
+          },
+          onDismiss: () => Navigator.pop(context),
+        );
+      },
     );
   }
 }
