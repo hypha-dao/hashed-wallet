@@ -730,17 +730,50 @@ const queryActiveRecovery = async () => {
   );
 
   const recoveryObjects = getActiveRecovery.map(
-    ([k, v]) => { return { key: k.toHuman(), val: v.toHuman() } })
+    ([k, v]) => { 
+      return { 
+        key: k.toHuman(), 
+        lostAccount: k.toHuman()[0],
+        rescuer: k.toHuman()[1],
+        data: v.toHuman() 
+      } })
 
   for (obj of recoveryObjects) {
     console.log("recovery found: ")
     const rescuerAccount = obj.key.filter((e) => e != steve.address)[0]
     console.log("rescuer account: " + rescuerAccount)
-    console.log("num signatures: " + obj.val.friends.length)
+    console.log("num signatures: " + obj.data.friends.length)
   }
 
   await api.disconnect()
   console.log("disconnecting done")
+
+  return recoveryObjects
+
+}
+
+const queryActiveRecoveryByRescuer = async (rescuer) => {
+  const { api, keyring, steve } = await init()
+
+  // on create recovery
+  // this means we need to save the fact we are trying to rescue the lost address
+  // then we need to query if the recovery already exists
+  // then if it does not exist we can create it
+
+  const getActiveRecovery = await api.query.recovery.activeRecoveries(steve.address, rescuer);
+
+  console.log("rescuer act recovery: " + JSON.stringify(getActiveRecovery, null, 2))
+
+  // rescuer act recovery: {
+  //   "created": 1035220,
+  //   "deposit": 16666666500,
+  //   "friends": []
+  // }
+  // the object is an array of an array of key, value
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return getActiveRecovery.toHuman()
 
 }
 
@@ -806,6 +839,12 @@ program
     const result = await queryActiveRecovery()
 
     console.log("active: " + JSON.stringify(result, null, 2))
+
+    console.log("Query active...")
+
+    const rescuerRes = await queryActiveRecoveryByRescuer("5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
+
+    console.log("active: " + JSON.stringify(rescuerRes, null, 2))
 
 
     /// QUERY ACTIVE RESULT with no signers
