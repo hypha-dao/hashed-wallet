@@ -45,10 +45,10 @@ class GuardiansRepository with HttpRepository {
     throw UnimplementedError();
   }
 
-  Future<Result<dynamic>> getAccountRecovery(String accountName) async {
-    print('[http] get account recovery $accountName');
+  Future<Result<dynamic>> getAccountRecovery(String lostAccountName) async {
+    print('[http] get account recovery for lost account: $lostAccountName');
 
-    return polkadotRepository.getActiveRecovery();
+    return polkadotRepository.getActiveRecoveries(lostAccountName);
   }
 
   Future<Result<GuardiansConfigModel>> getAccountGuardians(String accountName) async {
