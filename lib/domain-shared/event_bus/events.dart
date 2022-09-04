@@ -24,6 +24,11 @@ class OnWalletRefreshEventBus extends BusEvent<OnWalletRefreshEventBus> {
   const OnWalletRefreshEventBus();
 }
 
+class OnConnectionStateEventBus extends BusEvent<OnConnectionStateEventBus> {
+  final bool connected;
+  const OnConnectionStateEventBus(this.connected);
+}
+
 class ShowSnackBar extends BusEvent<OnNewTransactionEventBus> {
   final String message;
   final SnackType snackType;

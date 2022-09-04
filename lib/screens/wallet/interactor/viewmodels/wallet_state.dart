@@ -25,7 +25,7 @@ class WalletState extends Equatable {
   }) {
     return WalletState(
       pageState: pageState ?? this.pageState,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage,
       profile: profile ?? this.profile,
     );
   }

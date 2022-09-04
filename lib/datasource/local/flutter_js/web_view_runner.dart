@@ -55,6 +55,8 @@ class WebViewRunner {
   // For direct JS execution - we don't get the wrapper here
   InAppWebViewController? get webViewController => _web?.webViewController;
 
+  Function? socketDisconnectedAction;
+
   Future<void> launch(
     Function? onLaunched, {
     Function? socketDisconnectedAction,
@@ -73,6 +75,8 @@ class WebViewRunner {
     webViewLoaded = false;
     jsCodeStarted = -1;
 
+    this.socketDisconnectedAction = socketDisconnectedAction;
+
     _jsCode = await rootBundle.loadString('assets/polkadot/sdk/js_api/dist/main.js');
     print('js file loaded ${_jsCode.length}');
 
@@ -90,6 +94,7 @@ class WebViewRunner {
         onWebViewCreated: (controller) {
           print('HeadlessInAppWebView created!');
         },
+
         onConsoleMessage: (controller, message) {
           if (kDebugMode) {
             print("CONSOLE MESSAGE: ${message.message}");
@@ -101,9 +106,15 @@ class WebViewRunner {
               jsCodeStarted = 0;
             }
           }
-          if (message.message.contains("WebSocket is not connected") && socketDisconnectedAction != null) {
-            socketDisconnectedAction();
+          if (message.message.contains("API-WS: disconnected from") && this.socketDisconnectedAction != null) {
+            // abnormal close
+            this.socketDisconnectedAction!();
           }
+          if (message.message.contains("WebSocket is not connected") && this.socketDisconnectedAction != null) {
+            // normal disconnect - this often happens temporarily
+            this.socketDisconnectedAction!();
+          }
+
           if (message.messageLevel != ConsoleMessageLevel.LOG) {
             return;
           }
@@ -155,6 +166,10 @@ class WebViewRunner {
   // }
 
   Future<void> dispose() async {
+    socketDisconnectedAction = null;
+    _msgHandlers = {};
+    _msgCompleters = {};
+
     await _web?.dispose();
     _web = null;
   }

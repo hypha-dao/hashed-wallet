@@ -13,3 +13,11 @@ class OnLoadWalletData extends WalletEvent {
   @override
   String toString() => 'OnLoadWalletData';
 }
+
+class OnConnectionEvent extends WalletEvent {
+  final bool isConnected;
+  const OnConnectionEvent(this.isConnected);
+
+  @override
+  String toString() => 'OnConnectionEvent';
+}

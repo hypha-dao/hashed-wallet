@@ -25,7 +25,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
     return BlocProvider(
       create: (_) => WalletBloc()..add(const OnLoadWalletData()),
       child: BlocBuilder<WalletBloc, WalletState>(
-        builder: (context, _) {
+        builder: (context, state) {
+          print("error message ${state.errorMessage}");
           return RefreshIndicator(
             onRefresh: () async {
               BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
@@ -36,7 +37,16 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
               appBar: const WalletAppBar(),
               body: ListView(
                 children: [
-                  const SizedBox(height: 15),
+                  if (state.errorMessage == null)
+                    const SizedBox(
+                      height: 15,
+                    )
+                  else
+                    Text(
+                      state.errorMessage!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
                   const TokenCards(),
                   const SizedBox(height: 20),
                   const TransactionsList(),
