@@ -5,3 +5,9 @@ class NavigateToRecoverAccountFound extends PageCommand {
 
   NavigateToRecoverAccountFound(this.userAccount);
 }
+
+class ShowRecoverAccountConfirmation extends PageCommand {
+  final String userAccount;
+
+  ShowRecoverAccountConfirmation(this.userAccount);
+}
