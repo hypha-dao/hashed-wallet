@@ -40,17 +40,14 @@ class TxSenderData {
   TxSenderData(this.address);
 
   final String? address;
-  // final String? pubKey;
 
   // ignore: prefer_constructors_over_static_methods
   static TxSenderData fromJson(Map<String, dynamic> json) => TxSenderData(
         json['address'] as String?,
-        // json['pubKey'] as String?,
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'address': address,
-        // 'pubKey': pubKey,
       };
 }
 
