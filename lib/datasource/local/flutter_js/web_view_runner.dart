@@ -236,7 +236,8 @@ class WebViewRunner {
         });
       ''';
 
-    print("SCRIPT: $script");
+    // print("SCRIPT: $script");
+
     _web!.webViewController.evaluateJavascript(source: script);
 
     return c.future;

@@ -190,6 +190,21 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// This transfers all funds from recoveredAccount to the currently active account
   /// It's a shortcut to a transfer through asRecovered.
   Future<Result<dynamic>> recoverFundsFor({required String account, required String lostAccount}) async {
+    //   const unsubscribe = await api.tx.recovery
+    // .asRecovered(
+    //   lostAccount,
+    //   api.tx.balances.transferAll(address, false)
+    // )
+    // .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
+
+      // deep in the belly of the beast, what happens is this - it's very simple!
+      
+      // // wrap tx with recovery.asRecovered for proxy tx
+      // tx = api.tx.recovery.asRecovered(txInfo.sender.address, tx);
+      // keyPair = keyring.getPair(txInfo.proxy.address);
+
+
+
     print("transfer funds from $lostAccount to $account account");
     return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
   }
