@@ -113,8 +113,20 @@ class RecoveryRepository extends ExtrinsicsRepository {
   }
 
   Future<Result<dynamic>> initiateRecovery({required String address, required String lostAccount}) async {
-    print("initiate recovery for $lostAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+    print('initiateRecovery for $lostAccount');
+    final params = [lostAccount];
+
+    final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', TxSenderData(address));
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("initiateRecovery - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('initiateRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   /// return recoveries that are currently in process for the address in question
@@ -172,7 +184,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
       // }
       return Result.value(recoveries);
     } catch (err, stacktrace) {
-      print('getRecoveryConfig error: $err');
+      print('getActiveRecoveries error: $err');
       print(stacktrace);
       return Result.error(err);
     }
