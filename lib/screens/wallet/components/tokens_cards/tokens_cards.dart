@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
+import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
@@ -80,7 +82,10 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         // ignore: prefer_const_constructors
                         child: WalletButtons(
                           title: 'Receive',
-                          onPressed: null,
+                          onPressed: () {
+                            polkadotRepository.recoveryRepository
+                                .getActiveRecoveries(accountService.currentAccount.address);
+                          },
                           buttonType: ButtonsType.receiveButton,
                         ),
                       )

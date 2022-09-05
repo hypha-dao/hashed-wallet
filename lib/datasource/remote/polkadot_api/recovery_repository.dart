@@ -64,7 +64,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     // But, make it work first -
     try {
       final code = 'api.query.recovery.recoverable("$address")';
-      final res = await evalJavascript(code);
+      final res = await evalJavascript(code: code);
       print("getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
@@ -119,27 +119,65 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
   /// return recoveries that are currently in process for the address in question
   /// Params: Address to be recovered
-  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address) async {
+  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address, {bool mock = false}) async {
+    // DEBUG CODE
+    // ignore: parameter_assignments
+    // address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"; // TEST steve addr
+
     print("get active recovery for $address");
+
+    try {
+      final code = 'api.query.recovery.activeRecoveries.entries("$address")';
+      final transformer = '''
+      res.map(([k, v]) => { 
+        return { 
+          key: k, 
+          lostAccount: k.toHuman()[0],
+          rescuer: k.toHuman()[1],
+          data: v.toJSON() 
+        } 
+      })''';
+      final res = await evalJavascript(code: code, transformer: transformer);
+
+      final list = List.from(res);
+      final recoveries = list.map((e) => ActiveRecoveryModel.fromJson(e)).toList();
+
+      // int count = 0;
+      // for (final rec in recoveries) {
+      //   print("Recovery $count");
+      //   print("R lostAccount: ${rec.lostAccount}");
+      //   print("R rec: ${rec.rescuer}");
+      //   print("R signed: ${rec.friends.length}");
+      //   print("R signed list ${rec.friends}");
+      //   print("R deposit ${rec.deposit}");
+      //   print("R created ${rec.created}");
+      //   count++;
+      // }
+      return Result.value(recoveries);
+    } catch (err, stacktrace) {
+      print('getRecoveryConfig error: $err');
+      print(stacktrace);
+      return Result.error(err);
+    }
 
     // no results
     // return Future.delayed(const Duration(milliseconds: 500), () => Result.value([]));
 
     // mock result
-    return Future.delayed(
-        const Duration(milliseconds: 500),
-        () => Result.value(
-              [
-                ActiveRecoveryModel(
-                    lostAccount: address,
-                    recoverer: "0xmockdata",
-                    created: 898726,
-                    deposit: 16666666500,
-                    friends: [
-                      "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
-                    ])
-              ],
-            ));
+    // return Future.delayed(
+    //     const Duration(milliseconds: 500),
+    //     () => Result.value(
+    //           [
+    //             ActiveRecoveryModel(
+    //                 lostAccount: address,
+    //                 recoverer: "0xmockdata",
+    //                 created: 898726,
+    //                 deposit: 16666666500,
+    //                 friends: [
+    //                   "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
+    //                 ])
+    //           ],
+    //         ));
   }
 
   Future<Result<dynamic>> vouch({required String recovererAccount, required String lostAccount}) async {

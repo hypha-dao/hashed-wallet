@@ -79,8 +79,8 @@ abstract class ExtrinsicsRepository {
 
   ExtrinsicsRepository(this._webView);
 
-  Future<dynamic> evalJavascript(String code) {
-    return _webView.evalJavascript(code);
+  Future<dynamic> evalJavascript({required String code, String? transformer}) {
+    return _webView.evalJavascript(code, transformer: transformer);
   }
 
   Future<dynamic> evalJavascriptRaw(String code) {

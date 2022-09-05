@@ -717,8 +717,9 @@ const queryRecovery = async () => {
 const queryActiveRecovery = async () => {
   const { api, keyring, steve } = await init()
 
-  const getActiveRecovery = await api.query.recovery.activeRecoveries.entries(steve.address);
-
+ const getActiveRecovery = await api.query.recovery.activeRecoveries.entries(steve.address);
+  // const getActiveRecovery = await api.query.recovery.activeRecoveries.entries("5GEbpz29EkSM3vKtzuUEXtwpK8vguYm2TRRsmekQufYJDJpz");
+  
   console.log("active recovery: " + JSON.stringify(getActiveRecovery, null, 2))
 
   console.log("process active: ")
@@ -735,7 +736,7 @@ const queryActiveRecovery = async () => {
         key: k.toHuman(), 
         lostAccount: k.toHuman()[0],
         rescuer: k.toHuman()[1],
-        data: v.toHuman() 
+        data: v.toJSON() 
       } })
 
   for (obj of recoveryObjects) {
@@ -840,11 +841,9 @@ program
 
     console.log("active: " + JSON.stringify(result, null, 2))
 
-    console.log("Query active...")
-
-    const rescuerRes = await queryActiveRecoveryByRescuer("5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
-
-    console.log("active: " + JSON.stringify(rescuerRes, null, 2))
+    //console.log("queryActiveRecoveryByRescuer...")
+    //const rescuerRes = await queryActiveRecoveryByRescuer("5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
+    //console.log("data by tuple: " + JSON.stringify(rescuerRes, null, 2))
 
 
     /// QUERY ACTIVE RESULT with no signers
