@@ -5,9 +5,7 @@ import 'dart:math';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
-import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
-import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
@@ -336,111 +334,5 @@ class PolkadotRepository extends KeyRepository {
     final keyPair = await getKeyPair(address);
     final pubkey = keyPair["publicKey"];
     return pubkey;
-  }
-
-  Future<Result<GuardiansConfigModel>> getRecoveryConfig(String address) async {
-    print("get guardians for $address");
-
-    // TODO(n13): Create a mapper for polkadot API results - similar to httpmapper
-    // then add model mappers for all the different possible responses.
-    // But, make it work first -
-    try {
-      final code = 'api.query.recovery.recoverable("$address")';
-      final res = await _substrateService?.webView.evalJavascript(code);
-      print("getRecoveryConfig res: $res");
-      GuardiansConfigModel guardiansModel;
-      if (res != null) {
-        guardiansModel = GuardiansConfigModel.fromJson(res);
-      } else {
-        return Result.value(GuardiansConfigModel.empty());
-      }
-      return Result.value(guardiansModel);
-    } catch (err) {
-      print('getRecoveryConfig error: $err');
-      return Result.error(err);
-    }
-  }
-
-  Future<Result<dynamic>> initiateRecovery(String address) async {
-    print("initiate recovery for $address");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
-  }
-
-  /// return recoveries that are currently in process for the address in question
-  /// Params: Address to be recovered
-  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address) async {
-    print("get active recovery for $address");
-
-    // no results
-    // return Future.delayed(const Duration(milliseconds: 500), () => Result.value([]));
-
-    // mock result
-    return Future.delayed(
-        const Duration(milliseconds: 500),
-        () => Result.value(
-              [
-                ActiveRecoveryModel(
-                    lostAccount: address,
-                    recoverer: accountService.currentAccount.address,
-                    created: 898726,
-                    deposit: 16666666500,
-                    friends: [
-                      "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
-                    ])
-              ],
-            ));
-  }
-
-  Future<Result<dynamic>> vouch({required String lostAccountAddress, required String newAccountAddress}) async {
-    print("vouch for recovering $lostAccountAddress on behalf of $newAccountAddress");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
-  }
-
-  /// Claim recovery
-  /// after that account can make calls with asRecovered
-  ///
-  /// Also after that we can close, remove and cancel.
-  ///
-  /// Close recovery - claims some fees back
-  /// Remove recovery - claims some fees back
-  /// Cancel recovered - removes ability to call asRecovered
-  ///
-  Future<Result<dynamic>> claimRecovery(String lostAccountAddress) async {
-    print("claim recovered account $lostAccountAddress");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
-  }
-
-  Future<Result<dynamic>> asRecovered(String recoveredAccount, dynamic polkadotCall) async {
-    print("make a call on behalf of $recoveredAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
-  }
-
-  /// This transfers all funds from recoveredAccount to the currently active account
-  /// It's a shortcut to a transfer through asRecovered.
-  Future<Result<dynamic>> recoverFundsFor(String recoveredAccount) async {
-    print("transfer funds from $recoveredAccount to currently active account");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
-  }
-
-  ///
-  /// As the controller of a recoverable account, close an active recovery process for your account.
-  /// Payment: By calling this function, the recoverable account will receive the recovery deposit RecoveryDeposit placed by the rescuer.
-  /// The dispatch origin for this call must be Signed and must be a recoverable account with an active recovery process for it.
-  /// Parameters:
-  /// rescuer: The account trying to rescue this recoverable account.
-  ///
-  /// Note: this can be used to end a malicious recovery attempt.
-  ///
-  Future<Result<dynamic>> closeRecovery(String rescuerAccount) async {
-    final account = accountService.currentAccount.address;
-    print("closing recovery on $account by $rescuerAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
-  }
-
-  /// I am guessing this removes the "as_recovered" recovery entry from the pallet, freeing up some storage
-  /// and recovering some fees.
-  Future<Result<dynamic>> cancelRecovered(String recoveredAccount) async {
-    print("cancel recovery for $recoveredAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
   }
 }
