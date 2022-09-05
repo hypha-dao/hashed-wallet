@@ -36,7 +36,6 @@ class PolkadotRepository extends KeyRepository {
     state.isConnected = isConnected;
     eventBus.fire(OnConnectionStateEventBus(isConnected));
     if (!isConnected) {
-      print("disconnected - reconnecting...");
       reconnect();
     }
   }
@@ -154,20 +153,27 @@ class PolkadotRepository extends KeyRepository {
 
   bool isReconnecting = false;
 
-  void reconnect() {
+  Future<void> reconnect() async {
     if (isReconnecting) {
+      print("ignore reconnect while reconnecting");
       return;
     }
+    print("reconnecting...");
+
     isReconnecting = true;
-    _substrateService?.stop();
-    polkadotRepository.initService(force: true).then((value) {
-      polkadotRepository
-          .startService()
-          .then((value) => isReconnecting = false)
-          .onError((error, stackTrace) => isReconnecting = false);
-    }).catchError((err) {
+
+    try {
+      await polkadotRepository.stopService();
+
+      await polkadotRepository.initService(force: true);
+
+      await polkadotRepository.startService();
+    } catch (error) {
+      print("reconnect error $error");
+      rethrow;
+    } finally {
       isReconnecting = false;
-    });
+    }
   }
 
   Future<Result<Account?>> getIdentity(String address) async {
