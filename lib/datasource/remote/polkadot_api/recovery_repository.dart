@@ -29,25 +29,15 @@ class RecoveryRepository extends ExtrinsicsRepository {
     required int threshold,
     required int delayPeriod,
   }) async {
-    final sender = TxSenderData(
-      address,
-    );
+    final sender = TxSenderData(address);
     final txInfo = SubstrateTransactionModel('recovery', 'createRecovery', sender);
-
     guardians.sort();
+    final params = [guardians, threshold, delayPeriod];
 
     try {
-      final hash = await signAndSend(
-        txInfo,
-        [
-          guardians,
-          threshold,
-          delayPeriod,
-        ],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("onStatusChange: $status");
+      });
       print('sendCreateRecovery ${hash.toString()}');
       return hash.toString();
     } catch (err) {
@@ -80,19 +70,14 @@ class RecoveryRepository extends ExtrinsicsRepository {
   }
 
   Future<String?> _removeRecovery({required String address}) async {
-    final sender = TxSenderData(
-      address,
-    );
+    final sender = TxSenderData(address);
     final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
+    final params = [];
 
     try {
-      final hash = await signAndSend(
-        txInfo,
-        [],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("onStatusChange: $status");
+      });
       print('sendRemoveRecovery ${hash.toString()}');
       return hash.toString();
     } catch (err) {
@@ -115,7 +100,6 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result<dynamic>> initiateRecovery({required String address, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
     final params = [lostAccount];
-
     final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', TxSenderData(address));
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -171,17 +155,6 @@ class RecoveryRepository extends ExtrinsicsRepository {
       final list = List.from(res);
       final recoveries = list.map((e) => ActiveRecoveryModel.fromJson(e)).toList();
 
-      // int count = 0;
-      // for (final rec in recoveries) {
-      //   print("Recovery $count");
-      //   print("R lostAccount: ${rec.lostAccount}");
-      //   print("R rec: ${rec.rescuer}");
-      //   print("R signed: ${rec.friends.length}");
-      //   print("R signed list ${rec.friends}");
-      //   print("R deposit ${rec.deposit}");
-      //   print("R created ${rec.created}");
-      //   count++;
-      // }
       return Result.value(recoveries);
     } catch (err, stacktrace) {
       print('getActiveRecoveries error: $err');
@@ -190,9 +163,22 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<dynamic>> vouch({required String recovererAccount, required String lostAccount}) async {
-    print("vouch for recovering $lostAccount on behalf of $recovererAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> vouch(
+      {required String address, required String lostAccount, required String recovererAccount}) async {
+    print('vouch for $recovererAccount recovering $lostAccount');
+    // await api.tx.recovery.vouchRecovery(lostAccount, rescuer)
+    final params = [lostAccount, recovererAccount];
+    final txInfo = SubstrateTransactionModel('recovery', 'vouchRecovery', TxSenderData(address));
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("vouch - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('initiateRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   /// Claim recovery
