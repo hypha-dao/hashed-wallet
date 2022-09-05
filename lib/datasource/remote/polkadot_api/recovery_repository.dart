@@ -1,10 +1,28 @@
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
+import 'package:hashed/utils/result_extension.dart';
 
-class RecoveryRepositry extends ExtrinsicsRepository {
-  RecoveryRepositry(super.webView);
+class RecoveryRepository extends ExtrinsicsRepository {
+  RecoveryRepository(super.webView);
 
-  Future<String> createRecovery({
+  /// Activates your guardians - Min 2 for now. (UI enforced)
+  Future<Result> createRecovery(String address, GuardiansConfigModel guardians) async {
+    print("create recovery: ${guardians.toJson()}");
+    try {
+      final res = await _createRecovery(
+        address: address,
+        guardians: guardians.guardianAddresses,
+        threshold: guardians.threshold,
+        delayPeriod: guardians.delayPeriod,
+      );
+      return Result.value(res);
+    } catch (err) {
+      return Result.error(err);
+    }
+  }
+
+  Future<String> _createRecovery({
     required String address,
     required List<String> guardians,
     required int threshold,
@@ -38,7 +56,7 @@ class RecoveryRepositry extends ExtrinsicsRepository {
     }
   }
 
-  Future<String?> removeRecovery({required String address}) async {
+  Future<String?> _removeRecovery({required String address}) async {
     final sender = TxSenderData(
       address,
       "",
@@ -58,6 +76,17 @@ class RecoveryRepositry extends ExtrinsicsRepository {
     } catch (err) {
       print('sendRemoveRecovery ERROR $err');
       rethrow;
+    }
+  }
+
+  /// Removes user's guardians. User must Start from scratch.
+  /// Recovers fees.
+  Future<Result> removeRecovery({required String address}) async {
+    try {
+      final res = await _removeRecovery(address: address);
+      return Result.value(res);
+    } on Exception catch (err) {
+      return Result.error(err);
     }
   }
 }

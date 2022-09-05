@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
@@ -11,7 +12,7 @@ class GuardiansRepository with HttpRepository {
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print('[eos] create recovery: $guardians');
 
-    return polkadotRepository.createRecovery(guardians);
+    return polkadotRepository.recoveryRepository.createRecovery(accountService.currentAccount.address, guardians);
   }
 
   /// Claim recovered account for user - this switches the new public key live at the end of the
@@ -30,7 +31,7 @@ class GuardiansRepository with HttpRepository {
   /// This cancels any recovery currently in process, and removes all guardians
   ///
   Future<Result> removeGuardians() async {
-    return polkadotRepository.removeRecovery();
+    return polkadotRepository.recoveryRepository.removeRecovery(address: accountService.currentAccount.address);
   }
 
   /// Recover an account via the key guardian system
