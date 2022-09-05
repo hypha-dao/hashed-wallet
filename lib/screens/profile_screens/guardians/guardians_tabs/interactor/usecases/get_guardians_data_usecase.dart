@@ -5,6 +5,6 @@ import 'package:hashed/utils/result_extension.dart';
 
 class GetGuardiansDataUseCase {
   Future<Result<GuardiansConfigModel>> getGuardiansData() {
-    return polkadotRepository.getRecoveryConfig(accountService.currentAccount.address);
+    return polkadotRepository.recoveryRepository.getRecoveryConfig(accountService.currentAccount.address);
   }
 }

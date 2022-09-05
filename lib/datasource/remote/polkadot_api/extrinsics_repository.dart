@@ -79,6 +79,14 @@ abstract class ExtrinsicsRepository {
 
   ExtrinsicsRepository(this._webView);
 
+  Future<dynamic> evalJavascript(String code) {
+    return _webView.evalJavascript(code);
+  }
+
+  Future<dynamic> evalJavascriptRaw(String code) {
+    return _webView.evalJavascript(code, wrapPromise: false);
+  }
+
   /// Sign and send a transaction
   /// [txInfo] and [params] define the transaction details
   /// [onStatusChange] is a callback when tx status change.

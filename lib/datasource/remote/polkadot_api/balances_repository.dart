@@ -12,7 +12,6 @@ class BalancesRepository extends ExtrinsicsRepository {
   }) async {
     final sender = TxSenderData(
       from,
-      "",
     );
     final txInfo = SubstrateTransactionModel('balances', 'transfer', sender);
     try {

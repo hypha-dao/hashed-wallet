@@ -49,11 +49,11 @@ class GuardiansRepository with HttpRepository {
   Future<Result<dynamic>> getAccountRecovery(String lostAccountName) async {
     print('[http] get account recovery for lost account: $lostAccountName');
 
-    return polkadotRepository.getActiveRecoveries(lostAccountName);
+    return polkadotRepository.recoveryRepository.getActiveRecoveries(lostAccountName);
   }
 
   Future<Result<GuardiansConfigModel>> getAccountGuardians(String accountName) async {
-    return polkadotRepository.getRecoveryConfig(accountName);
+    return polkadotRepository.recoveryRepository.getRecoveryConfig(accountName);
   }
 
   Future<Result<dynamic>> generateRecoveryRequest(String accountName, String publicKey) async {
