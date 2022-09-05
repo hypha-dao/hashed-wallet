@@ -10,39 +10,21 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// Activates your guardians - Min 2 for now. (UI enforced)
   Future<Result> createRecovery(String address, GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
-    try {
-      final res = await _createRecovery(
-        address: address,
-        guardians: guardians.guardianAddresses,
-        threshold: guardians.threshold,
-        delayPeriod: guardians.delayPeriod,
-      );
-      return Result.value(res);
-    } catch (err) {
-      return Result.error(err);
-    }
-  }
-
-  Future<String> _createRecovery({
-    required String address,
-    required List<String> guardians,
-    required int threshold,
-    required int delayPeriod,
-  }) async {
     final sender = TxSenderData(address);
     final txInfo = SubstrateTransactionModel('recovery', 'createRecovery', sender);
-    guardians.sort();
-    final params = [guardians, threshold, delayPeriod];
+    final guardianAddresses = guardians.guardianAddresses;
+    guardianAddresses.sort();
+    final params = [guardianAddresses, guardians.threshold, guardians.delayPeriod];
 
     try {
-      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+      final res = await signAndSend(txInfo, params, onStatusChange: (status) {
         print("onStatusChange: $status");
       });
-      print('sendCreateRecovery ${hash.toString()}');
-      return hash.toString();
-    } catch (err) {
-      print('sendCreateRecovery ERROR $err');
-      rethrow;
+      return Result.value(res.toString());
+    } catch (err, s) {
+      print('sendCreateRecovery error: $err');
+      print(s);
+      return Result.error(err);
     }
   }
 
@@ -69,28 +51,19 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<String?> _removeRecovery({required String address}) async {
-    final sender = TxSenderData(address);
-    final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
-    final params = [];
-
-    try {
-      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
-        print("onStatusChange: $status");
-      });
-      print('sendRemoveRecovery ${hash.toString()}');
-      return hash.toString();
-    } catch (err) {
-      print('sendRemoveRecovery ERROR $err');
-      rethrow;
-    }
-  }
-
   /// Removes user's guardians. User must Start from scratch.
   /// Recovers fees.
   Future<Result> removeRecovery({required String address}) async {
+    print('removeRecovery for $address');
+
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
+    final params = [];
     try {
-      final res = await _removeRecovery(address: address);
+      final res = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("onStatusChange: $status");
+      });
+
       return Result.value(res);
     } on Exception catch (err) {
       return Result.error(err);
