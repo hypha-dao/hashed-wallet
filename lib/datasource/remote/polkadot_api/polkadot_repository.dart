@@ -29,7 +29,6 @@ class PolkadotRepository extends KeyRepository {
   bool get isConnected => state.isConnected;
 
   BalancesRepository get balancesRepository => BalancesRepository(_substrateService!.webView);
-  RecoveryRepository get recoveryRepository => RecoveryRepository(_substrateService!.webView);
 
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
@@ -338,6 +337,22 @@ class PolkadotRepository extends KeyRepository {
     return pubkey;
   }
 
+  /// Activates your guardians - Min 2 for now. (UI enforced)
+  Future<Result> createRecovery(GuardiansConfigModel guardians) async {
+    print("create recovery: ${guardians.toJson()}");
+    try {
+      final res = await RecoveryRepositry(_substrateService!.webView).createRecovery(
+        address: accountService.currentAccount.address,
+        guardians: guardians.guardianAddresses,
+        threshold: guardians.threshold,
+        delayPeriod: guardians.delayPeriod,
+      );
+      return Result.value(res);
+    } catch (err) {
+      return Result.error(err);
+    }
+  }
+
   Future<Result<GuardiansConfigModel>> getRecoveryConfig(String address) async {
     print("get guardians for $address");
 
@@ -435,6 +450,18 @@ class PolkadotRepository extends KeyRepository {
     final account = accountService.currentAccount.address;
     print("closing recovery on $account by $rescuerAccount");
     return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  }
+
+  /// Removes user's guardians. User must Start from scratch.
+  /// Recovers fees.
+  Future<Result> removeRecovery() async {
+    try {
+      final res = await RecoveryRepositry(_substrateService!.webView)
+          .removeRecovery(address: accountService.currentAccount.address);
+      return Result.value(res);
+    } on Exception catch (err) {
+      return Result.error(err);
+    }
   }
 
   /// I am guessing this removes the "as_recovered" recovery entry from the pallet, freeing up some storage
