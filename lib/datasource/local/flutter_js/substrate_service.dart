@@ -50,7 +50,7 @@ class SubstrateService {
     final res = await webView.connectNode(nodeList);
 
     _connected = res?.endpoint != null;
-    updateConnectionHandler();
+    connectionStateHandler(_connected);
 
     if (res == null) {
       return null;
@@ -109,7 +109,7 @@ class SubstrateService {
 
         print("Connection dropped, restarting");
         _connected = false;
-        updateConnectionHandler();
+        connectionStateHandler(_connected);
 
         _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
           _dropsService(node: node);
@@ -136,10 +136,6 @@ class SubstrateService {
     _dropsServiceTimer?.cancel();
     _chainTimer?.cancel();
     _webViewDropsTimer?.cancel();
-  }
-
-  void updateConnectionHandler() {
-    connectionStateHandler(_connected);
   }
 }
 
