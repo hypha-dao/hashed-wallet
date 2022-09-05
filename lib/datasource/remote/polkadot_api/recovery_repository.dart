@@ -123,8 +123,25 @@ class RecoveryRepository extends ExtrinsicsRepository {
     // DEBUG CODE
     // ignore: parameter_assignments
     // address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"; // TEST steve addr
-
     print("get active recovery for $address");
+
+    if (mock) {
+      return Future.delayed(
+          const Duration(milliseconds: 500),
+          () => Result.value(
+                [
+                  ActiveRecoveryModel(
+                      key: "a_very_long_string_used_by_the_chain_internally",
+                      lostAccount: address,
+                      rescuer: "0xmockdata",
+                      created: 898726,
+                      deposit: 16666666500,
+                      friends: [
+                        "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
+                      ])
+                ],
+              ));
+    }
 
     try {
       final code = 'api.query.recovery.activeRecoveries.entries("$address")';
@@ -159,25 +176,6 @@ class RecoveryRepository extends ExtrinsicsRepository {
       print(stacktrace);
       return Result.error(err);
     }
-
-    // no results
-    // return Future.delayed(const Duration(milliseconds: 500), () => Result.value([]));
-
-    // mock result
-    // return Future.delayed(
-    //     const Duration(milliseconds: 500),
-    //     () => Result.value(
-    //           [
-    //             ActiveRecoveryModel(
-    //                 lostAccount: address,
-    //                 recoverer: "0xmockdata",
-    //                 created: 898726,
-    //                 deposit: 16666666500,
-    //                 friends: [
-    //                   "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
-    //                 ])
-    //           ],
-    //         ));
   }
 
   Future<Result<dynamic>> vouch({required String recovererAccount, required String lostAccount}) async {
