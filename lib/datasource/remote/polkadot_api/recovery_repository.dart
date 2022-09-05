@@ -72,8 +72,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
   Future<Result<dynamic>> initiateRecovery({required String address, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', sender);
     final params = [lostAccount];
-    final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', TxSenderData(address));
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
         print("initiateRecovery - onStatusChange: $status");
@@ -139,9 +140,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result<dynamic>> vouch(
       {required String address, required String lostAccount, required String recovererAccount}) async {
     print('vouch for $recovererAccount recovering $lostAccount');
-    // await api.tx.recovery.vouchRecovery(lostAccount, rescuer)
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'vouchRecovery', sender);
     final params = [lostAccount, recovererAccount];
-    final txInfo = SubstrateTransactionModel('recovery', 'vouchRecovery', TxSenderData(address));
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
         print("vouch - onStatusChange: $status");
@@ -197,13 +198,11 @@ class RecoveryRepository extends ExtrinsicsRepository {
     // )
     // .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
 
-      // deep in the belly of the beast, what happens is this - it's very simple!
-      
-      // // wrap tx with recovery.asRecovered for proxy tx
-      // tx = api.tx.recovery.asRecovered(txInfo.sender.address, tx);
-      // keyPair = keyring.getPair(txInfo.proxy.address);
+    // deep in the belly of the beast, what happens is this - it's very simple!
 
-
+    // // wrap tx with recovery.asRecovered for proxy tx
+    // tx = api.tx.recovery.asRecovered(txInfo.sender.address, tx);
+    // keyPair = keyring.getPair(txInfo.proxy.address);
 
     print("transfer funds from $lostAccount to $account account");
     return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));

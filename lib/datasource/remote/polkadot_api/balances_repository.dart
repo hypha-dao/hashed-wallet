@@ -10,12 +10,11 @@ class BalancesRepository extends ExtrinsicsRepository {
     required String to,
     required int amount,
   }) async {
-    final sender = TxSenderData(
-      from,
-    );
+    final sender = TxSenderData(from);
     final txInfo = SubstrateTransactionModel('balances', 'transfer', sender);
+    final params = [to, amount];
     try {
-      final res = await signAndSend(txInfo, [to, amount], onStatusChange: (status) {
+      final res = await signAndSend(txInfo, params, onStatusChange: (status) {
         print("send onStatusChange: $status");
       });
 
