@@ -163,9 +163,22 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// Remove recovery - claims some fees back
   /// Cancel recovered - removes ability to call asRecovered
   ///
-  Future<Result<dynamic>> claimRecovery({required String account, required String lostAccount}) async {
-    print("claim recovered account $lostAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> claimRecovery({required String address, required String lostAccount}) async {
+    print("claimRecovery on $lostAccount");
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'claimRecovery', sender);
+    final params = [lostAccount];
+
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("claimRecovery - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('claimRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   Future<Result<dynamic>> asRecovered(
