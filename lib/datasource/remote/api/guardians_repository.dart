@@ -41,9 +41,10 @@ class GuardiansRepository with HttpRepository {
   ///
   /// When 2 or 3 of the guardians call this function, the account can be recovered with claim
   ///
-  Future<Result> recoverAccount(String userAccount, String publicKey) async {
+  Future<Result> recoverAccount({required String lostAccount, required String rescuerAccount}) async {
     // This will need to be removed - works different on Polkadot / Subsrate
-    throw UnimplementedError();
+    return polkadotRepository.recoveryRepository.vouch(
+        address: accountService.currentAccount.address, lostAccount: lostAccount, recovererAccount: rescuerAccount);
   }
 
   Future<Result<dynamic>> getAccountRecovery(String lostAccountName) async {

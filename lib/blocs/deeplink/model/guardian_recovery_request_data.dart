@@ -1,9 +1,9 @@
 class GuardianRecoveryRequestData {
-  final String guardianAccount;
-  final String publicKey;
+  final String lostAccount;
+  final String rescuer;
 
   GuardianRecoveryRequestData({
-    required this.guardianAccount,
-    required this.publicKey,
+    required this.lostAccount,
+    required this.rescuer,
   });
 }

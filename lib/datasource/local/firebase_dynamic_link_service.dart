@@ -4,11 +4,12 @@ import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 
 class FirebaseDynamicLinkService {
-  Future<Result<Uri>> createDynamicLink(String targetLink, String link) async {
+  // guardianTargetLink
+  Future<Result<Uri>> createDynamicLink(String targetLink, Uri link) async {
     try {
       final parameters = DynamicLinkParameters(
         uriPrefix: domainAppUriPrefix,
-        link: Uri.parse('$targetLink$link'),
+        link: link,
         androidParameters: AndroidParameters(packageName: androidPacakageName),
         iosParameters: IosParameters(bundleId: iosBundleId, appStoreId: iosAppStoreId),
       );

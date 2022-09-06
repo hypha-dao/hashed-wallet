@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_final_locals, unused_local_variable
+
 import 'package:async/async.dart';
+import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 
@@ -31,14 +34,9 @@ class FetchRecoverGuardianInitialDataUseCase {
     }
   }
 
-  Future<Result<dynamic>> generateFirebaseDynamicLink(Result<dynamic> link) async {
-    if (link.isValue) {
-      final String linkValue = link.asValue!.value;
-      final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardianTargetLink, linkValue);
-      return guardianLink;
-    } else {
-      return link;
-    }
+  Future<Result<dynamic>> generateFirebaseDynamicLink(GuardianRecoveryRequestData data) async {
+    final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardianTargetLink, data);
+    return guardianLink;
   }
 
   /// USER already started a recovery. Fetch the values from storage
@@ -70,15 +68,18 @@ class FetchRecoverGuardianInitialDataUseCase {
 
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey!);
 
-    // Check
-    link = await generateFirebaseDynamicLink(link);
+    throw UnimplementedError("start recovery not implemented");
 
-    return RecoverGuardianInitialDTO(
-        link: link,
-        membersData: membersData,
-        userRecoversModel: accountRecovery,
-        accountGuardians: accountGuardians,
-        authData: authData);
+    /// TODO - remove this class or implement this
+    // Check
+    // link = await generateFirebaseDynamicLink(link);
+
+    // return RecoverGuardianInitialDTO(
+    //     link: link,
+    //     membersData: membersData,
+    //     userRecoversModel: accountRecovery,
+    //     accountGuardians: accountGuardians,
+    //     authData: authData);
   }
 }
 

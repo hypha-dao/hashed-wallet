@@ -115,9 +115,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     // Update Deep Link Bloc State
     _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
     emit(state.copyWith(pageState: PageState.loading));
-    final result = await ApproveGuardianRecoveryUseCase()
-        .approveGuardianRecovery(event.data.guardianAccount, event.data.publicKey);
-    emit(ApproveGuardianRecoveryStateMapper().mapResultToState(state, result));
+
+    /// this should simply take the data - lostAccount and rescuer - and vouch.
+    ///
+
+    throw UnimplementedError("implement this or remove.");
+
+    // final result = await ApproveGuardianRecoveryUseCase()
+    //     .approveGuardianRecovery(lostAccount: event.data.lostAccount, rescuer: event.data.rescuer);
+    // emit(ApproveGuardianRecoveryStateMapper().mapResultToState(state, result));
   }
 
   void _onApproveGuardianRecoveryDeepLink(OnApproveGuardianRecoveryDeepLink event, Emitter<AppState> emit) {
