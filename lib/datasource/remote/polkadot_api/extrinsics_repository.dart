@@ -79,8 +79,8 @@ abstract class ExtrinsicsRepository {
 
   ExtrinsicsRepository(this._webView);
 
-  Future<dynamic> evalJavascript(String code) {
-    return _webView.evalJavascript(code);
+  Future<dynamic> evalJavascript({required String code, String? transformer}) {
+    return _webView.evalJavascript(code, transformer: transformer);
   }
 
   Future<dynamic> evalJavascriptRaw(String code) {
@@ -88,7 +88,7 @@ abstract class ExtrinsicsRepository {
   }
 
   /// Sign and send a transaction
-  /// [txInfo] and [params] define the transaction details
+  /// [transactionModel] and [params] define the transaction details
   /// [onStatusChange] is a callback when tx status change.
   /// @return txHash [string] if tx finalized success.
   ///
@@ -106,27 +106,26 @@ abstract class ExtrinsicsRepository {
   /// transaction to be processed.
   ///
   Future<Map<String, dynamic>> signAndSend(
-    SubstrateTransactionModel txInfo,
+    SubstrateTransactionModel transactionModel,
     List params, {
     required Function(String) onStatusChange,
   }) async {
-    // ignore: prefer_if_null_operators
-    final param = jsonEncode(params);
-    final Map tx = txInfo.toJson();
-    final res = await _serviceSignAndSend(tx, param, onStatusChange);
+    final messageUid = _createMessageUid();
+    _webView.addMsgHandler(messageUid, onStatusChange);
+
+    final code =
+        'keyring.sendTransaction(api, ${jsonEncode(transactionModel.toJson())}, ${jsonEncode(params)}, "$messageUid")';
+    final dynamic res = await _webView.evalJavascript(code);
+
+    _webView.removeMsgHandler(messageUid);
+
     if (res['error'] != null) {
       throw Exception(res['error']);
     }
     return res;
   }
 
-  Future<Map<String, dynamic>> _serviceSignAndSend(Map txInfo, String params, Function(String) onStatusChange) async {
-    final msgId = "onStatusChange${_webView.getEvalJavascriptUID()}";
-    _webView.addMsgHandler(msgId, onStatusChange);
-    final code = 'keyring.sendTransaction(api, ${jsonEncode(txInfo)}, $params, "$msgId")';
-    print("serviceSignAndSend: $code");
-    final dynamic res = await _webView.evalJavascript(code);
-    _webView.removeMsgHandler(msgId);
-    return res;
+  String _createMessageUid() {
+    return "onStatusChange${_webView.getEvalJavascriptUID()}";
   }
 }

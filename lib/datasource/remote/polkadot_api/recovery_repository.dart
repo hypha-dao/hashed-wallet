@@ -10,49 +10,21 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// Activates your guardians - Min 2 for now. (UI enforced)
   Future<Result> createRecovery(String address, GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
-    try {
-      final res = await _createRecovery(
-        address: address,
-        guardians: guardians.guardianAddresses,
-        threshold: guardians.threshold,
-        delayPeriod: guardians.delayPeriod,
-      );
-      return Result.value(res);
-    } catch (err) {
-      return Result.error(err);
-    }
-  }
-
-  Future<String> _createRecovery({
-    required String address,
-    required List<String> guardians,
-    required int threshold,
-    required int delayPeriod,
-  }) async {
-    final sender = TxSenderData(
-      address,
-    );
+    final sender = TxSenderData(address);
     final txInfo = SubstrateTransactionModel('recovery', 'createRecovery', sender);
-
-    guardians.sort();
+    final guardianAddresses = guardians.guardianAddresses;
+    guardianAddresses.sort();
+    final params = [guardianAddresses, guardians.threshold, guardians.delayPeriod];
 
     try {
-      final hash = await signAndSend(
-        txInfo,
-        [
-          guardians,
-          threshold,
-          delayPeriod,
-        ],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
-      print('sendCreateRecovery ${hash.toString()}');
-      return hash.toString();
-    } catch (err) {
-      print('sendCreateRecovery ERROR $err');
-      rethrow;
+      final res = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("onStatusChange: $status");
+      });
+      return Result.value(res.toString());
+    } catch (err, s) {
+      print('sendCreateRecovery error: $err');
+      print(s);
+      return Result.error(err);
     }
   }
 
@@ -64,7 +36,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     // But, make it work first -
     try {
       final code = 'api.query.recovery.recoverable("$address")';
-      final res = await evalJavascript(code);
+      final res = await evalJavascript(code: code);
       print("getRecoveryConfig res: $res");
       GuardiansConfigModel guardiansModel;
       if (res != null) {
@@ -79,33 +51,19 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<String?> _removeRecovery({required String address}) async {
-    final sender = TxSenderData(
-      address,
-    );
-    final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
-
-    try {
-      final hash = await signAndSend(
-        txInfo,
-        [],
-        onStatusChange: (status) {
-          print("onStatusChange: $status");
-        },
-      );
-      print('sendRemoveRecovery ${hash.toString()}');
-      return hash.toString();
-    } catch (err) {
-      print('sendRemoveRecovery ERROR $err');
-      rethrow;
-    }
-  }
-
   /// Removes user's guardians. User must Start from scratch.
   /// Recovers fees.
   Future<Result> removeRecovery({required String address}) async {
+    print('removeRecovery for $address');
+
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
+    final params = [];
     try {
-      final res = await _removeRecovery(address: address);
+      final res = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("onStatusChange: $status");
+      });
+
       return Result.value(res);
     } on Exception catch (err) {
       return Result.error(err);
@@ -113,38 +71,88 @@ class RecoveryRepository extends ExtrinsicsRepository {
   }
 
   Future<Result<dynamic>> initiateRecovery({required String address, required String lostAccount}) async {
-    print("initiate recovery for $lostAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+    print('initiateRecovery for $lostAccount');
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', sender);
+    final params = [lostAccount];
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("initiateRecovery - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('initiateRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   /// return recoveries that are currently in process for the address in question
   /// Params: Address to be recovered
-  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address) async {
+  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address, {bool mock = false}) async {
+    // DEBUG CODE
+    // ignore: parameter_assignments
+    // address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"; // TEST steve addr
     print("get active recovery for $address");
 
-    // no results
-    // return Future.delayed(const Duration(milliseconds: 500), () => Result.value([]));
+    if (mock) {
+      return Future.delayed(
+          const Duration(milliseconds: 500),
+          () => Result.value(
+                [
+                  ActiveRecoveryModel(
+                      key: "a_very_long_string_used_by_the_chain_internally",
+                      lostAccount: address,
+                      rescuer: "0xmockdata",
+                      created: 898726,
+                      deposit: 16666666500,
+                      friends: [
+                        "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
+                      ])
+                ],
+              ));
+    }
 
-    // mock result
-    return Future.delayed(
-        const Duration(milliseconds: 500),
-        () => Result.value(
-              [
-                ActiveRecoveryModel(
-                    lostAccount: address,
-                    recoverer: "0xmockdata",
-                    created: 898726,
-                    deposit: 16666666500,
-                    friends: [
-                      "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
-                    ])
-              ],
-            ));
+    try {
+      final code = 'api.query.recovery.activeRecoveries.entries("$address")';
+      final transformer = '''
+      res.map(([k, v]) => { 
+        return { 
+          key: k, 
+          lostAccount: k.toHuman()[0],
+          rescuer: k.toHuman()[1],
+          data: v.toJSON() 
+        } 
+      })''';
+      final res = await evalJavascript(code: code, transformer: transformer);
+
+      final list = List.from(res);
+      final recoveries = list.map((e) => ActiveRecoveryModel.fromJson(e)).toList();
+
+      return Result.value(recoveries);
+    } catch (err, stacktrace) {
+      print('getActiveRecoveries error: $err');
+      print(stacktrace);
+      return Result.error(err);
+    }
   }
 
-  Future<Result<dynamic>> vouch({required String recovererAccount, required String lostAccount}) async {
-    print("vouch for recovering $lostAccount on behalf of $recovererAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> vouch(
+      {required String address, required String lostAccount, required String recovererAccount}) async {
+    print('vouch for $recovererAccount recovering $lostAccount');
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'vouchRecovery', sender);
+    final params = [lostAccount, recovererAccount];
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("vouch - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('initiateRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   /// Claim recovery
@@ -156,9 +164,22 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// Remove recovery - claims some fees back
   /// Cancel recovered - removes ability to call asRecovered
   ///
-  Future<Result<dynamic>> claimRecovery({required String account, required String lostAccount}) async {
-    print("claim recovered account $lostAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> claimRecovery({required String address, required String lostAccount}) async {
+    print("claimRecovery on $lostAccount");
+    final sender = TxSenderData(address);
+    final txInfo = SubstrateTransactionModel('recovery', 'claimRecovery', sender);
+    final params = [lostAccount];
+
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("claimRecovery - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('claimRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   Future<Result<dynamic>> asRecovered(
@@ -169,9 +190,22 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
   /// This transfers all funds from recoveredAccount to the currently active account
   /// It's a shortcut to a transfer through asRecovered.
-  Future<Result<dynamic>> recoverFundsFor({required String account, required String lostAccount}) async {
-    print("transfer funds from $lostAccount to $account account");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> recoverFundsFor({required String address, required String lostAccount}) async {
+    final lostAccountSender = TxSenderData(lostAccount);
+    final txInfo =
+        SubstrateTransactionModel('balances', 'transferAll', lostAccountSender, proxy: TxSenderData(address));
+    final params = [address, false];
+
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("claimRecovery - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('claimRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   ///

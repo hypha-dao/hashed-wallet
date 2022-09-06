@@ -193,6 +193,7 @@ class WebViewRunner {
 
   Future<dynamic> evalJavascript(
     String code, {
+    String? transformer,
     bool wrapPromise = true,
     bool allowRepeat = true,
   }) async {
@@ -200,6 +201,9 @@ class WebViewRunner {
       print("not ready - can't run JS code yet");
       return;
     }
+
+    transformer ??= "res";
+
     // check if there's a same request loading
     if (!allowRepeat) {
       for (String i in _msgCompleters.keys) {
@@ -222,12 +226,18 @@ class WebViewRunner {
     final method = 'uid=$uid;${code.split('(')[0]}';
     _msgCompleters[method] = c;
 
-    final script = '$code.then(function(res) {'
-        '  console.log(JSON.stringify({ path: "$method", data: res }));res;'
-        '}).catch(function(err) {'
-        '  console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));'
-        '  JSON.stringify({call: "$method", error: err.message });'
-        '});';
+    final script = '''
+        $code.then(function(res) {
+          const finalResult = ${transformer.trim()};
+          console.log(JSON.stringify({ path: "$method", data: finalResult }));finalResult;
+        }).catch(function(err) {
+          console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));
+          JSON.stringify({call: "$method", error: err.message });
+        });
+      ''';
+
+    // print("SCRIPT: $script");
+
     _web!.webViewController.evaluateJavascript(source: script);
 
     return c.future;

@@ -23,6 +23,8 @@ class SubstrateTransactionModel {
   /// txName for calling treasury.approveProposal & treasury.rejectProposal
   String? txName;
 
+  /// Note: The fields in this method correspond to fields that will be used in the
+  /// JavaScript package - these field names cannot be changed.
   Map<String, dynamic> toJson() => <String, dynamic>{
         'module': module,
         'call': call,
