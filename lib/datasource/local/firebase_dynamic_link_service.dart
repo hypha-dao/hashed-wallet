@@ -5,7 +5,7 @@ import 'package:hashed/domain-shared/base_use_case.dart';
 
 class FirebaseDynamicLinkService {
   // guardianTargetLink
-  Future<Result<Uri>> createDynamicLink(String targetLink, Uri link) async {
+  Future<Result<Uri>> createDynamicLink(Uri link) async {
     try {
       final parameters = DynamicLinkParameters(
         uriPrefix: domainAppUriPrefix,

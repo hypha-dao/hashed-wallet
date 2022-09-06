@@ -8,7 +8,6 @@ import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/auth_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/api/guardians_repository.dart';
-import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 import 'package:hashed/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
 
@@ -35,7 +34,7 @@ class FetchRecoverGuardianInitialDataUseCase {
   }
 
   Future<Result<dynamic>> generateFirebaseDynamicLink(GuardianRecoveryRequestData data) async {
-    final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardianTargetLink, data);
+    final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(data);
     return guardianLink;
   }
 

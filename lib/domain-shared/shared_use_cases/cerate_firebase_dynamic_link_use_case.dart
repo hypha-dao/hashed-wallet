@@ -6,7 +6,7 @@ import 'package:hashed/domain-shared/app_constants.dart';
 class CreateFirebaseDynamicLinkUseCase {
   final FirebaseDynamicLinkService _firebaseDynamicLinkService = FirebaseDynamicLinkService();
 
-  Future<Result<Uri>> createDynamicLink(String targetLink, GuardianRecoveryRequestData data) async {
+  Future<Result<Uri>> createDynamicLink(GuardianRecoveryRequestData data) async {
     final uri = Uri.parse(guardianTargetLink).replace(queryParameters: {
       'lostAccount': data.lostAccount,
       'rescuer': data.rescuer,
@@ -14,6 +14,6 @@ class CreateFirebaseDynamicLinkUseCase {
 
     print("recover link: $uri");
 
-    return _firebaseDynamicLinkService.createDynamicLink(targetLink, uri);
+    return _firebaseDynamicLinkService.createDynamicLink(uri);
   }
 }
