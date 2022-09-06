@@ -4,6 +4,8 @@ import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
 import 'package:hashed/utils/result_extension.dart';
 
+/// Documentation here:
+/// https://polkadot.js.org/docs/substrate/extrinsics/#recovery
 class RecoveryRepository extends ExtrinsicsRepository {
   RecoveryRepository(super.webView);
 
@@ -182,15 +184,37 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<dynamic>> asRecovered(
-      {required String account, required String lostAccount, required dynamic polkadotCall}) async {
+  /// Make a call on behalf of "lostAccount", using address
+  /// address must be a proxy for lostAccount - the result of a successful recovery.
+  Future<Result<dynamic>> asRecovered({
+    required String address,
+    required String lostAccount,
+    required String pallet,
+    required String call,
+    required List params,
+  }) async {
     print("make a call on behalf of $lostAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+    final proxySender = TxSenderData(address);
+    final lostAccountSender = TxSenderData(lostAccount);
+    final txInfo = SubstrateTransactionModel(pallet, call, lostAccountSender, proxy: proxySender);
+
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("asRecovered - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('asRecovered error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
-  /// This transfers all funds from recoveredAccount to the currently active account
+  /// This transfers all funds from lostAccount to the currently active account
   /// It's a shortcut to a transfer through asRecovered.
-  Future<Result<dynamic>> recoverFundsFor({required String address, required String lostAccount}) async {
+  Future<Result<dynamic>> recoverAllFunds({required String address, required String lostAccount}) async {
+    print("recover funds of $lostAccount");
+
     final lostAccountSender = TxSenderData(lostAccount);
     final txInfo =
         SubstrateTransactionModel('balances', 'transferAll', lostAccountSender, proxy: TxSenderData(address));
@@ -198,11 +222,11 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
-        print("claimRecovery - onStatusChange: $status");
+        print("recoverAllFunds - onStatusChange: $status");
       });
       return Result.value(hash.toString());
     } catch (err, s) {
-      print('claimRecovery error $err');
+      print('recoverAllFunds error $err');
       print(s);
       return Result.error(err);
     }
@@ -217,15 +241,41 @@ class RecoveryRepository extends ExtrinsicsRepository {
   ///
   /// Note: this can be used to end a malicious recovery attempt.
   ///
-  Future<Result<dynamic>> closeRecovery({required String lostccount, required String rescuerAccount}) async {
-    print("closing recovery on $lostccount by $rescuerAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> closeRecovery({required String account, required String rescuerAccount}) async {
+    print("closing recovery on $account by $rescuerAccount");
+    final sender = TxSenderData(account);
+    final txInfo = SubstrateTransactionModel('recovery', 'closeRecovery', sender);
+    final params = [rescuerAccount];
+
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("closeRecovery - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('closeRecovery error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 
   /// I am guessing this removes the "as_recovered" recovery entry from the pallet, freeing up some storage
   /// and recovering some fees.
-  Future<Result<dynamic>> cancelRecovered(String recoveredAccount) async {
-    print("cancel recovery for $recoveredAccount");
-    return Future.delayed(const Duration(milliseconds: 500), () => Result.value("Ok"));
+  Future<Result<dynamic>> cancelRecovered({required String account, required String lostAccount}) async {
+    print("cancel recovery on $lostAccount");
+    final sender = TxSenderData(account);
+    final txInfo = SubstrateTransactionModel('recovery', 'cancelRecovered', sender);
+    final params = [lostAccount];
+
+    try {
+      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
+        print("cancelRecovered - onStatusChange: $status");
+      });
+      return Result.value(hash.toString());
+    } catch (err, s) {
+      print('cancelRecovered error $err');
+      print(s);
+      return Result.error(err);
+    }
   }
 }

@@ -380,7 +380,6 @@ const closeRecoveryDirect = async ({ rescuer }) => {
   console.log("balance before close")
   const balanceBefore = await getBalance(address, api);
 
-  // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
   let response = await new Promise(async (resolve) => {
     const unsubscribe = await api.tx.recovery.closeRecovery(rescuer)
       .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
@@ -909,7 +908,7 @@ program
 
 program
   .command('remove_recovery')
-  .description('Cancel recovery')
+  .description('remove recovery')
   .action(async function () {
 
     console.log("Remove recovery...")
