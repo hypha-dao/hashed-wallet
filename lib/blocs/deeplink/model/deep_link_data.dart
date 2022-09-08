@@ -5,4 +5,4 @@ class DeepLinkData {
   const DeepLinkData(this.data, this.deepLinkPlaceHolder);
 }
 
-enum DeepLinkPlaceHolder { guardian, invite, invoice, unknown }
+enum DeepLinkPlaceHolder { guardian, unknown }

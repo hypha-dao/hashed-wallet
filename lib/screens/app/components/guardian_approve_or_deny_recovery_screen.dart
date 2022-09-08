@@ -45,7 +45,7 @@ class GuardianApproveOrDenyScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                '${data.guardianAccount}'
+                '${data.lostAccount}'
                         ' has initiated their account recovery process through their Key Guardians. Accepting this request will help them to recover their account. Please make sure they are who they claim to be and are actually locked out of their account before accepting.'
                     .i18n,
                 textAlign: TextAlign.center,
