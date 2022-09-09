@@ -53,6 +53,23 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
+  Future<Result<dynamic>> getProxies(String address) async {
+    print("get proxies for $address");
+
+    try {
+      final code = 'api.query.recovery.proxy("$address")';
+      final res = await evalJavascript(code: code);
+      print("getProxies res: $res");
+
+      // TODO: parse list of addresses
+
+      return Result.value(res);
+    } catch (err) {
+      print('getProxies error: $err');
+      return Result.error(err);
+    }
+  }
+
   /// Removes user's guardians. User must Start from scratch.
   /// Recovers fees.
   Future<Result> removeRecovery({required String address}) async {
