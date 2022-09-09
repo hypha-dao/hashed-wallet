@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -41,7 +42,8 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
 
   Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountFoundState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userAccount);
+    final RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase()
+        .run(lostAccount: state.userAccount, rescuer: accountService.currentAccount.address);
     final newState = FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
     emit(newState);
     if (newState.recoveryStatus == RecoveryStatus.waitingFor24HourCoolPeriod) {

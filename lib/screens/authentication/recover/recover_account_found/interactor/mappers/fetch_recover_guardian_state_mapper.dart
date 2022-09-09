@@ -53,12 +53,8 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       /// Save Recovery values
       StartRecoveryUseCase().run(
         accountName: currentState.userAccount,
-        authData: result.authData,
         recoveryLink: link.toString(),
       );
-
-      // Save the private key and account
-      SaveAccountUseCase().run(accountName: currentState.userAccount, authData: result.authData);
 
       return currentState.copyWith(
         pageState: PageState.success,

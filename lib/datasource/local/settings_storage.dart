@@ -168,7 +168,6 @@ class _SettingsStorage implements AbstractStorage {
 
   Future<void> startRecoveryProcess({
     required String accountName,
-    required AuthDataModel authData,
     required String recoveryLink,
   }) async {
     // [POLKA] fix this

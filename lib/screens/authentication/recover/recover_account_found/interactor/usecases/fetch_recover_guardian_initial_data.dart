@@ -15,21 +15,36 @@ class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
   final CreateFirebaseDynamicLinkUseCase _createFirebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
-  Future<RecoverGuardianInitialDTO> run(String accountName) async {
-    print("FetchRecoverGuardianInitialDataUseCase $accountName pKey");
+  Future<RecoverGuardianInitialDTO> run({required String lostAccount, required String rescuer}) async {
+    print("FetchRecoverGuardianInitialDataUseCase $lostAccount");
 
-    final Result accountRecovery = await _guardiansRepository.getAccountRecovery(accountName);
-    final Result accountGuardians = await _guardiansRepository.getAccountGuardians(accountName);
+    /// returns an empty list in case there are no active recoveries
+    final activeRecoveries = await _guardiansRepository.getAccountRecovery(lostAccount);
+
+    /// returns null if there are no guardians set up (error case)
+    final accountGuardians = await _guardiansRepository.getAccountGuardians(lostAccount);
 
     List<Account> membersData = [];
     if (accountGuardians.isValue) {
-      membersData = accountGuardians.asValue!.value;
+      membersData = accountGuardians.asValue!.value.guardians.toList();
     }
 
-    if (settingsStorage.currentAccount != null && settingsStorage.inRecoveryMode) {
-      return _continueWithRecovery(accountRecovery, accountGuardians, membersData);
+    final actives = activeRecoveries.asValue?.value;
+
+    final data = GuardianRecoveryRequestData(lostAccount: lostAccount, rescuer: rescuer);
+
+    if (actives != null && actives.isNotEmpty) {
+      return _continueWithRecovery(
+          recoveryRequestData: data,
+          accountRecovery: activeRecoveries,
+          accountGuardians: accountGuardians,
+          membersData: membersData);
     } else {
-      return _startNewRecovery(accountRecovery, accountGuardians, membersData, accountName);
+      return _startNewRecovery(
+          recoveryRequestData: data,
+          accountRecovery: activeRecoveries,
+          accountGuardians: accountGuardians,
+          membersData: membersData);
     }
   }
 
@@ -39,46 +54,36 @@ class FetchRecoverGuardianInitialDataUseCase {
   }
 
   /// USER already started a recovery. Fetch the values from storage
-  Future<RecoverGuardianInitialDTO> _continueWithRecovery(
-    Result accountRecovery,
-    Result accountGuardians,
-    List<Account> membersData,
-  ) async {
+  Future<RecoverGuardianInitialDTO> _continueWithRecovery({
+    required GuardianRecoveryRequestData recoveryRequestData,
+    required Result accountRecovery,
+    required Result accountGuardians,
+    required List<Account> membersData,
+  }) async {
     final recoveryWords = await accountService.getPrivateKeys();
     return RecoverGuardianInitialDTO(
       link: ValueResult(Uri.parse(settingsStorage.recoveryLink)),
       membersData: membersData,
       userRecoversModel: accountRecovery,
       accountGuardians: accountGuardians,
-      authData: AuthDataModel.fromString(recoveryWords[0]),
     );
   }
 
   /// USER does not have an active recovery. Create new recovery values.
-  Future<RecoverGuardianInitialDTO> _startNewRecovery(
-    Result accountRecovery,
-    Result accountGuardians,
-    List<Account> membersData,
-    String accountName,
-  ) async {
-    final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
-    final String? publicKey = await accountService.keyRepository.publicKeyForPrivateKey(authData.wordsString);
-    print("public $publicKey");
+  Future<RecoverGuardianInitialDTO> _startNewRecovery({
+    required GuardianRecoveryRequestData recoveryRequestData,
+    required Result accountRecovery,
+    required Result accountGuardians,
+    required List<Account> membersData,
+  }) async {
+    Result link = await _guardiansRepository.generateRecoveryRequest(recoveryRequestData);
 
-    Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey!);
-
-    throw UnimplementedError("start recovery not implemented");
-
-    /// TODO - remove this class or implement this
-    // Check
-    // link = await generateFirebaseDynamicLink(link);
-
-    // return RecoverGuardianInitialDTO(
-    //     link: link,
-    //     membersData: membersData,
-    //     userRecoversModel: accountRecovery,
-    //     accountGuardians: accountGuardians,
-    //     authData: authData);
+    return RecoverGuardianInitialDTO(
+      link: link,
+      membersData: membersData,
+      userRecoversModel: accountRecovery,
+      accountGuardians: accountGuardians,
+    );
   }
 }
 
@@ -87,13 +92,11 @@ class RecoverGuardianInitialDTO {
   final List<Account> membersData;
   final Result userRecoversModel;
   final Result accountGuardians;
-  final AuthDataModel authData;
 
   RecoverGuardianInitialDTO({
     required this.link,
     required this.membersData,
     required this.userRecoversModel,
     required this.accountGuardians,
-    required this.authData,
   });
 }
