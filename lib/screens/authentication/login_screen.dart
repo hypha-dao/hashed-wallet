@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
           onPressed: () {
             if (settingsStorage.inRecoveryMode) {
               NavigationService.of(context)
-                  .navigateTo(Routes.recoverAccountFound, accountService.currentAccount.address);
+                  .navigateTo(Routes.recoverAccountDetails, accountService.currentAccount.address);
             } else {
               NavigationService.of(context).navigateTo(Routes.recoverAccountSearch);
             }

@@ -8,8 +8,8 @@ import 'package:hashed/domain-shared/page_state.dart';
 part 'recover_account_details_event.dart';
 part 'recover_account_details_state.dart';
 
-class RecoverAccountFoundBloc extends Bloc<RecoverAccountDetailsEvent, RecoverAccountDetailsState> {
-  RecoverAccountFoundBloc(String userAccount) : super(RecoverAccountDetailsState.initial(userAccount)) {
+class RecoverAccountDetailsBloc extends Bloc<RecoverAccountDetailsEvent, RecoverAccountDetailsState> {
+  RecoverAccountDetailsBloc(String userAccount) : super(RecoverAccountDetailsState.initial(userAccount)) {
     on<FetchInitialData>(_fetchInitialData);
   }
 
