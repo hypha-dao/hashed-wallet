@@ -2,14 +2,13 @@
 
 import 'package:async/async.dart';
 import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 
-import 'package:hashed/datasource/local/models/auth_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/api/guardians_repository.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
-import 'package:hashed/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
 
 class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
@@ -28,23 +27,22 @@ class FetchRecoverGuardianInitialDataUseCase {
     if (accountGuardians.isValue) {
       membersData = accountGuardians.asValue!.value.guardians.toList();
     }
-
     final actives = activeRecoveries.asValue?.value;
 
     final data = GuardianRecoveryRequestData(lostAccount: lostAccount, rescuer: rescuer);
 
     if (actives != null && actives.isNotEmpty) {
       return _continueWithRecovery(
-          recoveryRequestData: data,
-          accountRecovery: activeRecoveries,
-          accountGuardians: accountGuardians,
-          membersData: membersData);
+        recoveryRequestData: data,
+        activeRecoveries: activeRecoveries,
+        guardianConfig: accountGuardians,
+      );
     } else {
       return _startNewRecovery(
-          recoveryRequestData: data,
-          accountRecovery: activeRecoveries,
-          accountGuardians: accountGuardians,
-          membersData: membersData);
+        recoveryRequestData: data,
+        activeRecoveries: activeRecoveries,
+        guardianConfig: accountGuardians,
+      );
     }
   }
 
@@ -56,47 +54,46 @@ class FetchRecoverGuardianInitialDataUseCase {
   /// USER already started a recovery. Fetch the values from storage
   Future<RecoverGuardianInitialDTO> _continueWithRecovery({
     required GuardianRecoveryRequestData recoveryRequestData,
-    required Result accountRecovery,
-    required Result accountGuardians,
-    required List<Account> membersData,
+    required Result<List<ActiveRecoveryModel>> activeRecoveries,
+    required Result<GuardiansConfigModel> guardianConfig,
+    // required List<Account> membersData,
   }) async {
-    final recoveryWords = await accountService.getPrivateKeys();
     return RecoverGuardianInitialDTO(
       link: ValueResult(Uri.parse(settingsStorage.recoveryLink)),
-      membersData: membersData,
-      userRecoversModel: accountRecovery,
-      accountGuardians: accountGuardians,
+      // membersData: membersData,
+      activeRecoveries: activeRecoveries,
+      guardianConfig: guardianConfig,
     );
   }
 
   /// USER does not have an active recovery. Create new recovery values.
   Future<RecoverGuardianInitialDTO> _startNewRecovery({
     required GuardianRecoveryRequestData recoveryRequestData,
-    required Result accountRecovery,
-    required Result accountGuardians,
-    required List<Account> membersData,
+    required Result<List<ActiveRecoveryModel>> activeRecoveries,
+    required Result<GuardiansConfigModel> guardianConfig,
+    // required List<Account> membersData,
   }) async {
     Result link = await _guardiansRepository.generateRecoveryRequest(recoveryRequestData);
 
     return RecoverGuardianInitialDTO(
       link: link,
-      membersData: membersData,
-      userRecoversModel: accountRecovery,
-      accountGuardians: accountGuardians,
+      // membersData: membersData,
+      activeRecoveries: activeRecoveries,
+      guardianConfig: guardianConfig,
     );
   }
 }
 
 class RecoverGuardianInitialDTO {
   final Result link;
-  final List<Account> membersData;
-  final Result userRecoversModel;
-  final Result accountGuardians;
+  // final List<Account> membersData;
+  final Result<List<ActiveRecoveryModel>> activeRecoveries;
+  final Result<GuardiansConfigModel> guardianConfig;
 
   RecoverGuardianInitialDTO({
     required this.link,
-    required this.membersData,
-    required this.userRecoversModel,
-    required this.accountGuardians,
+    // required this.membersData,
+    required this.activeRecoveries,
+    required this.guardianConfig,
   });
 }
