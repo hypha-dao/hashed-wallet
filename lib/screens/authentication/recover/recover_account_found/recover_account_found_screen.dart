@@ -51,10 +51,15 @@ class RecoverAccountFoundScreen extends StatelessWidget {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  title: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(context.loc.recoverAccountFoundAppBarTitle)),
+                  title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),
                   automaticallyImplyLeading: false,
+                  leading: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
                   actions: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),

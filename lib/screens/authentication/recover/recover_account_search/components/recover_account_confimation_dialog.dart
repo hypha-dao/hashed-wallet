@@ -27,7 +27,7 @@ class RecoverAccountConfirmationDialog extends StatelessWidget {
         const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Text('Make sure you have entered the correct address for your new account: $account'),
+          child: Text('Are you sure you want to recover\n$account'),
         ),
         const SizedBox(height: 20),
       ],

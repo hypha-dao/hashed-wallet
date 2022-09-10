@@ -1,8 +1,11 @@
 import 'package:async/async.dart';
+import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/remote/api/http_repo/http_repository.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 
 class GuardiansRepository with HttpRepository {
   /// Step 1 setting up guardians - set the guardians for an account
@@ -47,7 +50,7 @@ class GuardiansRepository with HttpRepository {
         address: accountService.currentAccount.address, lostAccount: lostAccount, recovererAccount: rescuerAccount);
   }
 
-  Future<Result<dynamic>> getAccountRecovery(String lostAccountName) async {
+  Future<Result<List<ActiveRecoveryModel>>> getAccountRecovery(String lostAccountName) async {
     print('[http] get account recovery for lost account: $lostAccountName');
 
     return polkadotRepository.recoveryRepository.getActiveRecoveries(lostAccountName);
@@ -57,10 +60,15 @@ class GuardiansRepository with HttpRepository {
     return polkadotRepository.recoveryRepository.getRecoveryConfig(accountName);
   }
 
-  Future<Result<dynamic>> generateRecoveryRequest(String accountName, String publicKey) async {
-    print('[ESR] generateRecoveryRequest: $accountName publicKey: ($publicKey)');
+  Future<Result<dynamic>> generateRecoveryRequest(GuardianRecoveryRequestData data) async {
+    print('[ESR] generateRecoveryRequest');
 
-    // Need to implement this
-    throw UnimplementedError();
+    try {
+      final link = CreateFirebaseDynamicLinkUseCase().createDynamicLink(data);
+      return Result.value(link);
+    } catch (error) {
+      print("Error creating recovery link $error");
+      return Result.error(error);
+    }
   }
 }
