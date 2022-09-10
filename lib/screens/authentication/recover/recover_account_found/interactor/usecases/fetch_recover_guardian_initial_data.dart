@@ -2,10 +2,8 @@
 
 import 'package:async/async.dart';
 import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 
-import 'package:hashed/datasource/local/models/auth_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/api/guardians_repository.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
@@ -25,6 +23,10 @@ class FetchRecoverGuardianInitialDataUseCase {
     /// returns null if there are no guardians set up (error case)
     final accountGuardians = await _guardiansRepository.getAccountGuardians(lostAccount);
 
+    List<Account> membersData = [];
+    if (accountGuardians.isValue) {
+      membersData = accountGuardians.asValue!.value.guardians.toList();
+    }
     final actives = activeRecoveries.asValue?.value;
 
     final data = GuardianRecoveryRequestData(lostAccount: lostAccount, rescuer: rescuer);
