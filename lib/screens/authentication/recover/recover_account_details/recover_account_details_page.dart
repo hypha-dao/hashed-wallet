@@ -12,7 +12,7 @@ class RecoverAccountDetailsPage extends StatelessWidget {
     // ignore: cast_nullable_to_non_nullable
     final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
-      create: (context) => RecoverAccountDetailsBloc(userAccount),
+      create: (context) => RecoverAccountDetailsBloc(userAccount)..add(const FetchInitialData()),
       child: Scaffold(
           appBar: AppBar(
             title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),

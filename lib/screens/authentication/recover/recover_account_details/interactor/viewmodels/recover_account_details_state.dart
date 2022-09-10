@@ -46,9 +46,10 @@ class RecoverAccountDetailsState extends Equatable {
 
   factory RecoverAccountDetailsState.initial(String userAccount) {
     return RecoverAccountDetailsState(
-        pageState: PageState.initial,
-        userAccount: userAccount,
-        totalGuardiansCount: 3,
-        approvedAccounts: ['87665432', '1232456']);
+      pageState: PageState.initial,
+      userAccount: userAccount,
+      totalGuardiansCount: 0,
+      approvedAccounts: [],
+    );
   }
 }
