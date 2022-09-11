@@ -38,7 +38,7 @@ class Routes {
   static const signup = 'signup';
   static const recoverAccountSearch = 'recoverAccountSearch';
   static const recoveryPhrase = 'recoveryPhrase';
-  static const recoverAccountDetails = 'recoverAccountFound';
+  static const recoverAccountDetails = 'recoverAccountDetails';
   static const transfer = 'transfer';
   static const sendEnterData = 'sendEnterData';
 
