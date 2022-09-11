@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
-import 'package:hashed/components/quadstate_clipboard_icon_button.dart';
 import 'package:hashed/components/text_form_field_custom.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -60,14 +60,15 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                           maxLines: 2,
                           labelText: "Enter Account Address",
                           controller: _keyController,
-                          suffixIcon: QuadStateClipboardIconButton(
-                            isChecked: false,
-                            onClear: () {
-                              BlocProvider.of<RecoverAccountSearchBloc>(context).add(const OnAccountChanged(''));
-                              _keyController.clear();
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.paste),
+                            onPressed: () async {
+                              final clipboardData = await Clipboard.getData('text/plain');
+                              final clipboardText = clipboardData?.text ?? '';
+                              _keyController.text = clipboardText;
+                              // ignore: use_build_context_synchronously
+                              BlocProvider.of<RecoverAccountSearchBloc>(context).add(OnAccountChanged(clipboardText));
                             },
-                            isLoading: false,
-                            canClear: _keyController.text.isNotEmpty,
                           ),
                           onChanged: (value) {
                             BlocProvider.of<RecoverAccountSearchBloc>(context).add(OnAccountChanged(value));
@@ -102,7 +103,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           account: account,
           onConfirm: () {
             Navigator.pop(context);
-            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, account);
+            NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, account);
           },
           onDismiss: () => Navigator.pop(context),
         );
