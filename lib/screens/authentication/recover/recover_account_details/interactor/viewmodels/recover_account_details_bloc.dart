@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:async/src/result/result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/usecase/fetch_recover_account_details_data.dart';
+import 'package:hashed/utils/result_extension.dart';
 
 part 'recover_account_details_event.dart';
 part 'recover_account_details_state.dart';
