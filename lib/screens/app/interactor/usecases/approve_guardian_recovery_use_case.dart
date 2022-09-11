@@ -1,10 +1,10 @@
 import 'package:async/async.dart';
-import 'package:hashed/datasource/remote/api/guardians_repository.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+// import 'package:hashed/datasource/remote/api/guardians_repository.dart';
+// import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 
 class ApproveGuardianRecoveryUseCase {
-  final GuardiansRepository _guardiansRepository = GuardiansRepository();
-  final FirebaseDatabaseGuardiansRepository _databaseGuardiansRepository = FirebaseDatabaseGuardiansRepository();
+  // final GuardiansRepository _guardiansRepository = GuardiansRepository();
+  // final FirebaseDatabaseGuardiansRepository _databaseGuardiansRepository = FirebaseDatabaseGuardiansRepository();
 
   Future<Result> approveGuardianRecovery(String userAccount, String publicKey) async {
     throw UnimplementedError("not sure we need this");
