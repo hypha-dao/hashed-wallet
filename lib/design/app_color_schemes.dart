@@ -1,73 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:hashed/design/app_dark_colors.dart';
-import 'package:hashed/design/app_light_colors.dart';
 
 class AppColorSchemes {
-  // TODO(gguij004): not completed or being used yet, most colors are just there for testing.
-  // orange colors are for those missing in the pallet in figma
-  // surface: AppBar color
   static const ColorScheme darkColorScheme = ColorScheme(
-    primary: AppDarkColors.primary,
-    onPrimary: AppDarkColors.onPrimary,
-    primaryContainer: AppDarkColors.primaryContainer,
-    onPrimaryContainer: AppDarkColors.onPrimaryContainer,
-    secondary: AppDarkColors.secondary,
-    onSecondary: AppDarkColors.onSecondary,
-    secondaryContainer: AppDarkColors.secondaryContainer,
-    onSecondaryContainer: AppDarkColors.onSecondaryContainer,
-    tertiary: AppDarkColors.tertiary,
-    onTertiary: AppDarkColors.onTertiary,
-    tertiaryContainer: AppDarkColors.tertiaryContainer,
-    onTertiaryContainer: AppDarkColors.onSecondaryContainer,
-    error: AppDarkColors.error,
-    onError: AppDarkColors.onError,
-    errorContainer: AppDarkColors.errorContainer,
-    onErrorContainer: AppDarkColors.onErrorContainer,
-    background: AppDarkColors.background,
-    onBackground: AppDarkColors.onBackground,
-    surface: AppDarkColors.surface,
-    onSurface: AppDarkColors.onSurface,
-    surfaceVariant: AppDarkColors.surfaceVariant,
-    onSurfaceVariant: AppDarkColors.onSurfaceVariant,
-    outline: AppDarkColors.outLine,
     brightness: Brightness.dark,
-    surfaceTint: Colors.deepOrange,
-    inversePrimary: Colors.deepOrange,
-    inverseSurface: Colors.deepOrange,
-    onInverseSurface: Colors.deepOrange,
-    shadow: Colors.deepOrange,
+
+    /// Primary accent color. Use this for all primary accents in the app.
+    /// Can also be used for buttons and active elements.
+    primary: Color(0xFF293E84),
+    onPrimary: Color(0xFFFFFFFF),
+
+    /// Secondary accent color - a brighter neon-ish blue.
+    secondary: Color(0xFF3E65EF),
+    onSecondary: Color(0xFFFFFFFF),
+
+    /// Error background and text colors
+    error: Color(0xFF212227),
+    onError: Color(0xFFFF2919),
+
+    /// Primary background of app
+    background: Color(0xFF212227),
+    onBackground: Color(0xFFFFFFFF),
+
+    /// Alternative background - currently the same as primary
+    /// Used for card backgrounds that float above the background
+    surface: Color(0xFF293E84),
+    onSurface: Color(0xFFFFFFFF),
   );
 
-  // TODO(gguij004): not completed, to work on it after the darkScheme.
+  // TODO(n13): not in use.
   static const lightColorScheme = ColorScheme(
-    primary: AppLightColors.primary,
-    onPrimary: AppLightColors.onPrimary,
-    primaryContainer: AppLightColors.primaryContainer,
-    onPrimaryContainer: AppLightColors.onPrimaryContainer,
-    secondary: AppLightColors.secondary,
-    onSecondary: AppLightColors.onSecondary,
-    secondaryContainer: AppLightColors.secondaryContainer,
-    onSecondaryContainer: AppLightColors.onSecondaryContainer,
-    tertiary: AppLightColors.tertiary,
-    onTertiary: AppLightColors.onTertiary,
-    tertiaryContainer: AppLightColors.tertiaryContainer,
-    onTertiaryContainer: AppLightColors.onSecondaryContainer,
-    error: AppLightColors.error,
-    onError: AppLightColors.onError,
-    errorContainer: AppLightColors.errorContainer,
-    onErrorContainer: AppLightColors.onErrorContainer,
-    background: AppLightColors.background,
-    onBackground: AppLightColors.onBackground,
-    surface: AppLightColors.surface,
-    onSurface: AppLightColors.onSurface,
-    surfaceVariant: AppLightColors.surfaceVariant,
-    onSurfaceVariant: AppLightColors.onSurfaceVariant,
-    outline: AppLightColors.outLine,
     brightness: Brightness.light,
-    surfaceTint: Colors.deepOrange,
-    inversePrimary: Colors.deepOrange,
-    inverseSurface: Colors.deepOrange,
-    onInverseSurface: Colors.deepOrange,
-    shadow: Colors.deepOrange,
+    primary: Color(0xFFB6C4FF),
+    onPrimary: Color(0xFFB6C4FF),
+    secondary: Color(0xFFB6C4FF),
+    onSecondary: Color(0xFFB6C4FF),
+    error: Color(0xFFBA1A1A),
+    onError: Color(0xFFB6C4FF),
+    background: Color(0xFFB6C4FF),
+    onBackground: Color(0xFFB6C4FF),
+    surface: Color(0xFFB6C4FF),
+    onSurface: Color(0xFFB6C4FF),
   );
 }

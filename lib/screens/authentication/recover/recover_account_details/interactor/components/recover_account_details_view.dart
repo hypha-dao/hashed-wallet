@@ -65,13 +65,13 @@ class RecoverAccountDetailsView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Divider(color: Theme.of(context).colorScheme.surface),
+                  Divider(color: Theme.of(context).colorScheme.primary),
                   const SizedBox(height: 16),
                   ...state.approvedAccounts.map((e) => ListTile(
                         title: Text(e),
                         trailing: Icon(
                           Icons.check_circle,
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ))
                 ],

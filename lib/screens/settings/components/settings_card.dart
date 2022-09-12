@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hashed/components/divider_jungle.dart';
 import 'package:hashed/components/notification_badge.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/utils/ThemeBuildContext.dart';
 
 /// SECURITY CARD
 class SettingsCard extends StatelessWidget {
@@ -34,9 +35,12 @@ class SettingsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         onTap: onTap,
         child: Ink(
+          decoration: BoxDecoration(
+            color: context.colorScheme.surface,
+            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
