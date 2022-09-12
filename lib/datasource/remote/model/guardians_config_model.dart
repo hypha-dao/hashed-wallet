@@ -62,4 +62,15 @@ class GuardiansConfigModel {
       threshold = count * 2 ~/ 3; // 5/8, 6/9, ...
     }
   }
+
+  static GuardiansConfigModel mock = GuardiansConfigModel(
+      delayPeriod: 24,
+      guardians: <Account>{
+        const Account(address: "0x12334", name: "NIK"),
+        const Account(address: "0x2222222", name: "Someone"),
+        const Account(address: "0x3333333"),
+        const Account(address: "0x444444", name: "Akbar"),
+        const Account(address: "0x55555"),
+      },
+      threshold: 3);
 }

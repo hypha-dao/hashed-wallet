@@ -1,3 +1,4 @@
+import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
@@ -30,8 +31,12 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<GuardiansConfigModel>> getRecoveryConfig(String address) async {
+  Future<Result<GuardiansConfigModel>> getRecoveryConfig(String address, {bool mock = false}) async {
     print("get guardians for $address");
+
+    if (mock) {
+      return Result.value(GuardiansConfigModel.mock);
+    }
 
     // TODO(n13): Create a mapper for polkadot API results - similar to httpmapper
     // then add model mappers for all the different possible responses.
