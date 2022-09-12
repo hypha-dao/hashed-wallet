@@ -154,25 +154,34 @@ class PolkadotRepository extends KeyRepository {
   bool isReconnecting = false;
 
   Future<void> reconnect() async {
-    if (isReconnecting) {
-      print("ignore reconnect while reconnecting");
+    if (isConnected) {
+      print("connected - not restarting");
       return;
     }
+    // if (isReconnecting) {
+    //   print("ignore reconnect while reconnecting");
+    //   return;
+    // }
     print("reconnecting...");
 
     isReconnecting = true;
 
     try {
+      print("STOP SERVICE");
       await polkadotRepository.stopService();
+
+      print("INIT SERVICE");
 
       await polkadotRepository.initService(force: true);
 
+      print("START SERVICE");
       await polkadotRepository.startService();
+      print("DONE SERVICE");
+      isReconnecting = false;
     } catch (error) {
+      isReconnecting = false;
       print("reconnect error $error");
       rethrow;
-    } finally {
-      isReconnecting = false;
     }
   }
 

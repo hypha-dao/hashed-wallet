@@ -15,7 +15,7 @@ class SubstrateService {
   SubstrateChainModel? connectedNode;
   bool _initialized = false;
 
-  void Function(bool isConnected) connectionStateHandler;
+  void Function(bool isConnected)? connectionStateHandler;
 
   SubstrateService(this.connectionStateHandler);
 
@@ -50,7 +50,9 @@ class SubstrateService {
     final res = await webView.connectNode(nodeList);
 
     _connected = res?.endpoint != null;
-    connectionStateHandler(_connected);
+    if (connectionStateHandler != null) {
+      connectionStateHandler!(_connected);
+    }
 
     if (res == null) {
       return null;
@@ -61,15 +63,14 @@ class SubstrateService {
     print("connected: ${res.endpoint}");
 
     /// start up the reconnect service
-    _dropsService(node: res);
+    startKeepAliveTimer();
 
     return 0;
   }
 
   Future<void> stop() async {
-    _webViewDropsTimer?.cancel();
-    _dropsServiceTimer?.cancel();
-    _chainTimer?.cancel();
+    print("STOP SERVICE");
+    _keepAliveTimer?.cancel();
     try {
       // ignore: unawaited_futures
       webView.evalJavascript('api.disconnect()');
@@ -77,51 +78,39 @@ class SubstrateService {
       print("api stop fail $error");
     }
     await webView.dispose();
+    webView = WebViewRunner();
     _initialized = false;
   }
 
-  Timer? _webViewDropsTimer;
-  Timer? _dropsServiceTimer;
-  Timer? _chainTimer;
-  // implementation of a reconnect service.
-  // with three timers.
-  void _dropsService({SubstrateChainModel? node}) {
-    // every time this is called, all timers are canceled.
-    _dropsServiceCancel();
-    webView.evalJavascript('api.rpc.system.chain()').then((value) {
-      print("Check 0: api.rpc.system.chain value: $value");
-    });
+  DateTime? _lastCheck;
+  Timer? _keepAliveTimer;
+  final int _aliveSeconds = 18;
 
-    _dropsServiceTimer = Timer(const Duration(seconds: 24), () async {
-      // after 24 seconds we create an 18 second timeout to reconnect, then make
-      // a chain call.
-      // if the chain call succeeds within 18 seconds, it cancels all timers and
-      // starts over.
-      // if the timer hits before the chain call succeeds, or the chain call fails,
-      // then 18 seconds later we call _restartWebConnect.
-
-      _chainTimer = Timer(const Duration(seconds: 18), () async {
-        // if this succeeds within 60 seconds, we're reconnected.
-        // if it fails or does not return in 60 seconds, we cancel all timers
-        // and start over.
-        // That's a little odd.
-        // Note: I am pretty sure this code has bugs and race conditions.
-
-        print("Connection dropped, restarting");
+  void startKeepAliveTimer() {
+    _keepAliveTimer = Timer(const Duration(seconds: 6), () async {
+      final isAlive = await _runAliveCheck();
+      if (isAlive && _lastCheck != null && DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
+        print("Reset timer - disconnected");
+        _keepAliveTimer?.cancel();
+        _lastCheck = null;
         _connected = false;
-        connectionStateHandler(_connected);
-
-        _webViewDropsTimer = Timer(const Duration(seconds: 60), () {
-          _dropsService(node: node);
-        });
-      });
-      // TODO(n13): This is how we can just make all chain calls, and not worry about the "sdk" functions
-      // ignore: unawaited_futures
-      webView.evalJavascript('api.rpc.system.chain()').then((value) {
-        print("api.rpc.system.chain value: $value");
-        _dropsService(node: node);
-      });
+        if (connectionStateHandler != null) {
+          connectionStateHandler!(_connected);
+        }
+      }
     });
+  }
+
+  Future<bool> _runAliveCheck() async {
+    final res = await webView.evalJavascript('api.rpc.system.chain()');
+    final now = DateTime.now();
+    if (res == null) {
+      print("Alive check fail at $now");
+      return false;
+    } else {
+      _lastCheck = now;
+      return true;
+    }
   }
 
   Future<dynamic> evaluateJavascript({required String source, ContentWorld? contentWorld}) async {
@@ -130,12 +119,6 @@ class SubstrateService {
     } else {
       print("Error: No controller, can't execute JS");
     }
-  }
-
-  void _dropsServiceCancel() {
-    _dropsServiceTimer?.cancel();
-    _chainTimer?.cancel();
-    _webViewDropsTimer?.cancel();
   }
 }
 

@@ -252,6 +252,8 @@ class WebViewRunner {
     } else {
       print("connectNode failed");
     }
+    print("connectNode done...");
+
     return null;
   }
 
