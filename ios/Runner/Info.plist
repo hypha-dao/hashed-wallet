@@ -30,23 +30,13 @@
 					<string>com.joinseeds.seedslight</string>
 				</array>
 			</dict>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Editor</string>
-				<key>CFBundleURLName</key>
-				<string>esr</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>esr</string>
-				</array>
-			</dict>
 		</array>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>FirebaseDynamicLinksCustomDomains</key>
 		<array>
-			<string>https://joinseeds.com</string>
-			<string>https://seedswallet.page.link</string>
+			<string>https://app.hashed.io</string>
+			<string>https://hashedwallet.page.link</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
