@@ -5,8 +5,8 @@ class HashedElevatedButtonTheme {
   static ElevatedButtonThemeData get elevatedButtonThemeDataDark {
     return ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-      primary: AppColorSchemes.darkColorScheme.secondaryContainer, // secondary container pops more - looks active
-      onPrimary: AppColorSchemes.darkColorScheme.onSecondaryContainer,
+      primary: AppColorSchemes.darkColorScheme.primary, // secondary container pops more - looks active
+      onPrimary: AppColorSchemes.darkColorScheme.onPrimary,
       elevation: 0.0,
       padding: const EdgeInsets.all(16),
     ));

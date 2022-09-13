@@ -11,7 +11,7 @@ class SeedsAppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: AppColorSchemes.darkColorScheme,
-      canvasColor: AppColorSchemes.darkColorScheme.surfaceVariant,
+      canvasColor: AppColorSchemes.darkColorScheme.background,
       elevatedButtonTheme: HashedElevatedButtonTheme.elevatedButtonThemeDataDark,
       appBarTheme: HashedAppBarTheme.appBarDarkThemeData,
       cardTheme: HashedCardTheme.appCardThemeData,

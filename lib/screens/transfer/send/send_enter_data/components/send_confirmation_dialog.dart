@@ -38,7 +38,7 @@ class SendConfirmationDialog extends StatelessWidget {
           ),
         ],
       ),
-      iconBackground: Theme.of(context).colorScheme.onSurfaceVariant,
+      iconBackground: Theme.of(context).colorScheme.onSurface,
       onRightButtonPressed: () {
         onSendButtonPressed.call();
         Navigator.of(context).pop();

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hashed/components/divider_jungle.dart';
 import 'package:hashed/components/notification_badge.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/utils/ThemeBuildContext.dart';
 import 'package:hashed/utils/build_context_extension.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class GuardianSecurityCard extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            //color: AppColors.newPrimary,
+            color: context.colorScheme.surface,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
@@ -49,8 +50,8 @@ class GuardianSecurityCard extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      context.loc.securityGuardiansHeader,
-                                      style: Theme.of(context).textTheme.button,
+                                      "Key Guardians",
+                                      style: context.textTheme.button,
                                     ),
                                   ),
                                   const SizedBox(width: 10),

@@ -50,7 +50,7 @@ class ProfileAvatar extends StatelessWidget {
       return Container(
         decoration: decoration ??
             BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.primary,
               shape: BoxShape.circle,
             ),
         alignment: Alignment.center,

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/flat_button_long_outlined.dart';
+import 'package:hashed/utils/ThemeBuildContext.dart';
 
 const double _padding = 20;
 const double _avatarRadius = 40;
@@ -69,9 +70,10 @@ class CustomDialog extends StatelessWidget {
                   left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
               margin: const EdgeInsets.only(top: _avatarRadius),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color: context.colorScheme.background,
                 borderRadius: BorderRadius.circular(18.0),
                 boxShadow: const [BoxShadow(offset: Offset(0, 10), blurRadius: 10)],
+                border: Border.all(color: context.colorScheme.secondary),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
