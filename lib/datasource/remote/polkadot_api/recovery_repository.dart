@@ -1,4 +1,3 @@
-import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
@@ -114,27 +113,10 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// return recoveries that are currently in process for the address in question
   /// Params: Address to be recovered
   Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String address, {bool mock = false}) async {
-    // DEBUG CODE
-    // ignore: parameter_assignments
-    // address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"; // TEST steve addr
     print("get active recovery for $address");
 
     if (mock) {
-      return Future.delayed(
-          const Duration(milliseconds: 500),
-          () => Result.value(
-                [
-                  ActiveRecoveryModel(
-                      key: "a_very_long_string_used_by_the_chain_internally",
-                      lostAccount: address,
-                      rescuer: "0xmockdata",
-                      created: 898726,
-                      deposit: 16666666500,
-                      friends: [
-                        "5Da6BeYLC3BRvS2H3bQ6JWgMGZtqKGdaoKMPhdtYMf56VaCU",
-                      ])
-                ],
-              ));
+      return Future.delayed(const Duration(milliseconds: 500), () => Result.value([ActiveRecoveryModel.mock]));
     }
 
     try {
