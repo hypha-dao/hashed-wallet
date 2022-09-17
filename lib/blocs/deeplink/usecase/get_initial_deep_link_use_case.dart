@@ -22,11 +22,11 @@ class GetInitialDeepLinkUseCase {
         if (rescuer != null && lostAccount != null) {
           final data = GuardianRecoveryRequestData(rescuer: rescuer, lostAccount: lostAccount);
           return GuardianDeepLinkData(data, deepLinkPlaceHolder);
-        } else {
-          return DeepLinkData(deepLinkPlaceHolder);
         }
-      case DeepLinkPlaceHolder.unknown:
-        return DeepLinkData(deepLinkPlaceHolder);
+        break;
+      default:
+        break;
     }
+    return const DeepLinkData(DeepLinkPlaceHolder.unknown);
   }
 }
