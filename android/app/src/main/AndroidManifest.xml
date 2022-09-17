@@ -57,7 +57,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="seedswallet.page.link"
+                    android:host="hashedwallet.page.link"
                     android:scheme="https" />
             </intent-filter>
 

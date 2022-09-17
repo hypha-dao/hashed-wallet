@@ -139,11 +139,11 @@ class SubstrateService {
   }
 }
 
-late List<SubstrateChainModel> kusamaNetworkParams =
+final List<SubstrateChainModel> kusamaNetworkParams =
     nodeListKusama.map((e) => SubstrateChainModel.fromJson(e)).toList();
-late List<SubstrateChainModel> polkadotNetworkParams =
+final List<SubstrateChainModel> polkadotNetworkParams =
     nodeListPolkadot.map((e) => SubstrateChainModel.fromJson(e)).toList();
-late List<SubstrateChainModel> hashedNetworkParams =
+final List<SubstrateChainModel> hashedNetworkParams =
     nodeListHashed.map((e) => SubstrateChainModel.fromJson(e)).toList();
 
 const nodeListHashed = [

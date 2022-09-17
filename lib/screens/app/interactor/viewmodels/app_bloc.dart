@@ -15,19 +15,9 @@ part 'app_event.dart';
 part 'app_state.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  // late StreamSubscription<bool> _hasGuardianNotificationPending;
-  // late StreamSubscription<bool> _shouldShowCancelGuardianAlertMessage;
   final DeeplinkBloc _deeplinkBloc;
 
   AppBloc(this._deeplinkBloc) : super(AppState.initial(_deeplinkBloc.state.guardianRecoveryRequestData)) {
-    // _hasGuardianNotificationPending = GuardiansNotificationUseCase()
-    //     .hasGuardianNotificationPending
-    //     .listen((value) => add(ShouldShowNotificationBadge(value: value)));
-
-    // _shouldShowCancelGuardianAlertMessage = RecoveryAlertUseCase()
-    //     .shouldShowCancelGuardianAlertMessage
-    //     .listen((value) => add(ShouldShowGuardianRecoveryAlert(showGuardianRecoveryAlert: value)));
-
     _deeplinkBloc.stream.listen((state) {
       if (state.guardianRecoveryRequestData != null) {
         add(OnApproveGuardianRecoveryDeepLink(state.guardianRecoveryRequestData!));
@@ -116,6 +106,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     /// this should simply take the data - lostAccount and rescuer - and vouch.
     ///
+
+    print("recovery vouch: ${event.data.rescuer} lost: ${event.data.lostAccount}");
+    print("Not yet implemented");
 
     throw UnimplementedError("implement this or remove.");
 
