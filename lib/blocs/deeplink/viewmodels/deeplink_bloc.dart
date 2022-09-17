@@ -35,7 +35,6 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
   }
 
   Future<void> initDynamicLinks() async {
-    // Get any initial links
     final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
 
     if (initialLink != null) {
