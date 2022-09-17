@@ -7,8 +7,8 @@ import 'package:hashed/screens/app/app.dart';
 import 'package:hashed/screens/authentication/create_nickname/create_nickname_screen.dart';
 import 'package:hashed/screens/authentication/import_key/import_key_screen.dart';
 import 'package:hashed/screens/authentication/login_screen.dart';
-import 'package:hashed/screens/authentication/recover/recover_account_details/recover_account_details_page.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_success/recover_account_success_page.dart';
 import 'package:hashed/screens/authentication/sign_up/signup_screen.dart';
 import 'package:hashed/screens/authentication/splash_screen.dart';
 import 'package:hashed/screens/authentication/verification/verification_screen.dart';
@@ -39,6 +39,7 @@ class Routes {
   static const recoverAccountSearch = 'recoverAccountSearch';
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountDetails = 'recoverAccountDetails';
+  static const recoverAccountSuccess = 'recoverAccountSuccess';
   static const transfer = 'transfer';
   static const sendEnterData = 'sendEnterData';
 
@@ -72,7 +73,8 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
     Routes.recoverAccountSearch: (_) => const RecoverAccountScreen(),
-    Routes.recoverAccountDetails: (_) => const RecoverAccountDetailsPage(),
+    Routes.recoverAccountDetails: (_) => const RecoverAccountSuccessPage(), // GERY
+    Routes.recoverAccountSuccess: (_) => const RecoverAccountSuccessPage(),
     Routes.signup: (_) => const SignupScreen(),
     Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
