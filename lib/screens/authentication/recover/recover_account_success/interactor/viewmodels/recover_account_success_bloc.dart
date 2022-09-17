@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
-import 'package:hashed/screens/authentication/recover/recover_account_success/usecase/fetch_recover_account_details_data.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_success/usecase/fetch_recover_account_success_data.dart';
 
 part 'recover_account_success_event.dart';
 part 'recover_account_success_state.dart';
