@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:seedswallet.page.link</string>
+		<string>applinks:hashedwallet.page.link</string>
 	</array>
 </dict>
 </plist>

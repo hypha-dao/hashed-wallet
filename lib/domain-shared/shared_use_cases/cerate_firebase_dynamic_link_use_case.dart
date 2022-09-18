@@ -10,6 +10,7 @@ class CreateFirebaseDynamicLinkUseCase {
     final uri = Uri.parse(guardianTargetLink).replace(queryParameters: {
       'lostAccount': data.lostAccount,
       'rescuer': data.rescuer,
+      'placeholder': 'guardian',
     });
 
     print("recover link: $uri");

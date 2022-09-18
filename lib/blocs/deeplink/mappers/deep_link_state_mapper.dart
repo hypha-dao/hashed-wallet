@@ -1,5 +1,4 @@
 import 'package:hashed/blocs/deeplink/model/deep_link_data.dart';
-import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 
@@ -8,13 +7,8 @@ class DeepLinkStateMapper extends StateMapper {
   DeeplinkState mapResultToState(DeeplinkState currentState, DeepLinkData deepLinkData) {
     switch (deepLinkData.deepLinkPlaceHolder) {
       case DeepLinkPlaceHolder.guardian:
-        final lostAccount = deepLinkData.data['lostAccount'];
-        final rescuer = deepLinkData.data['rescuer'];
         return currentState.copyWith(
-          showGuardianApproveOrDenyScreen: GuardianRecoveryRequestData(
-            lostAccount: lostAccount,
-            rescuer: rescuer,
-          ),
+          showGuardianApproveOrDenyScreen: (deepLinkData as GuardianDeepLinkData).data,
         );
       case DeepLinkPlaceHolder.unknown:
         // Don't know how to handle this link. Return current state
