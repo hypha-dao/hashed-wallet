@@ -64,3 +64,11 @@ For iOS App store release, we build with XCode - but before running the XCode bu
 
 2 - Build with XCode for App store distrubution as usual
 
+
+## Minimum iOS version is 14
+
+There are two dependencies on iOS 14.
+
+1 - iOS versions before 14 do not support WASM in JavaScriptCore. Polkadot JS requires WASM support. 
+
+2 - flutter_inapp_webview has [bugs in iOS versions < 14](https://github.com/pichillilorenzo/flutter_inappwebview/issues/1216)
