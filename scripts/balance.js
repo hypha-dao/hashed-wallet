@@ -11,6 +11,16 @@ const init = async () => {
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
 
+  const chain = await api.rpc.system.chain();
+
+  console.log(JSON.stringify(chain, null, 2))
+
+
+  const block = await api.rpc.chain.getBlock();
+
+  console.log("block "+JSON.stringify(block, null, 2))
+  console.log("block num "+block.block.header.number)
+
   // Constuct the keyring after the API (crypto has an async init)
   const keyring = new Keyring({ type: "sr25519" });
 

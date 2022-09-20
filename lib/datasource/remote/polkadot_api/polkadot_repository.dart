@@ -227,6 +227,21 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
+  Future<Result<int>> getLastBlockNumber() async {
+    try {
+      print("get last block number");
+
+      final resJson = await _substrateService?.webView.evalJavascript('api.rpc.chain.getBlock()');
+
+      print("result STRING $resJson");
+
+      return Result.value(0);
+    } catch (error) {
+      print("Error getting block number $error");
+      return Result.error(error);
+    }
+  }
+
   Future<dynamic> testImport() async {
     if (!isReady) {
       throw "testImport: service not ready";
