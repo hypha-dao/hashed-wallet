@@ -18,6 +18,8 @@ class CurrentRemainingTime {
 
   factory CurrentRemainingTime.zero() => const CurrentRemainingTime(days: 0, hours: 0, min: 0, sec: 0);
 
+  bool get isZero => days == 0 && hours == 0 && min == 0 && sec == 0;
+
   @override
   String toString() => 'CurrentRemainingTime { days: $days, hours: $hours, min: $min, sec: $sec }';
 }

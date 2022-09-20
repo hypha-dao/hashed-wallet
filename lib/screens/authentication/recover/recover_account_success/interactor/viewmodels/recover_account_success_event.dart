@@ -13,3 +13,17 @@ class FetchInitialData extends RecoverAccountSuccessEvent {
   @override
   String toString() => 'FetchInitialData';
 }
+
+class OnRefreshTapped extends RecoverAccountSuccessEvent {
+  const OnRefreshTapped();
+
+  @override
+  String toString() => 'OnRefreshTapped';
+}
+
+class OnRecoverFundsTapped extends RecoverAccountSuccessEvent {
+  const OnRecoverFundsTapped();
+
+  @override
+  String toString() => 'OnRecoverFundsTapped';
+}
