@@ -4,6 +4,15 @@ require('dotenv').config()
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { Keyring } = require("@polkadot/keyring");
 
+const getLastBlock = async (api) => {
+  const block = await api.rpc.chain.getBlock();
+
+  console.log("block "+JSON.stringify(block, null, 2))
+  console.log("last block num "+block.block.header.number)
+
+
+}
+
 const init = async () => {
   // Initialize the provider to connect to the local node
   const provider = new WsProvider(process.env.NODE_ENDPOINT);
@@ -15,11 +24,7 @@ const init = async () => {
 
   console.log(JSON.stringify(chain, null, 2))
 
-
-  const block = await api.rpc.chain.getBlock();
-
-  console.log("block "+JSON.stringify(block, null, 2))
-  console.log("block num "+block.block.header.number)
+  await getLastBlock(api)
 
   // Constuct the keyring after the API (crypto has an async init)
   const keyring = new Keyring({ type: "sr25519" });
