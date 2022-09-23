@@ -85,10 +85,17 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         child: WalletButtons(
                           title: 'Receive',
                           onPressed: () async {
-                            final link = await CreateFirebaseDynamicLinkUseCase().createDynamicLink(
-                                GuardianRecoveryRequestData(lostAccount: "0x0111", rescuer: "0x0222"));
+                            // get last block
+                            final res = await polkadotRepository.getLastBlockNumber();
+                            print("last block: ${res.asValue!.value}");
 
-                            print("firebase deep link: ${link.asValue?.value}");
+                            // create link
+                            // final link = await CreateFirebaseDynamicLinkUseCase().createDynamicLink(
+                            //     GuardianRecoveryRequestData(lostAccount: "0x0111", rescuer: "0x0222"));
+
+                            // print("firebase deep link: ${link.asValue?.value}");
+
+                            // get active recoveries
                             // polkadotRepository.recoveryRepository
                             //     .getActiveRecoveries(accountService.currentAccount.address);
                           },

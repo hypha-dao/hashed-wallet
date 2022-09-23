@@ -6,6 +6,7 @@ import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
+import 'package:hashed/datasource/remote/model/substrate_block.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
@@ -232,10 +233,8 @@ class PolkadotRepository extends KeyRepository {
       print("get last block number");
 
       final resJson = await _substrateService?.webView.evalJavascript('api.rpc.chain.getBlock()');
-
-      print("result STRING $resJson");
-
-      return Result.value(0);
+      final block = SubstrateBlock.fromJson(resJson["block"]);
+      return Result.value(block.header.number);
     } catch (error) {
       print("Error getting block number $error");
       return Result.error(error);
