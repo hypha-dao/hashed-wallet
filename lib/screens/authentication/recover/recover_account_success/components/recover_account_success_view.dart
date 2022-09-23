@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_bloc.dart';
 import 'package:hashed/screens/settings/components/settings_card.dart';
@@ -39,7 +40,10 @@ class RecoverAccountSuccessView extends StatelessWidget {
                     title: "Recover ${state.recoverAmount}",
                     description: "Recover all HSD tokens from ${state.recoveredAccount}",
                     onTap: () async {
-                      BlocProvider.of<RecoverAccountSuccessBloc>(context).add(const OnRecoverFundsTapped());
+                      BlocProvider.of<RecoverAccountSuccessBloc>(context).add(OnRecoverFundsTapped(
+                        rescuer: accountService.currentAccount.address,
+                        lostAccount: state.recoveredAccount,
+                      ));
                     },
                   ),
                 ],

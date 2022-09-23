@@ -22,7 +22,9 @@ class OnRefreshTapped extends RecoverAccountSuccessEvent {
 }
 
 class OnRecoverFundsTapped extends RecoverAccountSuccessEvent {
-  const OnRecoverFundsTapped();
+  String rescuer;
+  String lostAccount;
+  OnRecoverFundsTapped({required this.rescuer, required this.lostAccount});
 
   @override
   String toString() => 'OnRecoverFundsTapped';

@@ -7,6 +7,9 @@ class FetchRecoverAccountTimerData {
   Future<Result<int>> run(String accountName) async {
     // TODO(Nik): This is mocked data. We need to make calls to the repo to get the data we need and Map it to a
     // TODO(Nik): ResultData object. The bloc will know how to handle this object. If fails, return Result.error()
+
+    // Would be nicer to return a Duration object here
+
     return Result.value(DateTime.now().add(const Duration(hours: 23)).millisecondsSinceEpoch ~/ 1000);
   }
 }
