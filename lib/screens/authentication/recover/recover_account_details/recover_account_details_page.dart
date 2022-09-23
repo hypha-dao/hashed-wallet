@@ -4,7 +4,7 @@ import 'package:hashed/screens/authentication/recover/recover_account_details/in
 import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/viewmodels/recover_account_details_bloc.dart';
 
 class RecoverAccountDetailsPage extends StatelessWidget {
-  const RecoverAccountDetailsPage({Key? key}) : super(key: key);
+  const RecoverAccountDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,28 +12,31 @@ class RecoverAccountDetailsPage extends StatelessWidget {
     final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
       create: (context) => RecoverAccountDetailsBloc(userAccount)..add(const FetchInitialData()),
-      child: Scaffold(
-          appBar: AppBar(
-            title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),
-            automaticallyImplyLeading: false,
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
-            actions: [
-              Padding(
+      child: BlocBuilder<RecoverAccountDetailsBloc, RecoverAccountDetailsState>(
+          builder: (BuildContext context, RecoverAccountDetailsState state) {
+        return Scaffold(
+            appBar: AppBar(
+              title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),
+              automaticallyImplyLeading: false,
+              leading: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () => BlocProvider.of<RecoverAccountDetailsBloc>(context).add(const OnRefreshTapped()),
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-              )
-            ],
-          ),
-          body: const RecoverAccountDetailsView()),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () => BlocProvider.of<RecoverAccountDetailsBloc>(context).add(const OnRefreshTapped()),
+                  ),
+                )
+              ],
+            ),
+            body: const RecoverAccountDetailsView());
+      }),
     );
   }
 }
