@@ -4,6 +4,8 @@ import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
 import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
+import 'package:hashed/utils/ThemeBuildContext.dart';
+import 'package:hashed/utils/short_string.dart';
 
 class MyGuardiansView extends StatelessWidget {
   const MyGuardiansView({super.key});
@@ -25,7 +27,7 @@ class MyGuardiansView extends StatelessWidget {
           final List<ListTile> items = [];
           items.addAll(state.myGuardians.guardians.map((e) => ListTile(
                 title: Text(
-                  e.name ?? e.address,
+                  e.name ?? e.address.shorter,
                   style: const TextStyle(overflow: TextOverflow.ellipsis),
                 ),
                 subtitle: e.name != null
@@ -34,13 +36,15 @@ class MyGuardiansView extends StatelessWidget {
                         style: const TextStyle(overflow: TextOverflow.ellipsis),
                       )
                     : null,
-                trailing: TextButton(
-                    onPressed: state.areGuardiansActive
-                        ? null
-                        : () {
-                            BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
-                          },
-                    child: Text(state.areGuardiansActive ? '' : 'Remove')),
+                trailing: state.areGuardiansActive
+                    ? Icon(Icons.check_circle, color: context.colorScheme.onBackground)
+                    : TextButton(
+                        onPressed: state.areGuardiansActive
+                            ? null
+                            : () {
+                                BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
+                              },
+                        child: Text(state.areGuardiansActive ? '' : 'Remove')),
               )));
 
           if (state.myGuardians.length <= 9 && !state.areGuardiansActive) {
