@@ -6,15 +6,21 @@ class RecoverAccountDetailsState extends Equatable {
   final PageCommand? pageCommand;
   final Uri? linkToActivateGuardians;
   final int totalGuardiansCount;
+  final int threshold;
   final List<String> approvedAccounts;
+  final List<String> guardianAccounts;
+
+  List<String> get pendingAccounts => guardianAccounts.where((item) => !approvedAccounts.contains(item)).toList();
 
   const RecoverAccountDetailsState({
     required this.pageState,
     required this.userAccount,
     this.pageCommand,
     required this.approvedAccounts,
+    required this.guardianAccounts,
     this.linkToActivateGuardians,
     required this.totalGuardiansCount,
+    required this.threshold,
   });
 
   @override
@@ -25,6 +31,8 @@ class RecoverAccountDetailsState extends Equatable {
         linkToActivateGuardians,
         totalGuardiansCount,
         approvedAccounts,
+        guardianAccounts,
+        threshold,
       ];
 
   RecoverAccountDetailsState copyWith({
@@ -32,15 +40,19 @@ class RecoverAccountDetailsState extends Equatable {
     PageCommand? pageCommand,
     Uri? linkToActivateGuardians,
     int? totalGuardiansCount,
-    List<String>? approvedAccount,
+    List<String>? approvedAccounts,
+    List<String>? guardianAccounts,
+    int? threshold,
   }) {
     return RecoverAccountDetailsState(
       pageState: pageState ?? this.pageState,
       userAccount: userAccount,
       pageCommand: pageCommand,
-      approvedAccounts: approvedAccount ?? this.approvedAccounts,
+      approvedAccounts: approvedAccounts ?? this.approvedAccounts,
+      guardianAccounts: guardianAccounts ?? this.guardianAccounts,
       totalGuardiansCount: totalGuardiansCount ?? this.totalGuardiansCount,
       linkToActivateGuardians: linkToActivateGuardians ?? this.linkToActivateGuardians,
+      threshold: threshold ?? this.threshold,
     );
   }
 
@@ -50,6 +62,8 @@ class RecoverAccountDetailsState extends Equatable {
       userAccount: userAccount,
       totalGuardiansCount: 0,
       approvedAccounts: [],
+      guardianAccounts: [],
+      threshold: 0,
     );
   }
 }

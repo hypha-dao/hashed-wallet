@@ -39,11 +39,9 @@ class MyGuardiansView extends StatelessWidget {
                 trailing: state.areGuardiansActive
                     ? Icon(Icons.check_circle, color: context.colorScheme.onBackground)
                     : TextButton(
-                        onPressed: state.areGuardiansActive
-                            ? null
-                            : () {
-                                BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
-                              },
+                        onPressed: () {
+                          BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
+                        },
                         child: Text(state.areGuardiansActive ? '' : 'Remove')),
               )));
 

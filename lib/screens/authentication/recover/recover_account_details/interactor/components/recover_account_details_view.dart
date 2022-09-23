@@ -5,6 +5,8 @@ import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/components/text_form_field_custom.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/viewmodels/recover_account_details_bloc.dart';
+import 'package:hashed/utils/ThemeBuildContext.dart';
+import 'package:hashed/utils/short_string.dart';
 import 'package:share/share.dart';
 
 class RecoverAccountDetailsView extends StatelessWidget {
@@ -57,7 +59,7 @@ class RecoverAccountDetailsView extends StatelessWidget {
                   Row(
                     children: [
                       Text(state.approvedAccounts.length.toString(), style: Theme.of(context).textTheme.headline6),
-                      Text("/${state.totalGuardiansCount}", style: Theme.of(context).textTheme.headline6),
+                      Text("/${state.threshold}", style: Theme.of(context).textTheme.headline6),
                       const SizedBox(width: 24),
                       const Flexible(
                         child: Text('Guardians have accepted your request to recover your account'),
@@ -68,10 +70,17 @@ class RecoverAccountDetailsView extends StatelessWidget {
                   Divider(color: Theme.of(context).colorScheme.primary),
                   const SizedBox(height: 16),
                   ...state.approvedAccounts.map((e) => ListTile(
-                        title: Text(e),
+                        title: Text(e.shorter),
                         trailing: Icon(
                           Icons.check_circle,
                           color: Theme.of(context).colorScheme.primary,
+                        ),
+                      )),
+                  ...state.pendingAccounts.map((e) => ListTile(
+                        title: Text(e.shorter),
+                        trailing: Text(
+                          'pending',
+                          style: TextStyle(color: context.colorScheme.secondary),
                         ),
                       ))
                 ],
