@@ -10,7 +10,7 @@ import 'package:hashed/utils/short_string.dart';
 import 'package:share/share.dart';
 
 class RecoverAccountDetailsView extends StatelessWidget {
-  const RecoverAccountDetailsView({Key? key}) : super(key: key);
+  const RecoverAccountDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
