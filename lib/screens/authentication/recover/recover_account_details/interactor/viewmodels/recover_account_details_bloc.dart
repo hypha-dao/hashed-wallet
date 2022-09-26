@@ -24,8 +24,10 @@ class RecoverAccountDetailsBloc extends Bloc<RecoverAccountDetailsEvent, Recover
       final data = result.asValue!.value;
       emit(state.copyWith(
         linkToActivateGuardians: data.linkToActivateGuardians,
-        totalGuardiansCount: data.totalGuardiansCount,
-        approvedAccount: data.approvedAccounts,
+        totalGuardiansCount: data.configuration.guardianAddresses.length,
+        approvedAccounts: data.activeRecovery.friends,
+        guardianAccounts: data.configuration.guardianAddresses,
+        threshold: data.configuration.threshold,
         pageState: PageState.success,
       ));
     } else {

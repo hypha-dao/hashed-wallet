@@ -1,5 +1,7 @@
 import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/datasource/remote/api/guardians_repository.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 
@@ -44,21 +46,21 @@ class FetchRecoverAccountDetailsData {
     }
 
     return Result.value(ResultData(
-      totalGuardiansCount: recoveryConfig.guardianAddresses.length,
       linkToActivateGuardians: link.asValue!.value,
-      approvedAccounts: activeRecovery.friends,
+      configuration: recoveryConfig,
+      activeRecovery: activeRecovery,
     ));
   }
 }
 
 class ResultData {
   final Uri linkToActivateGuardians;
-  final int totalGuardiansCount;
-  final List<String> approvedAccounts;
+  final GuardiansConfigModel configuration;
+  final ActiveRecoveryModel activeRecovery;
 
   ResultData({
     required this.linkToActivateGuardians,
-    required this.totalGuardiansCount,
-    required this.approvedAccounts,
+    required this.configuration,
+    required this.activeRecovery,
   });
 }
