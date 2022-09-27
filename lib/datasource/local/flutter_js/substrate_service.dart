@@ -72,8 +72,7 @@ class SubstrateService {
     print("STOP SERVICE");
     _keepAliveTimer?.cancel();
     try {
-      // ignore: unawaited_futures
-      webView.evalJavascript('api.disconnect()');
+      await webView.evalJavascript('api.disconnect()');
     } catch (error) {
       print("api stop fail $error");
     }
