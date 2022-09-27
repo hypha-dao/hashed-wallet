@@ -85,16 +85,27 @@ class SubstrateService {
   Timer? _keepAliveTimer;
   final int _aliveSeconds = 18;
 
+  /// Keep alive timer accurately reports when the connection is down
+  /// It does not take actions other than calling the connectionStateHandler
   void startKeepAliveTimer() {
     _keepAliveTimer = Timer(const Duration(seconds: 6), () async {
-      final isAlive = await _runAliveCheck();
-      if (isAlive && _lastCheck != null && DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
-        print("Reset timer - disconnected");
-        _keepAliveTimer?.cancel();
-        _lastCheck = null;
-        _connected = false;
-        if (connectionStateHandler != null) {
-          connectionStateHandler!(_connected);
+      final aliveCheckSuccess = await _runAliveCheck();
+      if (aliveCheckSuccess) {
+        _lastCheck = DateTime.now();
+      } else {
+        /// Alive check failed - we ignore a certain number of failed alive checks
+        if (_lastCheck != null) {
+          if (DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
+            print("Network is disconnected");
+            _keepAliveTimer?.cancel();
+            _lastCheck = null;
+            _connected = false;
+            if (connectionStateHandler != null) {
+              connectionStateHandler!(false);
+            }
+          } else {
+            print("disconnect detected at ${DateTime.now()} - ignoring...");
+          }
         }
       }
     });
@@ -102,12 +113,10 @@ class SubstrateService {
 
   Future<bool> _runAliveCheck() async {
     final res = await webView.evalJavascript('api.rpc.system.chain()');
-    final now = DateTime.now();
     if (res == null) {
-      print("Alive check fail at $now");
+      print("Alive check fail at ${DateTime.now()}");
       return false;
     } else {
-      _lastCheck = now;
       return true;
     }
   }

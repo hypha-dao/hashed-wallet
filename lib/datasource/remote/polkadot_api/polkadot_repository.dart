@@ -32,10 +32,11 @@ class PolkadotRepository extends KeyRepository {
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
   void handleConnectState(bool isConnected) {
+    final wasConnected = state.isConnected;
     print("PolkadotRepository connection state ${isConnected ? 'Connected' : 'Disconnected'}");
     state.isConnected = isConnected;
     eventBus.fire(OnConnectionStateEventBus(isConnected));
-    if (!isConnected) {
+    if (!isConnected && wasConnected) {
       reconnect();
     }
   }
