@@ -50,9 +50,7 @@ class SubstrateService {
     final res = await webView.connectNode(nodeList);
 
     _connected = res?.endpoint != null;
-    if (connectionStateHandler != null) {
-      connectionStateHandler!(_connected);
-    }
+    connectionStateHandler?.call(_connected);
 
     if (res == null) {
       return null;
@@ -100,9 +98,7 @@ class SubstrateService {
             _keepAliveTimer?.cancel();
             _lastCheck = null;
             _connected = false;
-            if (connectionStateHandler != null) {
-              connectionStateHandler!(false);
-            }
+            connectionStateHandler?.call(false);
           } else {
             print("disconnect detected at ${DateTime.now()} - ignoring...");
           }
