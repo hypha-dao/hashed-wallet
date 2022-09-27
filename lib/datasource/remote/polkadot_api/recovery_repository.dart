@@ -130,12 +130,38 @@ class RecoveryRepository extends ExtrinsicsRepository {
           data: v.toJSON() 
         } 
       })''';
+
       final res = await evalJavascript(code: code, transformer: transformer);
 
       final list = List.from(res);
       final recoveries = list.map((e) => ActiveRecoveryModel.fromJson(e)).toList();
 
       return Result.value(recoveries);
+    } catch (err, stacktrace) {
+      print('getActiveRecoveries error: $err');
+      print(stacktrace);
+      return Result.error(err);
+    }
+  }
+
+  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount(
+    String rescuer,
+    String lostAccount, {
+    bool mock = false,
+  }) async {
+    print("get active recovery for $rescuer and $lostAccount");
+
+    if (mock) {
+      return Future.delayed(const Duration(milliseconds: 500), () => Result.value(ActiveRecoveryModel.mock));
+    }
+
+    try {
+      final code = 'api.query.recovery.activeRecoveries("$lostAccount", "$rescuer")';
+      final res = await evalJavascript(code: code);
+
+      final recovery = ActiveRecoveryModel.fromJsonSingle(rescuer: rescuer, lostAccount: lostAccount, json: res);
+
+      return Result.value(recovery);
     } catch (err, stacktrace) {
       print('getActiveRecoveries error: $err');
       print(stacktrace);

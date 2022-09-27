@@ -1,8 +1,6 @@
 /// Represents an active recovery
 ///
 class ActiveRecoveryModel {
-  final String key;
-
   /// the account it is trying to recover
   final String lostAccount;
 
@@ -18,16 +16,15 @@ class ActiveRecoveryModel {
   /// the list of friends / guardians who have already signed - can be empty
   final List<String> friends;
 
-  ActiveRecoveryModel(
-      {required this.key,
-      required this.lostAccount,
-      required this.rescuer,
-      required this.created,
-      required this.deposit,
-      required this.friends});
+  ActiveRecoveryModel({
+    required this.lostAccount,
+    required this.rescuer,
+    required this.created,
+    required this.deposit,
+    required this.friends,
+  });
 
   factory ActiveRecoveryModel.fromJson(Map<String, dynamic> json) {
-    final key = json["key"];
     final lostAccount = json["lostAccount"];
     final rescuer = json["rescuer"];
 
@@ -37,7 +34,6 @@ class ActiveRecoveryModel {
     final friends = List<String>.from(data["friends"]);
 
     return ActiveRecoveryModel(
-      key: key,
       lostAccount: lostAccount,
       rescuer: rescuer,
       created: created,
@@ -46,9 +42,39 @@ class ActiveRecoveryModel {
     );
   }
 
+  /// Use this factory model for results for a specific rescuer / lostAccount
+  /// combination.
+  factory ActiveRecoveryModel.fromJsonSingle({
+    required String rescuer,
+    required String lostAccount,
+    required Map<String, dynamic> json,
+  }) {
+    final int created = json['created'];
+    final int deposit = json['deposit'];
+    final friends = List<String>.from(json["friends"]);
+
+    return ActiveRecoveryModel(
+      lostAccount: lostAccount,
+      rescuer: rescuer,
+      created: created,
+      deposit: deposit,
+      friends: friends,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "lostAccount": lostAccount,
+      "rescuer": rescuer,
+      "data": {
+        "created": created,
+        "deposit": deposit,
+        "friends": friends,
+      }
+    };
+  }
+
   static final mock = ActiveRecoveryModel(
-    key:
-        "0xa2ce73642c549ae79c14f0a671cf45f9dff9094d7baf1e2d9b2e3a4253b096f86c7090fd2359d471e63883edb4a6a0cdebfac75f34f14f34d3cbffc154ae4c7f28ea266addddf8501493c613e8bdafc0b25475e47c779546c9b6ab58e0bdbdc2245503284a8dfe4c324e6dc285c88a1d",
     lostAccount: "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",
     rescuer: "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW",
     created: 1035220,

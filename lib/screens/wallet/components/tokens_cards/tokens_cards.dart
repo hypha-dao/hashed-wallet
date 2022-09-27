@@ -6,6 +6,7 @@ import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart'
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
 import 'package:hashed/datasource/local/account_service.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
@@ -85,9 +86,20 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         child: WalletButtons(
                           title: 'Receive',
                           onPressed: () async {
-                            // get last block
-                            final res = await polkadotRepository.getLastBlockNumber();
-                            print("last block: ${res.asValue!.value}");
+                            /// get last block
+                            // final res = await polkadotRepository.getLastBlockNumber();
+                            // print("last block: ${res.asValue!.value}");
+
+                            // get recovery
+                            final lostAccount = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
+                            final rescuer = "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW";
+                            final res = await polkadotRepository.recoveryRepository
+                                .getActiveRecoveriesForLostaccount(rescuer, lostAccount);
+
+                            final recovery = res.asValue!.value;
+                            print("recovery: ${recovery!.toJson()} ");
+
+                            // print("firebase deep link: ${link.asValue?.value}");
 
                             // create link
                             // final link = await CreateFirebaseDynamicLinkUseCase().createDynamicLink(
