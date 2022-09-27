@@ -743,6 +743,9 @@ const queryActiveRecovery = async () => {
     const rescuerAccount = obj.key.filter((e) => e != steve.address)[0]
     console.log("rescuer account: " + rescuerAccount)
     console.log("num signatures: " + obj.data.friends.length)
+    if (obj.data.friends.length > 0) {
+      console.log("signers: "+JSON.stringify(obj.data.friends, null, 2))
+    }
   }
 
   await api.disconnect()
@@ -752,7 +755,7 @@ const queryActiveRecovery = async () => {
 
 }
 
-const queryActiveRecoveryByRescuer = async (rescuer) => {
+const queryActiveRecoveryByRescuer = async (lostAccount, rescuer) => {
   const { api, keyring, steve } = await init()
 
   // on create recovery
@@ -760,7 +763,8 @@ const queryActiveRecoveryByRescuer = async (rescuer) => {
   // then we need to query if the recovery already exists
   // then if it does not exist we can create it
 
-  const getActiveRecovery = await api.query.recovery.activeRecoveries(steve.address, rescuer);
+  const getActiveRecovery = await api.query.recovery.activeRecoveries(lostAccount, rescuer);
+  // const getActiveRecovery = await api.query.recovery.activeRecoveries(rescuer);
 
   console.log("rescuer act recovery: " + JSON.stringify(getActiveRecovery, null, 2))
 
@@ -840,9 +844,9 @@ program
 
     console.log("active: " + JSON.stringify(result, null, 2))
 
-    //console.log("queryActiveRecoveryByRescuer...")
-    //const rescuerRes = await queryActiveRecoveryByRescuer("5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
-    //console.log("data by tuple: " + JSON.stringify(rescuerRes, null, 2))
+    console.log("queryActiveRecoveryByRescuer...")
+    const rescuerRes = await queryActiveRecoveryByRescuer(steve.address, "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
+    console.log("data by tuple: " + JSON.stringify(rescuerRes, null, 2))
 
 
     /// QUERY ACTIVE RESULT with no signers
