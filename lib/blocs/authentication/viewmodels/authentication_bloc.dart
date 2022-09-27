@@ -42,9 +42,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     /// This will clean all data
     await StopRecoveryUseCase().run();
 
-    // save account removed - old model TODO: cleanup
-    // await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
-
     // New account --> re-start auth status
     add(const InitAuthStatus());
   }
