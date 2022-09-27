@@ -9,11 +9,6 @@ class FetchRecoverAccountDetailsData {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
   Future<Result<RecoveryResultData>> run(String accountName) async {
-    // This object is questionable, it seems to combine different chain calls
-    // the link is generated in app, from rescuer and lostAccount
-    // the lookup for lostAccount is getting the active recoveries and the recovery config.
-    // Therefore I don't think we should have this artificual resultDAta object?
-
     final configResult = await _guardiansRepository.getAccountGuardians(accountName);
     final activeResult = await _guardiansRepository.getAccountRecovery(accountName);
 
