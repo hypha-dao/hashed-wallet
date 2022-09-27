@@ -8,7 +8,7 @@ import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_li
 class FetchRecoverAccountDetailsData {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
-  Future<Result<ResultData>> run(String accountName) async {
+  Future<Result<RecoveryResultData>> run(String accountName) async {
     // This object is questionable, it seems to combine different chain calls
     // the link is generated in app, from rescuer and lostAccount
     // the lookup for lostAccount is getting the active recoveries and the recovery config.
@@ -45,7 +45,7 @@ class FetchRecoverAccountDetailsData {
       return Result.error(link.asError!.error);
     }
 
-    return Result.value(ResultData(
+    return Result.value(RecoveryResultData(
       linkToActivateGuardians: link.asValue!.value,
       configuration: recoveryConfig,
       activeRecovery: activeRecovery,
@@ -53,12 +53,12 @@ class FetchRecoverAccountDetailsData {
   }
 }
 
-class ResultData {
+class RecoveryResultData {
   final Uri linkToActivateGuardians;
   final GuardiansConfigModel configuration;
   final ActiveRecoveryModel activeRecovery;
 
-  ResultData({
+  RecoveryResultData({
     required this.linkToActivateGuardians,
     required this.configuration,
     required this.activeRecovery,

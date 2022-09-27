@@ -7,8 +7,8 @@ abstract class RecoverAccountTimerEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchInitialData extends RecoverAccountTimerEvent {
-  const FetchInitialData();
+class FetchTimerData extends RecoverAccountTimerEvent {
+  const FetchTimerData();
 
   @override
   String toString() => 'FetchInitialData';

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -15,8 +16,8 @@ part 'recover_account_timer_state.dart';
 class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAccountTimerState> {
   StreamSubscription<int>? _tickerSubscription;
 
-  RecoverAccountTimerBloc(String userAccount) : super(RecoverAccountTimerState.initial(userAccount)) {
-    on<FetchInitialData>(_fetchInitialData);
+  RecoverAccountTimerBloc(ActiveRecoveryModel recoveryModel) : super(RecoverAccountTimerState.initial(recoveryModel)) {
+    on<FetchTimerData>(_fetchInitialData);
     on<OnRefreshTapped>(_onRefreshTapped);
     on<Tick>(_onTick);
   }
@@ -29,9 +30,9 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
     return super.close();
   }
 
-  Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountTimerState> emit) async {
+  Future<void> _fetchInitialData(FetchTimerData event, Emitter<RecoverAccountTimerState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<int> result = await FetchRecoverAccountTimerData().run(state.userAccount);
+    final Result<int> result = await FetchRecoverAccountTimerData().run(state.recoveryModel);
 
     if (result.isValue) {
       final data = result.asValue!.value;
@@ -47,7 +48,7 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
   }
 
   FutureOr<void> _onRefreshTapped(OnRefreshTapped event, Emitter<RecoverAccountTimerState> emit) {
-    add(const FetchInitialData());
+    add(const FetchTimerData());
   }
 
   Future<void> _onTick(Tick event, Emitter<RecoverAccountTimerState> emit) async {

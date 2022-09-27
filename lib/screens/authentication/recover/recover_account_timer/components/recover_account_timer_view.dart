@@ -77,7 +77,7 @@ class RecoverAccountTimerView extends StatelessWidget {
                     onPressed: () {
                       NavigationService.of(context).navigateTo(
                         Routes.recoverAccountDetails,
-                        state.userAccount,
+                        state.recoveryModel,
                       );
                     },
                     enabled: state.currentRemainingTime?.isZero == true,
