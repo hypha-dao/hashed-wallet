@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/usecase/fetch_recover_account_details_data.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/components/recover_account_timer_view.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/viewmodels/recover_account_timer_bloc.dart';
 
@@ -9,9 +10,9 @@ class RecoverAccountTimerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: cast_nullable_to_non_nullable
-    final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
+    final RecoveryResultData recoveryData = ModalRoute.of(context)!.settings.arguments as RecoveryResultData;
     return BlocProvider(
-      create: (context) => RecoverAccountTimerBloc(userAccount)..add(const FetchInitialData()),
+      create: (context) => RecoverAccountTimerBloc(recoveryData.activeRecovery)..add(const FetchTimerData()),
       child: Scaffold(
           appBar: AppBar(
             title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),

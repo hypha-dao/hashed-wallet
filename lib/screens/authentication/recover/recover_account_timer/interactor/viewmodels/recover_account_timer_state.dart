@@ -2,7 +2,7 @@ part of 'recover_account_timer_bloc.dart';
 
 class RecoverAccountTimerState extends Equatable {
   final PageState pageState;
-  final String userAccount;
+  final ActiveRecoveryModel recoveryModel;
   final CurrentRemainingTime? currentRemainingTime;
   final PageCommand? pageCommand;
   final int timeLockExpirySeconds;
@@ -11,7 +11,7 @@ class RecoverAccountTimerState extends Equatable {
 
   const RecoverAccountTimerState({
     required this.pageState,
-    required this.userAccount,
+    required this.recoveryModel,
     this.pageCommand,
     required this.currentRemainingTime,
     required this.timeLockExpirySeconds,
@@ -20,7 +20,7 @@ class RecoverAccountTimerState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
-        userAccount,
+        recoveryModel,
         pageCommand,
         currentRemainingTime,
         timeLockExpirySeconds,
@@ -34,17 +34,17 @@ class RecoverAccountTimerState extends Equatable {
   }) {
     return RecoverAccountTimerState(
       pageState: pageState ?? this.pageState,
-      userAccount: userAccount,
+      recoveryModel: recoveryModel,
       pageCommand: pageCommand,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
       timeLockExpirySeconds: timeLockExpirySeconds ?? this.timeLockExpirySeconds,
     );
   }
 
-  factory RecoverAccountTimerState.initial(String userAccount) {
+  factory RecoverAccountTimerState.initial(ActiveRecoveryModel recoveryModel) {
     return RecoverAccountTimerState(
       pageState: PageState.initial,
-      userAccount: userAccount,
+      recoveryModel: recoveryModel,
       currentRemainingTime: CurrentRemainingTime.zero(),
       timeLockExpirySeconds: 0,
     );
