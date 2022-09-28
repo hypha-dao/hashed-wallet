@@ -92,7 +92,6 @@ class SettingsScreen extends StatelessWidget {
                           icon: const Icon(Icons.shield),
                           title: "Recover Account",
                           description: "Recover an account with the help of the guardians set for that account.",
-                          // TODO(n13): Fix share secret words
                           onTap: () async {
                             BlocProvider.of<SettingsBloc>(context).add(const OnRecoverAccountTapped());
                           },

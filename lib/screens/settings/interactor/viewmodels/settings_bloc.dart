@@ -69,7 +69,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<void> _onRecoverAccountTapped(OnRecoverAccountTapped event, Emitter<SettingsState> emit) async {
-    emit(state.copyWith(pageCommand: NavigateToRoute(Routes.recoverAccountSearch)));
+    emit(state.copyWith(pageCommand: NavigateToRoute(Routes.recoverAccountOverview)));
   }
 
   void _onPasscodePressed(OnPasscodePressed event, Emitter<SettingsState> emit) {

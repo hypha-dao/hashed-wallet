@@ -8,6 +8,8 @@ import 'package:hashed/screens/authentication/create_nickname/create_nickname_sc
 import 'package:hashed/screens/authentication/import_key/import_key_screen.dart';
 import 'package:hashed/screens/authentication/login_screen.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/recover_account_details_page.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_overview/interactor/components/recover_account_overview_view.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_overview/recover_account_overview_page.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/recover_account_success_page.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/recover_account_timer_page.dart';
@@ -40,6 +42,7 @@ class Routes {
   static const signup = 'signup';
   static const recoverAccountSearch = 'recoverAccountSearch';
   static const recoveryPhrase = 'recoveryPhrase';
+  static const recoverAccountOverview = 'recoverAccountOverview';
   static const recoverAccountDetails = 'recoverAccountDetails';
   static const recoverAccountSuccess = 'recoverAccountSuccess';
   static const recoverAccountTimer = 'recoverAccountTimer';
@@ -76,6 +79,7 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.verificationUnpoppable: (_) => const VerificationScreen.unpoppable(),
     Routes.recoverAccountSearch: (_) => const RecoverAccountScreen(),
+    Routes.recoverAccountOverview: (_) => const RecoverAccountOverviewPage(),
     Routes.recoverAccountDetails: (_) => const RecoverAccountDetailsPage(),
     Routes.recoverAccountSuccess: (_) => const RecoverAccountSuccessPage(),
     Routes.recoverAccountTimer: (_) => const RecoverAccountTimerPage(),
