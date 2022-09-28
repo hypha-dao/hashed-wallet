@@ -57,23 +57,6 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<dynamic>> getProxies(String address) async {
-    print("get proxies for $address");
-
-    try {
-      final code = 'api.query.recovery.proxy("$address")';
-      final res = await evalJavascript(code: code);
-      print("getProxies res: $res");
-
-      // TODO(n13): parse list of addresses
-
-      return Result.value(res);
-    } catch (err) {
-      print('getProxies error: $err');
-      return Result.error(err);
-    }
-  }
-
   /// Removes user's guardians. User must Start from scratch.
   /// Recovers fees.
   Future<Result> removeRecovery({required String address}) async {
@@ -305,6 +288,30 @@ class RecoveryRepository extends ExtrinsicsRepository {
     } catch (err, s) {
       print('cancelRecovered error $err');
       print(s);
+      return Result.error(err);
+    }
+  }
+
+  /// return recoveries that are currently in process for the address in question
+  /// Params: Address to be recovered
+  Future<Result<List<String>>> getProxies(String address, {bool mock = false}) async {
+    print("get proxy for $address");
+
+    if (mock) {
+      return Future.delayed(const Duration(milliseconds: 500), () => Result.value(["5x01testdata", "5x02testdata"]));
+    }
+
+    try {
+      final code = 'api.query.recovery.proxy.entries("$address")';
+
+      final res = await evalJavascript(code: code);
+      final list = List<String>.from(res);
+      // final proxies = list.map((e) => ActiveRecoveryModel.fromJson(e)).toList();
+
+      return Result.value(list);
+    } catch (err, stacktrace) {
+      print('getProxies error: $err');
+      print(stacktrace);
       return Result.error(err);
     }
   }

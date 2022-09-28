@@ -4,7 +4,6 @@ import 'package:hashed/components/notification_badge.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/utils/ThemeBuildContext.dart';
 
-/// SECURITY CARD
 class SettingsCard extends StatelessWidget {
   /// Card icon
   final Widget icon;
@@ -43,7 +42,7 @@ class SettingsCard extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            color: this.backgroundColor ?? context.colorScheme.surface,
+            color: backgroundColor ?? context.colorScheme.surface,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(

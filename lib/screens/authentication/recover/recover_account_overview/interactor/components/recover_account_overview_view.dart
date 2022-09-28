@@ -4,12 +4,13 @@ import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_overview/interactor/viewmodels/recover_account_overview_bloc.dart';
+import 'package:hashed/screens/settings/components/account_card.dart';
 import 'package:hashed/screens/settings/components/settings_card.dart';
 import 'package:hashed/utils/ThemeBuildContext.dart';
 import 'package:hashed/utils/short_string.dart';
 
-class RecoverAccountOverView extends StatelessWidget {
-  const RecoverAccountOverView({super.key});
+class RecoverAccountOverviewView extends StatelessWidget {
+  const RecoverAccountOverviewView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,9 @@ class RecoverAccountOverView extends StatelessWidget {
             );
           case PageState.initial:
           case PageState.success:
-            if (state.recoveredAccounts.isNotEmpty) {}
+            if (state.recoveredAccounts.isNotEmpty) {
+              print("rec acct ${state.recoveredAccounts}");
+            }
             return Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -58,13 +61,11 @@ class RecoverAccountOverView extends StatelessWidget {
                       style: context.textTheme.headline6,
                     ),
                   const SizedBox(height: 16),
-                  ...state.recoveredAccounts.map((e) => ListTile(
-                        title: Text(e.shorter),
-                        trailing: Icon(
-                          Icons.check_circle,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      )),
+                  ...state.recoveredAccounts.map((e) => AccountCard(
+                      address: e,
+                      icon: const Icon(
+                        Icons.bookmark,
+                      ))),
                 ],
               ),
             );

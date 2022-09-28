@@ -35,6 +35,7 @@ class RecoverAccountOverviewBloc extends Bloc<RecoverAccountOverviewEvent, Recov
       emit(state.copyWith(
         pageState: PageState.success,
         activeRecovery: result.asValue!.value.activeRecovery,
+        recoveredAccounts: result.asValue!.value.proxyAccounts,
       ));
     } else {
       print("Error ${result.asError!.error}");

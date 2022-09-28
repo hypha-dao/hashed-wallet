@@ -29,7 +29,7 @@ class RecoverAccountOverviewPage extends StatelessWidget {
             builder: (BuildContext context, RecoverAccountOverviewState state) {
           return Scaffold(
               appBar: AppBar(
-                title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),
+                title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recovery")),
                 automaticallyImplyLeading: false,
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -49,7 +49,7 @@ class RecoverAccountOverviewPage extends StatelessWidget {
                   )
                 ],
               ),
-              body: const RecoverAccountOverView());
+              body: const RecoverAccountOverviewView());
         }),
       ),
     );

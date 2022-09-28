@@ -9,8 +9,8 @@ import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_li
 class FetchRecoverAccountOverviewData {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
-  Future<Result<RecoveryOverviewData>> run(String accountName, {String? lostAccount, bool mock = false}) async {
-    print("fetch overvew with $accountName and optional lost account: $lostAccount");
+  Future<Result<RecoveryOverviewData>> run(String accountAddress, {String? lostAccount, bool mock = false}) async {
+    print("fetch overvew with $accountAddress and optional lost account: $lostAccount");
 
     if (mock) {
       print("mock data");
@@ -21,16 +21,23 @@ class FetchRecoverAccountOverviewData {
 
     if (lostAccount != null) {
       activeResult =
-          await polkadotRepository.recoveryRepository.getActiveRecoveriesForLostaccount(accountName, lostAccount);
+          await polkadotRepository.recoveryRepository.getActiveRecoveriesForLostaccount(accountAddress, lostAccount);
       if (activeResult.isError) {
-        print("Error retrieving active recoveries for $accountName");
+        print("Error retrieving active recoveries for $accountAddress");
         return Result.error(activeResult.asError!.error);
       }
+    }
+
+    final proxies = await polkadotRepository.recoveryRepository.getProxies(accountAddress);
+    if (proxies.isError) {
+      print("Error retrieving proxies for $accountAddress");
+      return Result.error(proxies.asError!.error);
     }
 
     return Result.value(RecoveryOverviewData(
       activeRecoveryLostAccount: settingsStorage.activeRecoveryAccount,
       activeRecovery: activeResult?.asValue!.value,
+      proxyAccounts: proxies.asValue!.value,
     ));
   }
 }
@@ -49,5 +56,6 @@ class RecoveryOverviewData {
   static RecoveryOverviewData mock = RecoveryOverviewData(
     activeRecoveryLostAccount: ActiveRecoveryModel.mock.lostAccount,
     activeRecovery: ActiveRecoveryModel.mock,
+    proxyAccounts: ["5j_mock01", "5j_mock02"],
   );
 }
