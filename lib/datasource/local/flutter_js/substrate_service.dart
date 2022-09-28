@@ -42,6 +42,7 @@ class SubstrateService {
   }
 
   Future<int?> connect() async {
+    print("Substrate Service: CONNECT");
     if (!_initialized) {
       throw "you have to initialize the service before connecting";
     }
@@ -86,13 +87,16 @@ class SubstrateService {
   /// Keep alive timer accurately reports when the connection is down
   /// It does not take actions other than calling the connectionStateHandler
   void startKeepAliveTimer() {
-    _keepAliveTimer = Timer(const Duration(seconds: 6), () async {
+    _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
       final aliveCheckSuccess = await _runAliveCheck();
+      print("alive check $aliveCheckSuccess");
+
       if (aliveCheckSuccess) {
         _lastCheck = DateTime.now();
       } else {
         /// Alive check failed - we ignore a certain number of failed alive checks
         if (_lastCheck != null) {
+          print("dead time: ${DateTime.now().difference(_lastCheck!).inSeconds}");
           if (DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
             print("Network is disconnected");
             _keepAliveTimer?.cancel();
