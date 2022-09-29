@@ -39,8 +39,6 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
 
     if (result.isValue) {
       final expirationDate = result.asValue!.value;
-      print("expiration date: $expirationDate");
-
       emit(state.copyWith(pageState: PageState.success, timeLockExpirationDate: expirationDate));
 
       if (state.timeRemainingSeconds > 0) {

@@ -6,6 +6,9 @@ import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 
 class FetchRecoverAccountTimerDataUseCase {
+  /// Returns: Approximate expiration date
+  /// Call repeatedly, since we estimate the block time using current block time
+  /// and remaining blocks, and blocks are not exactly 6 seconds long.
   Future<Result<DateTime>> run(ActiveRecoveryModel model, GuardiansConfigModel configModel) async {
     final lastBlock = await polkadotRepository.getLastBlockNumber();
 
