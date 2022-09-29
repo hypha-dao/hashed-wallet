@@ -54,7 +54,7 @@ class RecoverAccountOverviewView extends StatelessWidget {
                           BlocProvider.of<RecoverAccountOverviewBloc>(context)
                               .add(OnRecoveryInProcessTapped(state.activeRecovery!.lostAccount));
                         }),
-                  const SizedBox(height: 16),
+                  if (state.activeRecovery != null) const SizedBox(height: 16),
                   if (state.recoveredAccounts.isNotEmpty)
                     Text(
                       "Recovered Accounts",
