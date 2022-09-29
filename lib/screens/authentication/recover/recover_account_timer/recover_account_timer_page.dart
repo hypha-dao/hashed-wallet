@@ -12,7 +12,8 @@ class RecoverAccountTimerPage extends StatelessWidget {
     // ignore: cast_nullable_to_non_nullable
     final RecoveryResultData recoveryData = ModalRoute.of(context)!.settings.arguments as RecoveryResultData;
     return BlocProvider(
-      create: (context) => RecoverAccountTimerBloc(recoveryData.activeRecovery)..add(const FetchTimerData()),
+      create: (context) =>
+          RecoverAccountTimerBloc(recoveryData.activeRecovery, recoveryData.configuration)..add(const FetchTimerData()),
       child: Scaffold(
           appBar: AppBar(
             title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),
