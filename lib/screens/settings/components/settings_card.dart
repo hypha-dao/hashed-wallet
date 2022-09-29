@@ -4,7 +4,6 @@ import 'package:hashed/components/notification_badge.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/utils/ThemeBuildContext.dart';
 
-/// SECURITY CARD
 class SettingsCard extends StatelessWidget {
   /// Card icon
   final Widget icon;
@@ -21,15 +20,20 @@ class SettingsCard extends StatelessWidget {
   final GestureTapCallback? onTap;
 
   final bool hasNotification;
+  final Color? backgroundColor;
+  final Color? textColor;
 
-  const SettingsCard(
-      {super.key,
-      required this.icon,
-      required this.title,
-      this.description = '',
-      this.titleWidget,
-      this.onTap,
-      this.hasNotification = false});
+  const SettingsCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.description = '',
+    this.titleWidget,
+    this.onTap,
+    this.hasNotification = false,
+    this.backgroundColor,
+    this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class SettingsCard extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            color: context.colorScheme.surface,
+            color: backgroundColor ?? context.colorScheme.surface,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
@@ -67,7 +71,12 @@ class SettingsCard extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                    child: Text(title),
+                                    child: Text(
+                                      title,
+                                      style: TextStyle(
+                                        color: textColor ?? context.colorScheme.onSurface,
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   if (hasNotification) const NotificationBadge()
@@ -82,7 +91,15 @@ class SettingsCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16, top: 6),
                         child: Row(
-                          children: [Flexible(child: Text(description, style: Theme.of(context).textTheme.subtitle2))],
+                          children: [
+                            Flexible(
+                                child: Text(
+                              description,
+                              style: context.textTheme.subtitle2!.copyWith(
+                                color: (textColor ?? context.colorScheme.onSurface).withAlpha(180),
+                              ),
+                            ))
+                          ],
                         ),
                       ),
                     ],

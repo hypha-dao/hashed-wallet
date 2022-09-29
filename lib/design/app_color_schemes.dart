@@ -25,6 +25,11 @@ class AppColorSchemes {
     /// Used for card backgrounds that float above the background
     surface: Color(0xFF293E84),
     onSurface: Color(0xFFFFFFFF),
+
+    /// Alternative background - currently the same as primary
+    /// Used for card backgrounds that float above the background
+    tertiaryContainer: Color(0xFF5D5E67),
+    onTertiaryContainer: Color(0xFFFFFFFF),
   );
 
   // TODO(n13): not in use.

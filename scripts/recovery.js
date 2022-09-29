@@ -755,6 +755,20 @@ const queryActiveRecovery = async () => {
 
 }
 
+const queryProxy = async (api, address) => {
+
+ const res = await api.query.recovery.proxy.entries(address);
+  
+  console.log("proxy for " + address + ": " + JSON.stringify(res, null, 2))
+
+
+  await api.disconnect()
+  console.log("disconnecting done")
+
+  return res
+
+}
+
 const queryActiveRecoveryByRescuer = async (lostAccount, rescuer) => {
   const { api, keyring, steve } = await init()
 
@@ -823,7 +837,7 @@ program
     const result = await createRecovery()
   })
 
-program
+  program
   .command('query_recovery')
   .description('Query recovery')
   .action(async function () {
@@ -831,6 +845,16 @@ program
     console.log("Query recovery...")
 
     const result = await queryRecovery()
+  })
+  program
+  .command('query_proxy')
+  .description('Query proxy')
+  .action(async function () {
+
+    console.log("Query proxy...")
+    const { api, keyring, steve } = await init()
+
+    const result = await queryProxy(api, steve.address)
   })
 
 program

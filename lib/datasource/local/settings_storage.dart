@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/auth_data_model.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +26,8 @@ const String _kDateSinceRateAppPrompted = 'date_since_rate_app_prompted';
 const String _kAccounts = "accounts";
 const String _kCurrentAccount = "current_account";
 const String _kPrivateKeys = "private_keys";
+
+const String _kActiveRecoveryAccount = "active_recovery_account";
 
 class _SettingsStorage implements AbstractStorage {
   late SharedPreferences _preferences;
@@ -123,6 +126,16 @@ class _SettingsStorage implements AbstractStorage {
   set dateSinceRateAppPrompted(int? value) {
     if (value != null) {
       _preferences.setInt(_kDateSinceRateAppPrompted, value);
+    }
+  }
+
+  String? get activeRecoveryAccount => _preferences.getString(_kActiveRecoveryAccount);
+
+  set activeRecoveryAccount(String? value) {
+    if (value != null) {
+      _preferences.setString(_kActiveRecoveryAccount, value);
+    } else {
+      _preferences.remove(_kActiveRecoveryAccount);
     }
   }
 
