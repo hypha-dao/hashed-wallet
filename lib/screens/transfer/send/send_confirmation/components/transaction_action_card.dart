@@ -11,6 +11,7 @@ class TransactionActionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
+      // ignore: use_decorated_box
       child: Container(
         decoration: const BoxDecoration(
           // border: Border.all(color: AppColors.grey1),

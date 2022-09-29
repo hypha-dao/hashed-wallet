@@ -8,7 +8,7 @@ import 'package:hashed/screens/authentication/recover/recover_account_success/in
 import 'package:hashed/screens/settings/components/settings_card.dart';
 
 class RecoverAccountSuccessView extends StatelessWidget {
-  const RecoverAccountSuccessView({Key? key}) : super(key: key);
+  const RecoverAccountSuccessView({super.key});
 
   @override
   Widget build(BuildContext context) {

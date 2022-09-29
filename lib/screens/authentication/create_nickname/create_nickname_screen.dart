@@ -12,9 +12,9 @@ class CreateNicknameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _arguments = ModalRoute.of(context)!.settings.arguments as List<Object?>?;
-    final String? _account = _arguments!.first as String?;
-    final _authData = _arguments.last as AuthDataModel?;
+    final arguments = ModalRoute.of(context)!.settings.arguments as List<Object?>?;
+    final String? account = arguments!.first as String?;
+    final authData = arguments.last as AuthDataModel?;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Create nickname")),
@@ -23,7 +23,7 @@ class CreateNicknameScreen extends StatelessWidget {
         child: BlocListener<CreateNicknameBloc, CreateNicknameState>(
           listenWhen: (previous, current) => current.continueToAccount != previous.continueToAccount,
           listener: (context, state) {
-            BlocProvider.of<AuthenticationBloc>(context).add(OnImportAccount(account: _account!, authData: _authData!));
+            BlocProvider.of<AuthenticationBloc>(context).add(OnImportAccount(account: account!, authData: authData!));
           },
           child: Builder(
             builder: (context) {

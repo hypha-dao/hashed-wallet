@@ -4,7 +4,7 @@ import 'package:hashed/screens/authentication/recover/recover_account_success/co
 import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_bloc.dart';
 
 class RecoverAccountSuccessPage extends StatelessWidget {
-  const RecoverAccountSuccessPage({Key? key}) : super(key: key);
+  const RecoverAccountSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {

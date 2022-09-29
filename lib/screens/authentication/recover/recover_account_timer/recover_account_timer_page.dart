@@ -5,7 +5,7 @@ import 'package:hashed/screens/authentication/recover/recover_account_timer/comp
 import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/viewmodels/recover_account_timer_bloc.dart';
 
 class RecoverAccountTimerPage extends StatelessWidget {
-  const RecoverAccountTimerPage({Key? key}) : super(key: key);
+  const RecoverAccountTimerPage({super.key});
 
   @override
   Widget build(BuildContext context) {

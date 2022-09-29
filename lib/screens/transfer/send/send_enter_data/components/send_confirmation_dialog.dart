@@ -118,6 +118,7 @@ class DialogRow extends StatelessWidget {
             ),
           ),
         ),
+        // ignore: use_decorated_box
         Container(
           decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(4, 4))),
           child: Padding(
