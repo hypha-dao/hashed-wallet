@@ -13,41 +13,50 @@ const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
   RecoverAccountTimerState mapResultToState(RecoverAccountTimerState currentState) {
+    final remaining = getRemainingTime(currentState.timeRemaining);
+    return currentState.copyWith(
+      pageState: PageState.success,
+      currentRemainingTime: remaining,
+    );
+  }
+
+  CurrentRemainingTime getRemainingTime(int remainingSeconds) {
     int days = 0;
     int hours = 0;
     int min = 0;
-    int remainingTimeStamp = currentState.timeRemaining;
+    int seconds = remainingSeconds;
+
+    if (seconds <= 0) {
+      return CurrentRemainingTime.zero();
+    }
 
     ///Calculate the number of days remaining.
-    if (remainingTimeStamp >= _daySecond) {
-      days = remainingTimeStamp ~/ _daySecond;
-      remainingTimeStamp %= _daySecond;
+    if (seconds >= _daySecond) {
+      days = seconds ~/ _daySecond;
+      seconds %= _daySecond;
     }
 
     ///Calculate remaining hours.
-    if (remainingTimeStamp >= _hourSecond) {
-      hours = remainingTimeStamp ~/ _hourSecond;
-      remainingTimeStamp %= _hourSecond;
+    if (seconds >= _hourSecond) {
+      hours = seconds ~/ _hourSecond;
+      seconds %= _hourSecond;
     } else if (days != 0) {
       hours = 0;
     }
 
     ///Calculate remaining minutes.
-    if (remainingTimeStamp >= _minuteSecond) {
-      min = remainingTimeStamp ~/ _minuteSecond;
-      remainingTimeStamp %= _minuteSecond;
+    if (seconds >= _minuteSecond) {
+      min = seconds ~/ _minuteSecond;
+      seconds %= _minuteSecond;
     } else if (hours != 0) {
       min = 0;
     }
 
-    return currentState.copyWith(
-      pageState: PageState.success,
-      currentRemainingTime: CurrentRemainingTime(
-        days: days,
-        hours: hours,
-        min: min,
-        sec: remainingTimeStamp,
-      ),
+    return CurrentRemainingTime(
+      days: days,
+      hours: hours,
+      min: min,
+      sec: seconds,
     );
   }
 }
