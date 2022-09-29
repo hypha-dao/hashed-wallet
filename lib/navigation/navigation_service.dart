@@ -8,7 +8,6 @@ import 'package:hashed/screens/authentication/create_nickname/create_nickname_sc
 import 'package:hashed/screens/authentication/import_key/import_key_screen.dart';
 import 'package:hashed/screens/authentication/login_screen.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/recover_account_details_page.dart';
-import 'package:hashed/screens/authentication/recover/recover_account_overview/interactor/components/recover_account_overview_view.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_overview/recover_account_overview_page.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/recover_account_success_page.dart';

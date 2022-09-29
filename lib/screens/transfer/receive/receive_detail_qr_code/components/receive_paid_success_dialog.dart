@@ -1,3 +1,5 @@
+// ignore_for_file: use_decorated_box
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hashed/components/custom_dialog.dart';

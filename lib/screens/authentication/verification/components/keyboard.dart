@@ -1,3 +1,5 @@
+// ignore_for_file: use_decorated_box
+
 import 'package:flutter/material.dart';
 
 class Keyboard extends StatelessWidget {

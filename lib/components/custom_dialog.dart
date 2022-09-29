@@ -1,3 +1,5 @@
+// ignore_for_file: use_decorated_box
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';

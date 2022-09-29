@@ -9,12 +9,12 @@ class WalletButtons extends StatelessWidget {
   final ButtonsType buttonType;
 
   const WalletButtons({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.isLoading = false,
     this.buttonType = ButtonsType.sendButton,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

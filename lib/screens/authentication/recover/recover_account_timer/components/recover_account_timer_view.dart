@@ -8,7 +8,7 @@ import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/viewmodels/recover_account_timer_bloc.dart';
 
 class RecoverAccountTimerView extends StatelessWidget {
-  const RecoverAccountTimerView({Key? key}) : super(key: key);
+  const RecoverAccountTimerView({super.key});
 
   @override
   Widget build(BuildContext context) {
