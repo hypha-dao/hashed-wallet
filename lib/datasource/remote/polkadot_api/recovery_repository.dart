@@ -179,9 +179,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// Remove recovery - claims some fees back
   /// Cancel recovered - removes ability to call asRecovered
   ///
-  Future<Result<dynamic>> claimRecovery({required String address, required String lostAccount}) async {
+  Future<Result<dynamic>> claimRecovery({required String rescuer, required String lostAccount}) async {
     print("claimRecovery on $lostAccount");
-    final sender = TxSenderData(address);
+    final sender = TxSenderData(rescuer);
     final txInfo = SubstrateTransactionModel('recovery', 'claimRecovery', sender);
     final params = [lostAccount];
 
