@@ -3,18 +3,20 @@ part of 'recover_account_timer_bloc.dart';
 class RecoverAccountTimerState extends Equatable {
   final PageState pageState;
   final ActiveRecoveryModel recoveryModel;
+  final GuardiansConfigModel configModel;
   final CurrentRemainingTime? currentRemainingTime;
   final PageCommand? pageCommand;
-  final int timeLockExpirySeconds;
+  final DateTime timeLockExpirationDate;
 
-  int get timeRemaining => timeLockExpirySeconds - DateTime.now().millisecondsSinceEpoch ~/ 1000;
+  int get timeRemainingSeconds => timeLockExpirationDate.difference(DateTime.now()).inSeconds;
 
   const RecoverAccountTimerState({
     required this.pageState,
     required this.recoveryModel,
+    required this.configModel,
     this.pageCommand,
     required this.currentRemainingTime,
-    required this.timeLockExpirySeconds,
+    required this.timeLockExpirationDate,
   });
 
   @override
@@ -23,30 +25,32 @@ class RecoverAccountTimerState extends Equatable {
         recoveryModel,
         pageCommand,
         currentRemainingTime,
-        timeLockExpirySeconds,
+        timeLockExpirationDate,
       ];
 
   RecoverAccountTimerState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
     CurrentRemainingTime? currentRemainingTime,
-    int? timeLockExpirySeconds,
+    DateTime? timeLockExpirationDate,
   }) {
     return RecoverAccountTimerState(
       pageState: pageState ?? this.pageState,
       recoveryModel: recoveryModel,
+      configModel: configModel,
       pageCommand: pageCommand,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
-      timeLockExpirySeconds: timeLockExpirySeconds ?? this.timeLockExpirySeconds,
+      timeLockExpirationDate: timeLockExpirationDate ?? this.timeLockExpirationDate,
     );
   }
 
-  factory RecoverAccountTimerState.initial(ActiveRecoveryModel recoveryModel) {
+  factory RecoverAccountTimerState.initial(ActiveRecoveryModel recoveryModel, GuardiansConfigModel configModel) {
     return RecoverAccountTimerState(
       pageState: PageState.initial,
       recoveryModel: recoveryModel,
+      configModel: configModel,
       currentRemainingTime: CurrentRemainingTime.zero(),
-      timeLockExpirySeconds: 0,
+      timeLockExpirationDate: DateTime.now(),
     );
   }
 }
