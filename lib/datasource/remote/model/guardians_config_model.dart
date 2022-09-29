@@ -19,8 +19,6 @@ class GuardiansConfigModel {
   }
 
   factory GuardiansConfigModel.fromJson(Map<String, dynamic> json) {
-    print("reading config model $json");
-
     final List<String> guardians = List<String>.from(json['friends']);
     final int delayPeriod = json['delayPeriod'];
     final Set<Account> guardianAccounts = guardians.map((e) => Account(address: e)).toSet();
