@@ -64,7 +64,7 @@ class GuardiansConfigModel {
   }
 
   static GuardiansConfigModel mock = GuardiansConfigModel(
-      delayPeriod: 24,
+      delayPeriod: defaultDelayPeriod,
       guardians: <Account>{
         const Account(address: "0x12334", name: "NIK"),
         const Account(address: "0x2222222", name: "Someone"),
