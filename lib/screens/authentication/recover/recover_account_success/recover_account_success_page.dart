@@ -9,12 +9,12 @@ class RecoverAccountSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: cast_nullable_to_non_nullable
-    final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
+    final String lostAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
-      create: (context) => RecoverAccountSuccessBloc(userAccount)..add(const FetchInitialData()),
+      create: (context) => RecoverAccountSuccessBloc(lostAccount)..add(const FetchInitialData()),
       child: Scaffold(
           appBar: AppBar(
-            title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Recover Account")),
+            title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Account Recovery")),
             automaticallyImplyLeading: false,
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
