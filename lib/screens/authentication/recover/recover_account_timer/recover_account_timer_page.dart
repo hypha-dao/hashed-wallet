@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/usecase/fetch_recover_account_details_data.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/components/recover_account_timer_view.dart';
@@ -51,6 +52,8 @@ class RecoverAccountTimerPage extends StatelessWidget {
       builder: (context) {
         return RecoverSuccessDialog(
           onDismiss: () {
+            /// recovery has finished
+            settingsStorage.activeRecoveryAccount = null;
             NavigationService.of(context).navigateTo(Routes.recoverAccountSuccess, lostAccount, true);
           },
         );
