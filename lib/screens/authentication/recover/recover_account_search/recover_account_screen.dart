@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/text_form_field_custom.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/components/recover_account_confimation_dialog.dart';
@@ -104,6 +105,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           onConfirm: () {
             Navigator.pop(context);
             NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, account);
+            settingsStorage.activeRecoveryAccount = account;
           },
           onDismiss: () => Navigator.pop(context),
         );
