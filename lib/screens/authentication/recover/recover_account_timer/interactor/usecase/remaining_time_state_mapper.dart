@@ -13,7 +13,7 @@ const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
   RecoverAccountTimerState mapResultToState(RecoverAccountTimerState currentState) {
-    final remaining = getRemainingTime(currentState.timeRemaining);
+    final remaining = getRemainingTime(currentState.timeRemainingSeconds);
     return currentState.copyWith(
       pageState: PageState.success,
       currentRemainingTime: remaining,

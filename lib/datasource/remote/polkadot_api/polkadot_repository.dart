@@ -365,4 +365,8 @@ class PolkadotRepository extends KeyRepository {
     final pubkey = keyPair["publicKey"];
     return pubkey;
   }
+
+  int getBlockTimeSeconds() {
+    return 6;
+  }
 }

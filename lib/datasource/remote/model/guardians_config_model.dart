@@ -19,6 +19,8 @@ class GuardiansConfigModel {
   }
 
   factory GuardiansConfigModel.fromJson(Map<String, dynamic> json) {
+    print("reading config model $json");
+
     final List<String> guardians = List<String>.from(json['friends']);
     final int delayPeriod = json['delayPeriod'];
     final Set<Account> guardianAccounts = guardians.map((e) => Account(address: e)).toSet();
@@ -64,7 +66,7 @@ class GuardiansConfigModel {
   }
 
   static GuardiansConfigModel mock = GuardiansConfigModel(
-      delayPeriod: 24,
+      delayPeriod: defaultDelayPeriod,
       guardians: <Account>{
         const Account(address: "0x12334", name: "NIK"),
         const Account(address: "0x2222222", name: "Someone"),

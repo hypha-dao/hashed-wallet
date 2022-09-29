@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
+import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -16,7 +17,8 @@ part 'recover_account_timer_state.dart';
 class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAccountTimerState> {
   StreamSubscription<int>? _tickerSubscription;
 
-  RecoverAccountTimerBloc(ActiveRecoveryModel recoveryModel) : super(RecoverAccountTimerState.initial(recoveryModel)) {
+  RecoverAccountTimerBloc(ActiveRecoveryModel recoveryModel, GuardiansConfigModel configModel)
+      : super(RecoverAccountTimerState.initial(recoveryModel, configModel)) {
     on<FetchTimerData>(_fetchInitialData);
     on<OnRefreshTapped>(_onRefreshTapped);
     on<Tick>(_onTick);
@@ -32,16 +34,20 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
 
   Future<void> _fetchInitialData(FetchTimerData event, Emitter<RecoverAccountTimerState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<int> result = await FetchRecoverAccountTimerData().run(state.recoveryModel);
+    final Result<DateTime> result =
+        await FetchRecoverAccountTimerDataUseCase().run(state.recoveryModel, state.configModel);
 
     if (result.isValue) {
-      final data = result.asValue!.value;
-      emit(state.copyWith(pageState: PageState.success, timeLockExpirySeconds: data));
+      final expirationDate = result.asValue!.value;
+      print("expiration date: $expirationDate");
 
-      if (data != 0) {
+      emit(state.copyWith(pageState: PageState.success, timeLockExpirationDate: expirationDate));
+
+      if (state.timeRemainingSeconds > 0) {
         await _tickerSubscription?.cancel();
         _tickerSubscription = _tick().listen((timer) => add(Tick(timer)));
       }
+      emit(RemainingTimeStateMapper().mapResultToState(state));
     } else {
       emit(state.copyWith(pageState: PageState.failure));
     }
@@ -52,7 +58,7 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
   }
 
   Future<void> _onTick(Tick event, Emitter<RecoverAccountTimerState> emit) async {
-    if (state.timeRemaining > 0) {
+    if (state.timeRemainingSeconds > 0) {
       emit(RemainingTimeStateMapper().mapResultToState(state));
     } else {
       await _tickerSubscription?.cancel();
