@@ -13,6 +13,7 @@ import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/utils/result_extension.dart';
+import 'package:hive/hive.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
 
@@ -187,6 +188,25 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
+  final String nullNameCache = "|||||NULL_NAME|||||";
+
+  Future<Result<Account?>> getIdentityCached(String address) async {
+    final nameCache = await Hive.openBox("nameCache");
+    final nameCacheTimestamps = await Hive.openBox("nameCacheTimestamps");
+    final name = nameCache.get(address);
+    if (name != null) {
+      final time = nameCacheTimestamps.get(address);
+      final old = DateTime.now().millisecondsSinceEpoch / 1000 - time > 600;
+      if (old) {
+        // ignore: unawaited_futures
+        getIdentity(address);
+      }
+      return Result.value(Account(address: address, name: name == nullNameCache ? null : name));
+    } else {
+      return getIdentity(address);
+    }
+  }
+
   Future<Result<Account?>> getIdentity(String address) async {
     try {
       print("get identity for $address");
@@ -204,6 +224,14 @@ class PolkadotRepository extends KeyRepository {
       final displayName = resJson[0]["identity"]["display"];
 
       print("displayName $displayName");
+
+      final nameCache = await Hive.openBox("nameCache");
+      final nameCacheTimestamps = await Hive.openBox("nameCacheTimestamps");
+      final nameForCache = displayName ?? nullNameCache;
+      // ignore: unawaited_futures
+      nameCache.put(address, nameForCache);
+      // ignore: unawaited_futures
+      nameCacheTimestamps.put(address, DateTime.now().millisecondsSinceEpoch / 1000);
 
       return Result.value(Account(address: address, name: displayName));
     } catch (error) {
