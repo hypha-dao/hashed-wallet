@@ -19,7 +19,7 @@ class RecoverAccountDetailsBloc extends Bloc<RecoverAccountDetailsEvent, Recover
 
   Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountDetailsState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<RecoveryResultData> result = await FetchRecoverAccountDetailsData().run(state.userAccount);
+    final Result<RecoveryResultData> result = await FetchRecoverAccountDetailsUsecase().run(state.userAccount);
 
     if (result.isValue) {
       final data = result.asValue!.value;

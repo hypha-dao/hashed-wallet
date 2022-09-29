@@ -306,7 +306,6 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
       final res = await evalJavascript(code: code);
       final list = List<String>.from(res);
-      // final proxies = list.map((e) => ActiveRecoveryModel.fromJson(e)).toList();
 
       return Result.value(list);
     } catch (err, stacktrace) {

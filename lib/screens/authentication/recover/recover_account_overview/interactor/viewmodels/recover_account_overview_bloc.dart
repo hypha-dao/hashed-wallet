@@ -25,7 +25,7 @@ class RecoverAccountOverviewBloc extends Bloc<RecoverAccountOverviewEvent, Recov
   Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountOverviewState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final activeRecoveryAccount = settingsStorage.activeRecoveryAccount;
-    final Result<RecoveryOverviewData> result = await FetchRecoverAccountOverviewData().run(
+    final Result<RecoveryOverviewData> result = await FetchRecoverAccountOverviewUsecase().run(
       accountService.currentAccount.address,
       lostAccount: activeRecoveryAccount,
       mock: true,

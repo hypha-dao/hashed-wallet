@@ -10,8 +10,6 @@ class RecoverAccountOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: cast_nullable_to_non_nullable
-    final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
       create: (context) => RecoverAccountOverviewBloc()..add(const FetchInitialData()),
       child: BlocListener<RecoverAccountOverviewBloc, RecoverAccountOverviewState>(

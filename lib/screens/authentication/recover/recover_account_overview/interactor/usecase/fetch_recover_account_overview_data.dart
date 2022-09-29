@@ -1,14 +1,9 @@
-import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
-import 'package:hashed/datasource/remote/api/guardians_repository.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
-import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 
-class FetchRecoverAccountOverviewData {
-  final GuardiansRepository _guardiansRepository = GuardiansRepository();
-
+class FetchRecoverAccountOverviewUsecase {
   Future<Result<RecoveryOverviewData>> run(String accountAddress, {String? lostAccount, bool mock = false}) async {
     print("fetch overvew with $accountAddress and optional lost account: $lostAccount");
 

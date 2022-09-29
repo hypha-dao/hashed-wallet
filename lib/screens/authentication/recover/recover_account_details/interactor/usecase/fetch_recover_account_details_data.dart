@@ -5,7 +5,7 @@ import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 
-class FetchRecoverAccountDetailsData {
+class FetchRecoverAccountDetailsUsecase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
   Future<Result<RecoveryResultData>> run(String accountName) async {
