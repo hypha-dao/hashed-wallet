@@ -757,8 +757,9 @@ const queryActiveRecovery = async () => {
 
 const queryProxy = async (api, address) => {
 
- const res = await api.query.recovery.proxy.entries(address);
+ //const res = await api.query.recovery.proxy.entries(address);
   
+  const res = await api.query.recovery.proxy.entries("5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb")
   console.log("proxy for " + address + ": " + JSON.stringify(res, null, 2))
 
 
@@ -854,7 +855,9 @@ program
     console.log("Query proxy...")
     const { api, keyring, steve } = await init()
 
-    const result = await queryProxy(api, steve.address)
+    const address = "5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb";
+    // const address = steve.address
+    const result = await queryProxy(api, address)
   })
 
 program

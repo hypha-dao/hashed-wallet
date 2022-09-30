@@ -123,9 +123,19 @@ class WebViewRunner {
             final msg = jsonDecode(message.message);
 
             final String? path = msg['path'];
+
             if (_msgCompleters[path!] != null) {
               final Completer handler = _msgCompleters[path]!;
-              handler.complete(msg['data']);
+              final data = msg['data'];
+              final error = msg['error'];
+
+              if (error != null) {
+                print("comlpeted with error: $error");
+                handler.completeError(error);
+              } else {
+                handler.complete(data);
+              }
+
               if (path.contains('uid=')) {
                 _msgCompleters.remove(path);
               }
@@ -134,8 +144,8 @@ class WebViewRunner {
               final Function handler = _msgHandlers[path]!;
               handler(msg['data']);
             }
-          } catch (_) {
-            // ignore
+          } catch (err) {
+            print("exception caught $err");
           }
         },
         onLoadStart: (controller, url) {
@@ -235,8 +245,6 @@ class WebViewRunner {
           JSON.stringify({call: "$method", error: err.message });
         });
       ''';
-
-    // print("SCRIPT: $script");
 
     _web!.webViewController.evaluateJavascript(source: script);
 

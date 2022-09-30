@@ -304,7 +304,12 @@ class RecoveryRepository extends ExtrinsicsRepository {
     try {
       final code = 'api.query.recovery.proxy.entries("$address")';
 
+      print("code: $code");
+
       final res = await evalJavascript(code: code);
+
+      print("proxy res: $res ");
+
       final list = List<String>.from(res);
 
       return Result.value(list);
