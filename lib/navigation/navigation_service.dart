@@ -115,7 +115,7 @@ class NavigationService {
   static NavigationService of(BuildContext context) => RepositoryProvider.of<NavigationService>(context);
 
   // TODO(n13): refactor this to named arguments for arguments, replace; too much Voodoo here
-  Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName, {Object? arguments, bool replace = false}) async {
     if (_appRoutes[routeName] != null) {
       if (replace) {
         return appNavigatorKey.currentState?.pushReplacementNamed(routeName, arguments: arguments);

@@ -54,7 +54,8 @@ class RecoverAccountTimerPage extends StatelessWidget {
           onDismiss: () {
             /// recovery has finished
             settingsStorage.activeRecoveryAccount = null;
-            NavigationService.of(context).navigateTo(Routes.recoverAccountSuccess, lostAccount, true);
+            NavigationService.of(context)
+                .navigateTo(Routes.recoverAccountSuccess, arguments: lostAccount, replace: true);
           },
         );
       },

@@ -63,7 +63,7 @@ class RecoverAccountOverviewView extends StatelessWidget {
                     ),
                   const SizedBox(height: 16),
                   ...state.recoveredAccounts.map((e) => AccountCard(
-                      onTap: () => NavigationService.of(context).navigateTo(Routes.recoverAccountSuccess, e),
+                      onTap: () => NavigationService.of(context).navigateTo(Routes.recoverAccountSuccess, arguments: e),
                       address: e,
                       icon: const Icon(
                         Icons.bookmark,

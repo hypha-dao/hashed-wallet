@@ -13,7 +13,7 @@ class SendSearchUserScreen extends StatelessWidget {
       body: SearchUser(
         onUserSelected: (selectedUser) {
           print('[TBD] SendSearchUserScreen - onUserSelected: ${selectedUser.address} name: ${selectedUser.name}');
-          NavigationService.of(context).navigateTo(Routes.sendEnterData, selectedUser);
+          NavigationService.of(context).navigateTo(Routes.sendEnterData, arguments: selectedUser);
         },
       ),
     );

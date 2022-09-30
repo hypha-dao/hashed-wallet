@@ -94,7 +94,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     NavigationService.of(context)
-                        .navigateTo(Routes.transactionActions, transactionModel.transaction.actions);
+                        .navigateTo(Routes.transactionActions, arguments: transactionModel.transaction.actions);
                   },
                   icon: const Icon(Icons.chevron_right_sharp),
                 )

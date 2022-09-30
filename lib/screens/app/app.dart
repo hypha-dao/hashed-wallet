@@ -98,11 +98,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               await NavigationService.of(context).navigateTo(pageCommand.route);
             } else if (pageCommand is NavigateToRouteWithArguments) {
               if (pageCommand is NavigateToSendConfirmation) {
-                await NavigationService.of(context)
-                    .navigateTo(Routes.verificationUnpoppable)
-                    .then((_) => NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments));
+                await NavigationService.of(context).navigateTo(Routes.verificationUnpoppable).then((_) =>
+                    NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments));
               } else {
-                await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+                await NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
               }
             }
           },
