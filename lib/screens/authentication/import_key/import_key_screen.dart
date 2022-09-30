@@ -27,7 +27,7 @@ class ImportKeyScreen extends StatelessWidget {
             final pageCommand = state.pageCommand;
 
             if (pageCommand is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
             } else if (pageCommand is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
             }

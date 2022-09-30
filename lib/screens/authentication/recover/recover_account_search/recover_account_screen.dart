@@ -104,7 +104,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           account: account,
           onConfirm: () {
             Navigator.pop(context);
-            NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, account);
+            NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, arguments: account);
             settingsStorage.activeRecoveryAccount = account;
           },
           onDismiss: () => Navigator.pop(context),

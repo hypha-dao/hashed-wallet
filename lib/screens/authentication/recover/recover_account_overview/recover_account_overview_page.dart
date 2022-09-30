@@ -17,7 +17,7 @@ class RecoverAccountOverviewPage extends StatelessWidget {
         listener: (context, state) {
           final pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRouteWithArguments) {
-            NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+            NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
           }
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);

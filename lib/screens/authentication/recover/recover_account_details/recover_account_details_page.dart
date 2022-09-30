@@ -19,7 +19,8 @@ class RecoverAccountDetailsPage extends StatelessWidget {
         listener: (context, state) {
           final pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRouteWithArguments) {
-            NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments, true);
+            NavigationService.of(context)
+                .navigateTo(pageCommand.route, arguments: pageCommand.arguments, replace: true);
           }
         },
         child: BlocBuilder<RecoverAccountDetailsBloc, RecoverAccountDetailsState>(
