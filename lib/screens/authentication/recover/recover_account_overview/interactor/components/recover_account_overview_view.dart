@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_overview/interactor/viewmodels/recover_account_overview_bloc.dart';
 import 'package:hashed/screens/settings/components/account_card.dart';
 import 'package:hashed/screens/settings/components/settings_card.dart';
@@ -62,6 +63,7 @@ class RecoverAccountOverviewView extends StatelessWidget {
                     ),
                   const SizedBox(height: 16),
                   ...state.recoveredAccounts.map((e) => AccountCard(
+                      onTap: () => NavigationService.of(context).navigateTo(Routes.recoverAccountSuccess, e),
                       address: e,
                       icon: const Icon(
                         Icons.bookmark,
