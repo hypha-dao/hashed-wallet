@@ -95,7 +95,7 @@ class WebViewRunner {
           print('HeadlessInAppWebView created!');
         },
 
-        onConsoleMessage: (controller, message) {
+        onConsoleMessage: (controller, message) async {
           if (kDebugMode) {
             print("CONSOLE MESSAGE: ${message.message}");
           }
@@ -125,7 +125,15 @@ class WebViewRunner {
             final String? path = msg['path'];
             if (_msgCompleters[path!] != null) {
               final Completer handler = _msgCompleters[path]!;
-              handler.complete(msg['data']);
+
+              final error = msg['error'];
+
+              if (error != null) {
+                handler.completeError(error);
+              } else {
+                handler.complete(msg['data']);
+              }
+
               if (path.contains('uid=')) {
                 _msgCompleters.remove(path);
               }
@@ -134,8 +142,8 @@ class WebViewRunner {
               final Function handler = _msgHandlers[path]!;
               handler(msg['data']);
             }
-          } catch (_) {
-            // ignore
+          } catch (error) {
+            print("web view runner error: $error");
           }
         },
         onLoadStart: (controller, url) {
@@ -231,8 +239,7 @@ class WebViewRunner {
           const finalResult = ${transformer.trim()};
           console.log(JSON.stringify({ path: "$method", data: finalResult }));finalResult;
         }).catch(function(err) {
-          console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));
-          JSON.stringify({call: "$method", error: err.message });
+          console.log(JSON.stringify({ path: "$method", error: err.message }));
         });
       ''';
 
