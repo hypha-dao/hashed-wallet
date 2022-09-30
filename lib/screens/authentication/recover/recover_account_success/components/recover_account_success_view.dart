@@ -32,17 +32,17 @@ class RecoverAccountSuccessView extends StatelessWidget {
                 children: [
                   ListTile(
                     title: const Text('Your Account', textAlign: TextAlign.start),
-                    subtitle: Text(state.userAccount, textAlign: TextAlign.start),
+                    subtitle: Text(accountService.currentAccount.address, textAlign: TextAlign.start),
                   ),
                   const SizedBox(height: 8),
                   SettingsCard(
                     icon: const Icon(Icons.refresh),
                     title: "Recover ${state.recoverAmount}",
-                    description: "Recover all HSD tokens from ${state.recoveredAccount}",
+                    description: "Recover all HSD tokens from ${state.lostAccount}",
                     onTap: () async {
                       BlocProvider.of<RecoverAccountSuccessBloc>(context).add(OnRecoverFundsTapped(
                         rescuer: accountService.currentAccount.address,
-                        lostAccount: state.recoveredAccount,
+                        lostAccount: state.lostAccount,
                       ));
                     },
                   ),

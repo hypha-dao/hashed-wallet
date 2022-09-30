@@ -9,7 +9,9 @@ import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/usecase/fetch_recover_account_timer_data.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/usecase/recover_use_case.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/usecase/remaining_time_state_mapper.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/viewmodels/recover_account_timer_page_command.dart';
 
 part 'recover_account_timer_event.dart';
 part 'recover_account_timer_state.dart';
@@ -21,6 +23,7 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
       : super(RecoverAccountTimerState.initial(recoveryModel, configModel)) {
     on<FetchTimerData>(_fetchInitialData);
     on<OnRefreshTapped>(_onRefreshTapped);
+    on<OnRecoverTapped>(_onRecoverTapped);
     on<Tick>(_onTick);
   }
 
@@ -61,6 +64,20 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
     } else {
       await _tickerSubscription?.cancel();
       emit(state.copyWith(currentRemainingTime: CurrentRemainingTime.zero()));
+    }
+  }
+
+  Future<void> _onRecoverTapped(OnRecoverTapped event, Emitter<RecoverAccountTimerState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final result = await RecoverUseCase()
+        .run(rescuer: state.recoveryModel.rescuer, lostAccount: state.recoveryModel.lostAccount, mock: true);
+
+    if (result.isValue) {
+      // show success dialog?
+      print("recovery successful");
+      emit(state.copyWith(pageCommand: OnRecoverSuccessPageCommand()));
+    } else {
+      emit(state.copyWith(pageState: PageState.failure));
     }
   }
 }

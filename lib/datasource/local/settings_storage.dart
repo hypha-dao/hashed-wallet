@@ -128,6 +128,8 @@ class _SettingsStorage implements AbstractStorage {
     }
   }
 
+  /// Store the fact that there is an active recovery in process for a specific account
+  /// We can change this to a list later on
   String? get activeRecoveryAccount => _preferences.getString(_kActiveRecoveryAccount);
 
   set activeRecoveryAccount(String? value) {

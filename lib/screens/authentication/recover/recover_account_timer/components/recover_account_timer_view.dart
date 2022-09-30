@@ -4,7 +4,6 @@ import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/domain-shared/page_state.dart';
-import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/interactor/viewmodels/recover_account_timer_bloc.dart';
 
 class RecoverAccountTimerView extends StatelessWidget {
@@ -74,12 +73,7 @@ class RecoverAccountTimerView extends StatelessWidget {
                   const SizedBox(height: 34),
                   FlatButtonLong(
                     title: 'Recover',
-                    onPressed: () {
-                      NavigationService.of(context).navigateTo(
-                        Routes.recoverAccountDetails,
-                        state.recoveryModel,
-                      );
-                    },
+                    onPressed: () => BlocProvider.of<RecoverAccountTimerBloc>(context).add(const OnRecoverTapped()),
                     enabled: state.currentRemainingTime?.isZero == true,
                   ),
                 ],

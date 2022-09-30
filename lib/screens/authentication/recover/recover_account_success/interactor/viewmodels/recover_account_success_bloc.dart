@@ -12,21 +12,20 @@ part 'recover_account_success_event.dart';
 part 'recover_account_success_state.dart';
 
 class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, RecoverAccountSuccessState> {
-  RecoverAccountSuccessBloc(String userAccount) : super(RecoverAccountSuccessState.initial(userAccount)) {
+  RecoverAccountSuccessBloc(String lostAccount) : super(RecoverAccountSuccessState.initial(lostAccount)) {
     on<FetchInitialData>(_fetchInitialData);
     on<OnRefreshTapped>(_onRefreshTapped);
     on<OnRecoverFundsTapped>(_onRecoverFundsTapped);
   }
 
   Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountSuccessState> emit) async {
-    final Result<ResultData> result = await FetchRecoverAccountSuccessData().run(state.userAccount);
+    final Result<ResultData> result = await FetchRecoverAccountSuccessDataUseCase().run(state.lostAccount);
     emit(state.copyWith(pageState: PageState.loading));
 
     if (result.isValue) {
       final data = result.asValue!.value;
       emit(state.copyWith(
         pageState: PageState.success,
-        recoveredAccount: data.recoveredAccount,
         recoverAmount: data.amountToRecover,
       ));
     } else {
