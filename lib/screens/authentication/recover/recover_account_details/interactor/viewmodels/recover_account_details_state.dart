@@ -2,7 +2,7 @@ part of 'recover_account_details_bloc.dart';
 
 class RecoverAccountDetailsState extends Equatable {
   final PageState pageState;
-  final String userAccount;
+  final String lostAccount;
   final PageCommand? pageCommand;
   final Uri? linkToActivateGuardians;
   final int totalGuardiansCount;
@@ -14,7 +14,7 @@ class RecoverAccountDetailsState extends Equatable {
 
   const RecoverAccountDetailsState({
     required this.pageState,
-    required this.userAccount,
+    required this.lostAccount,
     this.pageCommand,
     required this.approvedAccounts,
     required this.guardianAccounts,
@@ -26,7 +26,7 @@ class RecoverAccountDetailsState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
-        userAccount,
+        lostAccount,
         pageCommand,
         linkToActivateGuardians,
         totalGuardiansCount,
@@ -46,7 +46,7 @@ class RecoverAccountDetailsState extends Equatable {
   }) {
     return RecoverAccountDetailsState(
       pageState: pageState ?? this.pageState,
-      userAccount: userAccount,
+      lostAccount: lostAccount,
       pageCommand: pageCommand,
       approvedAccounts: approvedAccounts ?? this.approvedAccounts,
       guardianAccounts: guardianAccounts ?? this.guardianAccounts,
@@ -59,7 +59,7 @@ class RecoverAccountDetailsState extends Equatable {
   factory RecoverAccountDetailsState.initial(String userAccount) {
     return RecoverAccountDetailsState(
       pageState: PageState.initial,
-      userAccount: userAccount,
+      lostAccount: userAccount,
       totalGuardiansCount: 0,
       approvedAccounts: [],
       guardianAccounts: [],

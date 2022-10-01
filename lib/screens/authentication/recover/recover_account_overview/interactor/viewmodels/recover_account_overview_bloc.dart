@@ -28,7 +28,6 @@ class RecoverAccountOverviewBloc extends Bloc<RecoverAccountOverviewEvent, Recov
     final Result<RecoveryOverviewData> result = await FetchRecoverAccountOverviewUsecase().run(
       accountService.currentAccount.address,
       lostAccount: activeRecoveryAccount,
-      mock: true,
     );
 
     if (result.isValue) {

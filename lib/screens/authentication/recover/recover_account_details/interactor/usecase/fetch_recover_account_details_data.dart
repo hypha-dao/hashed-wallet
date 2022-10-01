@@ -8,25 +8,27 @@ import 'package:hashed/domain-shared/shared_use_cases/cerate_firebase_dynamic_li
 class FetchRecoverAccountDetailsUsecase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
-  Future<Result<RecoveryResultData>> run(String accountName) async {
-    final configResult = await _guardiansRepository.getAccountGuardians(accountName);
-    final activeResult = await _guardiansRepository.getAccountRecovery(accountName);
+  Future<Result<RecoveryResultData>> run(String rescuer, String lostAccount) async {
+    final configResult = await _guardiansRepository.getAccountGuardians(lostAccount);
+    final activeResult = await _guardiansRepository.getAccountRecovery(lostAccount);
 
     if (configResult.isError) {
-      print("error: No recovery config found for $accountName");
+      print("error: No recovery config found for $lostAccount");
       return Result.error(configResult.asError!.error);
     }
 
     if (activeResult.isError) {
-      print("Error retrieving active recoveries for $accountName");
+      print("Error retrieving active recoveries for $lostAccount");
       return Result.error(activeResult.asError!.error);
     }
 
     final recoveryConfig = configResult.asValue!.value;
-    final activeRecoveries = activeResult.asValue!.value;
+    final allActiveRecoveries = activeResult.asValue!.value;
+
+    final activeRecoveries = allActiveRecoveries.where((element) => element.rescuer == rescuer);
 
     if (activeRecoveries.isEmpty) {
-      return Result.error("No active recoveries for $accountName");
+      return Result.error("No active recoveries for $lostAccount by $rescuer");
     }
 
     final activeRecovery = activeRecoveries.first;
@@ -36,7 +38,7 @@ class FetchRecoverAccountDetailsUsecase {
 
     if (link.isError) {
       print(
-          "Unable to create recovery link for $accountName [rescuer ${activeRecovery.rescuer}] - error ${link.asError!.error}");
+          "Unable to create recovery link for $lostAccount [rescuer ${activeRecovery.rescuer}] - error ${link.asError!.error}");
       return Result.error(link.asError!.error);
     }
 
@@ -51,7 +53,7 @@ class FetchRecoverAccountDetailsUsecase {
 class RecoveryResultData {
   final Uri linkToActivateGuardians;
   final GuardiansConfigModel configuration;
-  final ActiveRecoveryModel activeRecovery;
+  final ActiveRecoveryModel? activeRecovery;
 
   RecoveryResultData({
     required this.linkToActivateGuardians,

@@ -5,6 +5,7 @@ import 'package:hashed/utils/result_extension.dart';
 
 class ActivateGuardiansUseCase {
   Future<Result> createRecovery(GuardiansConfigModel myGuardians) async {
-    return polkadotRepository.recoveryRepository.createRecovery(accountService.currentAccount.address, myGuardians);
+    return polkadotRepository.recoveryRepository
+        .createRecoveryConfig(accountService.currentAccount.address, myGuardians);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
@@ -70,7 +71,7 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
   Future<void> _onRecoverTapped(OnRecoverTapped event, Emitter<RecoverAccountTimerState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final result = await RecoverUseCase()
-        .run(rescuer: state.recoveryModel.rescuer, lostAccount: state.recoveryModel.lostAccount, mock: true);
+        .run(rescuer: accountService.currentAccount.address, lostAccount: state.recoveryModel.lostAccount);
 
     if (result.isValue) {
       // show success dialog?
