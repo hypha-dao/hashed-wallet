@@ -1,3 +1,4 @@
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
@@ -142,6 +143,10 @@ class RecoveryRepository extends ExtrinsicsRepository {
       final code = 'api.query.recovery.activeRecoveries("$lostAccount", "$rescuer")';
       final res = await evalJavascript(code: code);
 
+      if (res == null) {
+        return Result.value(null);
+      }
+
       final recovery = ActiveRecoveryModel.fromJsonSingle(rescuer: rescuer, lostAccount: lostAccount, json: res);
 
       return Result.value(recovery);
@@ -180,7 +185,14 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// Cancel recovered - removes ability to call asRecovered
   ///
   Future<Result<dynamic>> claimRecovery({required String rescuer, required String lostAccount}) async {
-    print("claimRecovery on $lostAccount");
+    print("claimRecovery on $lostAccount by $rescuer");
+
+    if (rescuer != accountService.currentAccount.address) {
+      // Note: signAndSend does not handle the case well where there is no key for an account
+      // it just silently dies.
+      throw UnimplementedError("curently only the current account - key holder - can make a recovery");
+    }
+
     final sender = TxSenderData(rescuer);
     final txInfo = SubstrateTransactionModel('recovery', 'claimRecovery', sender);
     final params = [lostAccount];
@@ -189,6 +201,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
         print("claimRecovery - onStatusChange: $status");
       });
+
       return Result.value(hash.toString());
     } catch (err, s) {
       print('claimRecovery error $err');
@@ -302,12 +315,21 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
 
     try {
-      final code = 'api.query.recovery.proxy.entries("$address")';
+      final code = 'api.query.recovery.proxy("$address")';
 
       final res = await evalJavascript(code: code);
-      final list = List<String>.from(res);
+      print("res: $res");
+      // TODO(n13): Fix this - not sure what this call returns - a list or... ???
+      // need to experiment with this
 
-      return Result.value(list);
+      if (res == null) {
+        return Result.value([]);
+      }
+      final list = List<dynamic>.from(res);
+
+      // TODO(n13): Parse the list of tuples into a single list of string.
+
+      return Result.value([]);
     } catch (err, stacktrace) {
       print('getProxies error: $err');
       print(stacktrace);
