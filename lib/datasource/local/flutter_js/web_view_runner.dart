@@ -143,7 +143,9 @@ class WebViewRunner {
               handler(msg['data']);
             }
           } catch (error) {
-            print("web view runner error: $error");
+            // any console log that's not JSON format will trigger this
+            // since we want normal console logs too, we ignore this
+            // print("web view runner error: $error");
           }
         },
         onLoadStart: (controller, url) {
