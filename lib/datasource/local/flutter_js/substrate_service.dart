@@ -112,12 +112,19 @@ class SubstrateService {
   }
 
   Future<bool> _runAliveCheck() async {
-    final res = await webView.evalJavascript('api.rpc.system.chain()');
-    if (res == null) {
-      print("Alive check fail at ${DateTime.now()}");
+    print("_runAliveCheck");
+    try {
+      final res = await webView.evalJavascript('api.rpc.system.chain()');
+      print("alive check result: $res");
+      if (res == null) {
+        print("Alive check fail at ${DateTime.now()}");
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      print("alive check: $error");
       return false;
-    } else {
-      return true;
     }
   }
 
