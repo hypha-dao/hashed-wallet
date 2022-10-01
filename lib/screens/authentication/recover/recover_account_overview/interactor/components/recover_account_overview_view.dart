@@ -44,7 +44,7 @@ class RecoverAccountOverviewView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  if (state.activeRecovery != null)
+                  if (state.activeRecovery != null) ...[
                     SettingsCard(
                         backgroundColor: context.colorScheme.tertiaryContainer,
                         textColor: context.colorScheme.onTertiaryContainer,
@@ -55,7 +55,8 @@ class RecoverAccountOverviewView extends StatelessWidget {
                           BlocProvider.of<RecoverAccountOverviewBloc>(context)
                               .add(OnRecoveryInProcessTapped(state.activeRecovery!.lostAccount));
                         }),
-                  if (state.activeRecovery != null) const SizedBox(height: 16),
+                    const SizedBox(height: 16)
+                  ],
                   if (state.recoveredAccounts.isNotEmpty)
                     Text(
                       "Recovered Accounts",
