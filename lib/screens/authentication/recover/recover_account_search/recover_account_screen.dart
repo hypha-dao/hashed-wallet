@@ -96,16 +96,18 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
     );
   }
 
-  void _showRecoverConfirmationDialog(BuildContext buildContext, String account) {
+  void _showRecoverConfirmationDialog(BuildContext buildContext, String lostAccount) {
     showDialog(
       context: buildContext,
       builder: (context) {
         return RecoverAccountConfirmationDialog(
-          account: account,
+          account: lostAccount,
           onConfirm: () {
             Navigator.pop(context);
-            NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, arguments: account);
-            settingsStorage.activeRecoveryAccount = account;
+            // TODO(n13): This needs to actually initialize the recovery!
+
+            NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, arguments: lostAccount);
+            settingsStorage.activeRecoveryAccount = lostAccount;
           },
           onDismiss: () => Navigator.pop(context),
         );
