@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -19,19 +20,20 @@ class RecoverAccountDetailsBloc extends Bloc<RecoverAccountDetailsEvent, Recover
 
   Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountDetailsState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<RecoveryResultData> result = await FetchRecoverAccountDetailsUsecase().run(state.userAccount);
+    final Result<RecoveryResultData> result =
+        await FetchRecoverAccountDetailsUsecase().run(accountService.currentAccount.address, state.lostAccount);
 
     if (result.isValue) {
       final data = result.asValue!.value;
       emit(state.copyWith(
         linkToActivateGuardians: data.linkToActivateGuardians,
         totalGuardiansCount: data.configuration.guardianAddresses.length,
-        approvedAccounts: data.activeRecovery.friends,
+        approvedAccounts: data.activeRecovery?.friends,
         guardianAccounts: data.configuration.guardianAddresses,
         threshold: data.configuration.threshold,
         pageState: PageState.success,
       ));
-      if (data.activeRecovery.friends.length >= data.configuration.threshold) {
+      if (data.activeRecovery != null && data.activeRecovery!.friends.length >= data.configuration.threshold) {
         emit(state.copyWith(
             pageCommand: NavigateToRouteWithArguments(route: Routes.recoverAccountTimer, arguments: data)));
       }
