@@ -11,7 +11,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   RecoveryRepository(super.webView);
 
   /// Activates your guardians - Min 2 for now. (UI enforced)
-  Future<Result> createRecovery(String address, GuardiansConfigModel guardians) async {
+  Future<Result> createRecoveryConfig(String address, GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     final sender = TxSenderData(address);
     final txInfo = SubstrateTransactionModel('recovery', 'createRecovery', sender);
@@ -77,9 +77,19 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<dynamic>> initiateRecovery({required String address, required String lostAccount}) async {
+  /// Iinitiate a recovery - rescuer is trying to recover lostAccount
+  /// lostAccount needs to have a recovery config set up - meaning lostAccount, before it got lost,
+  /// has set up guardians to recover their account.
+  /// rescuer will pay a fee for this
+  /// 
+  /// If rescuer is not a legitimate rescuer, and lostAccount removes the recovery, then the fee is transferred
+  /// to lostAccount (who deleted the recovery). 
+  /// 
+  /// So the fee is an incentive to not try and steal people's accounts
+  /// 
+  Future<Result<dynamic>> initiateRecovery({required String rescuer, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
-    final sender = TxSenderData(address);
+    final sender = TxSenderData(rescuer);
     final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', sender);
     final params = [lostAccount];
     try {

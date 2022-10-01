@@ -15,7 +15,7 @@ class GuardiansRepository with HttpRepository {
   Future<Result> createRecovery(GuardiansConfigModel guardians) async {
     print('[eos] create recovery: $guardians');
 
-    return polkadotRepository.recoveryRepository.createRecovery(accountService.currentAccount.address, guardians);
+    return polkadotRepository.recoveryRepository.createRecoveryConfig(accountService.currentAccount.address, guardians);
   }
 
   /// Claim recovered account for user - this switches the new public key live at the end of the
