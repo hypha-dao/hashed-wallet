@@ -82,18 +82,27 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         child: WalletButtons(
                           title: 'Receive',
                           onPressed: () async {
+                            final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
+
+                            // final address = "5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb";
+                            final res = await polkadotRepository.recoveryRepository.getProxies(address);
+
+                            final recovery = res.asValue!.value;
+                            // ignore: unnecessary_brace_in_string_interps
+                            print("recovery: ${recovery} ");
+
                             /// get last block
                             // final res = await polkadotRepository.getLastBlockNumber();
                             // print("last block: ${res.asValue!.value}");
 
                             // get recovery
-                            final lostAccount = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
-                            final rescuer = "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW";
-                            final res = await polkadotRepository.recoveryRepository
-                                .getActiveRecoveriesForLostaccount(rescuer, lostAccount);
+                            // final lostAccount = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
+                            // final rescuer = "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW";
+                            // final res = await polkadotRepository.recoveryRepository
+                            //     .getActiveRecoveriesForLostaccount(rescuer, lostAccount);
 
-                            final recovery = res.asValue!.value;
-                            print("recovery: ${recovery!.toJson()} ");
+                            // final recovery = res.asValue!.value;
+                            // print("recovery: ${recovery!.toJson()} ");
 
                             // print("firebase deep link: ${link.asValue?.value}");
 
