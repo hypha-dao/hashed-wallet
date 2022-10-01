@@ -757,13 +757,34 @@ const queryActiveRecovery = async () => {
 
 const queryProxy = async (api, address) => {
 
- const res = await api.query.recovery.proxy(address);
 
-  console.log("raw result: ")
-  console.log(res);
-  console.log("==- end raw result")
+  // 1 - proxy with param - not working
+  // const res = await api.query.recovery.proxy("5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym");
+  // proxy (acct) = reutrns null
+  //  const res = await api.query.recovery.proxy("5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym");
 
-  console.log("proxy for " + address + ": " + JSON.stringify(res, null, 2))
+  // 2 - entries - works
+  // const res = await api.query.recovery.proxy.entries();
+  /// This works - returns a list of lists....
+  //  list item: 
+  //  [
+  //   "0xa2ce73642c549ae79c14f0a671cf45f91809d78346727a0ef58c0fa03bafa3230697dc9f959072a6635d0446506c2ed242f841cafd4619614da635c66ac418d399a780839f51f9a80c779a550b8baf54",
+  //   "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym"
+  // ]
+
+  // 3 - entries with field - returns empty list, which indicates it's searching for something
+  //  const res = await api.query.recovery.proxy.entries("5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym");
+  // proxy res: []
+
+
+  // 4 - entries with key - returns empty list
+  // const res = await api.query.recovery.proxy.entries("0xa2ce73642c549ae79c14f0a671cf45f91809d78346727a0ef58c0fa03bafa3230697dc9f959072a6635d0446506c2ed242f841cafd4619614da635c66ac418d399a780839f51f9a80c779a550b8baf54");
+  // proxy res: []
+
+  // maybe entries can be searched with the account that can recover
+  const res = await api.query.recovery.proxy.entries("0xa2ce73642c549ae79c14f0a671cf45f91809d78346727a0ef58c0fa03bafa3230697dc9f959072a6635d0446506c2ed242f841cafd4619614da635c66ac418d399a780839f51f9a80c779a550b8baf54");
+
+  console.log("proxy res: " + JSON.stringify(res, null, 2))
 
 
   await api.disconnect()
