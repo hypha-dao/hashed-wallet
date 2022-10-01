@@ -757,8 +757,12 @@ const queryActiveRecovery = async () => {
 
 const queryProxy = async (api, address) => {
 
- const res = await api.query.recovery.proxy.entries(address);
-  
+ const res = await api.query.recovery.proxy(address);
+
+  console.log("raw result: ")
+  console.log(res);
+  console.log("==- end raw result")
+
   console.log("proxy for " + address + ": " + JSON.stringify(res, null, 2))
 
 
@@ -868,9 +872,9 @@ program
 
     console.log("active: " + JSON.stringify(result, null, 2))
 
-    console.log("queryActiveRecoveryByRescuer...")
-    const rescuerRes = await queryActiveRecoveryByRescuer(steve.address, "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
-    console.log("data by tuple: " + JSON.stringify(rescuerRes, null, 2))
+    // console.log("queryActiveRecoveryByRescuer...")
+    // const rescuerRes = await queryActiveRecoveryByRescuer(steve.address, "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW")
+    // console.log("data by tuple: " + JSON.stringify(rescuerRes, null, 2))
 
 
     /// QUERY ACTIVE RESULT with no signers
