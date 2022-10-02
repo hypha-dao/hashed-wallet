@@ -45,7 +45,7 @@ class RecoverAccountSearchState extends Equatable {
       pageState: PageState.initial,
       account: null,
       isNextEnabled: false,
-      isNextLoading: true,
+      isNextLoading: false,
     );
   }
 }
