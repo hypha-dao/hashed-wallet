@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/text_form_field_custom.dart';
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
-import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/components/recover_account_confimation_dialog.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
@@ -37,13 +38,16 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RecoverAccountSearchBloc(),
+      create: (_) => RecoverAccountSearchBloc(accountService, polkadotRepository),
       child: BlocConsumer<RecoverAccountSearchBloc, RecoverAccountSearchState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
+          BlocProvider.of<RecoverAccountSearchBloc>(context).add(const ClearPageCommand());
           if (pageCommand is ShowRecoverAccountConfirmation) {
             _showRecoverConfirmationDialog(context, pageCommand.userAccount);
+          } else if (pageCommand is ShowErrorMessage) {
+            eventBus.fire(ShowSnackBar(pageCommand.message));
           }
         },
         builder: (context, state) {
@@ -85,6 +89,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                     child: FlatButtonLong(
                       title: "Next",
                       enabled: state.isNextEnabled,
+                      isLoading: state.isNextLoading,
                       onPressed: () =>
                           BlocProvider.of<RecoverAccountSearchBloc>(context).add(const OnNextButtonTapped()),
                     ),
@@ -104,20 +109,9 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
       builder: (context) {
         return RecoverAccountConfirmationDialog(
           account: lostAccount,
-          onConfirm: () async {
+          onConfirm: () {
+            BlocProvider.of<RecoverAccountSearchBloc>(buildContext).add(const OnConfirmRecoverTapped());
             Navigator.pop(context);
-            // TODO(n13): This needs to actually initialize the recovery!
-
-            // TODO here:
-            // maybe pop the dialog, then show a progress indicator (this takes 6 seconds! an eternity!)
-            // then show the next screen, recoverAccount details
-            // or it could show a "recovery initiated successfully" dialog, then on OK on that move on to Routes.recoverAccountDetails
-            // anyway it needs to end up in Routes.recoverAccountDetails so the user can share the link etc (that part already works)
-            final address = accountService.currentAccount.address;
-            await polkadotRepository.recoveryRepository.initiateRecovery(rescuer: address, lostAccount: lostAccount);
-
-            NavigationService.of(context).navigateTo(Routes.recoverAccountDetails, arguments: lostAccount);
-            settingsStorage.activeRecoveryAccount = lostAccount;
           },
           onDismiss: () => Navigator.pop(context),
         );
