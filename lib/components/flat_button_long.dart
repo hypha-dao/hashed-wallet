@@ -26,7 +26,7 @@ class FlatButtonLong extends StatelessWidget {
                 width: 17,
                 height: 17,
                 child: const CircularProgressIndicator(
-                  // color: AppColors.white,
+                  color: Colors.white,
                   strokeWidth: 3,
                 ))
             : Text(title),
