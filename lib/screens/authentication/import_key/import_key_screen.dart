@@ -63,12 +63,11 @@ class ImportKeyScreen extends StatelessWidget {
                                   onPressed: () async {
                                     final clipboardData = await Clipboard.getData('text/plain');
                                     final clipboardText = clipboardData?.text ?? '';
-                                    final newText =
-                                        textController.value.replaced(textController.selection, clipboardText).text;
-                                    textController.text = newText;
+                                    textController.text = clipboardText;
                                     // ignore: use_build_context_synchronously
-                                    BlocProvider.of<ImportKeyBloc>(context)
-                                        .add(OnMnemonicPhraseChange(newMnemonicPhrase: newText));
+                                    BlocProvider.of<ImportKeyBloc>(context).add(OnMnemonicPhraseChange(
+                                      newMnemonicPhrase: clipboardText,
+                                    ));
                                   },
                                 ),
                                 onChanged: (value) {
