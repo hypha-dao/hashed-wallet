@@ -18,11 +18,4 @@ class SeedsAppTheme {
       textTheme: GoogleFonts.sourceSansProTextTheme(ThemeData.dark().textTheme),
     );
   }
-
-  static ThemeData get lightTheme {
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: AppColorSchemes.lightColorScheme,
-    );
-  }
 }
