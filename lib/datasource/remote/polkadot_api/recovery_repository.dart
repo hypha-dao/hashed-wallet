@@ -81,12 +81,12 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// lostAccount needs to have a recovery config set up - meaning lostAccount, before it got lost,
   /// has set up guardians to recover their account.
   /// rescuer will pay a fee for this
-  /// 
+  ///
   /// If rescuer is not a legitimate rescuer, and lostAccount removes the recovery, then the fee is transferred
-  /// to lostAccount (who deleted the recovery). 
-  /// 
+  /// to lostAccount (who deleted the recovery).
+  ///
   /// So the fee is an incentive to not try and steal people's accounts
-  /// 
+  ///
   Future<Result<dynamic>> initiateRecovery({required String rescuer, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
     final sender = TxSenderData(rescuer);
@@ -277,11 +277,11 @@ class RecoveryRepository extends ExtrinsicsRepository {
   ///
   /// Note: this can be used to end a malicious recovery attempt.
   ///
-  Future<Result<dynamic>> closeRecovery({required String account, required String rescuerAccount}) async {
-    print("closing recovery on $account by $rescuerAccount");
-    final sender = TxSenderData(account);
+  Future<Result<dynamic>> closeRecovery({required String lostAccount, required String rescuer}) async {
+    print("closing recovery on $lostAccount by $rescuer");
+    final sender = TxSenderData(lostAccount);
     final txInfo = SubstrateTransactionModel('recovery', 'closeRecovery', sender);
-    final params = [rescuerAccount];
+    final params = [rescuer];
 
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
