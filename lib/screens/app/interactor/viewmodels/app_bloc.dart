@@ -7,8 +7,6 @@ import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
-import 'package:hashed/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
-import 'package:hashed/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
 
 part 'app_event.dart';
@@ -85,8 +83,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> _onStopGuardianActiveRecovery(OnStopGuardianActiveRecoveryTapped event, Emitter<AppState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final result = await StopGuardianRecoveryUseCase().stopRecovery();
-    emit(StopGuardianRecoveryStateMapper().mapResultToState(state, result));
+    // TBD - delete this code
+    // final result = await StopGuardianRecoveryUseCase().run();
+    // emit(StopGuardianRecoveryStateMapper().mapResultToState(state, result));
   }
 
   void _clearAppPageCommand(ClearAppPageCommand event, Emitter<AppState> emit) {

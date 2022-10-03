@@ -334,12 +334,13 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
       if (res == null) {
         return Result.value([]);
+      } else if (res is String) {
+        return Result.value([res]);
+      } else if (res is Iterable) {
+        return Result.value(List<String>.from(res));
+      } else {
+        throw "unexpected result $res";
       }
-      final list = List<dynamic>.from(res);
-
-      // TODO(n13): Parse the list of tuples into a single list of string.
-
-      return Result.value([]);
     } catch (err, stacktrace) {
       print('getProxies error: $err');
       print(stacktrace);
