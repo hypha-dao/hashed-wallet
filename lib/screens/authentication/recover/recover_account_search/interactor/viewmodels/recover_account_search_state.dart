@@ -5,12 +5,14 @@ class RecoverAccountSearchState extends Equatable {
   final PageState pageState;
   final String? account;
   final bool isNextEnabled;
+  final bool isNextLoading;
 
   const RecoverAccountSearchState({
     this.pageCommand,
     required this.pageState,
     required this.account,
     required this.isNextEnabled,
+    required this.isNextLoading,
   });
 
   @override
@@ -19,6 +21,7 @@ class RecoverAccountSearchState extends Equatable {
         pageState,
         account,
         isNextEnabled,
+        isNextLoading,
       ];
 
   RecoverAccountSearchState copyWith({
@@ -26,12 +29,14 @@ class RecoverAccountSearchState extends Equatable {
     PageState? pageState,
     String? account,
     bool? isNextEnabled,
+    bool? isNextLoading,
   }) {
     return RecoverAccountSearchState(
       pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       account: account ?? this.account,
       isNextEnabled: isNextEnabled ?? this.isNextEnabled,
+      isNextLoading: isNextLoading ?? this.isNextLoading,
     );
   }
 
@@ -40,6 +45,7 @@ class RecoverAccountSearchState extends Equatable {
       pageState: PageState.initial,
       account: null,
       isNextEnabled: false,
+      isNextLoading: false,
     );
   }
 }

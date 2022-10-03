@@ -3,6 +3,7 @@ import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/navigation/navigation_service.dart';
+import 'package:hashed/utils/ThemeBuildContext.dart';
 import 'package:hashed/utils/build_context_extension.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -27,8 +28,14 @@ class LoginScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Recover your funds ', style: Theme.of(context).textTheme.subtitle2),
-              const Text('here'),
+              Text(
+                'Recover your funds ',
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+              Text(
+                'here',
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: context.colorScheme.secondary),
+              ),
             ],
           ),
         ),

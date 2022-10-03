@@ -42,7 +42,10 @@ class MyGuardiansView extends StatelessWidget {
                         onPressed: () {
                           BlocProvider.of<GuardiansBloc>(context).add(OnRemoveGuardianTapped(e));
                         },
-                        child: Text(state.areGuardiansActive ? '' : 'Remove')),
+                        child: Text(
+                          state.areGuardiansActive ? '' : 'Remove',
+                          style: TextStyle(color: context.colorScheme.secondary),
+                        )),
               )));
 
           if (state.myGuardians.length <= 9 && !state.areGuardiansActive) {

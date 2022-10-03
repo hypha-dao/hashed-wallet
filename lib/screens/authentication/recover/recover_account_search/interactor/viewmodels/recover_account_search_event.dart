@@ -22,3 +22,17 @@ class OnNextButtonTapped extends RecoverAccountSearchEvent {
   @override
   String toString() => 'OnNextButtonTapped';
 }
+
+class OnConfirmRecoverTapped extends RecoverAccountSearchEvent {
+  const OnConfirmRecoverTapped();
+
+  @override
+  String toString() => 'OnConfirmRecoverTapped';
+}
+
+class ClearPageCommand extends RecoverAccountSearchEvent {
+  const ClearPageCommand();
+
+  @override
+  String toString() => 'ClearPageCommand';
+}
