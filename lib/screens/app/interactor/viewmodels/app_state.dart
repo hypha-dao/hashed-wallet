@@ -6,6 +6,7 @@ class AppState extends Equatable {
   final int index;
   final bool hasNotification;
   final bool showGuardianRecoveryAlert;
+  final List<ActiveRecoveryModel>? activeRecoveries;
   final GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen;
 
   const AppState({
@@ -15,6 +16,7 @@ class AppState extends Equatable {
     required this.hasNotification,
     required this.showGuardianRecoveryAlert,
     required this.showGuardianApproveOrDenyScreen,
+    this.activeRecoveries,
   });
 
   @override
@@ -25,6 +27,7 @@ class AppState extends Equatable {
         hasNotification,
         showGuardianRecoveryAlert,
         showGuardianApproveOrDenyScreen,
+        activeRecoveries,
       ];
 
   AppState copyWith({
@@ -34,6 +37,7 @@ class AppState extends Equatable {
     bool? hasNotification,
     bool? showGuardianRecoveryAlert,
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
+    List<ActiveRecoveryModel>? activeRecoveries,
   }) {
     return AppState(
       pageState: pageState ?? this.pageState,
@@ -42,6 +46,7 @@ class AppState extends Equatable {
       hasNotification: hasNotification ?? this.hasNotification,
       showGuardianRecoveryAlert: showGuardianRecoveryAlert ?? this.showGuardianRecoveryAlert,
       showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen,
+      activeRecoveries: activeRecoveries ?? this.activeRecoveries,
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
@@ -79,13 +80,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _shouldShowGuardianRecoveryAlert(ShouldShowGuardianRecoveryAlert event, Emitter<AppState> emit) {
     emit(state.copyWith(
       showGuardianRecoveryAlert: event.showGuardianRecoveryAlert,
+      activeRecoveries: event.recoveries,
       showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
     ));
   }
 
   Future<void> _onStopGuardianActiveRecovery(OnStopGuardianActiveRecoveryTapped event, Emitter<AppState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final result = await StopGuardianRecoveryUseCase().stopRecovery();
+    print("STOP RECOVERY");
+    final result = await StopGuardianRecoveryUseCase().run(event.recoveries);
     emit(StopGuardianRecoveryStateMapper().mapResultToState(state, result));
   }
 

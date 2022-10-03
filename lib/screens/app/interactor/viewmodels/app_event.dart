@@ -25,8 +25,12 @@ class ShouldShowNotificationBadge extends AppEvent {
 
 class ShouldShowGuardianRecoveryAlert extends AppEvent {
   final bool showGuardianRecoveryAlert;
+  final List<ActiveRecoveryModel> recoveries;
 
-  const ShouldShowGuardianRecoveryAlert({required this.showGuardianRecoveryAlert});
+  const ShouldShowGuardianRecoveryAlert({
+    required this.showGuardianRecoveryAlert,
+    required this.recoveries,
+  });
 
   @override
   String toString() => 'ShouldShowGuardianRecoveryAlert { value: $showGuardianRecoveryAlert }';
@@ -42,7 +46,8 @@ class BottomBarTapped extends AppEvent {
 }
 
 class OnStopGuardianActiveRecoveryTapped extends AppEvent {
-  const OnStopGuardianActiveRecoveryTapped();
+  final List<ActiveRecoveryModel>? recoveries;
+  const OnStopGuardianActiveRecoveryTapped(this.recoveries);
 
   @override
   String toString() => 'OnStopGuardianActiveRecoveryTapped';

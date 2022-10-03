@@ -110,7 +110,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               return const FullPageLoadingIndicator();
             } else {
               if (state.showGuardianRecoveryAlert) {
-                return const AccountUnderRecoveryScreen();
+                return AccountUnderRecoveryScreen(activeRecoveries: state.activeRecoveries);
               } else if (state.showGuardianApproveOrDenyScreen != null) {
                 return GuardianApproveOrDenyScreen(data: state.showGuardianApproveOrDenyScreen!);
               } else {

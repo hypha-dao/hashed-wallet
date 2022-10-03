@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/i18n/app/app.i18.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
 
 class AccountUnderRecoveryScreen extends StatelessWidget {
-  const AccountUnderRecoveryScreen({super.key});
+  final List<ActiveRecoveryModel>? activeRecoveries;
+  const AccountUnderRecoveryScreen({super.key, this.activeRecoveries});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
         child: CustomDialog(
           singleLargeButtonTitle: 'Cancel Recovery'.i18n,
           onSingleLargeButtonPressed: () {
-            BlocProvider.of<AppBloc>(context).add(const OnStopGuardianActiveRecoveryTapped());
+            BlocProvider.of<AppBloc>(context).add(OnStopGuardianActiveRecoveryTapped(activeRecoveries));
           },
           children: [
             Container(
