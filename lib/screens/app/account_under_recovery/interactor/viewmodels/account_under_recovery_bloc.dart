@@ -14,7 +14,7 @@ class AccountUnderRecoveryBloc extends Bloc<AccountUnderRecoveryEvent, AccountUn
       OnStopGuardianActiveRecoveryTapped event, Emitter<AccountUnderRecoveryState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
 
-    final result = await StopGuardianRecoveryUseCase().run(state.recoveries, mock: true);
+    final result = await StopGuardianRecoveryUseCase().run(state.recoveries);
 
     emit(StopGuardianRecoveryStateMapper().mapResultToState(state, result));
   }
