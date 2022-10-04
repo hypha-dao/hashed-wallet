@@ -41,6 +41,8 @@ class CustomDialog extends StatelessWidget {
 
   final Widget? topDecorationWidget;
 
+  final bool singleLargeButtonLoading;
+
   const CustomDialog({
     super.key,
     this.icon,
@@ -52,6 +54,7 @@ class CustomDialog extends StatelessWidget {
     this.onRightButtonPressed,
     this.singleLargeButtonTitle = '',
     this.onSingleLargeButtonPressed,
+    this.singleLargeButtonLoading = false,
     this.iconPadding,
     this.topDecorationWidget,
   });
@@ -119,6 +122,7 @@ class CustomDialog extends StatelessWidget {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: FlatButtonLong(
+                            isLoading: singleLargeButtonLoading,
                             title: singleLargeButtonTitle,
                             onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
                           ),

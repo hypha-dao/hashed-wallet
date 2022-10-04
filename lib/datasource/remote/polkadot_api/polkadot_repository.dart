@@ -191,7 +191,7 @@ class PolkadotRepository extends KeyRepository {
     try {
       print("get identity for $address");
       if (!isReady) {
-        print("getBalance: service not ready...");
+        print("getIdentity: service not ready...");
         return Result.error("not ready");
       }
 

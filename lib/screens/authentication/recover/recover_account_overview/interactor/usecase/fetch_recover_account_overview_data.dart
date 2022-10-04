@@ -15,8 +15,8 @@ class FetchRecoverAccountOverviewUsecase {
     Result<ActiveRecoveryModel?>? activeResult;
 
     if (lostAccount != null) {
-      activeResult =
-          await polkadotRepository.recoveryRepository.getActiveRecoveriesForLostaccount(accountAddress, lostAccount);
+      activeResult = await polkadotRepository.recoveryRepository
+          .getActiveRecoveriesForLostaccount(rescuer: accountAddress, lostAccount: lostAccount);
       if (activeResult.isError) {
         print("Error retrieving active recoveries for $accountAddress");
         return Result.error(activeResult.asError!.error);

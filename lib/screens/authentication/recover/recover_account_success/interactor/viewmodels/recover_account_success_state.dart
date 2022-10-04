@@ -3,7 +3,7 @@ part of 'recover_account_success_bloc.dart';
 class RecoverAccountSuccessState extends Equatable {
   final PageState pageState;
   final String lostAccount;
-  final double recoverAmount;
+  final TokenDataModel recoverAmount;
   final PageCommand? pageCommand;
 
   const RecoverAccountSuccessState({
@@ -24,7 +24,7 @@ class RecoverAccountSuccessState extends Equatable {
   RecoverAccountSuccessState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
-    double? recoverAmount,
+    TokenDataModel? recoverAmount,
   }) {
     return RecoverAccountSuccessState(
       pageState: pageState ?? this.pageState,
@@ -35,6 +35,7 @@ class RecoverAccountSuccessState extends Equatable {
   }
 
   factory RecoverAccountSuccessState.initial(String lostAccount) {
-    return RecoverAccountSuccessState(pageState: PageState.initial, lostAccount: lostAccount, recoverAmount: 0);
+    return RecoverAccountSuccessState(
+        pageState: PageState.initial, lostAccount: lostAccount, recoverAmount: TokenDataModel(0));
   }
 }

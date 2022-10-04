@@ -37,7 +37,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                   const SizedBox(height: 8),
                   SettingsCard(
                     icon: const Icon(Icons.refresh),
-                    title: "Recover ${state.recoverAmount}",
+                    title: "Recover ${state.recoverAmount.amountStringWithSymbol()}",
                     description: "Recover all HSD tokens from ${state.lostAccount}",
                     onTap: () async {
                       BlocProvider.of<RecoverAccountSuccessBloc>(context).add(OnRecoverFundsTapped(

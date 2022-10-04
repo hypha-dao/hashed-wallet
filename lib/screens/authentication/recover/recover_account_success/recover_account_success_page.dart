@@ -12,19 +12,31 @@ class RecoverAccountSuccessPage extends StatelessWidget {
     final String lostAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
       create: (context) => RecoverAccountSuccessBloc(lostAccount)..add(const FetchInitialData()),
-      child: Scaffold(
-          appBar: AppBar(
-            title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Account Recovery")),
-            automaticallyImplyLeading: false,
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.of(context).pop(),
+      child: BlocBuilder<RecoverAccountSuccessBloc, RecoverAccountSuccessState>(
+          builder: (BuildContext context, RecoverAccountSuccessState state) {
+        return Scaffold(
+            appBar: AppBar(
+              title: const Padding(padding: EdgeInsets.only(left: 16), child: Text("Account Recovery")),
+              automaticallyImplyLeading: false,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () => BlocProvider.of<RecoverAccountSuccessBloc>(context).add(const OnRefreshTapped()),
+                  ),
+                )
+              ],
+              leading: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
               ),
             ),
-          ),
-          body: const RecoverAccountSuccessView()),
+            body: const RecoverAccountSuccessView());
+      }),
     );
   }
 }

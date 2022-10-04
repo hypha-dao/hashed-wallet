@@ -81,12 +81,12 @@ class RecoveryRepository extends ExtrinsicsRepository {
   /// lostAccount needs to have a recovery config set up - meaning lostAccount, before it got lost,
   /// has set up guardians to recover their account.
   /// rescuer will pay a fee for this
-  /// 
+  ///
   /// If rescuer is not a legitimate rescuer, and lostAccount removes the recovery, then the fee is transferred
-  /// to lostAccount (who deleted the recovery). 
-  /// 
+  /// to lostAccount (who deleted the recovery).
+  ///
   /// So the fee is an incentive to not try and steal people's accounts
-  /// 
+  ///
   Future<Result<dynamic>> initiateRecovery({required String rescuer, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
     final sender = TxSenderData(rescuer);
@@ -138,9 +138,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount(
-    String rescuer,
-    String lostAccount, {
+  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount({
+    required String rescuer,
+    required String lostAccount,
     bool mock = false,
   }) async {
     print("get active recovery for $rescuer and $lostAccount");
@@ -277,11 +277,11 @@ class RecoveryRepository extends ExtrinsicsRepository {
   ///
   /// Note: this can be used to end a malicious recovery attempt.
   ///
-  Future<Result<dynamic>> closeRecovery({required String account, required String rescuerAccount}) async {
-    print("closing recovery on $account by $rescuerAccount");
-    final sender = TxSenderData(account);
+  Future<Result<dynamic>> closeRecovery({required String lostAccount, required String rescuer}) async {
+    print("closing recovery on $lostAccount by $rescuer");
+    final sender = TxSenderData(lostAccount);
     final txInfo = SubstrateTransactionModel('recovery', 'closeRecovery', sender);
-    final params = [rescuerAccount];
+    final params = [rescuer];
 
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -334,12 +334,13 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
       if (res == null) {
         return Result.value([]);
+      } else if (res is String) {
+        return Result.value([res]);
+      } else if (res is Iterable) {
+        return Result.value(List<String>.from(res));
+      } else {
+        throw "unexpected result $res";
       }
-      final list = List<dynamic>.from(res);
-
-      // TODO(n13): Parse the list of tuples into a single list of string.
-
-      return Result.value([]);
     } catch (err, stacktrace) {
       print('getProxies error: $err');
       print(stacktrace);

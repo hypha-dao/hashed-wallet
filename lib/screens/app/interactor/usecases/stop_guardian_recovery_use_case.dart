@@ -1,34 +1,40 @@
 import 'package:async/async.dart';
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/remote/api/guardians_repository.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class StopGuardianRecoveryUseCase {
-  final FirebaseDatabaseGuardiansRepository _firebaseRepository = FirebaseDatabaseGuardiansRepository();
-  final GuardiansRepository _guardiansRepository = GuardiansRepository();
+  Future<List<Result>> run(List<ActiveRecoveryModel>? recoveries, {bool mock = false}) async {
+    final address = accountService.currentAccount.address;
 
-  Future<Result> stopRecovery() {
-    return _guardiansRepository.removeGuardians().then((Result value) {
-      if (value.isError) {
-        // cancelGuardians fails if the user does not have guardians.
-        // We dont want to fail, our purpose is to remove guardians, and if the user doesnt have guardians
-        // then we succeeded. Thats why we return ValueResult if it fails with "does not have guards"
-        if (value.asError!.error.toString().contains('does not have guards')) {
-          return _onCancelGuardiansSuccess();
-        } else {
-          return value;
-        }
-      } else {
-        return _onCancelGuardiansSuccess();
+    final List<Result> results = [];
+
+    if (recoveries == null) {
+      print("no recoveries");
+      return [];
+    }
+
+    if (mock) {
+      print("Mock mode - returning success");
+      for (final _ in recoveries) {
+        results.add(Result.value("Ok"));
       }
-    });
-  }
+      return Future.delayed(const Duration(milliseconds: 1000), () => results);
+    }
 
-  Future<Result> _onCancelGuardiansSuccess() {
-    return _firebaseRepository
-        .removeGuardiansInitialized(accountService.currentAccount.address)
-        .then((value) => ValueResult(true))
-        // ignore: return_of_invalid_type_from_catch_error
-        .catchError((onError) => ErrorResult(false));
+    for (final recovery in recoveries) {
+      if (recovery.lostAccount == address) {
+        print("removing recovery ${recovery.lostAccount} ${recovery.rescuer}");
+
+        final res = await polkadotRepository.recoveryRepository.closeRecovery(
+          lostAccount: address,
+          rescuer: recovery.rescuer,
+        );
+
+        results.add(res);
+      }
+    }
+
+    return results;
   }
 }
