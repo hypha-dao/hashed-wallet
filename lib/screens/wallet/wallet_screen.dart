@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
-import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/wallet/components/tokens_cards/tokens_cards.dart';
 import 'package:hashed/screens/wallet/components/transactions_list/transactions_list.dart';
 import 'package:hashed/screens/wallet/components/wallet_appbar.dart';
@@ -21,10 +21,6 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   @override
   bool get wantKeepAlive => true;
 
-  void _showRecoveryActiveDialog() {
-    print("TBD");
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -36,13 +32,10 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
             final pageCommand = state.pageCommand;
 
             if (pageCommand is OnRecoveryActivePageCommand) {
-              /// this is the old way of doing it - overlays a screen. but it's pretty clunky.
-              //   BlocProvider.of<AppBloc>(context).add(ShouldShowGuardianRecoveryAlert(
-              //     showGuardianRecoveryAlert: true,
-              //     recoveries: pageCommand.recoveries,
-              //   ));
+              print("on OnRecoveryActivePageCommand");
 
-              _showRecoveryActiveDialog();
+              NavigationService.of(context)
+                  .navigateTo(Routes.accountUnderRecoveryScreen, arguments: pageCommand.recoveries);
             }
           },
           child: BlocBuilder<WalletBloc, WalletState>(

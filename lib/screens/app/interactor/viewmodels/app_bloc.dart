@@ -27,8 +27,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<OnAppMounted>(_onAppMounted);
     on<ShouldShowNotificationBadge>(_shouldShowNotificationBadge);
     on<BottomBarTapped>(_bottomBarTapped);
-    on<ShouldShowGuardianRecoveryAlert>(_shouldShowGuardianRecoveryAlert);
-    on<OnStopGuardianActiveRecoveryTapped>(_onStopGuardianActiveRecovery);
     on<ClearAppPageCommand>(_clearAppPageCommand);
     on<OnDismissGuardianRecoveryTapped>(_onDismissGuardianRecoveryTapped);
     on<OnApproveGuardianRecoveryTapped>(_onApproveGuardianRecoveryTapped);
@@ -72,20 +70,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       pageCommand: BottomBarNavigateToIndex(event.index),
       showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
     ));
-  }
-
-  void _shouldShowGuardianRecoveryAlert(ShouldShowGuardianRecoveryAlert event, Emitter<AppState> emit) {
-    emit(state.copyWith(
-      showGuardianRecoveryAlert: event.showGuardianRecoveryAlert,
-      showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
-    ));
-  }
-
-  Future<void> _onStopGuardianActiveRecovery(OnStopGuardianActiveRecoveryTapped event, Emitter<AppState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
-    // TBD - delete this code
-    // final result = await StopGuardianRecoveryUseCase().run();
-    // emit(StopGuardianRecoveryStateMapper().mapResultToState(state, result));
   }
 
   void _clearAppPageCommand(ClearAppPageCommand event, Emitter<AppState> emit) {

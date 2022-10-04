@@ -13,7 +13,7 @@ import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/i18n/app/app.i18.dart';
 import 'package:hashed/navigation/navigation_service.dart';
-import 'package:hashed/screens/app/components/account_under_recovery_screen.dart';
+import 'package:hashed/screens/app/account_under_recovery/account_under_recovery_screen.dart';
 import 'package:hashed/screens/app/components/guardian_approve_or_deny_recovery_screen.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';

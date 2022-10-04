@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/screens/app/account_under_recovery/account_under_recovery_screen.dart';
 import 'package:hashed/screens/app/app.dart';
 import 'package:hashed/screens/authentication/create_nickname/create_nickname_screen.dart';
 import 'package:hashed/screens/authentication/import_key/import_key_screen.dart';
@@ -66,6 +67,8 @@ class Routes {
   static const exportPrivateKey = ' exportPrivateKey';
   static const setCurrency = 'setCurrency';
   static const citizenship = 'citizenship';
+
+  static const accountUnderRecoveryScreen = "accountUnderRecoveryScreen";
 }
 
 class NavigationService {
@@ -98,6 +101,7 @@ class NavigationService {
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const SettingsScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
+    Routes.accountUnderRecoveryScreen: (_) => const AccountUnderRecoveryScreen(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too
@@ -105,6 +109,7 @@ class NavigationService {
   // Has no effect on Android.
   final _fullScreenRoutes = {
     Routes.verificationUnpoppable,
+    Routes.accountUnderRecoveryScreen,
   };
 
   // iOS transition: Pages that slides in from the right and exits in reverse.
