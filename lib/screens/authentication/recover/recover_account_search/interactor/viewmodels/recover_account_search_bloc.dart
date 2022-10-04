@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -39,24 +40,40 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
     final lostAccount = state.account!;
 
     final address = _accountService.currentAccount.address;
-    final result = await _polkadotRepository.recoveryRepository.initiateRecovery(
-      rescuer: address,
-      lostAccount: lostAccount,
-    );
 
-    emit(state.copyWith(isNextLoading: false));
+    final existing = await _polkadotRepository.recoveryRepository
+        .getActiveRecoveriesForLostaccount(rescuer: address, lostAccount: lostAccount);
 
-    if (result.isValue) {
-      settingsStorage.activeRecoveryAccount = lostAccount;
+    if (existing.isValue && existing.asValue!.value is ActiveRecoveryModel) {
+      /// A recovery for this rescuer, lost account already exists
+      print("rexocery exists: ");
+      emit(state.copyWith(isNextLoading: false));
+
       emit(state.copyWith(
+          isNextLoading: false,
           pageCommand: NavigateToRouteWithArguments<String>(
-        route: Routes.recoverAccountDetails,
-        arguments: lostAccount,
-      )));
+            route: Routes.recoverAccountDetails,
+            arguments: lostAccount,
+          )));
     } else {
-      emit(state.copyWith(
-        pageCommand: ShowErrorMessage(result.asError?.error.toString() ?? 'Oops, something went wrong'),
-      ));
+      final result = await _polkadotRepository.recoveryRepository.initiateRecovery(
+        rescuer: address,
+        lostAccount: lostAccount,
+      );
+      emit(state.copyWith(isNextLoading: false));
+
+      if (result.isValue) {
+        settingsStorage.activeRecoveryAccount = lostAccount;
+        emit(state.copyWith(
+            pageCommand: NavigateToRouteWithArguments<String>(
+          route: Routes.recoverAccountDetails,
+          arguments: lostAccount,
+        )));
+      } else {
+        emit(state.copyWith(
+          pageCommand: ShowErrorMessage(result.asError?.error.toString() ?? 'Oops, something went wrong'),
+        ));
+      }
     }
   }
 }

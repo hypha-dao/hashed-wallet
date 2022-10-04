@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/page_command.dart';
@@ -19,14 +21,14 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
   }
 
   Future<void> _fetchInitialData(FetchInitialData event, Emitter<RecoverAccountSuccessState> emit) async {
-    final Result<ResultData> result = await FetchRecoverAccountSuccessDataUseCase().run(state.lostAccount);
+    final Result<BalanceModel> result = await FetchRecoverAccountSuccessDataUseCase().run(state.lostAccount);
     emit(state.copyWith(pageState: PageState.loading));
 
     if (result.isValue) {
       final data = result.asValue!.value;
       emit(state.copyWith(
         pageState: PageState.success,
-        recoverAmount: data.amountToRecover,
+        recoverAmount: TokenDataModel(data.quantity),
       ));
     } else {
       emit(state.copyWith(pageState: PageState.failure));

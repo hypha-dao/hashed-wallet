@@ -9,6 +9,7 @@ import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/components/recover_account_confimation_dialog.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
@@ -48,6 +49,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
             _showRecoverConfirmationDialog(context, pageCommand.userAccount);
           } else if (pageCommand is ShowErrorMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
+          } else if (pageCommand is NavigateToRouteWithArguments) {
+            NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
           }
         },
         builder: (context, state) {

@@ -138,9 +138,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount(
-    String rescuer,
-    String lostAccount, {
+  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount({
+    required String rescuer,
+    required String lostAccount,
     bool mock = false,
   }) async {
     print("get active recovery for $rescuer and $lostAccount");
