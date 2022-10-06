@@ -53,7 +53,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                     if (state.activeRecoveryModel != null) ...[
                       const SizedBox(height: 10),
                       SettingsCard(
-                        icon: const Icon(Icons.refresh),
+                        icon: const Icon(Icons.delete_forever),
                         title: "Remove active recovery",
                         description: "Recover funds paid to create the recovery.",
                         onTap: () async {
@@ -64,7 +64,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                     if (!state.guardiansConfig.isEmpty) ...[
                       const SizedBox(height: 10),
                       SettingsCard(
-                        icon: const Icon(Icons.refresh),
+                        icon: const Icon(Icons.clear_rounded),
                         title: "Remove guardians configuration",
                         description: "Remove guardians for ${state.lostAccount.shorter}",
                         onTap: () async {

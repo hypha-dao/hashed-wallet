@@ -998,8 +998,11 @@ program
     ]
 
     const guardian = guardians[n]
-    //const rescuer = process.env.RESCUER_ADDRESS
-    const rescuer  = "5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb"
+    const rescuer = process.env.RESCUER_ADDRESS
+
+    // debug code below
+    //const rescuer  = "5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb"
+    
     const lostAccount = process.env.STEVE_ADDRESS
 
     console.log("vouch recovery of " + lostAccount + " with account " + n + " => " + guardian)
