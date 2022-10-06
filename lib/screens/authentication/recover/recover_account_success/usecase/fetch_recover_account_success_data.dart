@@ -4,8 +4,6 @@ import 'package:hashed/domain-shared/base_use_case.dart';
 
 class FetchRecoverAccountSuccessDataUseCase {
   Future<Result<BalanceModel>> run(String accountName) async {
-    final res = polkadotRepository.getBalance(accountName);
-
-    return res;
+    return polkadotRepository.getBalance(accountName);
   }
 }

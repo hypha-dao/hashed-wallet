@@ -5,12 +5,16 @@ class RecoverAccountSuccessState extends Equatable {
   final String lostAccount;
   final TokenDataModel recoverAmount;
   final PageCommand? pageCommand;
+  final ActiveRecoveryModel? activeRecoveryModel;
+  final GuardiansConfigModel guardiansConfig;
 
   const RecoverAccountSuccessState({
     required this.pageState,
     required this.lostAccount,
     this.pageCommand,
     required this.recoverAmount,
+    this.activeRecoveryModel,
+    required this.guardiansConfig,
   });
 
   @override
@@ -25,17 +29,25 @@ class RecoverAccountSuccessState extends Equatable {
     PageState? pageState,
     PageCommand? pageCommand,
     TokenDataModel? recoverAmount,
+    ActiveRecoveryModel? activeRecoveryModel,
+    GuardiansConfigModel? guardiansConfig,
   }) {
     return RecoverAccountSuccessState(
       pageState: pageState ?? this.pageState,
       lostAccount: lostAccount,
       pageCommand: pageCommand,
       recoverAmount: recoverAmount ?? this.recoverAmount,
+      activeRecoveryModel: activeRecoveryModel ?? this.activeRecoveryModel,
+      guardiansConfig: guardiansConfig ?? this.guardiansConfig,
     );
   }
 
   factory RecoverAccountSuccessState.initial(String lostAccount) {
     return RecoverAccountSuccessState(
-        pageState: PageState.initial, lostAccount: lostAccount, recoverAmount: TokenDataModel(0));
+      pageState: PageState.initial,
+      lostAccount: lostAccount,
+      recoverAmount: TokenDataModel(0),
+      guardiansConfig: GuardiansConfigModel.empty(),
+    );
   }
 }
