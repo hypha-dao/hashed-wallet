@@ -14,7 +14,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result> createRecoveryConfig(String address, GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     final sender = TxSenderData(address);
-    final txInfo = SubstrateTransactionModel('recovery', 'createRecovery', sender);
+    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'createRecovery', sender: sender);
     final guardianAddresses = guardians.guardianAddresses;
     guardianAddresses.sort();
     final params = [guardianAddresses, guardians.threshold, guardians.delayPeriod];
@@ -60,11 +60,11 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
   /// Removes user's guardians. User must Start from scratch.
   /// Recovers fees.
-  Future<Result> removeRecovery({required String address}) async {
+  Future<Result> removeRecoveryConfiguration({required String address, String? proxy}) async {
     print('removeRecovery for $address');
 
-    final sender = TxSenderData(address);
-    final txInfo = SubstrateTransactionModel('recovery', 'removeRecovery', sender);
+    final txInfo = SubstrateTransactionModel(
+        module: 'recovery', call: 'removeRecovery', sender: address.senderData, proxy: proxy?.senderData);
     final params = [];
     try {
       final res = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -90,7 +90,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result<dynamic>> initiateRecovery({required String rescuer, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
     final sender = TxSenderData(rescuer);
-    final txInfo = SubstrateTransactionModel('recovery', 'initiateRecovery', sender);
+    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'initiateRecovery', sender: sender);
     final params = [lostAccount];
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -171,7 +171,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
       {required String address, required String lostAccount, required String recovererAccount}) async {
     print('vouch for $recovererAccount recovering $lostAccount');
     final sender = TxSenderData(address);
-    final txInfo = SubstrateTransactionModel('recovery', 'vouchRecovery', sender);
+    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'vouchRecovery', sender: sender);
     final params = [lostAccount, recovererAccount];
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -204,7 +204,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
 
     final sender = TxSenderData(rescuer);
-    final txInfo = SubstrateTransactionModel('recovery', 'claimRecovery', sender);
+    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'claimRecovery', sender: sender);
     final params = [lostAccount];
 
     try {
@@ -220,40 +220,14 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  /// Make a call on behalf of "lostAccount", using address
-  /// address must be a proxy for lostAccount - the result of a successful recovery.
-  Future<Result<dynamic>> asRecovered({
-    required String address,
-    required String lostAccount,
-    required String pallet,
-    required String call,
-    required List params,
-  }) async {
-    print("make a call on behalf of $lostAccount");
-    final proxySender = TxSenderData(address);
-    final lostAccountSender = TxSenderData(lostAccount);
-    final txInfo = SubstrateTransactionModel(pallet, call, lostAccountSender, proxy: proxySender);
-
-    try {
-      final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
-        print("asRecovered - onStatusChange: $status");
-      });
-      return Result.value(hash.toString());
-    } catch (err, s) {
-      print('asRecovered error $err');
-      print(s);
-      return Result.error(err);
-    }
-  }
-
   /// This transfers all funds from lostAccount to the currently active account
   /// It's a shortcut to a transfer through asRecovered.
   Future<Result<dynamic>> recoverAllFunds({required String address, required String lostAccount}) async {
     print("recover funds of $lostAccount");
 
     final lostAccountSender = TxSenderData(lostAccount);
-    final txInfo =
-        SubstrateTransactionModel('balances', 'transferAll', lostAccountSender, proxy: TxSenderData(address));
+    final txInfo = SubstrateTransactionModel(
+        module: 'balances', call: 'transferAll', sender: lostAccountSender, proxy: TxSenderData(address));
     final params = [address, false];
 
     try {
@@ -277,10 +251,14 @@ class RecoveryRepository extends ExtrinsicsRepository {
   ///
   /// Note: this can be used to end a malicious recovery attempt.
   ///
-  Future<Result<dynamic>> closeRecovery({required String lostAccount, required String rescuer}) async {
+  Future<Result<dynamic>> closeRecovery({required String lostAccount, required String rescuer, String? proxy}) async {
     print("closing recovery on $lostAccount by $rescuer");
-    final sender = TxSenderData(lostAccount);
-    final txInfo = SubstrateTransactionModel('recovery', 'closeRecovery', sender);
+    final txInfo = SubstrateTransactionModel(
+      module: 'recovery',
+      call: 'closeRecovery',
+      sender: lostAccount.senderData,
+      proxy: proxy?.senderData,
+    );
     final params = [rescuer];
 
     try {
@@ -300,7 +278,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result<dynamic>> cancelRecovered({required String account, required String lostAccount}) async {
     print("cancel recovery on $lostAccount");
     final sender = TxSenderData(account);
-    final txInfo = SubstrateTransactionModel('recovery', 'cancelRecovered', sender);
+    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'cancelRecovered', sender: sender);
     final params = [lostAccount];
 
     try {
@@ -347,4 +325,8 @@ class RecoveryRepository extends ExtrinsicsRepository {
       return Result.error(err);
     }
   }
+}
+
+extension TransactionSenderData on String {
+  TxSenderData get senderData => TxSenderData(this);
 }

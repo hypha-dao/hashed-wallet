@@ -1,9 +1,9 @@
 /// From SDK TxInfoData - it's a model class that encodes a substrate extrinsic call
 class SubstrateTransactionModel {
-  SubstrateTransactionModel(
-    this.module,
-    this.call,
-    this.sender, {
+  SubstrateTransactionModel({
+    required this.module,
+    required this.call,
+    required this.sender,
     this.tip = '0',
     this.isUnsigned = false,
     this.proxy,
