@@ -34,7 +34,8 @@ class GuardiansRepository with HttpRepository {
   /// This cancels any recovery currently in process, and removes all guardians
   ///
   Future<Result> removeGuardians() async {
-    return polkadotRepository.recoveryRepository.removeRecovery(address: accountService.currentAccount.address);
+    return polkadotRepository.recoveryRepository
+        .removeRecoveryConfiguration(address: accountService.currentAccount.address);
   }
 
   /// Recover an account via the key guardian system
