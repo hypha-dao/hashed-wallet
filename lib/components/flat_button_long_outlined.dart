@@ -18,8 +18,8 @@ class FlatButtonLongOutlined extends StatelessWidget {
       width: double.infinity,
       child: MaterialButton(
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
-          //color: AppColors.newBackground,
           shape: RoundedRectangleBorder(
+            side: BorderSide(color: Theme.of(context).colorScheme.secondary),
             borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
           ),
           onPressed: onPressed,
