@@ -72,7 +72,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                         },
                       ),
                     ],
-                    if (!state.guardiansConfig.isEmpty) ...[
+                    if (state.guardiansConfig.isNotEmpty) ...[
                       const SizedBox(height: 10),
                       SettingsCard(
                         icon: const Icon(Icons.clear_rounded),

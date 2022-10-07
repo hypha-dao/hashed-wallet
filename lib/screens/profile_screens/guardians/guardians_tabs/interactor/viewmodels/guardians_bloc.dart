@@ -56,9 +56,9 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       final guardiansModel = result.asValue!.value;
       emit(state.copyWith(
         myGuardians: guardiansModel,
-        areGuardiansActive: !guardiansModel.isEmpty,
+        areGuardiansActive: guardiansModel.isNotEmpty,
         actionButtonState: getActionButtonState(
-          areGuardiansActive: !guardiansModel.isEmpty,
+          areGuardiansActive: guardiansModel.isNotEmpty,
           guardiansCount: guardiansModel.length,
         ),
         pageState: PageState.success,
