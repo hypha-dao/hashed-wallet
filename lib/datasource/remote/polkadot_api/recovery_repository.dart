@@ -138,7 +138,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount({
+  Future<Result<ActiveRecoveryModel>> getActiveRecoveriesForLostaccount({
     required String rescuer,
     required String lostAccount,
     bool mock = false,
@@ -154,7 +154,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
       final res = await evalJavascript(code: code);
 
       if (res == null) {
-        return Result.value(null);
+        return Result.value(ActiveRecoveryModel.empty);
       }
 
       final recovery = ActiveRecoveryModel.fromJsonSingle(rescuer: rescuer, lostAccount: lostAccount, json: res);

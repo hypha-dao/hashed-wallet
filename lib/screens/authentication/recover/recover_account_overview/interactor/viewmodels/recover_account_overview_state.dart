@@ -3,13 +3,13 @@ part of 'recover_account_overview_bloc.dart';
 class RecoverAccountOverviewState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
-  final ActiveRecoveryModel? activeRecovery;
+  final ActiveRecoveryModel activeRecovery;
   final List<String> recoveredAccounts;
 
   const RecoverAccountOverviewState({
     required this.pageState,
     this.pageCommand,
-    this.activeRecovery,
+    required this.activeRecovery,
     this.recoveredAccounts = const [],
   });
 
@@ -36,8 +36,9 @@ class RecoverAccountOverviewState extends Equatable {
   }
 
   factory RecoverAccountOverviewState.initial() {
-    return const RecoverAccountOverviewState(
+    return RecoverAccountOverviewState(
       pageState: PageState.initial,
+      activeRecovery: ActiveRecoveryModel.empty,
     );
   }
 }

@@ -12,7 +12,7 @@ class FetchRecoverAccountOverviewUsecase {
       return Result.value(RecoveryOverviewData.mock);
     }
 
-    Result<ActiveRecoveryModel?>? activeResult;
+    Result<ActiveRecoveryModel>? activeResult;
 
     if (lostAccount != null) {
       activeResult = await polkadotRepository.recoveryRepository

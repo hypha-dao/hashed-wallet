@@ -61,7 +61,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                         ));
                       },
                     ),
-                    if (state.activeRecoveryModel != null) ...[
+                    if (state.activeRecoveryModel.isNotEmpty) ...[
                       const SizedBox(height: 10),
                       SettingsCard(
                         icon: const Icon(Icons.delete_forever),

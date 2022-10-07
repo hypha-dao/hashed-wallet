@@ -44,16 +44,16 @@ class RecoverAccountOverviewView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  if (state.activeRecovery != null) ...[
+                  if (state.activeRecovery.isNotEmpty) ...[
                     SettingsCard(
                         backgroundColor: context.colorScheme.tertiaryContainer,
                         textColor: context.colorScheme.onTertiaryContainer,
                         icon: const Icon(Icons.keyboard_command_key),
                         title: "Recovery in Process",
-                        description: "Recovering    ${state.activeRecovery!.lostAccount.shorter}",
+                        description: "Recovering    ${state.activeRecovery.lostAccount.shorter}",
                         onTap: () async {
                           BlocProvider.of<RecoverAccountOverviewBloc>(context)
-                              .add(OnRecoveryInProcessTapped(state.activeRecovery!.lostAccount));
+                              .add(OnRecoveryInProcessTapped(state.activeRecovery.lostAccount));
                         }),
                     const SizedBox(height: 16)
                   ],

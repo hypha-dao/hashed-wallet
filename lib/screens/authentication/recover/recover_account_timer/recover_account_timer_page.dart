@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
+import 'package:hashed/domain-shared/event_bus/event_bus.dart';
+import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/usecase/fetch_recover_account_details_data.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_timer/components/recover_account_timer_view.dart';
@@ -16,7 +18,7 @@ class RecoverAccountTimerPage extends StatelessWidget {
     // ignore: cast_nullable_to_non_nullable
     final RecoveryResultData recoveryData = ModalRoute.of(context)!.settings.arguments as RecoveryResultData;
     return BlocProvider(
-        create: (context) => RecoverAccountTimerBloc(recoveryData.activeRecovery!, recoveryData.configuration)
+        create: (context) => RecoverAccountTimerBloc(recoveryData.activeRecovery, recoveryData.configuration)
           ..add(const FetchTimerData()),
         child: BlocListener<RecoverAccountTimerBloc, RecoverAccountTimerState>(
           listenWhen: (_, current) => current.pageCommand != null,
@@ -54,8 +56,9 @@ class RecoverAccountTimerPage extends StatelessWidget {
           onDismiss: () {
             /// recovery has finished
             settingsStorage.activeRecoveryAccount = null;
-            NavigationService.of(context)
-                .navigateTo(Routes.recoverAccountSuccess, arguments: lostAccount, replace: true);
+            Navigator.popUntil(context, (route) => route.settings.name == Routes.recoverAccountOverview);
+            NavigationService.of(context).navigateTo(Routes.recoverAccountSuccess, arguments: lostAccount);
+            eventBus.fire(const OnRecoverDataChangedEventBus());
           },
         );
       },

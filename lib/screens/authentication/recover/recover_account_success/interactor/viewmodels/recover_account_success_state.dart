@@ -5,7 +5,7 @@ class RecoverAccountSuccessState extends Equatable {
   final String lostAccount;
   final TokenDataModel recoverAmount;
   final PageCommand? pageCommand;
-  final ActiveRecoveryModel? activeRecoveryModel;
+  final ActiveRecoveryModel activeRecoveryModel;
   final GuardiansConfigModel guardiansConfig;
 
   const RecoverAccountSuccessState({
@@ -13,7 +13,7 @@ class RecoverAccountSuccessState extends Equatable {
     required this.lostAccount,
     this.pageCommand,
     required this.recoverAmount,
-    this.activeRecoveryModel,
+    required this.activeRecoveryModel,
     required this.guardiansConfig,
   });
 
@@ -48,6 +48,7 @@ class RecoverAccountSuccessState extends Equatable {
       lostAccount: lostAccount,
       recoverAmount: TokenDataModel(0),
       guardiansConfig: GuardiansConfigModel.empty(),
+      activeRecoveryModel: ActiveRecoveryModel.empty,
     );
   }
 }

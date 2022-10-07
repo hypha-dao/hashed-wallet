@@ -53,7 +53,7 @@ class FetchRecoverAccountDetailsUsecase {
 class RecoveryResultData {
   final Uri linkToActivateGuardians;
   final GuardiansConfigModel configuration;
-  final ActiveRecoveryModel? activeRecovery;
+  final ActiveRecoveryModel activeRecovery;
 
   RecoveryResultData({
     required this.linkToActivateGuardians,
