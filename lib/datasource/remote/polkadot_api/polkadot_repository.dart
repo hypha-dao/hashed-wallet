@@ -369,4 +369,24 @@ class PolkadotRepository extends KeyRepository {
   int getBlockTimeSeconds() {
     return 6;
   }
+
+  Future<bool> validateAddress(String address) async {
+    final code = '''
+      isValidAddressPolkadotAddress123 = () => {
+        try {
+          keyring.pKeyring.encodeAddress(keyring.pKeyring.decodeAddress('$address'));
+          return true;
+        } catch (error) {
+          //console.log("error" + error);
+          return false;
+        }
+      };
+
+      isValidAddressPolkadotAddress123();
+    ''';
+
+    final res = await _substrateService?.webView.evalJavascript(code, wrapPromise: false);
+
+    return res;
+  }
 }
