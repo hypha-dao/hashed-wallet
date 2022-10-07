@@ -4,9 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/screens/app/interactor/mappers/approve_guardian_recovery_state_mapper.dart';
+import 'package:hashed/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
 
 part 'app_event.dart';
@@ -87,17 +90,14 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
     emit(state.copyWith(pageState: PageState.loading));
 
-    /// this should simply take the data - lostAccount and rescuer - and vouch.
-    ///
-
     print("recovery vouch: ${event.data.rescuer} lost: ${event.data.lostAccount}");
-    print("Not yet implemented");
 
-    throw UnimplementedError("implement this or remove.");
-
-    // final result = await ApproveGuardianRecoveryUseCase()
-    //     .approveGuardianRecovery(lostAccount: event.data.lostAccount, rescuer: event.data.rescuer);
-    // emit(ApproveGuardianRecoveryStateMapper().mapResultToState(state, result));
+    final result = await ApproveGuardianRecoveryUseCase().approveGuardianRecovery(
+      account: accountService.currentAccount.address,
+      lostAccount: event.data.lostAccount,
+      rescuer: event.data.rescuer,
+    );
+    emit(ApproveGuardianRecoveryStateMapper().mapResultToState(state, result));
   }
 
   void _onApproveGuardianRecoveryDeepLink(OnApproveGuardianRecoveryDeepLink event, Emitter<AppState> emit) {

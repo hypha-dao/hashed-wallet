@@ -168,9 +168,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
   }
 
   Future<Result<dynamic>> vouch(
-      {required String address, required String lostAccount, required String recovererAccount}) async {
+      {required String account, required String lostAccount, required String recovererAccount}) async {
     print('vouch for $recovererAccount recovering $lostAccount');
-    final sender = TxSenderData(address);
+    final sender = TxSenderData(account);
     final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'vouchRecovery', sender: sender);
     final params = [lostAccount, recovererAccount];
     try {

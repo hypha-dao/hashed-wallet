@@ -48,7 +48,7 @@ class GuardiansRepository with HttpRepository {
   Future<Result> recoverAccount({required String lostAccount, required String rescuerAccount}) async {
     // This will need to be removed - works different on Polkadot / Subsrate
     return polkadotRepository.recoveryRepository.vouch(
-        address: accountService.currentAccount.address, lostAccount: lostAccount, recovererAccount: rescuerAccount);
+        account: accountService.currentAccount.address, lostAccount: lostAccount, recovererAccount: rescuerAccount);
   }
 
   Future<Result<List<ActiveRecoveryModel>>> getAccountRecovery(String lostAccountName) async {

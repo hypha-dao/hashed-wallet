@@ -788,6 +788,10 @@ const queryProxy = async (api, address) => {
   console.log("proxy res: " + JSON.stringify(res, null, 2))
 
 
+  // single entry recoverer - steve - 
+  const resSingle = await api.query.recovery.proxy(process.env.RESCUER_ADDRESS);
+
+  console.log("res single: " + JSON.stringify(resSingle, null, 2))
 
   await api.disconnect()
   console.log("disconnecting done")
