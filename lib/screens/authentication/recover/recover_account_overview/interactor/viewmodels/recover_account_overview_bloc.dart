@@ -44,12 +44,19 @@ class RecoverAccountOverviewBloc extends Bloc<RecoverAccountOverviewEvent, Recov
       accountService.currentAccount.address,
       lostAccount: activeRecoveryAccount,
     );
+    bool showActiveRecovery = false;
 
     if (result.isValue) {
+      if (result.asValue!.value.activeRecovery != null) {
+        final lostAccount = result.asValue!.value.activeRecovery!.lostAccount;
+        showActiveRecovery = !result.asValue!.value.proxyAccounts.contains(lostAccount);
+      }
+
       emit(state.copyWith(
         pageState: PageState.success,
         activeRecovery: result.asValue!.value.activeRecovery,
         recoveredAccounts: result.asValue!.value.proxyAccounts,
+        showActiveRecovery: showActiveRecovery,
       ));
     } else {
       print("Error ${result.asError!.error}");

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
@@ -142,6 +143,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
 
     if (res.isValue) {
       print("remove active recovery ${res.asValue!.value}");
+      settingsStorage.activeRecoveryAccount = null;
       emit(state.copyWith(pageState: PageState.success, guardiansConfig: GuardiansConfigModel.empty()));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());

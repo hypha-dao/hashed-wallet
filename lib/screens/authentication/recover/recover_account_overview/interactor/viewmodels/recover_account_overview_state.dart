@@ -5,12 +5,14 @@ class RecoverAccountOverviewState extends Equatable {
   final PageCommand? pageCommand;
   final ActiveRecoveryModel activeRecovery;
   final List<String> recoveredAccounts;
+  final bool showActiveRecovery;
 
   const RecoverAccountOverviewState({
     required this.pageState,
     this.pageCommand,
     required this.activeRecovery,
     this.recoveredAccounts = const [],
+    this.showActiveRecovery = false,
   });
 
   @override
@@ -19,6 +21,7 @@ class RecoverAccountOverviewState extends Equatable {
         pageCommand,
         activeRecovery,
         recoveredAccounts,
+        showActiveRecovery,
       ];
 
   RecoverAccountOverviewState copyWith({
@@ -26,12 +29,14 @@ class RecoverAccountOverviewState extends Equatable {
     PageCommand? pageCommand,
     ActiveRecoveryModel? activeRecovery,
     List<String>? recoveredAccounts,
+    bool? showActiveRecovery,
   }) {
     return RecoverAccountOverviewState(
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
       activeRecovery: activeRecovery ?? this.activeRecovery,
       recoveredAccounts: recoveredAccounts ?? this.recoveredAccounts,
+      showActiveRecovery: showActiveRecovery ?? this.showActiveRecovery,
     );
   }
 

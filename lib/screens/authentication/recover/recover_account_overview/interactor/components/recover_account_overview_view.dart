@@ -44,7 +44,7 @@ class RecoverAccountOverviewView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  if (state.activeRecovery.isNotEmpty) ...[
+                  if (state.showActiveRecovery && state.activeRecovery.isNotEmpty) ...[
                     SettingsCard(
                         backgroundColor: context.colorScheme.tertiaryContainer,
                         textColor: context.colorScheme.onTertiaryContainer,
