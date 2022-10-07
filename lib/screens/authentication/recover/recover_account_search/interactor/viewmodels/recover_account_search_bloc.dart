@@ -47,6 +47,7 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
     if (existing.isValue && existing.asValue!.value is ActiveRecoveryModel) {
       /// A recovery for this rescuer, lost account already exists
       print("rexocery exists: ");
+      settingsStorage.activeRecoveryAccount = lostAccount;
       emit(state.copyWith(isNextLoading: false));
 
       emit(state.copyWith(
