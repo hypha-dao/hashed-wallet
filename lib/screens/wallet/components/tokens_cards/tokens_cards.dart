@@ -83,13 +83,17 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                           title: 'Receive',
                           onPressed: () async {
                             final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
+                            final valid = await polkadotRepository.validateAddress(address);
+                            print("is valud: $valid");
+
+                            // final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
 
                             // final address = "5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb";
-                            final res = await polkadotRepository.recoveryRepository.getProxies(address);
+                            // final res = await polkadotRepository.recoveryRepository.getProxies(address);
 
-                            final recovery = res.asValue!.value;
-                            // ignore: unnecessary_brace_in_string_interps
-                            print("recovery: ${recovery} ");
+                            // final recovery = res.asValue!.value;
+                            // // ignore: unnecessary_brace_in_string_interps
+                            // print("recovery: ${recovery} ");
 
                             /// get last block
                             // final res = await polkadotRepository.getLastBlockNumber();
