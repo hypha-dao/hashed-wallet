@@ -99,7 +99,6 @@ class SubstrateService {
           print("dead time: ${DateTime.now().difference(_lastCheck!).inSeconds}");
           if (DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
             print("Network is disconnected");
-            _keepAliveTimer?.cancel();
             _lastCheck = null;
             _connected = false;
             connectionStateHandler?.call(false);

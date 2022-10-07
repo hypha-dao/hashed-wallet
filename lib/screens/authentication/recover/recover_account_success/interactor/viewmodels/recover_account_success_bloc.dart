@@ -42,10 +42,6 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
     final balanceResult = res[0] as Result<BalanceModel>;
     final configResult = res[1] as Result<GuardiansConfigModel>;
     final activeResult = res[2] as Result<ActiveRecoveryModel?>;
-    // final Result<BalanceModel> balanceResult = await FetchRecoverAccountSuccessDataUseCase().run(state.lostAccount);
-    // final configResult = await GetGuardiansConfigUseCase().getGuardiansData(state.lostAccount);
-    // final activeResult = await GetActiveRecoveryForLostAccountUseCase()
-    //     .run(rescuer: accountService.currentAccount.address, lostAccount: state.lostAccount);
 
     final config = configResult.isValue ? configResult.asValue!.value : null;
     final active = activeResult.isValue ? activeResult.asValue!.value : null;

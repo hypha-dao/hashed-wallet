@@ -160,10 +160,10 @@ class PolkadotRepository extends KeyRepository {
       print("connected - not restarting");
       return;
     }
-    // if (isReconnecting) {
-    //   print("ignore reconnect while reconnecting");
-    //   return;
-    // }
+    if (isReconnecting) {
+      print("ignore reconnect while reconnecting");
+      return;
+    }
     print("reconnecting...");
 
     isReconnecting = true;

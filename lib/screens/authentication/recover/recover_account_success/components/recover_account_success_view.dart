@@ -4,7 +4,6 @@ import 'package:hashed/components/flat_button_long_outlined.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_bloc.dart';
 import 'package:hashed/screens/settings/components/settings_card.dart';
