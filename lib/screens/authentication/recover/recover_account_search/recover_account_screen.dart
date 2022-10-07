@@ -51,7 +51,6 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           } else if (pageCommand is ShowErrorMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is NavigateToRouteWithArguments) {
-            BlocProvider.of<RecoverAccountOverviewBloc>(context).add(const OnRefreshTapped());
             NavigationService.of(context).navigateTo(
               pageCommand.route,
               arguments: pageCommand.arguments,

@@ -101,6 +101,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
       ));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());
+      eventBus.fire(const OnRecoverDataChangedEventBus());
     } else {
       print("cancel fail with error ${res.asError!.error}");
       emit(state.copyWith(pageState: PageState.failure));
@@ -122,6 +123,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
       emit(state.copyWith(pageState: PageState.success, guardiansConfig: GuardiansConfigModel.empty()));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());
+      eventBus.fire(const OnRecoverDataChangedEventBus());
     } else {
       print("remove config fail with error ${res.asError!.error}");
       emit(state.copyWith(pageState: PageState.failure));
@@ -143,6 +145,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
       emit(state.copyWith(pageState: PageState.success, guardiansConfig: GuardiansConfigModel.empty()));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());
+      eventBus.fire(const OnRecoverDataChangedEventBus());
     } else {
       print("remove active recovery fail with error ${res.asError!.error}");
       emit(state.copyWith(pageState: PageState.failure));
