@@ -29,3 +29,24 @@ class OnRecoverFundsTapped extends RecoverAccountSuccessEvent {
   @override
   String toString() => 'OnRecoverFundsTapped';
 }
+
+class OnCleanupAndRemoveTapped extends RecoverAccountSuccessEvent {
+  const OnCleanupAndRemoveTapped();
+
+  @override
+  String toString() => 'OnCleanupAndRemoveTapped';
+}
+
+class OnRemoveActiveRecoveryTapped extends RecoverAccountSuccessEvent {
+  const OnRemoveActiveRecoveryTapped();
+
+  @override
+  String toString() => 'OnRemoveActiveRecoveryTapped';
+}
+
+class OnRemoveGuardiansConfigTapped extends RecoverAccountSuccessEvent {
+  const OnRemoveGuardiansConfigTapped();
+
+  @override
+  String toString() => 'OnRemoveGuardiansConfigTapped';
+}

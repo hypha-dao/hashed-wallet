@@ -7,6 +7,7 @@ import 'package:hashed/utils/result_extension.dart';
 
 class RemoveGuardianUseCase {
   Future<Result> removeGuardian(Account guardian) {
-    return polkadotRepository.recoveryRepository.removeRecovery(address: accountService.currentAccount.address);
+    return polkadotRepository.recoveryRepository
+        .removeRecoveryConfiguration(address: accountService.currentAccount.address);
   }
 }

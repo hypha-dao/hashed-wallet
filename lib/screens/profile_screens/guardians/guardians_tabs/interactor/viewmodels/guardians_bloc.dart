@@ -18,7 +18,7 @@ part 'guardians_event.dart';
 part 'guardians_state.dart';
 
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
-  final GetGuardiansDataUseCase _getGuardiansDataUseCase = GetGuardiansDataUseCase();
+  final GetGuardiansConfigUseCase _getGuardiansDataUseCase = GetGuardiansConfigUseCase();
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   GuardiansBloc() : super(GuardiansState.initial()) {
@@ -49,7 +49,8 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   FutureOr<void> _initial(Initial event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<GuardiansConfigModel> result = await _getGuardiansDataUseCase.getGuardiansData();
+    final Result<GuardiansConfigModel> result =
+        await _getGuardiansDataUseCase.getGuardiansData(accountService.currentAccount.address);
 
     if (result.isValue) {
       final guardiansModel = result.asValue!.value;
@@ -92,8 +93,8 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   FutureOr<void> _onResetConfirmed(OnResetConfirmed event, Emitter<GuardiansState> emit) async {
     emit(state.copyWith(actionButtonState: state.actionButtonState.setLoading(true)));
 
-    final result =
-        await polkadotRepository.recoveryRepository.removeRecovery(address: accountService.currentAccount.address);
+    final result = await polkadotRepository.recoveryRepository
+        .removeRecoveryConfiguration(address: accountService.currentAccount.address);
     if (result.isValue) {
       emit(GuardiansState.initial());
     } else {

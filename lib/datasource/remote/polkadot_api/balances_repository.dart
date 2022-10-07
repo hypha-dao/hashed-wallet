@@ -11,7 +11,7 @@ class BalancesRepository extends ExtrinsicsRepository {
     required int amount,
   }) async {
     final sender = TxSenderData(from);
-    final txInfo = SubstrateTransactionModel('balances', 'transfer', sender);
+    final txInfo = SubstrateTransactionModel(module: 'balances', call: 'transfer', sender: sender);
     final params = [to, amount];
     try {
       final res = await signAndSend(txInfo, params, onStatusChange: (status) {
