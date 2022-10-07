@@ -7,6 +7,7 @@ import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_bloc.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_page_command.dart';
 import 'package:hashed/screens/settings/components/settings_card.dart';
@@ -104,8 +105,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
       builder: (context) {
         return CustomDialog(
           onSingleLargeButtonPressed: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
+            Navigator.popUntil(context, (route) => route.settings.name == Routes.recoverAccountOverview);
           },
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
           singleLargeButtonTitle: "Done",
