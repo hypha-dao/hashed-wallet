@@ -32,16 +32,6 @@ class PolkadotRepository extends KeyRepository {
 
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
-  void handleConnectState(bool isConnected) {
-    final wasConnected = state.isConnected;
-    print("PolkadotRepository connection state ${isConnected ? 'Connected' : 'Disconnected'}");
-    state.isConnected = isConnected;
-    eventBus.fire(OnConnectionStateEventBus(isConnected));
-    if (!isConnected && wasConnected) {
-      reconnect();
-    }
-  }
-
   bool initialized = false;
   Future<void> initService({bool force = false}) async {
     try {
@@ -57,7 +47,7 @@ class PolkadotRepository extends KeyRepository {
       initialized = true;
       print("PolkadotRepository init");
 
-      _substrateService = SubstrateService(handleConnectState);
+      _substrateService = SubstrateService();
 
       await _substrateService!.init();
 
@@ -85,10 +75,13 @@ class PolkadotRepository extends KeyRepository {
         throw "startService service already started";
       }
 
-      await _substrateService!.connect();
+      final res = await _substrateService!.connect();
 
-      print("PolkadotRepository connected");
-      state.isConnected = true;
+      print("PolkadotRepository connected $res");
+
+      state.isConnected = res;
+
+      startKeepAliveTimer();
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
@@ -156,10 +149,6 @@ class PolkadotRepository extends KeyRepository {
   bool isReconnecting = false;
 
   Future<void> reconnect() async {
-    if (isConnected) {
-      print("connected - not restarting");
-      return;
-    }
     if (isReconnecting) {
       print("ignore reconnect while reconnecting");
       return;
@@ -170,16 +159,20 @@ class PolkadotRepository extends KeyRepository {
 
     try {
       print("STOP SERVICE");
-      await polkadotRepository.stopService();
+      await stopService();
 
       print("INIT SERVICE");
 
-      await polkadotRepository.initService(force: true);
+      await initService(force: true);
 
       print("START SERVICE");
-      await polkadotRepository.startService();
+      await startService();
       print("DONE SERVICE");
       isReconnecting = false;
+
+      if (state.isConnected) {
+        eventBus.fire(const ShowSnackBar("Network reconnected."));
+      }
     } catch (error) {
       isReconnecting = false;
       print("reconnect error $error");
@@ -388,5 +381,46 @@ class PolkadotRepository extends KeyRepository {
     final res = await _substrateService?.webView.evalJavascript(code, wrapPromise: false);
 
     return res;
+  }
+
+  DateTime? _lastCheck;
+  // ignore: unused_field, use_late_for_private_fields_and_variables
+  Timer? _keepAliveTimer;
+  final _aliveSeconds = 18;
+
+  /// Keep alive timer accurately reports when the connection is down
+  /// It does not take actions other than calling the connectionStateHandler
+  void startKeepAliveTimer() {
+    _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
+      await checkIsConnected();
+    });
+  }
+
+  Future<void> checkIsConnected() async {
+    final aliveCheckSuccess = await _substrateService?.runAliveCheck();
+    print("alive check $aliveCheckSuccess");
+
+    if (aliveCheckSuccess == null) {
+      print("alive timer: substrate service is null");
+      return;
+    }
+
+    if (aliveCheckSuccess) {
+      _lastCheck = DateTime.now();
+    } else {
+      /// Alive check failed - we ignore a certain number of failed alive checks
+      if (_lastCheck != null) {
+        print("dead time: ${DateTime.now().difference(_lastCheck!).inSeconds}");
+        if (DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
+          print("Network is disconnected");
+          state.isConnected = false;
+          print("Network is disconnected ${state.isConnected}");
+          eventBus.fire(const ShowSnackBar("Network is disconnected."));
+          await reconnect();
+        } else {
+          print("disconnect detected at ${DateTime.now()} - ignoring...");
+        }
+      }
+    }
   }
 }
