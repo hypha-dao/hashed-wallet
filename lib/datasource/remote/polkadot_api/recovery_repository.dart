@@ -138,7 +138,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
   }
 
-  Future<Result<ActiveRecoveryModel?>> getActiveRecoveriesForLostaccount({
+  Future<Result<ActiveRecoveryModel>> getActiveRecoveriesForLostaccount({
     required String rescuer,
     required String lostAccount,
     bool mock = false,
@@ -154,7 +154,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
       final res = await evalJavascript(code: code);
 
       if (res == null) {
-        return Result.value(null);
+        return Result.value(ActiveRecoveryModel.empty);
       }
 
       final recovery = ActiveRecoveryModel.fromJsonSingle(rescuer: rescuer, lostAccount: lostAccount, json: res);
@@ -168,9 +168,9 @@ class RecoveryRepository extends ExtrinsicsRepository {
   }
 
   Future<Result<dynamic>> vouch(
-      {required String address, required String lostAccount, required String recovererAccount}) async {
+      {required String account, required String lostAccount, required String recovererAccount}) async {
     print('vouch for $recovererAccount recovering $lostAccount');
-    final sender = TxSenderData(address);
+    final sender = TxSenderData(account);
     final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'vouchRecovery', sender: sender);
     final params = [lostAccount, recovererAccount];
     try {

@@ -29,6 +29,10 @@ class OnConnectionStateEventBus extends BusEvent<OnConnectionStateEventBus> {
   const OnConnectionStateEventBus(this.connected);
 }
 
+class OnRecoverDataChangedEventBus extends BusEvent<OnRecoverDataChangedEventBus> {
+  const OnRecoverDataChangedEventBus();
+}
+
 class ShowSnackBar extends BusEvent<OnNewTransactionEventBus> {
   final String message;
   final SnackType snackType;

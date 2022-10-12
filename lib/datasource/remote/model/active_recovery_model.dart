@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 /// Represents an active recovery
 ///
-class ActiveRecoveryModel {
+class ActiveRecoveryModel extends Equatable {
   /// the account it is trying to recover
   final String lostAccount;
 
@@ -16,7 +18,11 @@ class ActiveRecoveryModel {
   /// the list of friends / guardians who have already signed - can be empty
   final List<String> friends;
 
-  ActiveRecoveryModel({
+  bool get isEmpty => this == ActiveRecoveryModel.empty;
+
+  bool get isNotEmpty => !isEmpty;
+
+  const ActiveRecoveryModel({
     required this.lostAccount,
     required this.rescuer,
     required this.created,
@@ -74,13 +80,24 @@ class ActiveRecoveryModel {
     };
   }
 
-  static final mock = ActiveRecoveryModel(
+  static final mock = const ActiveRecoveryModel(
     lostAccount: "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym",
     rescuer: "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW",
     created: 1035220,
     deposit: 16666666500,
     friends: ["5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW"],
   );
+
+  static final empty = const ActiveRecoveryModel(
+    lostAccount: "",
+    rescuer: "",
+    created: 0,
+    deposit: 0,
+    friends: [],
+  );
+
+  @override
+  List<Object?> get props => [lostAccount, rescuer, created, deposit, friends];
 }
 
 // flutter: getRecoveryConfig res: [{

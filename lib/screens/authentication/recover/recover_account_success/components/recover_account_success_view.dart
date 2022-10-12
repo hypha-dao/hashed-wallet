@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hashed/components/custom_dialog.dart';
 import 'package:hashed/components/flat_button_long_outlined.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/page_state.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_bloc.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_page_command.dart';
 import 'package:hashed/screens/settings/components/settings_card.dart';
 import 'package:hashed/utils/short_string.dart';
 
@@ -14,7 +18,15 @@ class RecoverAccountSuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecoverAccountSuccessBloc, RecoverAccountSuccessState>(
+    // return BlocBuilder<RecoverAccountSuccessBloc, RecoverAccountSuccessState>(
+    return BlocConsumer<RecoverAccountSuccessBloc, RecoverAccountSuccessState>(
+      listenWhen: (_, current) => current.pageCommand != null,
+      listener: (context, state) async {
+        final pageCommand = state.pageCommand;
+        if (pageCommand is ShowCancelCompleteDialogPageCommand) {
+          _showCancelCompleteDialog(context);
+        }
+      },
       builder: (context, state) {
         switch (state.pageState) {
           case PageState.loading:
@@ -49,7 +61,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                         ));
                       },
                     ),
-                    if (state.activeRecoveryModel != null) ...[
+                    if (state.activeRecoveryModel.isNotEmpty) ...[
                       const SizedBox(height: 10),
                       SettingsCard(
                         icon: const Icon(Icons.delete_forever),
@@ -60,7 +72,7 @@ class RecoverAccountSuccessView extends StatelessWidget {
                         },
                       ),
                     ],
-                    if (!state.guardiansConfig.isEmpty) ...[
+                    if (state.guardiansConfig.isNotEmpty) ...[
                       const SizedBox(height: 10),
                       SettingsCard(
                         icon: const Icon(Icons.clear_rounded),
@@ -83,6 +95,28 @@ class RecoverAccountSuccessView extends StatelessWidget {
               ),
             );
         }
+      },
+    );
+  }
+
+  void _showCancelCompleteDialog(BuildContext buildContext) {
+    showDialog(
+      context: buildContext,
+      builder: (context) {
+        return CustomDialog(
+          onSingleLargeButtonPressed: () {
+            Navigator.popUntil(context, (route) => route.settings.name == Routes.recoverAccountOverview);
+          },
+          icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+          singleLargeButtonTitle: "Done",
+          children: [
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [const Text("Recovery closed successfully!")],
+            ),
+          ],
+        );
       },
     );
   }

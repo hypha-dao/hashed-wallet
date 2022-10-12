@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
@@ -14,6 +15,7 @@ import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/shared_use_cases/get_active_recovery_for_lost_account_use_case.dart';
+import 'package:hashed/screens/authentication/recover/recover_account_success/interactor/viewmodels/recover_account_success_page_command.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_success/usecase/fetch_recover_account_success_data.dart';
 import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_data_usecase.dart';
 
@@ -41,10 +43,10 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
     ]);
     final balanceResult = res[0] as Result<BalanceModel>;
     final configResult = res[1] as Result<GuardiansConfigModel>;
-    final activeResult = res[2] as Result<ActiveRecoveryModel?>;
+    final activeResult = res[2] as Result<ActiveRecoveryModel>;
 
-    final config = configResult.isValue ? configResult.asValue!.value : null;
-    final active = activeResult.isValue ? activeResult.asValue!.value : null;
+    final config = configResult.isValue ? configResult.asValue!.value : GuardiansConfigModel.empty();
+    final active = activeResult.isValue ? activeResult.asValue!.value : ActiveRecoveryModel.empty;
 
     if (balanceResult.isValue) {
       final data = balanceResult.asValue!.value;
@@ -94,9 +96,13 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
 
     if (res.isValue) {
       print("cancel success ${res.asValue!.value}");
-      emit(state.copyWith(pageState: PageState.success));
+      emit(state.copyWith(
+        pageState: PageState.success,
+        pageCommand: ShowCancelCompleteDialogPageCommand(),
+      ));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());
+      eventBus.fire(const OnRecoverDataChangedEventBus());
     } else {
       print("cancel fail with error ${res.asError!.error}");
       emit(state.copyWith(pageState: PageState.failure));
@@ -118,6 +124,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
       emit(state.copyWith(pageState: PageState.success, guardiansConfig: GuardiansConfigModel.empty()));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());
+      eventBus.fire(const OnRecoverDataChangedEventBus());
     } else {
       print("remove config fail with error ${res.asError!.error}");
       emit(state.copyWith(pageState: PageState.failure));
@@ -136,9 +143,11 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
 
     if (res.isValue) {
       print("remove active recovery ${res.asValue!.value}");
+      settingsStorage.activeRecoveryAccount = null;
       emit(state.copyWith(pageState: PageState.success, guardiansConfig: GuardiansConfigModel.empty()));
       add(const OnRefreshTapped());
       eventBus.fire(const OnWalletRefreshEventBus());
+      eventBus.fire(const OnRecoverDataChangedEventBus());
     } else {
       print("remove active recovery fail with error ${res.asError!.error}");
       emit(state.copyWith(pageState: PageState.failure));

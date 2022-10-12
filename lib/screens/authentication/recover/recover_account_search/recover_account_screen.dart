@@ -50,7 +50,11 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           } else if (pageCommand is ShowErrorMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is NavigateToRouteWithArguments) {
-            NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
+            NavigationService.of(context).navigateTo(
+              pageCommand.route,
+              arguments: pageCommand.arguments,
+              replace: true,
+            );
           }
         },
         builder: (context, state) {

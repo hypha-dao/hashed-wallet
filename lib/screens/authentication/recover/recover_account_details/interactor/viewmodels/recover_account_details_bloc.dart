@@ -28,12 +28,12 @@ class RecoverAccountDetailsBloc extends Bloc<RecoverAccountDetailsEvent, Recover
       emit(state.copyWith(
         linkToActivateGuardians: data.linkToActivateGuardians,
         totalGuardiansCount: data.configuration.guardianAddresses.length,
-        approvedAccounts: data.activeRecovery?.friends,
+        approvedAccounts: data.activeRecovery.friends,
         guardianAccounts: data.configuration.guardianAddresses,
         threshold: data.configuration.threshold,
         pageState: PageState.success,
       ));
-      if (data.activeRecovery != null && data.activeRecovery!.friends.length >= data.configuration.threshold) {
+      if (data.activeRecovery.isNotEmpty && data.activeRecovery.friends.length >= data.configuration.threshold) {
         emit(state.copyWith(
             pageCommand: NavigateToRouteWithArguments(route: Routes.recoverAccountTimer, arguments: data)));
       }
