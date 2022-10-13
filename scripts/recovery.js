@@ -1113,6 +1113,19 @@ program
     const result = await removeRecoveryFinalize({rescuer, lostAccount})
   })
 
+  program
+  .command('block')
+  .description('get last block')
+  .action(async function () {
+    const { api } = await init()
+
+    const res = await api.rpc.chain.getBlock();
+
+    console.log("Last block " + res.block.header.number)
+
+  })
+
+  
 program.parse(process.argv)
 
 var NO_COMMAND_SPECIFIED = program.args.length === 0;
