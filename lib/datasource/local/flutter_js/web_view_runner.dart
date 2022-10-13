@@ -227,7 +227,6 @@ class WebViewRunner {
     }
 
     if (!wrapPromise) {
-      print("run raw code: $code");
       final res = await _web!.webViewController.evaluateJavascript(source: code);
       return res;
     }
