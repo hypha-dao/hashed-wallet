@@ -8,7 +8,8 @@ abstract class RecoverAccountTimerEvent extends Equatable {
 }
 
 class FetchTimerData extends RecoverAccountTimerEvent {
-  const FetchTimerData();
+  final bool showLoadingIndicator;
+  const FetchTimerData(this.showLoadingIndicator);
 
   @override
   String toString() => 'FetchInitialData';

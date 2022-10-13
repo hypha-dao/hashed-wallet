@@ -37,7 +37,9 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
   }
 
   Future<void> _fetchInitialData(FetchTimerData event, Emitter<RecoverAccountTimerState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
+    if (event.showLoadingIndicator) {
+      emit(state.copyWith(pageState: PageState.loading));
+    }
     final Result<DateTime> result =
         await FetchRecoverAccountTimerDataUseCase().run(state.recoveryModel, state.configModel);
 
@@ -56,10 +58,13 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
   }
 
   FutureOr<void> _onRefreshTapped(OnRefreshTapped event, Emitter<RecoverAccountTimerState> emit) {
-    add(const FetchTimerData());
+    add(const FetchTimerData(true));
   }
 
   Future<void> _onTick(Tick event, Emitter<RecoverAccountTimerState> emit) async {
+    if (state.timeRemainingSeconds % 60 == 0) {
+      add(const FetchTimerData(false));
+    }
     if (state.timeRemainingSeconds > 0) {
       emit(RemainingTimeStateMapper().mapResultToState(state));
     } else {
