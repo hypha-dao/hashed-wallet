@@ -262,7 +262,7 @@ class WebViewRunner {
       c.completeError("JavaScript Error.");
     }
 
-    return c.future; //.timeout(Duration(seconds: 30));
+    return c.future;
   }
 
   Future<SubstrateChainModel?> connectNode(List<SubstrateChainModel> nodes) async {
