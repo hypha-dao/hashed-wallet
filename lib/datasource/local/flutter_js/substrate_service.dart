@@ -15,9 +15,7 @@ class SubstrateService {
   SubstrateChainModel? connectedNode;
   bool _initialized = false;
 
-  void Function(bool isConnected)? connectionStateHandler;
-
-  SubstrateService(this.connectionStateHandler);
+  SubstrateService();
 
   Future<void> init() async {
     print("PolkawalletInit init");
@@ -41,35 +39,32 @@ class SubstrateService {
     return c.future;
   }
 
-  Future<int?> connect() async {
-    print("Substrate Service: CONNECT");
-    if (!_initialized) {
-      throw "you have to initialize the service before connecting";
+  Future<bool> connect() async {
+    try {
+      print("Substrate Service: CONNECT");
+      if (!_initialized) {
+        throw "you have to initialize the service before connecting";
+      }
+
+      /// Connect to a node
+      final res = await webView.connectNode(nodeList);
+
+      _connected = res?.endpoint != null;
+
+      connectedNode = res;
+
+      print("connected: ${res?.endpoint}");
+
+      return _connected;
+    } catch (error) {
+      print("connection failed with exception: $error");
+      _connected = false;
+      return false;
     }
-
-    /// Connect to a node
-    final res = await webView.connectNode(nodeList);
-
-    _connected = res?.endpoint != null;
-    connectionStateHandler?.call(_connected);
-
-    if (res == null) {
-      return null;
-    }
-
-    connectedNode = res;
-
-    print("connected: ${res.endpoint}");
-
-    /// start up the reconnect service
-    startKeepAliveTimer();
-
-    return 0;
   }
 
   Future<void> stop() async {
     print("STOP SERVICE");
-    _keepAliveTimer?.cancel();
     try {
       await webView.evalJavascript('api.disconnect()');
     } catch (error) {
@@ -80,40 +75,14 @@ class SubstrateService {
     _initialized = false;
   }
 
-  DateTime? _lastCheck;
-  Timer? _keepAliveTimer;
-  final int _aliveSeconds = 18;
-
-  /// Keep alive timer accurately reports when the connection is down
-  /// It does not take actions other than calling the connectionStateHandler
-  void startKeepAliveTimer() {
-    _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
-      final aliveCheckSuccess = await _runAliveCheck();
-      print("alive check $aliveCheckSuccess");
-
-      if (aliveCheckSuccess) {
-        _lastCheck = DateTime.now();
-      } else {
-        /// Alive check failed - we ignore a certain number of failed alive checks
-        if (_lastCheck != null) {
-          print("dead time: ${DateTime.now().difference(_lastCheck!).inSeconds}");
-          if (DateTime.now().difference(_lastCheck!).inSeconds > _aliveSeconds) {
-            print("Network is disconnected");
-            _lastCheck = null;
-            _connected = false;
-            connectionStateHandler?.call(false);
-          } else {
-            print("disconnect detected at ${DateTime.now()} - ignoring...");
-          }
-        }
-      }
-    });
-  }
-
-  Future<bool> _runAliveCheck() async {
+  Future<bool> runAliveCheck() async {
     print("_runAliveCheck");
     try {
-      final res = await webView.evalJavascript('api.rpc.system.chain()');
+      final future = webView.evalJavascript('api.rpc.system.chain()');
+
+      /// manually time out after 4 seconds - the webView has a 60+ seconds timeout
+      /// this means it does not return in time.
+      final res = await future.timeout(const Duration(seconds: 4));
       print("alive check result: $res");
       if (res == null) {
         print("Alive check fail at ${DateTime.now()}");
