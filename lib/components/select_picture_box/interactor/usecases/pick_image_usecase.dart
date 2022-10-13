@@ -1,27 +1,27 @@
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:hashed/domain-shared/base_use_case.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:hashed/domain-shared/base_use_case.dart';
+// import 'package:image_cropper/image_cropper.dart';
+// import 'package:image_picker/image_picker.dart';
 
-class PickImageUseCase extends NoInputUseCase<File?> {
-  @override
-  Future<Result<File?>> run() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50, maxWidth: 2000);
-      if (image != null) {
-        final CroppedFile? croppedFile = await ImageCropper().cropImage(
-            sourcePath: image.path, aspectRatioPresets: [CropAspectRatioPreset.ratio5x3], compressQuality: 50);
+// class PickImageUseCase extends NoInputUseCase<File?> {
+//   @override
+//   Future<Result<File?>> run() async {
+//     try {
+//       final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50, maxWidth: 2000);
+//       if (image != null) {
+//         final CroppedFile? croppedFile = await ImageCropper().cropImage(
+//             sourcePath: image.path, aspectRatioPresets: [CropAspectRatioPreset.ratio5x3], compressQuality: 50);
 
-        if (croppedFile != null) {
-          return Result.value(File(croppedFile.path));
-        }
-        return Result.error("Error on croppedFile");
-      } else {
-        return Result.value(null);
-      }
-    } catch (e) {
-      return Result.error(e);
-    }
-  }
-}
+//         if (croppedFile != null) {
+//           return Result.value(File(croppedFile.path));
+//         }
+//         return Result.error("Error on croppedFile");
+//       } else {
+//         return Result.value(null);
+//       }
+//     } catch (e) {
+//       return Result.error(e);
+//     }
+//   }
+// }
