@@ -53,7 +53,9 @@ class RecoverAccountTimerBloc extends Bloc<RecoverAccountTimerEvent, RecoverAcco
       }
       emit(RemainingTimeStateMapper().mapResultToState(state));
     } else {
-      emit(state.copyWith(pageState: PageState.failure));
+      if (event.showLoadingIndicator) {
+        emit(state.copyWith(pageState: PageState.failure));
+      } // else ignore - silent mode
     }
   }
 
