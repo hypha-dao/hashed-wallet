@@ -391,6 +391,7 @@ class PolkadotRepository extends KeyRepository {
   /// Keep alive timer accurately reports when the connection is down
   /// It does not take actions other than calling the connectionStateHandler
   void startKeepAliveTimer() {
+    _keepAliveTimer?.cancel();
     _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
       await checkIsConnected();
     });
