@@ -76,14 +76,13 @@ class SubstrateService {
   }
 
   Future<bool> runAliveCheck() async {
-    print("_runAliveCheck");
     try {
       final future = webView.evalJavascript('api.rpc.system.chain()');
 
       /// manually time out after 4 seconds - the webView has a 60+ seconds timeout
       /// this means it does not return in time.
       final res = await future.timeout(const Duration(seconds: 4));
-      print("alive check result: $res");
+      //print("alive check result: $res");
       if (res == null) {
         print("Alive check fail at ${DateTime.now()}");
         return false;
@@ -91,7 +90,7 @@ class SubstrateService {
         return true;
       }
     } catch (error) {
-      print("alive check: $error");
+      print("alive check error: $error");
       return false;
     }
   }
