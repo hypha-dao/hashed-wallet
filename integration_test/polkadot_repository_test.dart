@@ -7,10 +7,6 @@ import '../lib/main.dart' as app;
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  // InAppLocalhostServer localhostServer = InAppLocalhostServer();
-  // if (!localhostServer.isRunning()) {
-  //   await localhostServer.start();
-  // }
 
   final repository = PolkadotRepository();
 

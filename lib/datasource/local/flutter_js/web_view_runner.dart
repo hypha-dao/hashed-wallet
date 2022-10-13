@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/datasource/local/models/substrate_chain_model.dart';
+import 'package:hashed/domain-shared/app_constants.dart';
 
 extension PlatformExtension on Platform {
   static bool isIos14OrAbove() {
@@ -84,7 +85,7 @@ class WebViewRunner {
       print("creating web view");
       // await _startLocalServer();
       //print("NOT starting web server since we already have inapp web server");
-      final String homeUrl = "http://localhost:8080/assets/polkadot/sdk/assets/index.html";
+      final String homeUrl = "http://localhost:$inappLocalHostPort/assets/polkadot/sdk/assets/index.html";
 
       _web = HeadlessInAppWebView(
         // initialUrlRequest: URLRequest(url: Uri.parse(homeUrl)),
@@ -239,31 +240,48 @@ class WebViewRunner {
     final script = '''
         $code.then(function(res) {
           const finalResult = ${transformer.trim()};
-          console.log(JSON.stringify({ path: "$method", data: finalResult }));finalResult;
+          console.log(JSON.stringify({ path: "$method", data: finalResult }));
+          finalResult + "";
         }).catch(function(err) {
           console.log(JSON.stringify({ path: "$method", error: err.message }));
+          "error";
         });
+        "done";
       ''';
 
     // print("SCRIPT: $script");
+    final res = await _web!.webViewController.evaluateJavascript(source: script);
 
-    _web!.webViewController.evaluateJavascript(source: script);
+    if (res == null) {
+      /// res will be "done" if there is no error and all libraries have been loaded
+      /// res will be null if the script has a JS error and won't even run at all
+      ///
+      /// The latter happens when the libraries are not loaded correctly and for example
+      /// "api" is undefined.
+      ///
+      c.completeError("JavaScript Error.");
+    }
 
     return c.future;
   }
 
   Future<SubstrateChainModel?> connectNode(List<SubstrateChainModel> nodes) async {
-    print("connectNode connecting...");
-    final res = await evalJavascript('settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})');
-    if (res != null) {
-      final index = nodes.indexWhere((e) => e.endpoint.trim() == res.trim());
-      return nodes[index > -1 ? index : 0];
-    } else {
-      print("connectNode failed");
-    }
-    print("connectNode done...");
+    try {
+      print("connectNode connecting...");
+      final res = await evalJavascript('settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})');
+      if (res != null) {
+        final index = nodes.indexWhere((e) => e.endpoint.trim() == res.trim());
+        return nodes[index > -1 ? index : 0];
+      } else {
+        print("connectNode failed");
+      }
+      print("connectNode done...");
 
-    return null;
+      return null;
+    } catch (error) {
+      print("connectNode error: $error");
+      rethrow;
+    }
   }
 
   Future<void> subscribeMessage(
