@@ -66,6 +66,7 @@ class PolkadotRepository extends KeyRepository {
 
   Future<bool> startService() async {
     try {
+      Stopwatch stopwatch = Stopwatch()..start();
       print("PolkadotRepository start");
 
       if (state.isInitialized == false) {
@@ -77,11 +78,11 @@ class PolkadotRepository extends KeyRepository {
 
       final res = await _substrateService!.connect();
 
-      print("PolkadotRepository connected $res");
-
       state.isConnected = res;
 
       startKeepAliveTimer();
+
+      print("PolkadotRepository connected $res in ${stopwatch.elapsed.inMilliseconds / 1000.0}");
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
@@ -166,7 +167,13 @@ class PolkadotRepository extends KeyRepository {
       await initService(force: true);
 
       print("START SERVICE");
-      await startService();
+      
+      /// We need to use a timeout for this as the JS is not handing disconnects well - it will never return. 
+      /// on a really bad connection it tends to take around 4 seconds, so 20s timeout is safe
+      /// 
+      await startService()
+          .timeout(const Duration(seconds: 20)); 
+
       print("DONE SERVICE");
       isReconnecting = false;
 
@@ -360,7 +367,7 @@ class PolkadotRepository extends KeyRepository {
   }
 
   int getBlockTimeSeconds() {
-    return 6;
+    return 8;
   }
 
   Future<bool> validateAddress(String address) async {
