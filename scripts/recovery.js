@@ -8,12 +8,10 @@ const { Keyring } = require("@polkadot/keyring");
 const { mnemonicGenerate } = require('@polkadot/util-crypto');
 const { hexToU8a, u8aToHex } = require("@polkadot/util");
 
-// mnemonic: someone course sketch usage whisper helmet juice oyster rebuild razor mobile announce
 const acct_0 = process.env.G0_ADDRESS
-// mnemonic: dress teach unveil require supply move butter sort cruise divide nice account
 const acct_1 = process.env.G1_ADDRESS
-// mnemonic: slogan crime relief smile door make deliver staff lonely hello worry sure
 const acct_2 = process.env.G2_ADDRESS
+const rescuer = process.env.RESCUER_ADDRESS
 
 const otherAccounts = [
   process.env.RESCUER_WORDS,
@@ -122,13 +120,17 @@ const createRecovery = async () => {
     // Note we will pass in the address, but we can easily resolve this with keyring.getPair..
     // Alternatively we can pass in the correct keypair
 
+    const timeInSeconds = 60 * 5; // 5 minutes
+
+    const timeInBlocks = timeInSeconds / 6;
+
     let response = await new Promise(async (resolve) => {
       const unsubscribe = await api.tx.recovery.createRecovery(
         [
           acct_0,
           acct_1,
           acct_2
-        ].sort(), 2, 0)
+        ].sort(), 2, timeInBlocks)
         .signAndSend(keyring.getPair(address), ({ events = [], status, txHash }) => {
           console.log(`Current status is ${status.type} status.isInBlock: ` + status.isInBlock + " status.isFinalized: " + status.isFinalized);
 
@@ -363,6 +365,27 @@ const vouchRecovery = async ({ guardian, rescuer, lostAccount }) => {
   console.log("disconnecting done")
 
   return response
+
+}
+
+const demo = async () => {
+  const { api, keyring, steve } = await init()
+  console.log(" demo ")
+
+  // create recovery
+
+  // recover STEVE from rescuer
+
+  // vouce G1
+
+  // vouch G2
+
+  // claim recovery rescuer
+
+  /// have to wait...
+
+
+
 
 }
 
@@ -787,6 +810,10 @@ const queryProxy = async (api, address) => {
 
   console.log("proxy res: " + JSON.stringify(res, null, 2))
 
+  // the object is an array of an array of key, value
+  console.log(res.map(
+    ([k, v]) => { return { key: k.toHuman(), val: v.toHuman() } })
+  );
 
   // single entry recoverer - steve - 
   const resSingle = await api.query.recovery.proxy(process.env.RESCUER_ADDRESS);
