@@ -20,6 +20,8 @@ On other platforms, [install the Android Emulator and Android Studio](https://de
 
 ### Run the app (Milestone 2)
 
+Make sure iPhone Simulator or Android Emulator are running before "flutter run" below.
+
 ```
 git clone git@github.com:hypha-dao/hashed-wallet.git
 cd hashed-wallet
