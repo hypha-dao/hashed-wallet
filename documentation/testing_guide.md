@@ -84,6 +84,11 @@ However, if you want to test with your own accounts, follow the guardians setup 
 8. On the "Recover Account" screen, click the "share" button next to the link on the top
 9. Paste the link in a message and send the message to a guardian
 10. Once 2 Guardians have signed, wait for the countdown timer (24 hours by default, but 5 minutes for Steve's guardian configuration)
+11. Once countdown timer is done, recover account
+12. Recover all funds from account
+13. Remove recovery
+14. Remove guardians
+15. Close recovery
 
 
 ### Vouch using shared link (New in milestone 2)
