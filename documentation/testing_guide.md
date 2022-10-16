@@ -51,7 +51,9 @@ flutter run
 For milestone 2, we are testing recovery of an account, so we have 3 different roles played by 5 different accounts:
 
 STEVE - the lost account 
+
 Guardians - G0, G1, and G2, Steve's guardians (friends)
+
 Rescuer - the account rescuing Steve's account
 
 I am providing Steve, G0, G1, and G2, and Rescuer accounts, see Element chat. 
