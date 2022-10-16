@@ -18,7 +18,7 @@ This will install an app called "Simluator" - run Simulator
 #### 3 - Other platforms
 On other platforms, [install the Android Emulator and Android Studio](https://developer.android.com/studio/run/emulator)
 
-### Run the app (Milestone 1)
+### Run the app
 
 ```
 git clone git@github.com:hypha-dao/hashed-wallet.git
