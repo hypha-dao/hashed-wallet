@@ -156,8 +156,6 @@ class PolkadotRepository extends KeyRepository {
     }
     print("reconnecting...");
 
-    isReconnecting = true;
-
     try {
       print("STOP SERVICE");
       await stopService();
@@ -174,13 +172,11 @@ class PolkadotRepository extends KeyRepository {
       await startService().timeout(const Duration(seconds: 20));
 
       print("DONE SERVICE");
-      isReconnecting = false;
 
       if (state.isConnected) {
         eventBus.fire(const ShowSnackBar("Network reconnected."));
       }
     } catch (error) {
-      isReconnecting = false;
       print("reconnect error $error");
       rethrow;
     }
@@ -422,8 +418,16 @@ class PolkadotRepository extends KeyRepository {
           print("Network is disconnected");
           state.isConnected = false;
           print("Network is disconnected ${state.isConnected}");
-          eventBus.fire(const ShowSnackBar("Network is disconnected."));
-          await reconnect();
+          if (!isReconnecting) {
+            isReconnecting = true;
+            eventBus.fire(const ShowSnackBar("Network is disconnected."));
+            try {
+              await reconnect().timeout(const Duration(seconds: 21));
+            } catch (error) {
+              print("reconnect fail - ready for another round $error");
+            }
+            isReconnecting = false;
+          }
         } else {
           print("disconnect detected at ${DateTime.now()} - ignoring...");
         }
