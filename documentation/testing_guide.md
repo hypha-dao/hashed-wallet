@@ -77,7 +77,7 @@ However, if you want to test with your own accounts, follow the guardians setup 
 1. Login as rescuer account (provided in secure chat)
 2. -> Settings
 3. -> Recover Account
-4. -> Recovery an Account
+4. -> Recover an Account
 5. Enter account address 5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym  (that's Steve)
 6. Next
 7. On Doalog, press "Yes"
