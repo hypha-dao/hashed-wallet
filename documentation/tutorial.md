@@ -18,12 +18,12 @@ This will install an app called "Simluator" - run Simulator
 #### 3 - Other platforms
 On other platforms, [install the Android Emulator and Android Studio](https://developer.android.com/studio/run/emulator)
 
-### Run the app
+### Run the app (Milestone 2)
 
 ```
 git clone git@github.com:hypha-dao/hashed-wallet.git
 cd hashed-wallet
-git checkout v1.0.0_M1_00 
+git checkout v1.0.0_M2 
 flutter pub get
 flutter run
 ```
