@@ -13,6 +13,7 @@ npm install
 ### .env setup
 rename file .env.example to .env and fill in the secrets and addresses
 
+It works with any 5 accounts, as long as they have small amount of Hashed tokens to make transactions
 
 ### Runtime commands
 
