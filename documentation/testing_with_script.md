@@ -10,6 +10,10 @@ Private keys for these will be supplied over secure channels - they are in the .
 cd scripts
 npm install
 
+### .env setup
+rename file .env.example to .env and fill in the secrets and addresses
+
+
 ### Runtime commands
 
     node recovery.js create_recovery
