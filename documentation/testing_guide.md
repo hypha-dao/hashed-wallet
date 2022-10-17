@@ -61,9 +61,7 @@ I am providing Steve, G0, G1, and G2, and Rescuer accounts, see Element chat.
 The tester is free to test this with other accounts also through, only needs to create a lost account, a rescuer account, and N guardian accounts. 
 
 ### Video Presentations
-All the following steps are being done in the video presentation (2 videos). 
-
-It's a lot of functionalities, that's why it's 10 minutes long. 
+All the following steps are being done in the video presentation (2 videos). It's a lot of functionality, that's why it's 10 minutes long. 
 
 ### Guardians Setup  (Already in milestone 1)
 
