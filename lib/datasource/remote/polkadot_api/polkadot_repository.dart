@@ -306,10 +306,6 @@ class PolkadotRepository extends KeyRepository {
 
   @override
   Future<String?> publicKeyForPrivateKey(String privateKey) async {
-    if (!isReady) {
-      throw "publicKeyForPrivateKey: service not ready";
-    }
-
     /// 1 - set format
     /// 2 - call addFromUri, which returns a keypair object
     /// 3 - encode the keypair in JSON so we return a string
