@@ -18,7 +18,7 @@ class FetchRecoverGuardianInitialDataUseCase {
     print("FetchRecoverGuardianInitialDataUseCase $lostAccount");
 
     /// returns an empty list in case there are no active recoveries
-    final activeRecoveries = await _guardiansRepository.getAccountRecovery(lostAccount);
+    final activeRecoveries = await _guardiansRepository.getActiveRecoveries(lostAccount);
 
     /// returns null if there are no guardians set up (error case)
     final accountGuardians = await _guardiansRepository.getAccountGuardians(lostAccount);
