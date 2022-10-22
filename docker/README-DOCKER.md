@@ -8,5 +8,5 @@ docker build -t flutterdocker .
 
 ## Run tests again
 ```
-docker build --progress=plain -t flutterdocker .
+docker build --build-arg CACHEBUST="git rev-parse v1.0.0_M2" --progress=plain -t flutterdocker .
 ```
