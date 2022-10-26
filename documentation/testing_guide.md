@@ -32,7 +32,7 @@ Install [Flutter](https://docs.flutter.dev/get-started/install)
 1. [install the Android Emulator and Android Studio](https://developer.android.com/studio/run/emulator)
 2. [Run the Emulator](https://developer.android.com/studio/run/emulator)
 
-### Run the app (Milestone 1)
+### Run the app (Milestone 2)
 
 Open a command line terminal, and run the following commands
 
@@ -41,44 +41,72 @@ Make sure that either iOS Simulator or Android Emulator are up and running, then
 ```
 git clone git@github.com:hypha-dao/hashed-wallet.git
 cd hashed-wallet
-git checkout v1.0.0_M1_00 
+git checkout v1.0.0_M2 
 flutter pub get
 flutter run
 ```
 
 ## Testing the app once running
 
-1. Import Account
-On the first screen, select "Import Account"
-Import an existing account on hashed network using the 12 recovery words
+For milestone 2, we are testing recovery of an account, so we have 3 different roles played by 5 different accounts:
 
-Please contact me for an existing account. 
+STEVE - the lost account 
 
-2. On the bottom nav bar, tap "Settings" - the gear icon
+Guardians - G0, G1, and G2, Steve's guardians (friends)
 
-3. Tap "Key Guardians"
+Rescuer - the account rescuing Steve's account
 
-4. On the "My Guardians" screen, tap the + button
+I am providing Steve, G0, G1, and G2, and Rescuer accounts, see Element chat. 
 
-5. On the "Enter Guardian Address" enter guardian addres. You can use any valid Substrate chain address here, subject only to checking by the recovery pallet itself. 
+The tester is free to test this with other accounts also through, only needs to create a lost account, a rescuer account, and N guardian accounts. 
 
-Demo accounts I was using - copy paste these:
+### Video Presentations
+All the following steps are being done in the video presentation (2 videos). It's a lot of functionality, that's why it's 10 minutes long. 
 
-5FyG1HpMSce9As8Uju4rEQnL24LZ8QNFDaKiu5nQtX6CY6BH
-5Ca9Sdw7dxUK62FGkKXSZPr8cjNLobuGAgXu6RCM14aKtz6T
-5C8126sqGbCa3m7Bsg8BFQ4arwcG81Vbbwi34EznBovrv7Zf
+### Guardians Setup  (Already in milestone 1)
 
-Note: The recovery pallet needs the guardian addresses to be sorted. The wallet will sort them automatically before sending them off to the API call. Users don't need to worry about the order the guardians are in.
+You can skip this step, as Steve already has guardians set up.
 
-6. Enter 1 or 2 more guardian addresses, as per above. When 2 ore more are selected, the "activate" button will become active
+However, if you want to test with your own accounts, follow the guardians setup steps:
 
-7. Click the "activate" button - guardians are now set up. 
+1. Import account, log in with your own account. I can send some Hashed tokens.
+2. Settings
+3. Key Guardians
+4. Add desired addresses as guardians
+5. Click "Activate"
 
-8. Go back to the main wallet screen
+### Recovery Setup (New in milestone 2)
 
-9. Go back to "Settings", "Key Guardians" -> Guardians are now set up and showing
+1. Login as rescuer account (provided in secure chat)
+2. -> Settings
+3. -> Recover Account
+4. -> Recover an Account
+5. Enter account address 5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym  (that's Steve)
+6. Next
+7. On Doalog, press "Yes"
+8. On the "Recover Account" screen, click the "share" button next to the link on the top
+9. Paste the link in a message and send the message to a guardian
+10. Once 2 Guardians have signed, wait for the countdown timer (24 hours by default, but 5 minutes for Steve's guardian configuration)
+11. Once countdown timer is done, recover account
+12. Recover all funds from account
+13. Remove recovery
+14. Remove guardians
+15. Close recovery
 
-10. Remove the guardians if desired - this is not part of the delivery, but makes testing easier. 
+
+### Vouch using shared link (New in milestone 2)
+
+1. Login as guardian account (provided in secure chat)
+2. Click on the link shared by rescuer
+3. In the dialog, click "Vouch"
+
+### Cancel malicious recovery (New in milestone 2)
+
+1. Login as Steve
+2. In the dialog, click the "Cancel Recovery" button
+
+
+
 
 ## Running Unit Tests
 

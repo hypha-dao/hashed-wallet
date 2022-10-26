@@ -51,7 +51,7 @@ class GuardiansRepository with HttpRepository {
         account: accountService.currentAccount.address, lostAccount: lostAccount, recovererAccount: rescuerAccount);
   }
 
-  Future<Result<List<ActiveRecoveryModel>>> getAccountRecovery(String lostAccountName) async {
+  Future<Result<List<ActiveRecoveryModel>>> getActiveRecoveries(String lostAccountName) async {
     print('[http] get account recovery for lost account: $lostAccountName');
 
     return polkadotRepository.recoveryRepository.getActiveRecoveries(lostAccountName);

@@ -9,6 +9,11 @@ class FetchRecoverAccountTimerDataUseCase {
   /// Returns: Approximate expiration date
   /// Call repeatedly, since we estimate the block time using current block time
   /// and remaining blocks, and blocks are not exactly 6 seconds long.
+  ///
+  /// Ideally, we need to keep track of block time and estimate it based on expired time, and finished blocks
+  /// But for now, we only reset it every time it hits :00 - so the number will jump up at every full minute until
+  /// it satisfies the criteria.
+  ///
   Future<Result<DateTime>> run(ActiveRecoveryModel model, GuardiansConfigModel configModel) async {
     final lastBlock = await polkadotRepository.getLastBlockNumber();
 

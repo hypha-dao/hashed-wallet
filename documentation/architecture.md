@@ -33,19 +33,14 @@ Use cases abstract actions that are asynchronous.
 
 Private keys are kept in secure storage on both platforms. 
 
-### Milestone 1 Codebase
+### Milestone 2 Codebase
 
 All code is formatted according to Flutter/Dart recommended linter settings. The only exception to this is third party code that was included as-is in, such as some code from Polkawallet, and some crypto libraries. 
 
-Polkawallet code was included as source code because we only use it as template and guideline and streamline it once all features are working. 
+Polkawallet code was cleaned from the codebase and the parts we used integrated. 
 
-Code has not been cleaned yet of EOSIO access code. This is because there is still some user interface code we will reuse, and adapt for polkadot. Once we are feature complete we will remove all EOSIO and other legacy "Seeds Light Wallet" code from the wallet. Probably at Milestone 2. 
+Most EOSIO code has been removed at this point.
 
-The new code is visible in the screens - startup screen, sign in screen, create account screen, Settings screen, and guardians screen. 
-
-While we would love to remove all unused code now, it would cause more work later on when we have to add bits and pieces back, so we decided to hold off on it now. 
-
-Same for inline documentation - removing legacy code, or doing work in order to have a better and cleaner documentation for this milestone will cause more work for the next milestone when we have to add in some of the code again. The codebase will be cleaned in Milestone 2. 
-
+The new code is visible in the screens - startup screen, sign in screen, create account screen, Settings screen, and guardians screens. 
 
 

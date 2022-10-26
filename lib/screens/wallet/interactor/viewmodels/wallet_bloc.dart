@@ -23,6 +23,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     eventBusSubscription = eventBus.on().listen((event) async {
       if (event is OnConnectionStateEventBus) {
         add(OnConnectionEvent(event.connected));
+      } else if (event is OnWalletRefreshEventBus) {
+        add(const OnLoadWalletData());
       }
     });
 

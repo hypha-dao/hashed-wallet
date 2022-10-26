@@ -10,7 +10,7 @@ class FetchRecoverAccountDetailsUsecase {
 
   Future<Result<RecoveryResultData>> run(String rescuer, String lostAccount) async {
     final configResult = await _guardiansRepository.getAccountGuardians(lostAccount);
-    final activeResult = await _guardiansRepository.getAccountRecovery(lostAccount);
+    final activeResult = await _guardiansRepository.getActiveRecoveries(lostAccount);
 
     if (configResult.isError) {
       print("error: No recovery config found for $lostAccount");

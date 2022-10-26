@@ -43,7 +43,6 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
               return RefreshIndicator(
                 onRefresh: () async {
                   BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
-                  BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
                   eventBus.fire(const OnWalletRefreshEventBus());
                 },
                 child: Scaffold(

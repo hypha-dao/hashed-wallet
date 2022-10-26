@@ -295,15 +295,15 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
   /// return recoveries that are currently in process for the address in question
   /// Params: Address to be recovered
-  Future<Result<List<String>>> getProxies(String address, {bool mock = false}) async {
-    print("get proxy for $address");
+  Future<Result<List<String>>> getProxies(String lostAccount, {bool mock = false}) async {
+    print("get proxy for $lostAccount");
 
     if (mock) {
       return Future.delayed(const Duration(milliseconds: 500), () => Result.value(["5x01testdata", "5x02testdata"]));
     }
 
     try {
-      final code = 'api.query.recovery.proxy("$address")';
+      final code = 'api.query.recovery.proxy("$lostAccount")';
 
       final res = await evalJavascript(code: code);
       print("res: $res");

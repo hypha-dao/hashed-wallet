@@ -66,6 +66,7 @@ class PolkadotRepository extends KeyRepository {
 
   Future<bool> startService() async {
     try {
+      final stopwatch = Stopwatch()..start();
       print("PolkadotRepository start");
 
       if (state.isInitialized == false) {
@@ -77,11 +78,11 @@ class PolkadotRepository extends KeyRepository {
 
       final res = await _substrateService!.connect();
 
-      print("PolkadotRepository connected $res");
-
       state.isConnected = res;
 
       startKeepAliveTimer();
+
+      print("PolkadotRepository connected $res in ${stopwatch.elapsed.inMilliseconds / 1000.0}");
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
@@ -155,8 +156,6 @@ class PolkadotRepository extends KeyRepository {
     }
     print("reconnecting...");
 
-    isReconnecting = true;
-
     try {
       print("STOP SERVICE");
       await stopService();
@@ -166,15 +165,18 @@ class PolkadotRepository extends KeyRepository {
       await initService(force: true);
 
       print("START SERVICE");
-      await startService();
+
+      /// We need to use a timeout for this as the JS is not handing disconnects well - it will never return.
+      /// on a really bad connection it tends to take around 4 seconds, so 20s timeout is safe
+      ///
+      await startService().timeout(const Duration(seconds: 20));
+
       print("DONE SERVICE");
-      isReconnecting = false;
 
       if (state.isConnected) {
         eventBus.fire(const ShowSnackBar("Network reconnected."));
       }
     } catch (error) {
-      isReconnecting = false;
       print("reconnect error $error");
       rethrow;
     }
@@ -304,10 +306,6 @@ class PolkadotRepository extends KeyRepository {
 
   @override
   Future<String?> publicKeyForPrivateKey(String privateKey) async {
-    if (!isReady) {
-      throw "publicKeyForPrivateKey: service not ready";
-    }
-
     /// 1 - set format
     /// 2 - call addFromUri, which returns a keypair object
     /// 3 - encode the keypair in JSON so we return a string
@@ -360,7 +358,7 @@ class PolkadotRepository extends KeyRepository {
   }
 
   int getBlockTimeSeconds() {
-    return 6;
+    return 8;
   }
 
   Future<bool> validateAddress(String address) async {
@@ -391,6 +389,7 @@ class PolkadotRepository extends KeyRepository {
   /// Keep alive timer accurately reports when the connection is down
   /// It does not take actions other than calling the connectionStateHandler
   void startKeepAliveTimer() {
+    _keepAliveTimer?.cancel();
     _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
       await checkIsConnected();
     });
@@ -415,8 +414,16 @@ class PolkadotRepository extends KeyRepository {
           print("Network is disconnected");
           state.isConnected = false;
           print("Network is disconnected ${state.isConnected}");
-          eventBus.fire(const ShowSnackBar("Network is disconnected."));
-          await reconnect();
+          if (!isReconnecting) {
+            isReconnecting = true;
+            eventBus.fire(const ShowSnackBar("Network is disconnected."));
+            try {
+              await reconnect().timeout(const Duration(seconds: 21));
+            } catch (error) {
+              print("reconnect fail - ready for another round $error");
+            }
+            isReconnecting = false;
+          }
         } else {
           print("disconnect detected at ${DateTime.now()} - ignoring...");
         }

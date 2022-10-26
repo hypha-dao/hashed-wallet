@@ -1,7 +1,7 @@
 name: hashed
 description: Hashed Wallet
 
-version: 1.0.0+2
+version: 1.0.0+7
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -36,7 +36,6 @@ dependencies:
   cloud_firestore: ^3.1.0
   shimmer: ^2.0.0
   share: ^2.0.4
-  image_cropper: ^2.0.3
   carousel_slider: ^4.0.0
   qr_flutter: ^4.0.0
   image_picker: ^0.8.5+3
@@ -103,7 +102,6 @@ flutter:
     - assets/images/ecosystem.svg
     - assets/images/app_icon.png
     - assets/images/seeds_currency_icon.svg
-    - assets/images/app_icon_transparent.png
     - assets/images/loading.png
     - assets/images/seeds_symbol_forest.png
     - assets/images/community.svg

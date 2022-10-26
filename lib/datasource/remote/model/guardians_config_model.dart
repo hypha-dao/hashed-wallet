@@ -1,7 +1,9 @@
 import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+
+final int defaultDelayPeriod = 60 * 60 * 24 ~/ polkadotRepository.getBlockTimeSeconds();
 
 class GuardiansConfigModel {
-  static const int defaultDelayPeriod = 10 * 60 * 24;
   final Set<Account> guardians;
   final int delayPeriod;
   int threshold;

@@ -29,7 +29,7 @@ class RecoverAccountTimerView extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    'Your Key Guardians have accepted your request to recover your account. You account will be unlocked in 24hrs. ',
+                    'Your Key Guardians have accepted your request to recover your account. Your account will be unlocked in 24hrs. ',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
