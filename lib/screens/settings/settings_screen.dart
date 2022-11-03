@@ -72,6 +72,15 @@ class SettingsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       children: [
                         SettingsCard(
+                          icon: const Icon(Icons.switch_access_shortcut),
+                          title: "Switch Network",
+                          description:
+                              "Easily switch between a selection of Parachains connected to the Polkadot Network",
+                          onTap: () async {
+                            BlocProvider.of<SettingsBloc>(context).add(const OnExportSwitchNetworkTapped());
+                          },
+                        ),
+                        SettingsCard(
                           icon: const Icon(Icons.update),
                           title: "Export Private Key",
                           description: "Export your private key so you can easily recover and access your account.",
