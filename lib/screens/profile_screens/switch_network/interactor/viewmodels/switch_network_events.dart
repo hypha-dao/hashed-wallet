@@ -13,3 +13,21 @@ class Initial extends SwitchNetworkEvent {
   @override
   String toString() => 'Initial';
 }
+
+class OnNetworkSelected extends SwitchNetworkEvent {
+  final NetworkData networkData;
+
+  const OnNetworkSelected(this.networkData);
+
+  @override
+  String toString() => 'OnNetworkSelected';
+}
+
+class OnSearchChanged extends SwitchNetworkEvent {
+  final String value;
+
+  const OnSearchChanged(this.value);
+
+  @override
+  String toString() => 'OnSearchChanged';
+}
