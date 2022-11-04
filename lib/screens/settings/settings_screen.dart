@@ -82,7 +82,7 @@ class SettingsScreen extends StatelessWidget {
                           description:
                               "Easily switch between a selection of Parachains connected to the Polkadot Network",
                           onTap: () async {
-                            BlocProvider.of<SettingsBloc>(context).add(const OnExportSwitchNetworkTapped());
+                            BlocProvider.of<SettingsBloc>(context).add(const OnSwitchNetworkTapped());
                           },
                         ),
                         SettingsCard(
