@@ -33,6 +33,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<OnRecoverAccountTapped>(_onRecoverAccountTapped);
     on<OnExportPrivateKeyCardTapped>(
         (event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(Routes.exportPrivateKey))));
+    on<OnSwitchNetworkTapped>(
+        (event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(Routes.switchNetwork))));
     on<OnPasscodePressed>(_onPasscodePressed);
     on<OnBiometricPressed>(_onBiometricPressed);
     on<OnValidVerification>(_onValidVerification);
