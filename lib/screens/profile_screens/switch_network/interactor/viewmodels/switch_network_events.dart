@@ -14,6 +14,13 @@ class Initial extends SwitchNetworkEvent {
   String toString() => 'Initial';
 }
 
+class OnSwitchTapped extends SwitchNetworkEvent {
+  const OnSwitchTapped();
+
+  @override
+  String toString() => 'OnSwitchTapped';
+}
+
 class OnNetworkSelected extends SwitchNetworkEvent {
   final NetworkData networkData;
 
@@ -30,4 +37,11 @@ class OnSearchChanged extends SwitchNetworkEvent {
 
   @override
   String toString() => 'OnSearchChanged';
+}
+
+class ClearPageCommand extends SwitchNetworkEvent {
+  const ClearPageCommand();
+
+  @override
+  String toString() => 'ClearPageCommand';
 }

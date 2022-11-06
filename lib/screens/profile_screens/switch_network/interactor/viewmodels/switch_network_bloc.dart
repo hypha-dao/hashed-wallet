@@ -19,22 +19,33 @@ final mockData = [
 class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
   SwitchNetworkBloc() : super(SwitchNetworkState.initial()) {
     on<Initial>(_initial);
+    on<OnSwitchTapped>(_onSwitchTapped);
     on<OnNetworkSelected>(_onNetworkSelected);
     on<OnSearchChanged>(_onSearchChanged);
+    on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
   Future<void> _initial(Initial event, Emitter<SwitchNetworkState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<List<NetworkData>> result = await Future.value(Result.value(mockData));
+
+    // TODO(NIK): here is where you make the calls to fetch all networks. Inside a use case
+    final Result<List<NetworkData>> result =
+        await Future.delayed(const Duration(seconds: 2)).then((value) => Result.value(mockData));
     if (result.isValue) {
-      emit(state.copyWith(data: result.asValue!.value, pageState: PageState.success, filtered: result.asValue!.value));
+      emit(state.copyWith(
+        data: result.asValue!.value,
+        pageState: PageState.success,
+        filtered: result.asValue!.value,
+        // TODO(NIK): this needs to be changed to select the actual currently selected network
+        selected: result.asValue!.value.first,
+      ));
     } else {
       emit(state.copyWith(pageState: PageState.failure));
     }
   }
 
   FutureOr<void> _onNetworkSelected(OnNetworkSelected event, Emitter<SwitchNetworkState> emit) {
-    emit(state.copyWith(selected: event.networkData));
+    emit(state.copyWith(selected: event.networkData, actionButtonEnabled: true));
   }
 
   FutureOr<void> _onSearchChanged(OnSearchChanged event, Emitter<SwitchNetworkState> emit) {
@@ -44,5 +55,23 @@ class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
                   event.value.toLowerCase(),
                 ))
             .toList()));
+  }
+
+  FutureOr<void> _onSwitchTapped(OnSwitchTapped event, Emitter<SwitchNetworkState> emit) async {
+    emit(state.copyWith(actionButtonLoading: true));
+
+    // TODO(NIK): here is where you make the calls to switch the network. Inside a use case
+    final Result<bool> result = await Future.delayed(const Duration(seconds: 2)).then((value) => Result.value(true));
+    if (result.isValue) {
+      emit(state.copyWith(
+        actionButtonLoading: false,
+        pageCommand: ShowMessage('Network Switched to ${state.selected!.name}'),
+      ));
+    } else {
+      emit(state.copyWith(
+        actionButtonLoading: false,
+        pageCommand: ShowErrorMessage('Error Switching networks'),
+      ));
+    }
   }
 }

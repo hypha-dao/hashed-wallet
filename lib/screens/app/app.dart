@@ -31,18 +31,25 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with WidgetsBindingObserver {
   final List<AppScreenItem> _appScreenItems = [
     AppScreenItem(
+      title: "Scan".i18n,
+      icon: 'assets/images/scan.svg',
+      iconSelected: 'assets/images/scan.svg',
+      screen: const WalletScreen(),
+      index: 0,
+    ),
+    AppScreenItem(
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
       iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
       screen: const WalletScreen(),
-      index: 0,
+      index: 1,
     ),
     AppScreenItem(
       title: "Settings".i18n,
       icon: 'assets/images/navigation_bar/carbon_settings_unselected.svg',
       iconSelected: 'assets/images/navigation_bar/carbon_settings_selected.svg',
       screen: const SettingsScreen(),
-      index: 1,
+      index: 2,
     ),
   ];
   final PageController _pageController = PageController();

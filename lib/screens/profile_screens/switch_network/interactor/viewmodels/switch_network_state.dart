@@ -6,6 +6,8 @@ class SwitchNetworkState extends Equatable {
   final List<NetworkData> data;
   final List<NetworkData> filtered;
   final NetworkData? selected;
+  final bool actionButtonLoading;
+  final bool actionButtonEnabled;
 
   const SwitchNetworkState({
     required this.pageState,
@@ -13,6 +15,8 @@ class SwitchNetworkState extends Equatable {
     required this.data,
     this.selected,
     required this.filtered,
+    required this.actionButtonEnabled,
+    required this.actionButtonLoading,
   });
 
   @override
@@ -22,6 +26,8 @@ class SwitchNetworkState extends Equatable {
         data,
         selected,
         filtered,
+        actionButtonEnabled,
+        actionButtonLoading,
       ];
 
   SwitchNetworkState copyWith({
@@ -30,6 +36,8 @@ class SwitchNetworkState extends Equatable {
     List<NetworkData>? filtered,
     PageCommand? pageCommand,
     NetworkData? selected,
+    bool? actionButtonLoading,
+    bool? actionButtonEnabled,
   }) {
     return SwitchNetworkState(
       pageState: pageState ?? this.pageState,
@@ -37,6 +45,8 @@ class SwitchNetworkState extends Equatable {
       data: data ?? this.data,
       selected: selected ?? this.selected,
       filtered: filtered ?? this.filtered,
+      actionButtonEnabled: actionButtonEnabled ?? this.actionButtonEnabled,
+      actionButtonLoading: actionButtonLoading ?? this.actionButtonLoading,
     );
   }
 
@@ -45,6 +55,8 @@ class SwitchNetworkState extends Equatable {
       pageState: PageState.initial,
       data: [],
       filtered: [],
+      actionButtonLoading: false,
+      actionButtonEnabled: false,
     );
   }
 }
