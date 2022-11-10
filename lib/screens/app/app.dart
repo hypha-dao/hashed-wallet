@@ -140,7 +140,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                           // color: AppColors.white,
                           width: 0.2))),
               child: BottomNavigationBar(
-                currentIndex: 1,
+                currentIndex: state.index,
                 onTap: (index) => _appBloc.add(BottomBarTapped(index: index)),
                 //selectedItemColor: AppColors.white,
                 items: [

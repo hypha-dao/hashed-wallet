@@ -52,7 +52,7 @@ class Routes {
 
   static const createInvite = 'createInvite';
 
-  static const sendConfirmation = 'sendConfirmation';
+  static const scanConfirmation = 'scanConfirmation';
   static const transactionActions = 'transactionActions';
 
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
@@ -91,7 +91,7 @@ class NavigationService {
     Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
-    Routes.sendConfirmation: (args) => const ScanConfirmationScreen(),
+    Routes.scanConfirmation: (args) => const ScanConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
