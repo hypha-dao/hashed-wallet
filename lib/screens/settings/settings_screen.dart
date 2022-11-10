@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:hashed/components/full_page_error_indicator.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
@@ -71,6 +72,19 @@ class SettingsScreen extends StatelessWidget {
                     child: ListView(
                       padding: const EdgeInsets.all(16.0),
                       children: [
+                        SettingsCard(
+                          icon: SvgPicture.asset(
+                            'assets/images/clarity_network_setting.svg',
+                            width: 24,
+                            height: 24,
+                          ),
+                          title: "Switch Network",
+                          description:
+                              "Easily switch between a selection of Parachains connected to the Polkadot Network",
+                          onTap: () async {
+                            BlocProvider.of<SettingsBloc>(context).add(const OnSwitchNetworkTapped());
+                          },
+                        ),
                         SettingsCard(
                           icon: const Icon(Icons.update),
                           title: "Export Private Key",

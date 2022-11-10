@@ -178,6 +178,8 @@ flutter:
     - assets/images/receive/receive_input_seeds.svg
     - assets/images/receive/merchant.svg
     - assets/images/currency_switch_button.svg
+    - assets/images/scan.svg
+    - assets/images/clarity_network_setting.svg
     - assets/images/send/telos_logo.png
     - assets/images/transfer/seeds_icon.svg
     - assets/images/transfer/arrow_up.svg

@@ -19,6 +19,12 @@ class OnExportPrivateKeyCardTapped extends SettingsEvent {
   String toString() => 'OnExportPrivateKeyCardTapped';
 }
 
+class OnSwitchNetworkTapped extends SettingsEvent {
+  const OnSwitchNetworkTapped();
+  @override
+  String toString() => 'OnSwitchNetworkTapped';
+}
+
 class ShouldShowNotificationBadge extends SettingsEvent {
   final bool value;
   const ShouldShowNotificationBadge({required this.value});

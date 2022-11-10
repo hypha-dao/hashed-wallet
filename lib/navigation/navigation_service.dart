@@ -22,6 +22,7 @@ import 'package:hashed/screens/profile_screens/guardians/guardians_tabs/guardian
 import 'package:hashed/screens/profile_screens/guardians/select_guardian/select_guardians_screen_v3.dart';
 import 'package:hashed/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:hashed/screens/profile_screens/set_currency/set_currency_screen.dart';
+import 'package:hashed/screens/profile_screens/switch_network/switch_network_screen.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
 import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:hashed/screens/transfer/receive/receive_selection/receive_screen.dart';
@@ -65,6 +66,7 @@ class Routes {
   static const security = 'security';
   static const editName = 'editName';
   static const exportPrivateKey = ' exportPrivateKey';
+  static const switchNetwork = ' switchNetwork';
   static const setCurrency = 'setCurrency';
   static const citizenship = 'citizenship';
 
@@ -98,6 +100,7 @@ class NavigationService {
     Routes.security: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
     Routes.exportPrivateKey: (_) => const ExportPrivateKeyScreen(),
+    Routes.switchNetwork: (_) => const SwitchNetworkScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const SettingsScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
