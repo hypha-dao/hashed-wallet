@@ -19,6 +19,7 @@ import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_screen_item.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
+import 'package:hashed/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:hashed/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {
@@ -31,17 +32,17 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with WidgetsBindingObserver {
   final List<AppScreenItem> _appScreenItems = [
     AppScreenItem(
-      title: "Scan".i18n,
-      icon: 'assets/images/scan.svg',
-      iconSelected: 'assets/images/scan.svg',
-      screen: const WalletScreen(),
-      index: 0,
-    ),
-    AppScreenItem(
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
       iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
       screen: const WalletScreen(),
+      index: 0,
+    ),
+    const AppScreenItem(
+      title: "Scan",
+      icon: 'assets/images/scan.svg',
+      iconSelected: 'assets/images/scan.svg',
+      screen: SendScannerScreen(),
       index: 1,
     ),
     AppScreenItem(
@@ -139,7 +140,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                           // color: AppColors.white,
                           width: 0.2))),
               child: BottomNavigationBar(
-                currentIndex: state.index,
+                currentIndex: 1,
                 onTap: (index) => _appBloc.add(BottomBarTapped(index: index)),
                 //selectedItemColor: AppColors.white,
                 items: [
