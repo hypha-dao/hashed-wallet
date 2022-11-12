@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_commands.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 
 part 'scan_confirmation_events.dart';
@@ -47,12 +48,12 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
     if (result.isValue) {
       emit(state.copyWith(
         actionButtonLoading: false,
-        pageCommand: NavigateToRoute('DETERMINE SUCCESS ROUTE'),
+        pageCommand: ShowTransactionSuccess(),
       ));
     } else {
       emit(state.copyWith(
         actionButtonLoading: false,
-        pageCommand: NavigateToRoute('DETERMINE ERROR ROUTE'),
+        transactionSendError: 'Error',
       ));
     }
   }
