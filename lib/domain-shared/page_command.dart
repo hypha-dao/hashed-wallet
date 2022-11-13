@@ -33,5 +33,5 @@ class NavigateToRouteWithArguments<T> extends PageCommand {
 }
 
 class NavigateToSendConfirmation extends NavigateToRouteWithArguments {
-  NavigateToSendConfirmation(SendConfirmationArguments args) : super(route: Routes.sendConfirmation, arguments: args);
+  NavigateToSendConfirmation(SendConfirmationArguments args) : super(route: Routes.scanConfirmation, arguments: args);
 }
