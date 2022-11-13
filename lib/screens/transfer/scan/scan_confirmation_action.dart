@@ -9,12 +9,46 @@ class ScanConfirmationAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: context.colorScheme.tertiaryContainer),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         children: [
-          Row(children: [Text(data.actionName.key), Text(data.actionName.value)]),
-          Container(height: 1, color: context.colorScheme.surface),
-          ...data.actionParams.entries.map((e) => Row(children: [Text(e.key), Text(e.value)])).toList()
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                data.actionName.key,
+                style: context.textTheme.bodyLarge,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                data.actionName.value,
+                style: context.textTheme.subtitle2,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          ),
+          const SizedBox(height: 4),
+          Container(height: 1, color: context.colorScheme.tertiaryContainer),
+          const SizedBox(height: 4),
+          ...data.actionParams.entries
+              .map((e) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        e.key,
+                        style: context.textTheme.subtitle2?.copyWith(color: Colors.white.withOpacity(0.8)),
+                      ),
+                      Text(
+                        e.value,
+                        style: context.textTheme.subtitle2,
+                      )
+                    ],
+                  ))
+              .toList()
         ],
       ),
     );
