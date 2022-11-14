@@ -6,7 +6,7 @@ class SubstrateChainModelOld {
   final String info;
   final int? paraId;
   final Map<String, String> endpoints;
-  // final int ss58;
+  // final int ss58; // it seems we don't need this?!
 
   String get endpoint => endpoints.values.first;
 
