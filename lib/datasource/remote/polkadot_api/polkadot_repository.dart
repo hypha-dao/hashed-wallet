@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
@@ -85,6 +86,8 @@ class PolkadotRepository extends KeyRepository {
       print("PolkadotRepository connected $res in ${stopwatch.elapsed.inMilliseconds / 1000.0}");
 
       eventBus.fire(const OnWalletRefreshEventBus());
+
+      await getMetadata();
 
       return true;
     } catch (err) {
@@ -429,5 +432,12 @@ class PolkadotRepository extends KeyRepository {
         }
       }
     }
+  }
+
+  Future<dynamic> getMetadata() async {
+    final code = 'api.rpc.state.getMetadata()';
+    final res = await _substrateService?.webView.evalJavascript(code);
+    // note: This is a very big data file - see metadata_sample.json
+    return res;
   }
 }
