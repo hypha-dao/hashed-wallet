@@ -150,10 +150,6 @@ class PolkadotRepository extends KeyRepository {
   bool isReconnecting = false;
 
   Future<void> reconnect() async {
-    if (isReconnecting) {
-      print("ignore reconnect while reconnecting");
-      return;
-    }
     print("reconnecting...");
 
     try {
