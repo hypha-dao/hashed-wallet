@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hashed/datasource/local/member_model_cache_item.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
+import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/seeds_app.dart';
@@ -27,34 +29,52 @@ Future<void> main() async {
     print("InAppLocalhostServer started at $inappLocalHostPort");
 
     await Firebase.initializeApp();
+
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval: const Duration(hours: 24),
+    ));
+
+    // testing
+    final chainList = await ChainsRepository().getChainsLocal();
+
+    // TODO(n13): Wire up remote config or maybe database... since the data is big
+    // we could store a version info in the cache and when that changes, load the data
+    // I don't like loading 60KB every hour just in case it changed. Or maybe it does versioning?
+
+    // await remoteConfig.setDefaults(const {
+    //   chainInfoSettingsFirebaseKey: chainList.toString(),
+    // });
+
     await settingsStorage.initialise();
+
     await PushNotificationService().initialise();
+
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
+
     GoogleFonts.config.allowRuntimeFetching = false;
+
     LicenseRegistry.addLicense(() async* {
       final license = await rootBundle.loadString('assets/google_fonts/OFL.txt');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
+
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+    // Init Polkadot JS
     // ignore: unawaited_futures
     polkadotRepository.initService().then((_) => polkadotRepository.startService());
 
     // Called whenever the Flutter framework catches an error.
     FlutterError.onError = (details) async {
       FlutterError.presentError(details);
-      // TODO(Raul): use FirebaseCrashlytics or whatever
-      //await FirebaseCrashlytics.instance.recordFlutterError(details);
     };
 
-    // if (kDebugMode) {
-    //   /// Bloc logs only in debug (for better performance in release)
-    //   BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
-    // } else {
-    runApp(const SeedsApp());
-    // }
+    runApp(const HashedApp());
   }, (error, stackTrace) async {
-    //await FirebaseCrashlytics.instance.recordError(error, stack);
+    print("Flutter error $error");
+    print("Stack Trace: $stackTrace");
   });
 }
