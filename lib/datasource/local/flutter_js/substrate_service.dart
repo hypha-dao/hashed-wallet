@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
-import 'package:hashed/datasource/local/models/substrate_chain_model.dart';
+import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
 
 /// This class packages all calls into the original Polkawallet API code
 /// It isolates our app from the original Polkawallet code.
@@ -12,7 +12,7 @@ class SubstrateService {
   InAppWebViewController? get controller => webView.webViewController;
   WebViewRunner webView = WebViewRunner();
   bool get isConnected => _connected;
-  SubstrateChainModel? connectedNode;
+  SubstrateChainModelOld? connectedNode;
   bool _initialized = false;
 
   SubstrateService();
@@ -104,19 +104,28 @@ class SubstrateService {
   }
 }
 
-final List<SubstrateChainModel> kusamaNetworkParams =
-    nodeListKusama.map((e) => SubstrateChainModel.fromJson(e)).toList();
-final List<SubstrateChainModel> polkadotNetworkParams =
-    nodeListPolkadot.map((e) => SubstrateChainModel.fromJson(e)).toList();
-final List<SubstrateChainModel> hashedNetworkParams =
-    nodeListHashed.map((e) => SubstrateChainModel.fromJson(e)).toList();
+final List<SubstrateChainModelOld> kusamaNetworkParams =
+    nodeListKusama.map((e) => SubstrateChainModelOld.fromJson(e)).toList();
+final List<SubstrateChainModelOld> polkadotNetworkParams =
+    nodeListPolkadot.map((e) => SubstrateChainModelOld.fromJson(e)).toList();
+final List<SubstrateChainModelOld> hashedNetworkParams =
+    nodeListHashed.map((e) => SubstrateChainModelOld.fromJson(e)).toList();
 
 const nodeListHashed = [
   {
-    'name': 'Hashed N1',
+    "info": "hashed",
+    "paraId": 1440, // fake..
+    "text": "Hashed Network",
     'ss58': 42,
-    'endpoint': 'wss://n1.hashed.systems',
-  }
+    "providers": {
+      "N1 Node": "wss://n1.hashed.systems",
+    }
+  },
+  // {
+  //   'name': 'Hashed N1',
+  //   'ss58': 42,
+  //   'endpoint': 'wss://n1.hashed.systems',
+  // }
 ];
 
 const nodeListKusama = [

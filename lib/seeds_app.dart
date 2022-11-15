@@ -11,8 +11,8 @@ import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-class SeedsApp extends StatelessWidget {
-  const SeedsApp({super.key});
+class HashedApp extends StatelessWidget {
+  const HashedApp({super.key});
 
   @override
   Widget build(BuildContext context) {

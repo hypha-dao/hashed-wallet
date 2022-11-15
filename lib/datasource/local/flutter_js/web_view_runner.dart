@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hashed/datasource/local/models/substrate_chain_model.dart';
+import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
 import 'package:hashed/domain-shared/app_constants.dart';
 
 extension PlatformExtension on Platform {
@@ -265,7 +265,7 @@ class WebViewRunner {
     return c.future;
   }
 
-  Future<SubstrateChainModel?> connectNode(List<SubstrateChainModel> nodes) async {
+  Future<SubstrateChainModelOld?> connectNode(List<SubstrateChainModelOld> nodes) async {
     try {
       print("connectNode connecting...");
       final res = await evalJavascript('settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})');

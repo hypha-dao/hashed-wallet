@@ -57,6 +57,8 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_aes_ecb_pkcs5: ^0.1.2
   flutter_native_splash: ^2.2.6
+  firebase_remote_config: ^2.0.20
+  firebase_analytics: ^9.3.8
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
@@ -206,5 +208,7 @@ flutter:
     - assets/polkadot/sdk/assets/index.html
     - assets/polkadot/sdk/js_api/dist/main.js
     - assets/polkadot/sdk/js_as_extension/dist/main.js
+
+    - assets/polkadot/default_endpoints.json
 
     # assets end
