@@ -1,10 +1,11 @@
 import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
+import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 
 class SubstrateChainContainer {
   final String header;
   final bool isRelayChain;
-  final List<SubstrateChainModelOld>? list;
-  final SubstrateChainModelOld? relayChain;
+  final List<SubstrateChainModel>? list;
+  final SubstrateChainModel? relayChain;
   SubstrateChainContainer({
     required this.header,
     required this.isRelayChain,
@@ -14,8 +15,7 @@ class SubstrateChainContainer {
   factory SubstrateChainContainer.fromJson(Map<String, dynamic> json) => SubstrateChainContainer(
         header: json["header"],
         isRelayChain: json["isRelayChain"],
-        list:
-            json["isRelayChain"] ? null : List.of(json["list"]).map((e) => SubstrateChainModelOld.fromJson(e)).toList(),
-        relayChain: json["isRelayChain"] ? SubstrateChainModelOld.fromJson(json["chain"]) : null,
+        list: json["isRelayChain"] ? null : List.of(json["list"]).map((e) => SubstrateChainModel.fromJson(e)).toList(),
+        relayChain: json["isRelayChain"] ? SubstrateChainModel.fromJson(json["chain"]) : null,
       );
 }

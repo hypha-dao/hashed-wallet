@@ -5,16 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/profile_screens/switch_network/interactor/usecases/get_network_data_use_case.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 
 part 'switch_network_events.dart';
 part 'switch_network_state.dart';
-
-final mockData = [
-  NetworkData('Polkadot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('KakaDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('PopoDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-];
 
 class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
   SwitchNetworkBloc() : super(SwitchNetworkState.initial()) {
@@ -29,8 +24,8 @@ class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
     emit(state.copyWith(pageState: PageState.loading));
 
     // TODO(NIK): here is where you make the calls to fetch all networks. Inside a use case
-    final Result<List<NetworkData>> result =
-        await Future.delayed(const Duration(seconds: 2)).then((value) => Result.value(mockData));
+    final Result<List<NetworkData>> result = await GetNetworkDataUseCase().run();
+
     if (result.isValue) {
       emit(state.copyWith(
         data: result.asValue!.value,

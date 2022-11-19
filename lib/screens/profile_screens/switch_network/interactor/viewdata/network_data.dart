@@ -1,7 +1,18 @@
 class NetworkData {
   final String name;
+  final String info;
   final String iconUrl;
-  final String url;
+  final int? paraChainId;
+  final List<Uri> endpoints;
 
-  NetworkData(this.name, this.iconUrl, this.url);
+  Uri get uri => endpoints.first;
+  bool get isRelayChain => paraChainId == null;
+
+  const NetworkData({
+    required this.name,
+    required this.info,
+    required this.iconUrl,
+    this.paraChainId,
+    required this.endpoints,
+  });
 }
