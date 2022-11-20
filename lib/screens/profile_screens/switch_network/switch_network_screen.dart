@@ -28,7 +28,7 @@ class SwitchNetworkScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: const Text("Network1")),
+          appBar: AppBar(title: const Text("Network")),
           bottomNavigationBar: BlocBuilder<SwitchNetworkBloc, SwitchNetworkState>(
             buildWhen: (previous, current) =>
                 previous.actionButtonLoading != current.actionButtonLoading ||
