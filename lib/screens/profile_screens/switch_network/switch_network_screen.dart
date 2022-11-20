@@ -28,7 +28,7 @@ class SwitchNetworkScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: const Text("Network")),
+          appBar: AppBar(title: const Text("Network1")),
           bottomNavigationBar: BlocBuilder<SwitchNetworkBloc, SwitchNetworkState>(
             buildWhen: (previous, current) =>
                 previous.actionButtonLoading != current.actionButtonLoading ||
@@ -40,7 +40,7 @@ class SwitchNetworkScreen extends StatelessWidget {
                   child: FlatButtonLong(
                     title: 'Switch',
                     onPressed: () {
-                      BlocProvider.of<SwitchNetworkBloc>(context).add(OnSwitchTapped());
+                      BlocProvider.of<SwitchNetworkBloc>(context).add(const OnSwitchTapped());
                     },
                     enabled: state.actionButtonEnabled,
                     isLoading: state.actionButtonLoading,
@@ -70,24 +70,28 @@ class SwitchNetworkScreen extends StatelessWidget {
                       ListView(
                         shrinkWrap: true,
                         children: state.filtered
-                            .map((e) => ListTile(
-                                onTap: () {
-                                  BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
-                                },
-                                title: Text(e.name),
-                                leading: ClipOval(
-                                  child: SizedBox.fromSize(
-                                    size: const Size.fromRadius(14), // Image radius
-                                    child: Image.network(e.iconUrl, fit: BoxFit.cover),
-                                  ),
-                                ),
-                                trailing: Radio<NetworkData>(
-                                  value: e,
-                                  groupValue: e == state.selected ? e : null,
-                                  onChanged: (NetworkData? value) {
-                                    BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
-                                  },
-                                )))
+                            .map((e) => e is NetworkData
+                                ? ListTile(
+                                    onTap: () {
+                                      BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
+                                    },
+                                    title: Text(e.name),
+                                    leading: ClipOval(
+                                      child: SizedBox.fromSize(
+                                        size: const Size.fromRadius(14), // Image radius
+                                        child: Image.network(e.iconUrl, fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    trailing: Radio<NetworkData>(
+                                      value: e,
+                                      groupValue: e == state.selected ? e : null,
+                                      onChanged: (NetworkData? value) {
+                                        BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
+                                      },
+                                    ))
+                                : e is NetworkDataHeader
+                                    ? ListTile(title: Text(e.header))
+                                    : const SizedBox.shrink())
                             .toList(),
                       )
                     ],

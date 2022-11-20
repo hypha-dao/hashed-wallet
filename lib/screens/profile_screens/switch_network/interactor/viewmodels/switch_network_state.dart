@@ -3,8 +3,8 @@ part of 'switch_network_bloc.dart';
 class SwitchNetworkState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
-  final List<NetworkData> data;
-  final List<NetworkData> filtered;
+  final List<NetworkDataListItem> data;
+  final List<NetworkDataListItem> filtered;
   final NetworkData? selected;
   final bool actionButtonLoading;
   final bool actionButtonEnabled;
@@ -32,8 +32,8 @@ class SwitchNetworkState extends Equatable {
 
   SwitchNetworkState copyWith({
     PageState? pageState,
-    List<NetworkData>? data,
-    List<NetworkData>? filtered,
+    List<NetworkDataListItem>? data,
+    List<NetworkDataListItem>? filtered,
     PageCommand? pageCommand,
     NetworkData? selected,
     bool? actionButtonLoading,
