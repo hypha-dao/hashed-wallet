@@ -9,5 +9,7 @@ const String iosAppStoreId = '1639248612';
 
 int inappLocalHostPort = Random().nextInt(9999) + 10000;
 
+const String hashedNetworkId = 'hashed';
+
 /// Actions
 const String transferAction = 'transfer';

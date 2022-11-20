@@ -36,17 +36,6 @@ Future<void> main() async {
       minimumFetchInterval: const Duration(hours: 24),
     ));
 
-    // testing
-    final chainList = await ChainsRepository().getChainsLocal();
-
-    // TODO(n13): Wire up remote config or maybe database... since the data is big
-    // we could store a version info in the cache and when that changes, load the data
-    // I don't like loading 60KB every hour just in case it changed. Or maybe it does versioning?
-
-    // await remoteConfig.setDefaults(const {
-    //   chainInfoSettingsFirebaseKey: chainList.toString(),
-    // });
-
     await settingsStorage.initialise();
 
     await PushNotificationService().initialise();

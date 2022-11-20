@@ -9,8 +9,12 @@ import 'package:hashed/domain-shared/firebase_constants.dart';
 class ChainsRepository {
   ChainsRepository();
 
-  Future<String> loadAsset() async {
+  Future<String> loadLocalEndpointData() async {
     return rootBundle.loadString('assets/polkadot/default_endpoints.json');
+  }
+
+  Future<String> loadLogoInfo() async {
+    return rootBundle.loadString('assets/polkadot/assets_info.txt');
   }
 
   List<SubstrateChainModel> getChains() {
@@ -29,10 +33,10 @@ class ChainsRepository {
 
   Future<List<SubstrateChainContainer>> getChainsLocal() async {
     try {
-      final jsonString = await loadAsset();
+      final jsonString = await loadLocalEndpointData();
       final List<dynamic> json = jsonDecode(jsonString);
 
-      //print("get chains: $json");
+      print("get chains: $json");
 
       return List.of(json.map((e) => SubstrateChainContainer.fromJson(e)));
     } catch (err) {
