@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/auth_data_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
+import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,8 @@ const String _kCurrentAccount = "current_account";
 const String _kPrivateKeys = "private_keys";
 
 const String _kActiveRecoveryAccount = "active_recovery_account";
+
+const String _kCurrentNetwork = "current_network";
 
 class _SettingsStorage implements AbstractStorage {
   late SharedPreferences _preferences;
@@ -71,6 +74,9 @@ class _SettingsStorage implements AbstractStorage {
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
   int? get dateSinceRateAppPrompted => _preferences.getInt(_kDateSinceRateAppPrompted);
+
+  String get currentNetwork => _preferences.getString(_kCurrentNetwork) ?? hashedNetworkId;
+  set currentNetwork(String value) => _preferences.setString(_kCurrentNetwork, value);
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
