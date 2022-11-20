@@ -7,6 +7,7 @@ import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 import 'package:hashed/domain-shared/firebase_constants.dart';
 
 class ChainsRepository {
+  String? cachedLogoInfo;
   ChainsRepository();
 
   Future<String> loadLocalEndpointData() async {
@@ -15,6 +16,20 @@ class ChainsRepository {
 
   Future<String> loadLogoInfo() async {
     return rootBundle.loadString('assets/polkadot/assets_info.txt');
+  }
+
+  Future<String> resolveIcon(String info) async {
+    // TODO(NIK): This is still not really working - fix and remove prints
+    cachedLogoInfo ??= await loadLogoInfo();
+    print("looking for $info");
+    final index = cachedLogoInfo!.indexOf("/$info.");
+    if (index == -1) {
+      print("error: logo not found: $info");
+      return "";
+    }
+    final res = cachedLogoInfo!.substring(index, index + 1 + info.length + 4);
+    print("resolve icon: $res ");
+    return res;
   }
 
   List<SubstrateChainModel> getChains() {
