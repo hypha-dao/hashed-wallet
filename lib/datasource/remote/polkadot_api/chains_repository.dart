@@ -7,27 +7,49 @@ import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 import 'package:hashed/domain-shared/firebase_constants.dart';
 
 class ChainsRepository {
-  String? cachedLogoInfo;
+  List<String>? cachedLogoInfo;
   ChainsRepository();
 
   Future<String> loadLocalEndpointData() async {
     return rootBundle.loadString('assets/polkadot/default_endpoints.json');
   }
 
-  Future<String> loadLogoInfo() async {
-    return rootBundle.loadString('assets/polkadot/assets_info.txt');
+  Future<List<String>> loadLogoPaths() async {
+    final text = await rootBundle.loadString('assets/polkadot/assets_info.txt');
+    print("parse file for paths");
+    RegExp exp = RegExp("import [a-zA-Z0-9]+ from '(.*)';");
+    final matches = exp.allMatches(text);
+    // matches.forEach(
+    //   // ignore: avoid_print, prefer_interpolation_to_compose_strings
+    //   (element) => print("match group 1: " + (element.group(1) ?? "")),
+    // );
+    return List.from(matches.map((e) => e.group(1)));
+  }
+
+  Future<List<String>> loadLogoInfo() async {
+    final text = await rootBundle.loadString('assets/polkadot/logo_info.json');
+    List<dynamic> map = jsonDecode(text);
+    
+    print("parse file for paths");
+    RegExp exp = RegExp("import [a-zA-Z0-9]+ from '(.*)';");
+    final matches = exp.allMatches(text);
+    // matches.forEach(
+    //   // ignore: avoid_print, prefer_interpolation_to_compose_strings
+    //   (element) => print("match group 1: " + (element.group(1) ?? "")),
+    // );
+    return List.from(matches.map((e) => e.group(1)));
   }
 
   Future<String> resolveIcon(String info) async {
     // TODO(NIK): This is still not really working - fix and remove prints
-    cachedLogoInfo ??= await loadLogoInfo();
+    cachedLogoInfo ??= await loadLogoPaths();
     print("looking for $info");
     final index = cachedLogoInfo!.indexOf("/$info.");
     if (index == -1) {
       print("error: logo not found: $info");
       return "";
     }
-    final res = cachedLogoInfo!.substring(index, index + 1 + info.length + 4);
+
     print("resolve icon: $res ");
     return res;
   }

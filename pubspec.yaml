@@ -211,5 +211,6 @@ flutter:
 
     - assets/polkadot/default_endpoints.json
     - assets/polkadot/assets_info.txt
+    - assets/polkadot/logo_info.json
 
     # assets end

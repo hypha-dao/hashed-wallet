@@ -24,7 +24,10 @@ const init = async () => {
 
   console.log(JSON.stringify(chain, null, 2))
 
-  await getLastBlock(api)
+  //await getLastBlock(api)
+
+  const metaData =  api.runtimeMetadata
+  console.log("metadata: "+JSON.stringify(metaData, null, 2))
 
   // Constuct the keyring after the API (crypto has an async init)
   const keyring = new Keyring({ type: "sr25519" });
