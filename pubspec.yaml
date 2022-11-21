@@ -210,5 +210,6 @@ flutter:
     - assets/polkadot/sdk/js_as_extension/dist/main.js
 
     - assets/polkadot/default_endpoints.json
+    - assets/polkadot/assets_info.txt
 
     # assets end

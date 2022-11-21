@@ -1,4 +1,3 @@
-import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
 import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 
 class SubstrateChainContainer {

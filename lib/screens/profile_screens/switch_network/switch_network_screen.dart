@@ -71,24 +71,28 @@ class SwitchNetworkScreen extends StatelessWidget {
                         child: ListView(
                           shrinkWrap: true,
                           children: state.filtered
-                              .map((e) => ListTile(
-                                  onTap: () {
-                                    BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
-                                  },
-                                  title: Text(e.name),
-                                  leading: ClipOval(
-                                    child: SizedBox.fromSize(
-                                      size: const Size.fromRadius(14), // Image radius
-                                      child: Image.network(e.iconUrl, fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                  trailing: Radio<NetworkData>(
-                                    value: e,
-                                    groupValue: e == state.selected ? e : null,
-                                    onChanged: (NetworkData? value) {
-                                      BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
-                                    },
-                                  )))
+                              .map((e) => e is NetworkData
+                                  ? ListTile(
+                                      onTap: () {
+                                        BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
+                                      },
+                                      title: Text(e.name),
+                                      leading: ClipOval(
+                                        child: SizedBox.fromSize(
+                                          size: const Size.fromRadius(14), // Image radius
+                                          child: Image.network(e.iconUrl, fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      trailing: Radio<NetworkData>(
+                                        value: e,
+                                        groupValue: e == state.selected ? e : null,
+                                        onChanged: (NetworkData? value) {
+                                          BlocProvider.of<SwitchNetworkBloc>(context).add(OnNetworkSelected(e));
+                                        },
+                                      ))
+                                  : e is NetworkDataHeader
+                                      ? ListTile(title: Text(e.header))
+                                      : const SizedBox.shrink())
                               .toList(),
                         ),
                       )

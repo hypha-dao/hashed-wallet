@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/usecases/get_network_data_use_case.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
-
 part 'switch_network_events.dart';
 part 'switch_network_state.dart';
 
@@ -23,16 +23,14 @@ class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
   Future<void> _initial(Initial event, Emitter<SwitchNetworkState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
 
-    // TODO(NIK): here is where you make the calls to fetch all networks. Inside a use case
-    final Result<List<NetworkData>> result = await GetNetworkDataUseCase().run();
+    final Result<List<NetworkDataListItem>> result = await GetNetworkDataUseCase().run();
 
     if (result.isValue) {
       emit(state.copyWith(
         data: result.asValue!.value,
         pageState: PageState.success,
         filtered: result.asValue!.value,
-        // TODO(NIK): this needs to be changed to select the actual currently selected network
-        selected: result.asValue!.value.first,
+        selected: result.asValue!.value.itemById(settingsStorage.currentNetwork),
       ));
     } else {
       emit(state.copyWith(pageState: PageState.failure));
@@ -40,15 +38,17 @@ class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
   }
 
   FutureOr<void> _onNetworkSelected(OnNetworkSelected event, Emitter<SwitchNetworkState> emit) {
-    emit(state.copyWith(selected: event.networkData, actionButtonEnabled: true));
+    emit(state.copyWith(
+        selected: event.networkData, actionButtonEnabled: event.networkData.info != settingsStorage.currentNetwork));
   }
 
   FutureOr<void> _onSearchChanged(OnSearchChanged event, Emitter<SwitchNetworkState> emit) {
     emit(state.copyWith(
         filtered: state.data
-            .where((element) => element.name.toLowerCase().contains(
-                  event.value.toLowerCase(),
-                ))
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            .where((element) => element is NetworkData
+                ? element.name.toLowerCase().contains(event.value.toLowerCase())
+                : element is NetworkDataHeader)
             .toList()));
   }
 

@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hashed/datasource/local/member_model_cache_item.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
-import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/seeds_app.dart';
@@ -35,17 +34,6 @@ Future<void> main() async {
       fetchTimeout: const Duration(minutes: 1),
       minimumFetchInterval: const Duration(hours: 24),
     ));
-
-    // testing
-    final chainList = await ChainsRepository().getChainsLocal();
-
-    // TODO(n13): Wire up remote config or maybe database... since the data is big
-    // we could store a version info in the cache and when that changes, load the data
-    // I don't like loading 60KB every hour just in case it changed. Or maybe it does versioning?
-
-    // await remoteConfig.setDefaults(const {
-    //   chainInfoSettingsFirebaseKey: chainList.toString(),
-    // });
 
     await settingsStorage.initialise();
 
