@@ -37,8 +37,8 @@ class GetNetworkDataUseCase {
 
     final bool devMode = false;
 
-    /// TODO(NIK): Not sure this parsing and reformatting should take place here or in the repo
-    /// it's creating view data from the raw repo data.
+    // TODO(NIK): Not sure this parsing and reformatting should take place here or in the repo
+    // it's creating view data from the raw repo data.
 
     /// Add Hashed Chain
     list.add(NetworkDataHeader("Hashed"));

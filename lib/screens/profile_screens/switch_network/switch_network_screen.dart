@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/components/chain_avatar.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/design/lib/hashed_body_widget.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
@@ -79,8 +80,12 @@ class SwitchNetworkScreen extends StatelessWidget {
                                       title: Text(e.name),
                                       leading: ClipOval(
                                         child: SizedBox.fromSize(
-                                          size: const Size.fromRadius(14), // Image radius
-                                          child: Image.network(e.iconUrl, fit: BoxFit.cover),
+                                          size: const Size.fromRadius(16), // Image radius
+                                          child: ChainAvatar(
+                                            name: e.name,
+                                            size: 16,
+                                            image: e.iconUrl,
+                                          ),
                                         ),
                                       ),
                                       trailing: Radio<NetworkData>(
