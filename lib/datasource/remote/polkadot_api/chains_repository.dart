@@ -34,8 +34,6 @@ class ChainsRepository {
 
       //print("get chains: $json");
 
-      return [];
-
       return List.of(json.map((e) => SubstrateChainContainer.fromJson(e)));
     } catch (err) {
       print("error $err");
