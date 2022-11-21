@@ -2,20 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-/// PROFILE AVATAR
+/// Chain avatar
 ///
-/// This class works with http, svg images or just returns a short name
+/// This class renders http and asset, image and svg, or just returns a short name
 /// with a colored background
 class ChainAvatar extends StatelessWidget {
-  final double size;
-  final String? image;
   final String name;
+  final String? image;
+  final double size;
 
   const ChainAvatar({
     super.key,
     required this.name,
-    required this.size,
     this.image,
+    required this.size,
   });
 
   @override
