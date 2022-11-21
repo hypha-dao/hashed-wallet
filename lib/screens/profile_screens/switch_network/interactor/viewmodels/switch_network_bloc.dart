@@ -14,21 +14,6 @@ final mockData = [
   NetworkData('Polkadot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
   NetworkData('KakaDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
   NetworkData('PopoDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('P1poDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Po2oDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('3opoDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('4opoDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('5opoDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('6opoDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Po7oDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Popo8ot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Po9oDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Po0oDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('P12poDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('P13poDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('P14poDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Po14oDot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
-  NetworkData('Pop14Dot', 'https://picsum.photos/40', 'http://ThisisPokaDot.com'),
 ];
 
 class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
