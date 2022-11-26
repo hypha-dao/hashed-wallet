@@ -270,7 +270,7 @@ class WebViewRunner {
   Future<String?> connectNode(NetworkData chain) async {
     try {
       print("connectNode connecting...");
-      final endpoints = chain.endpoints;
+      final List<String> endpoints = chain.endpointsToUse;
       print('----> settings.connect(${jsonEncode(endpoints)})');
       final res = await evalJavascript('settings.connect(${jsonEncode(endpoints)})');
       if (res != null) {

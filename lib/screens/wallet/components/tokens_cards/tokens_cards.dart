@@ -89,8 +89,8 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                               print("stop service done.");
                             } else {
                               final currentNetwork = await chainsRepository.currentNetwork();
-                              print("start service...${currentNetwork.name}");
-                              await polkadotRepository.initService(currentNetwork);
+                              print("start service...${currentNetwork.name} ${currentNetwork.endpoints}");
+                              await polkadotRepository.initService(currentNetwork, force: true);
                               print("init done.");
                               await polkadotRepository.startService();
                               print("start service done");

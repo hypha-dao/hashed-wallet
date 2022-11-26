@@ -17,6 +17,8 @@ class NetworkData extends NetworkDataListItem {
   final int? paraChainId;
   final List<String> endpoints;
 
+  // JS api doesn't like more than 1 endpoint
+  List<String> get endpointsToUse => [endpoints.first];
   bool get isRelayChain => paraChainId == null;
 
   const NetworkData({
