@@ -7,6 +7,7 @@ import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/usecases/get_network_data_use_case.dart';
+import 'package:hashed/screens/profile_screens/switch_network/interactor/usecases/switch_network_use_case.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 part 'switch_network_events.dart';
 part 'switch_network_state.dart';
@@ -55,12 +56,13 @@ class SwitchNetworkBloc extends Bloc<SwitchNetworkEvent, SwitchNetworkState> {
   FutureOr<void> _onSwitchTapped(OnSwitchTapped event, Emitter<SwitchNetworkState> emit) async {
     emit(state.copyWith(actionButtonLoading: true));
 
-    // TODO(NIK): here is where you make the calls to switch the network. Inside a use case
-    final Result<bool> result = await Future.delayed(const Duration(seconds: 2)).then((value) => Result.value(true));
+    final result = await SwitchNetworkUseCase().run(event.networkData);
+
     if (result.isValue) {
+      settingsStorage.currentNetwork = event.networkData.info;
       emit(state.copyWith(
         actionButtonLoading: false,
-        pageCommand: ShowMessage('Network Switched to ${state.selected!.name}'),
+        pageCommand: ShowMessage('Network Switched to ${event.networkData.name}'),
       ));
     } else {
       emit(state.copyWith(

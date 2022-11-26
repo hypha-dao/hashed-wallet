@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
+import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -87,8 +88,9 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                               await polkadotRepository.stopService();
                               print("stop service done.");
                             } else {
-                              print("start service...");
-                              await polkadotRepository.initService();
+                              final currentNetwork = await chainsRepository.currentNetwork();
+                              print("start service...${currentNetwork.name}");
+                              await polkadotRepository.initService(currentNetwork);
                               print("init done.");
                               await polkadotRepository.startService();
                               print("start service done");

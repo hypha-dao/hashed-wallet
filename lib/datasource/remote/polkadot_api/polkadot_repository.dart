@@ -9,9 +9,11 @@ import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/substrate_block.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
+import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 import 'package:hashed/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -33,7 +35,7 @@ class PolkadotRepository extends KeyRepository {
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
   bool initialized = false;
-  Future<void> initService({bool force = false}) async {
+  Future<void> initService(NetworkData network, {bool force = false}) async {
     try {
       if (initialized && !force) {
         print("ignore second init");
@@ -47,7 +49,7 @@ class PolkadotRepository extends KeyRepository {
       initialized = true;
       print("PolkadotRepository init");
 
-      _substrateService = SubstrateService();
+      _substrateService = SubstrateService(network);
 
       await _substrateService!.init();
 
@@ -86,7 +88,7 @@ class PolkadotRepository extends KeyRepository {
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
-      return true;
+      return state.isConnected;
     } catch (err) {
       print("Polkadot Service start Error: $err");
       state.isConnected = false;
@@ -154,7 +156,9 @@ class PolkadotRepository extends KeyRepository {
 
       print("INIT SERVICE");
 
-      await initService(force: true);
+      final network = await chainsRepository.currentNetwork();
+
+      await initService(network);
 
       print("START SERVICE");
 

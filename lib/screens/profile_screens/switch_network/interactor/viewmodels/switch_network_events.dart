@@ -15,7 +15,9 @@ class Initial extends SwitchNetworkEvent {
 }
 
 class OnSwitchTapped extends SwitchNetworkEvent {
-  const OnSwitchTapped();
+  final NetworkData networkData;
+
+  const OnSwitchTapped(this.networkData);
 
   @override
   String toString() => 'OnSwitchTapped';

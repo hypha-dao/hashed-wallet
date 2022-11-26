@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
+import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:integration_test/integration_test.dart';
 
 // ignore: avoid_relative_lib_imports
@@ -15,7 +18,7 @@ void main() async {
       await app.main();
       await tester.pumpAndSettle();
 
-      await repository.initService();
+      await repository.initService(chainsRepository.hashedNetworkData);
       // known mnemonic, well, now it is - don't use it for funds
       const mnemonic = 'sample split bamboo west visual approve brain fox arch impact relief smile';
       // sr25519 ==> 5FLiLdaQQiW7qm7tdZjdonfSV8HAcjLxFVcqv9WDbceTmBXA

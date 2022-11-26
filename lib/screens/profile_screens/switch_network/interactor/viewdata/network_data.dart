@@ -15,9 +15,8 @@ class NetworkData extends NetworkDataListItem {
   final String info;
   final String iconUrl;
   final int? paraChainId;
-  final List<Uri> endpoints;
+  final List<String> endpoints;
 
-  Uri get uri => endpoints.first;
   bool get isRelayChain => paraChainId == null;
 
   const NetworkData({

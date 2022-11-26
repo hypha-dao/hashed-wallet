@@ -17,7 +17,7 @@ class SubstrateChainModel {
       name: text,
       info: info,
       iconUrl: iconUrl,
-      endpoints: List.of(providers.values.map((e) => Uri.parse(e))),
+      endpoints: List.of(providers.values),
     );
   }
 

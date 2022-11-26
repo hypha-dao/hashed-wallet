@@ -41,7 +41,7 @@ class SwitchNetworkScreen extends StatelessWidget {
                   child: FlatButtonLong(
                     title: 'Switch',
                     onPressed: () {
-                      BlocProvider.of<SwitchNetworkBloc>(context).add(const OnSwitchTapped());
+                      BlocProvider.of<SwitchNetworkBloc>(context).add(OnSwitchTapped(state.selected!));
                     },
                     enabled: state.actionButtonEnabled,
                     isLoading: state.actionButtonLoading,
