@@ -6,6 +6,7 @@ import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
+import 'package:hashed/datasource/remote/model/chain_properties.dart';
 import 'package:hashed/datasource/remote/model/substrate_block.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
@@ -37,15 +38,15 @@ class PolkadotRepository extends KeyRepository {
   bool initialized = false;
   Future<void> initService(NetworkData network, {bool force = false}) async {
     try {
-      if (initialized && !force) {
-        print("ignore second init");
-        //print(StackTrace.current);
-        // Note:
-        // Currently some code - like get balance - is checking for init, and when not initialized,
-        // it calls initialize. This gets called during initialization a few times, so this code is still
-        // needed. Check init should probably just stall while initialize is happening?
-        return;
-      }
+      // if (initialized && !force) {
+      //   print("ignore second init");
+      //   //print(StackTrace.current);
+      //   // Note:
+      //   // Currently some code - like get balance - is checking for init, and when not initialized,
+      //   // it calls initialize. This gets called during initialization a few times, so this code is still
+      //   // needed. Check init should probably just stall while initialize is happening?
+      //   return;
+      // }
       initialized = true;
       print("PolkadotRepository init");
 
@@ -150,6 +151,8 @@ class PolkadotRepository extends KeyRepository {
   Future<void> reconnect() async {
     print("reconnecting...");
 
+    stopKeepAliveTimer();
+
     try {
       print("STOP SERVICE");
       await stopService();
@@ -175,6 +178,8 @@ class PolkadotRepository extends KeyRepository {
     } catch (error) {
       print("reconnect error $error");
       rethrow;
+    } finally {
+      startKeepAliveTimer();
     }
   }
 
@@ -429,6 +434,18 @@ class PolkadotRepository extends KeyRepository {
           print("disconnect detected at ${DateTime.now()} - ignoring...");
         }
       }
+    }
+  }
+
+  Future<Result<ChainProperties>> getChainProperties() async {
+    try {
+      print("get chain properties");
+      final resJson = await _substrateService?.webView.evalJavascript('api.rpc.system.properties()');
+      final properties = ChainProperties.fromJson(resJson);
+      return Result.value(properties);
+    } catch (error) {
+      print("Error getting chain properties $error");
+      return Result.error(error);
     }
   }
 }
