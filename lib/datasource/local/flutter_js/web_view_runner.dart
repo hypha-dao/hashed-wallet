@@ -7,8 +7,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
-import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 
@@ -274,10 +272,10 @@ class WebViewRunner {
       print('----> settings.connect(${jsonEncode(endpoints)})');
       final res = await evalJavascript('settings.connect(${jsonEncode(endpoints)})');
       if (res != null) {
-        final index = endpoints.indexWhere((e) => e.toString() == res.trim());
+        final index = endpoints.indexWhere((e) => e.trim() == res.trim());
         final endpoint = endpoints[index > -1 ? index : 0];
         print("endpoint: $endpoint");
-        return endpoint.toString();
+        return endpoint;
       } else {
         print("connectNode failed");
       }

@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
-import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:integration_test/integration_test.dart';
 
 // ignore: avoid_relative_lib_imports

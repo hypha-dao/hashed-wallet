@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
 import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
-import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 
 /// This class packages all calls into the original Polkawallet API code
@@ -49,13 +48,13 @@ class SubstrateService {
       }
 
       /// Connect to a node
-      final res = await webView.connectNode(network);
+      final res = await webView.connectNode(network).timeout(const Duration(seconds: 30));
 
       _connected = res != null;
 
       connectedNode = res;
 
-      print("connected: ${_connected}");
+      print("connected: $_connected");
 
       return _connected;
     } catch (error) {

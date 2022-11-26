@@ -1,5 +1,4 @@
 import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
-import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 import 'package:hashed/utils/result_extension.dart';
 

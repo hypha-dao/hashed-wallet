@@ -10,8 +10,6 @@ class SwitchNetworkUseCase {
     }
 
     try {
-      final stopped = await polkadotRepository.stopService();
-
       await polkadotRepository.initService(selected);
       final connected = await polkadotRepository.startService();
 
