@@ -108,12 +108,6 @@ class PolkadotRepository extends KeyRepository {
     return true;
   }
 
-  Future<void> disconnect() async {
-    await _substrateService!.webView.evalJavascript('api.disconnect()');
-  }
-
-  bool get isReady => state.isConnected == true;
-
   /// This is a little hack
   /// Before any crypto call, we must call cryptoWaitReady in the polkadot JS code
   /// However the wrapper does not expose that method
@@ -136,8 +130,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<String> createKey() async {
-    if (!isReady) {
-      throw "createKey: service not ready";
+    if (!state.isInitialized) {
+      throw "createKey: service not initialized";
     }
 
     final res = await _substrateService?.webView.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
@@ -181,8 +175,8 @@ class PolkadotRepository extends KeyRepository {
   Future<Result<Account?>> getIdentity(String address) async {
     try {
       print("get identity for $address");
-      if (!isReady) {
-        print("getIdentity: service not ready...");
+      if (!state.isConnected) {
+        print("getIdentity: service not connected...");
         return Result.error("not ready");
       }
 
@@ -207,7 +201,7 @@ class PolkadotRepository extends KeyRepository {
   Future<Result<BalanceModel>> getBalance(String address) async {
     try {
       print("get balance for $address");
-      if (!isReady) {
+      if (!state.isConnected) {
         print("getBalance: service not ready...");
         return Result.error("Not ready");
       }
@@ -243,8 +237,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<dynamic> testImport() async {
-    if (!isReady) {
-      throw "testImport: service not ready";
+    if (!state.isInitialized) {
+      throw "testImport: service not initialized";
     }
 
     // known mnemonic, well, now it is - don't use it for funds
@@ -322,8 +316,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<String?> privateKeyForPublicKey(String publicKey) async {
-    if (!isReady) {
-      throw "privateKeyForPublicKey: service not ready";
+    if (!state.isInitialized) {
+      throw "privateKeyForPublicKey: service not initialized";
     }
 
     final keys = await accountService.getPrivateKeys();
