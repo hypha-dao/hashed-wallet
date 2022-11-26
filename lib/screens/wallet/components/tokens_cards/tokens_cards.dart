@@ -80,11 +80,23 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       Expanded(
                         // ignore: prefer_const_constructors
                         child: WalletButtons(
-                          title: 'Receive',
+                          title: 'Receive ${polkadotRepository.state.isConnected ? " C" : " d"}',
                           onPressed: () async {
-                            final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
-                            final valid = await polkadotRepository.validateAddress(address);
-                            print("is valud: $valid");
+                            if (polkadotRepository.state.isConnected) {
+                              print("stop service...");
+                              await polkadotRepository.stopService();
+                              print("stop service done.");
+                            } else {
+                              print("start service...");
+                              await polkadotRepository.initService();
+                              print("init done.");
+                              await polkadotRepository.startService();
+                              print("start service done");
+                            }
+
+                            // final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
+                            // final valid = await polkadotRepository.validateAddress(address);
+                            // print("is valud: $valid");
 
                             // final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
 

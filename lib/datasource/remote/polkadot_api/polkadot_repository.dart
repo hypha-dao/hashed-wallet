@@ -70,7 +70,7 @@ class PolkadotRepository extends KeyRepository {
       print("PolkadotRepository start");
 
       if (state.isInitialized == false) {
-        throw "startService repo not initialized";
+        throw "startService not initialized";
       }
       if (state.isConnected == true) {
         throw "startService service already started";
@@ -96,6 +96,7 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<bool> stopService() async {
+    stopKeepAliveTimer();
     try {
       await _substrateService?.stop();
     } catch (error) {
@@ -104,6 +105,7 @@ class PolkadotRepository extends KeyRepository {
     _substrateService = null;
     state.isInitialized = false;
     state.isConnected = false;
+    initialized = false;
 
     return true;
   }
@@ -161,7 +163,7 @@ class PolkadotRepository extends KeyRepository {
       ///
       await startService().timeout(const Duration(seconds: 20));
 
-      print("DONE SERVICE");
+      print("DONE");
 
       if (state.isConnected) {
         eventBus.fire(const ShowSnackBar("Network reconnected."));
@@ -381,8 +383,13 @@ class PolkadotRepository extends KeyRepository {
   void startKeepAliveTimer() {
     _keepAliveTimer?.cancel();
     _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
+      print("run keep alive check");
       await checkIsConnected();
     });
+  }
+
+  void stopKeepAliveTimer() {
+    _keepAliveTimer?.cancel();
   }
 
   Future<void> checkIsConnected() async {

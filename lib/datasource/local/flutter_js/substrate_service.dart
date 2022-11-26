@@ -71,7 +71,6 @@ class SubstrateService {
       print("api stop fail $error");
     }
     await webView.dispose();
-    webView = WebViewRunner();
     _initialized = false;
   }
 
