@@ -1,3 +1,5 @@
+import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
+
 class SubstrateChainModel {
   final String info;
   final String text;
@@ -9,6 +11,15 @@ class SubstrateChainModel {
   final List<SubstrateChainModel>? linked;
 
   String get endpoint => providers.values.first;
+
+  NetworkData toNetworkData(String iconUrl) {
+    return NetworkData(
+      name: text,
+      info: info,
+      iconUrl: iconUrl,
+      endpoints: List.of(providers.values.map((e) => Uri.parse(e))),
+    );
+  }
 
   SubstrateChainModel({
     required this.info,

@@ -1,20 +1,62 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:hashed/datasource/remote/model/substrate_chain_container.dart';
 import 'package:hashed/datasource/remote/model/substrate_chain_model.dart';
 import 'package:hashed/domain-shared/firebase_constants.dart';
 
+final polkadotJSGithubRawURLPrefix =
+    "https://raw.githubusercontent.com/polkadot-js/apps/master/packages/apps-config/src/ui/logos";
+
 class ChainsRepository {
+  List<String>? cachedLogoPaths;
+  Map<String, dynamic>? cachedLogoInfo;
   ChainsRepository();
 
   Future<String> loadLocalEndpointData() async {
     return rootBundle.loadString('assets/polkadot/default_endpoints.json');
   }
 
-  Future<String> loadLogoInfo() async {
-    return rootBundle.loadString('assets/polkadot/assets_info.txt');
+  Future<List<String>> loadLogoPaths() async {
+    final text = await rootBundle.loadString('assets/polkadot/assets_info.txt');
+
+    /// This reg exp extracts only the file path from this entire file
+    /// maps "import bla from '/img/path/foo.png'" ===> "/img/path/foo.png"
+    final exp = RegExp("import [a-zA-Z0-9]+ from '.(.*)';");
+    final matches = exp.allMatches(text);
+    return List.from(matches.map((e) => e.group(1)));
+  }
+
+  /// Parse a file that maps chains to image files
+  Future<Map<String, dynamic>> loadLogoInfo() async {
+    final text = await rootBundle.loadString('assets/polkadot/logo_info.json');
+    final Map<String, dynamic> map = jsonDecode(text);
+    return map;
+  }
+
+  /// Resolve "info" string from a chain to an icon
+  /// For this we use the information provided by polkadot js
+  /// There's a mapping of chain names -> images and another one that contains
+  /// image paths.
+  Future<String> resolveIcon(String info) async {
+    cachedLogoPaths ??= await loadLogoPaths();
+    cachedLogoInfo ??= await loadLogoInfo();
+    final String? imageName = cachedLogoInfo![info];
+
+    if (imageName == null) {
+      print("not founds: $info");
+      return "";
+    }
+    final String? path = cachedLogoPaths!.firstWhereOrNull((e) => e.contains(imageName));
+    if (path == null) {
+      print("error: logo not found: $info  $imageName");
+      return "";
+    }
+    final prefix = polkadotJSGithubRawURLPrefix;
+    // print("resolve $info ==> ${prefix + path} ");
+    return prefix + path;
   }
 
   List<SubstrateChainModel> getChains() {
