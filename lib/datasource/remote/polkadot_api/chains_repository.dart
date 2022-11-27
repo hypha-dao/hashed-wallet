@@ -16,8 +16,10 @@ final polkadotJSGithubRawURLPrefix =
 ChainsRepository chainsRepository = ChainsRepository();
 
 class ChainsRepository {
+  List<NetworkDataListItem>? networksCache;
   List<String>? cachedLogoPaths;
   Map<String, dynamic>? cachedLogoInfo;
+
   ChainsRepository();
 
   Future<String> loadLocalEndpointData() async {
@@ -102,7 +104,6 @@ class ChainsRepository {
     return list.where((e) => e.header.toLowerCase() != "polkadot" && e.header.toLowerCase() != "kusama").toList();
   }
 
-  List<NetworkDataListItem>? networksCache;
   Future<List<NetworkDataListItem>> getNetworks({bool devMode = false}) async {
     if (networksCache == null) {
       final chainData = await getChainsLocal();

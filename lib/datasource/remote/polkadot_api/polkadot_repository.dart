@@ -26,6 +26,7 @@ class PolkadotRepositoryState {
 
 class PolkadotRepository extends KeyRepository {
   late SubstrateService? _substrateService;
+  late ChainProperties? chainProperties;
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
@@ -86,6 +87,8 @@ class PolkadotRepository extends KeyRepository {
       startKeepAliveTimer();
 
       print("PolkadotRepository connected $res in ${stopwatch.elapsed.inMilliseconds / 1000.0}");
+
+      chainProperties = await getChainProperties();
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
@@ -219,7 +222,6 @@ class PolkadotRepository extends KeyRepository {
 
       final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
-      // print("result STRING $resJson");
       // flutter: result STRING: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
       final free = resJson["data"]["free"];
       final freeString = "$free";
@@ -437,15 +439,15 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  Future<Result<ChainProperties>> getChainProperties() async {
+  Future<ChainProperties> getChainProperties() async {
     try {
       print("get chain properties");
       final resJson = await _substrateService?.webView.evalJavascript('api.rpc.system.properties()');
       final properties = ChainProperties.fromJson(resJson);
-      return Result.value(properties);
+      return properties;
     } catch (error) {
       print("Error getting chain properties $error");
-      return Result.error(error);
+      rethrow;
     }
   }
 }
