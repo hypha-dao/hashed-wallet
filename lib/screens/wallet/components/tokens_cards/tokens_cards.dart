@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
-import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -72,7 +71,9 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                     children: [
                       Expanded(
                         child: WalletButtons(
-                          onPressed: () => NavigationService.of(context).navigateTo(Routes.transfer),
+                          onPressed: () async {
+                            await NavigationService.of(context).navigateTo(Routes.transfer);
+                          },
                           title: 'Send',
                         ),
                       ),
@@ -83,18 +84,22 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         child: WalletButtons(
                           title: 'Receive ${polkadotRepository.state.isConnected ? " C" : " d"}',
                           onPressed: () async {
-                            if (polkadotRepository.state.isConnected) {
-                              print("stop service...");
-                              await polkadotRepository.stopService();
-                              print("stop service done.");
-                            } else {
-                              final currentNetwork = await chainsRepository.currentNetwork();
-                              print("start service...${currentNetwork.name} ${currentNetwork.endpoints}");
-                              await polkadotRepository.initService(currentNetwork, force: true);
-                              print("init done.");
-                              await polkadotRepository.startService();
-                              print("start service done");
-                            }
+                            final val = await polkadotRepository.getChainProperties();
+                            // if (polkadotRepository.state.isConnected) {
+                            //   print("stop service...");
+                            //   await polkadotRepository.stopService();
+                            //   print("stop service done.");
+                            // } else {
+                            //   print("stop service...");
+                            //   await polkadotRepository.stopService();
+
+                            //   final currentNetwork = await chainsRepository.currentNetwork();
+                            //   print("start service...${currentNetwork.name} ${currentNetwork.endpoints}");
+                            //   await polkadotRepository.initService(currentNetwork, force: true);
+                            //   print("init done.");
+                            //   await polkadotRepository.startService();
+                            //   print("start service done");
+                            // }
 
                             // final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
                             // final valid = await polkadotRepository.validateAddress(address);

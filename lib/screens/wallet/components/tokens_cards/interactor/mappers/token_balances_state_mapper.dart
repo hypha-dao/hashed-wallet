@@ -1,6 +1,5 @@
 import 'package:hashed/datasource/local/color_pallette_repository.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
-import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -10,38 +9,17 @@ import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmod
 
 class TokenBalancesStateMapper {
   Future<TokenBalancesState> mapResultToState(
-      TokenBalancesState currentState, List<TokenModel> tokens, List<Result<BalanceModel>> results) async {
-    assert(tokens.length == results.length, "invalid results");
-
+      TokenBalancesState currentState, List<Result<TokenBalanceModel>> results) async {
     final List<TokenBalanceViewModel> available = [];
 
-    final Iterable<TokenModel> whitelist =
-        TokenModel.allTokens.where((element) => settingsStorage.tokensWhitelist.contains(element.id));
-
-    final List<TokenModel> blacklist = []; // user has chosen to hide this token
-
-    final List<String> newWhitelist = [];
-
-    for (int i = 0; i < tokens.length; i++) {
-      final token = tokens[i];
-      final result = results[i];
-      final bool whitelisted = whitelist.contains(token);
-      if (whitelisted || !blacklist.contains(token)) {
-        if (results[i].isError) {
-          print("error loading ${token.symbol} - show existing balance.");
-          final existingBalance = currentState.balanceViewModelForToken(token.id);
-          if (existingBalance != null || whitelisted) {
-            final viewModel = existingBalance ?? TokenBalanceViewModel(token, null, errorLoading: true);
-            available.add(viewModel);
-            newWhitelist.add(token.id);
-          }
-        } else {
-          final BalanceModel balance = result.asValue!.value;
-          if (whitelisted || balance.quantity > 0) {
-            available.add(TokenBalanceViewModel(token, TokenDataModel(balance.quantity, token: token)));
-            newWhitelist.add(token.id);
-          }
-        }
+    for (final result in results) {
+      if (result.isValue) {
+        final TokenBalanceModel tokenBalance = result.asValue!.value;
+        final balance = tokenBalance.balance;
+        final token = tokenBalance.token;
+        available.add(TokenBalanceViewModel(token, TokenDataModel(balance.quantity, token: token)));
+      } else {
+        print("error loading");
       }
     }
 
@@ -52,8 +30,6 @@ class TokenBalancesStateMapper {
         viewModel.dominantColor = await repo.getImagePaletteCached(viewModel.token.backgroundImage);
       }
     }
-
-    settingsStorage.tokensWhitelist = newWhitelist;
 
     return currentState.copyWith(pageState: PageState.success, availableTokens: available);
   }

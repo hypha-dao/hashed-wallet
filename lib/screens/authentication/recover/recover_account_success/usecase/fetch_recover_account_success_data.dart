@@ -3,7 +3,8 @@ import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 
 class FetchRecoverAccountSuccessDataUseCase {
-  Future<Result<BalanceModel>> run(String accountName) async {
-    return polkadotRepository.getBalance(accountName);
+  Future<Result<TokenBalanceModel>> run(String accountName) async {
+    final balance = await polkadotRepository.getBalance(accountName);
+    return balance;
   }
 }

@@ -11,7 +11,6 @@ class TokenModel extends Equatable {
   final String name;
   final String backgroundImageUrl;
   final String logoUrl;
-  final String balanceSubTitle;
   final int precision;
   final String id;
 
@@ -32,7 +31,6 @@ class TokenModel extends Equatable {
     required this.name,
     required this.backgroundImageUrl,
     required this.logoUrl,
-    required this.balanceSubTitle,
     required this.id,
     this.precision = 8,
   });
@@ -63,5 +61,4 @@ const hashedToken = TokenModel(
   precision: 12,
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/hashed/background.png',
   logoUrl: 'assets/images/hashed_logo_black.png',
-  balanceSubTitle: 'Wallet Balance',
 );

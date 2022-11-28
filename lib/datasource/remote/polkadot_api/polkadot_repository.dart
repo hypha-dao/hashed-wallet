@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/chain_properties.dart';
 import 'package:hashed/datasource/remote/model/substrate_block.dart';
@@ -27,6 +28,7 @@ class PolkadotRepositoryState {
 class PolkadotRepository extends KeyRepository {
   late SubstrateService? _substrateService;
   late ChainProperties? chainProperties;
+  final Map<String, ChainProperties> chainPropertiesCache = {};
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
@@ -212,7 +214,7 @@ class PolkadotRepository extends KeyRepository {
   }
 
   // api.query.system.account(steve.address)
-  Future<Result<BalanceModel>> getBalance(String address) async {
+  Future<Result<TokenBalanceModel>> getBalance(String address, {TokenModel? forToken}) async {
     try {
       print("get balance for $address");
       if (!state.isConnected) {
@@ -222,13 +224,22 @@ class PolkadotRepository extends KeyRepository {
 
       final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
-      // flutter: result STRING: {nonce: 0, consumers: 0, providers: 0, sufficients: 0, data: {free: 0, reserved: 0, miscFrozen: 0, feeFrozen: 0}}
+      final allTokens = await getTokens();
+      final token = allTokens[0];
+
+      if (forToken != null && forToken.symbol != token.symbol) {
+        // TODO(n13): Figure out how to retrieve other token balances on a chain
+        print("Warning: we can't currently retrieve secondary token balances");
+      }
+
+      print("res json $resJson");
+
       final free = resJson["data"]["free"];
       final freeString = "$free";
       final bigNum = BigInt.parse(freeString);
-      final double result = bigNum.toDouble() / pow(10, hashedToken.precision);
+      final double result = bigNum.toDouble() / pow(10, token.precision);
 
-      return Result.value(BalanceModel(result));
+      return Result.value(TokenBalanceModel(BalanceModel(result), token));
     } catch (error) {
       print("Error getting balance $error");
       print(error);
@@ -441,13 +452,39 @@ class PolkadotRepository extends KeyRepository {
 
   Future<ChainProperties> getChainProperties() async {
     try {
+      final network = settingsStorage.currentNetwork;
+      final cachedProperties = chainPropertiesCache[network];
+      if (cachedProperties != null) {
+        return cachedProperties;
+      }
       print("get chain properties");
       final resJson = await _substrateService?.webView.evalJavascript('api.rpc.system.properties()');
       final properties = ChainProperties.fromJson(resJson);
+      chainPropertiesCache[network] = properties;
       return properties;
     } catch (error) {
       print("Error getting chain properties $error");
       rethrow;
     }
+  }
+
+  Future<List<TokenModel>> getTokens() async {
+    final chainProperties = await getChainProperties();
+
+    final List<TokenModel> tokens = [];
+    for (int i = 0; i < chainProperties.tokenSymbol.length; i++) {
+      tokens.add(TokenModel(
+        chainName: settingsStorage.currentNetwork,
+        nodeUrl: "",
+        symbol: chainProperties.tokenSymbol[i],
+        name: chainProperties.tokenSymbol[i],
+        backgroundImageUrl: hashedToken.backgroundImageUrl,
+        logoUrl: hashedToken.logoUrl,
+        id: settingsStorage.currentNetwork,
+        precision: chainProperties.tokenDecimals[i],
+      ));
+    }
+
+    return tokens;
   }
 }

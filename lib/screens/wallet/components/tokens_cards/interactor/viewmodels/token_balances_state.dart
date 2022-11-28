@@ -34,11 +34,11 @@ class TokenBalancesState extends Equatable {
         selectedIndex: selectedIndex ?? this.selectedIndex);
   }
 
-  factory TokenBalancesState.initial() {
+  factory TokenBalancesState.initial(TokenModel token) {
     return TokenBalancesState(
       selectedIndex: 0,
       pageState: PageState.initial,
-      availableTokens: [TokenBalanceViewModel(hashedToken, null)],
+      availableTokens: [TokenBalanceViewModel(token, null)],
     );
   }
 }
