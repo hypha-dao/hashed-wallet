@@ -31,6 +31,7 @@ class TokenBalancesStateMapper {
       }
     }
 
-    return currentState.copyWith(pageState: PageState.success, availableTokens: available);
+    return currentState.copyWith(
+        pageState: PageState.success, availableTokens: available.isNotEmpty ? available : currentState.availableTokens);
   }
 }
