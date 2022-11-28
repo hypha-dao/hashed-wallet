@@ -41,15 +41,6 @@ class PolkadotRepository extends KeyRepository {
   bool initialized = false;
   Future<void> initService(NetworkData network, {bool force = false}) async {
     try {
-      // if (initialized && !force) {
-      //   print("ignore second init");
-      //   //print(StackTrace.current);
-      //   // Note:
-      //   // Currently some code - like get balance - is checking for init, and when not initialized,
-      //   // it calls initialize. This gets called during initialization a few times, so this code is still
-      //   // needed. Check init should probably just stall while initialize is happening?
-      //   return;
-      // }
       initialized = true;
       print("PolkadotRepository init");
 
