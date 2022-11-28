@@ -6,6 +6,7 @@ class WalletState extends Equatable {
   final String? errorMessage;
   final ProfileModel profile;
   final List<ActiveRecoveryModel>? activeRecoveries;
+  final String logoUrl;
 
   const WalletState({
     required this.pageState,
@@ -13,6 +14,7 @@ class WalletState extends Equatable {
     required this.profile,
     this.errorMessage,
     this.activeRecoveries,
+    required this.logoUrl,
   });
 
   @override
@@ -22,6 +24,7 @@ class WalletState extends Equatable {
         errorMessage,
         profile,
         activeRecoveries,
+        logoUrl,
       ];
 
   WalletState copyWith({
@@ -30,6 +33,7 @@ class WalletState extends Equatable {
     String? errorMessage,
     ProfileModel? profile,
     List<ActiveRecoveryModel>? activeRecoveries,
+    String? logoUrl,
   }) {
     return WalletState(
       pageState: pageState ?? this.pageState,
@@ -37,12 +41,14 @@ class WalletState extends Equatable {
       errorMessage: errorMessage,
       profile: profile ?? this.profile,
       activeRecoveries: activeRecoveries ?? this.activeRecoveries,
+      logoUrl: logoUrl ?? this.logoUrl,
     );
   }
 
   factory WalletState.initial() {
     return WalletState(
       pageState: PageState.initial,
+      logoUrl: hashedToken.logoUrl,
       profile: ProfileModel(
         account: accountService.currentAccount.address,
         status: ProfileStatus.visitor,
