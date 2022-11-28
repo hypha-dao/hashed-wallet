@@ -3,19 +3,20 @@ import 'dart:async';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
 import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
+import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 
 /// This class packages all calls into the original Polkawallet API code
 /// It isolates our app from the original Polkawallet code.
 class SubstrateService {
-  final nodeList = hashedNetworkParams;
+  final NetworkData network;
   bool _connected = false;
   InAppWebViewController? get controller => webView.webViewController;
   WebViewRunner webView = WebViewRunner();
   bool get isConnected => _connected;
-  SubstrateChainModelOld? connectedNode;
+  String? connectedNode;
   bool _initialized = false;
 
-  SubstrateService();
+  SubstrateService(this.network);
 
   Future<void> init() async {
     print("PolkawalletInit init");
@@ -32,7 +33,7 @@ class SubstrateService {
       // },
     );
 
-    print("Substrate service initialized ${nodeList.map((e) => e.endpoint)}");
+    print("Substrate service initialized ${network.name}: ${network.endpoints}");
 
     _initialized = true;
 
@@ -47,13 +48,13 @@ class SubstrateService {
       }
 
       /// Connect to a node
-      final res = await webView.connectNode(nodeList);
+      final res = await webView.connectNode(network).timeout(const Duration(seconds: 30));
 
-      _connected = res?.endpoint != null;
+      _connected = res != null;
 
       connectedNode = res;
 
-      print("connected: ${res?.endpoint}");
+      print("connected: $_connected");
 
       return _connected;
     } catch (error) {
@@ -71,7 +72,6 @@ class SubstrateService {
       print("api stop fail $error");
     }
     await webView.dispose();
-    webView = WebViewRunner();
     _initialized = false;
   }
 

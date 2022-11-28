@@ -9,9 +9,11 @@ import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/substrate_block.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/balances_repository.dart';
+import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/recovery_repository.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
+import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 import 'package:hashed/utils/result_extension.dart';
 
 PolkadotRepository polkadotRepository = PolkadotRepository();
@@ -33,7 +35,7 @@ class PolkadotRepository extends KeyRepository {
   PolkadotRepositoryState state = PolkadotRepositoryState();
 
   bool initialized = false;
-  Future<void> initService({bool force = false}) async {
+  Future<void> initService(NetworkData network, {bool force = false}) async {
     try {
       if (initialized && !force) {
         print("ignore second init");
@@ -47,7 +49,7 @@ class PolkadotRepository extends KeyRepository {
       initialized = true;
       print("PolkadotRepository init");
 
-      _substrateService = SubstrateService();
+      _substrateService = SubstrateService(network);
 
       await _substrateService!.init();
 
@@ -70,7 +72,7 @@ class PolkadotRepository extends KeyRepository {
       print("PolkadotRepository start");
 
       if (state.isInitialized == false) {
-        throw "startService repo not initialized";
+        throw "startService not initialized";
       }
       if (state.isConnected == true) {
         throw "startService service already started";
@@ -86,7 +88,7 @@ class PolkadotRepository extends KeyRepository {
 
       eventBus.fire(const OnWalletRefreshEventBus());
 
-      return true;
+      return state.isConnected;
     } catch (err) {
       print("Polkadot Service start Error: $err");
       state.isConnected = false;
@@ -96,6 +98,7 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<bool> stopService() async {
+    stopKeepAliveTimer();
     try {
       await _substrateService?.stop();
     } catch (error) {
@@ -104,15 +107,10 @@ class PolkadotRepository extends KeyRepository {
     _substrateService = null;
     state.isInitialized = false;
     state.isConnected = false;
+    initialized = false;
 
     return true;
   }
-
-  Future<void> disconnect() async {
-    await _substrateService!.webView.evalJavascript('api.disconnect()');
-  }
-
-  bool get isReady => state.isConnected == true;
 
   /// This is a little hack
   /// Before any crypto call, we must call cryptoWaitReady in the polkadot JS code
@@ -136,8 +134,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<String> createKey() async {
-    if (!isReady) {
-      throw "createKey: service not ready";
+    if (!state.isInitialized) {
+      throw "createKey: service not initialized";
     }
 
     final res = await _substrateService?.webView.evalJavascript('keyring.gen(null, 42, "sr25519", "")');
@@ -158,7 +156,9 @@ class PolkadotRepository extends KeyRepository {
 
       print("INIT SERVICE");
 
-      await initService(force: true);
+      final network = await chainsRepository.currentNetwork();
+
+      await initService(network);
 
       print("START SERVICE");
 
@@ -167,7 +167,7 @@ class PolkadotRepository extends KeyRepository {
       ///
       await startService().timeout(const Duration(seconds: 20));
 
-      print("DONE SERVICE");
+      print("DONE");
 
       if (state.isConnected) {
         eventBus.fire(const ShowSnackBar("Network reconnected."));
@@ -181,8 +181,8 @@ class PolkadotRepository extends KeyRepository {
   Future<Result<Account?>> getIdentity(String address) async {
     try {
       print("get identity for $address");
-      if (!isReady) {
-        print("getIdentity: service not ready...");
+      if (!state.isConnected) {
+        print("getIdentity: service not connected...");
         return Result.error("not ready");
       }
 
@@ -207,7 +207,7 @@ class PolkadotRepository extends KeyRepository {
   Future<Result<BalanceModel>> getBalance(String address) async {
     try {
       print("get balance for $address");
-      if (!isReady) {
+      if (!state.isConnected) {
         print("getBalance: service not ready...");
         return Result.error("Not ready");
       }
@@ -243,8 +243,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<dynamic> testImport() async {
-    if (!isReady) {
-      throw "testImport: service not ready";
+    if (!state.isInitialized) {
+      throw "testImport: service not initialized";
     }
 
     // known mnemonic, well, now it is - don't use it for funds
@@ -322,8 +322,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<String?> privateKeyForPublicKey(String publicKey) async {
-    if (!isReady) {
-      throw "privateKeyForPublicKey: service not ready";
+    if (!state.isInitialized) {
+      throw "privateKeyForPublicKey: service not initialized";
     }
 
     final keys = await accountService.getPrivateKeys();
@@ -387,8 +387,13 @@ class PolkadotRepository extends KeyRepository {
   void startKeepAliveTimer() {
     _keepAliveTimer?.cancel();
     _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
+      print("run keep alive check");
       await checkIsConnected();
     });
+  }
+
+  void stopKeepAliveTimer() {
+    _keepAliveTimer?.cancel();
   }
 
   Future<void> checkIsConnected() async {

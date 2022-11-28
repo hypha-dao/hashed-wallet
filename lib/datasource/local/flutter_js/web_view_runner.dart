@@ -7,8 +7,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
 import 'package:hashed/domain-shared/app_constants.dart';
+import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 
 extension PlatformExtension on Platform {
   static bool isIos14OrAbove() {
@@ -265,13 +265,17 @@ class WebViewRunner {
     return c.future;
   }
 
-  Future<SubstrateChainModelOld?> connectNode(List<SubstrateChainModelOld> nodes) async {
+  Future<String?> connectNode(NetworkData chain) async {
     try {
       print("connectNode connecting...");
-      final res = await evalJavascript('settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})');
+      final List<String> endpoints = chain.endpointsToUse;
+      print('----> settings.connect(${jsonEncode(endpoints)})');
+      final res = await evalJavascript('settings.connect(${jsonEncode(endpoints)})');
       if (res != null) {
-        final index = nodes.indexWhere((e) => e.endpoint.trim() == res.trim());
-        return nodes[index > -1 ? index : 0];
+        final index = endpoints.indexWhere((e) => e.trim() == res.trim());
+        final endpoint = endpoints[index > -1 ? index : 0];
+        print("endpoint: $endpoint");
+        return endpoint;
       } else {
         print("connectNode failed");
       }

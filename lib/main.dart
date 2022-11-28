@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hashed/datasource/local/member_model_cache_item.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/firebase/firebase_push_notification_service.dart';
+import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/app_constants.dart';
 import 'package:hashed/seeds_app.dart';
@@ -52,8 +53,15 @@ Future<void> main() async {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     // Init Polkadot JS
+    // final network = await chainsRepository.currentNetwork();
     // ignore: unawaited_futures
-    polkadotRepository.initService().then((_) => polkadotRepository.startService());
+    chainsRepository.currentNetwork().then(
+          (network) => polkadotRepository
+              .initService(
+                network,
+              )
+              .then((value) => polkadotRepository.startService()),
+        );
 
     // Called whenever the Flutter framework catches an error.
     FlutterError.onError = (details) async {
