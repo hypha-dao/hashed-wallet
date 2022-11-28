@@ -466,7 +466,6 @@ class PolkadotRepository extends KeyRepository {
     for (int i = 0; i < chainProperties.tokenSymbol.length; i++) {
       tokens.add(TokenModel(
         chainName: settingsStorage.currentNetwork,
-        nodeUrl: "",
         symbol: chainProperties.tokenSymbol[i],
         name: chainProperties.tokenSymbol[i],
         backgroundImageUrl: hashedToken.backgroundImageUrl,

@@ -6,7 +6,6 @@ class TokenModel extends Equatable {
   static List<TokenModel> allTokens = [hashedToken];
 
   final String chainName;
-  final String nodeUrl;
   final String symbol;
   final String name;
   final String backgroundImageUrl;
@@ -26,7 +25,6 @@ class TokenModel extends Equatable {
 
   const TokenModel({
     required this.chainName,
-    required this.nodeUrl,
     required this.symbol,
     required this.name,
     required this.backgroundImageUrl,
@@ -54,7 +52,6 @@ class TokenModel extends Equatable {
 const hashedToken = TokenModel(
   id: "HashedTokenMainHSD",
   chainName: "Hashed Chain (Demo)",
-  nodeUrl: "wss://n1.hashed.systems",
   symbol: "HSD",
   name: "Hashed Token",
   // ignore: avoid_redundant_argument_values
