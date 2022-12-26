@@ -40,7 +40,7 @@ class CurrencyInfoCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(tokenBalance.token.name),
+                      child: Text(tokenBalance.token.chainName),
                     ),
                     Container(
                       width: 42,
@@ -53,8 +53,7 @@ class CurrencyInfoCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 50),
-                Text(context.loc.walletCurrencyCardBalance,
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor)),
+                Text('Balance', style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor)),
                 const SizedBox(height: 6),
                 Text(tokenBalance.displayQuantity,
                     style: Theme.of(context).textTheme.headline5!.copyWith(color: textColor)),
