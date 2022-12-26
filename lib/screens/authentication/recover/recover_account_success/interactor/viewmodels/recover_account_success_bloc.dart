@@ -8,6 +8,7 @@ import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
@@ -41,7 +42,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
       GetActiveRecoveryForLostAccountUseCase()
           .run(rescuer: accountService.currentAccount.address, lostAccount: state.lostAccount),
     ]);
-    final balanceResult = res[0] as Result<BalanceModel>;
+    final balanceResult = res[0] as Result<TokenBalanceModel>;
     final configResult = res[1] as Result<GuardiansConfigModel>;
     final activeResult = res[2] as Result<ActiveRecoveryModel>;
 
@@ -52,7 +53,7 @@ class RecoverAccountSuccessBloc extends Bloc<RecoverAccountSuccessEvent, Recover
       final data = balanceResult.asValue!.value;
       emit(state.copyWith(
         pageState: PageState.success,
-        recoverAmount: TokenDataModel(data.quantity),
+        recoverAmount: TokenDataModel(data.balance.quantity, token: data.token),
         guardiansConfig: config,
         activeRecoveryModel: active,
       ));

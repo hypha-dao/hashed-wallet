@@ -9,12 +9,12 @@ import 'package:hashed/utils/rate_states_extensions.dart';
 
 class SendEnterDataStateMapper extends StateMapper {
   SendEnterDataState mapResultToState(
-      SendEnterDataState currentState, Result<BalanceModel> result, RatesState rateState, String quantity) {
+      SendEnterDataState currentState, Result<TokenBalanceModel> result, RatesState rateState, String quantity) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
-      final BalanceModel balance = result.asValue!.value;
-      final availableBalance = TokenDataModel(balance.quantity, token: settingsStorage.selectedToken);
+      final TokenBalanceModel balance = result.asValue!.value;
+      final availableBalance = TokenDataModel(balance.balance.quantity, token: balance.token);
 
       return currentState.copyWith(
         pageState: PageState.success,

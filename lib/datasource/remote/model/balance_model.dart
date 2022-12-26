@@ -1,3 +1,5 @@
+import 'package:hashed/datasource/remote/model/token_model.dart';
+
 /// The available balance of seeds
 class BalanceModel {
   final double quantity;
@@ -13,4 +15,11 @@ class BalanceModel {
       return BalanceModel(amount);
     }
   }
+}
+
+class TokenBalanceModel {
+  final BalanceModel balance;
+  final TokenModel token;
+
+  TokenBalanceModel(this.balance, this.token);
 }

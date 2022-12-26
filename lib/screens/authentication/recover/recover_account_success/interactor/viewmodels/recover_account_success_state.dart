@@ -46,7 +46,7 @@ class RecoverAccountSuccessState extends Equatable {
     return RecoverAccountSuccessState(
       pageState: PageState.initial,
       lostAccount: lostAccount,
-      recoverAmount: TokenDataModel(0),
+      recoverAmount: TokenDataModel(0, token: hashedToken),
       guardiansConfig: GuardiansConfigModel.empty(),
       activeRecoveryModel: ActiveRecoveryModel.empty,
     );

@@ -6,12 +6,10 @@ class TokenModel extends Equatable {
   static List<TokenModel> allTokens = [hashedToken];
 
   final String chainName;
-  final String nodeUrl;
   final String symbol;
   final String name;
   final String backgroundImageUrl;
   final String logoUrl;
-  final String balanceSubTitle;
   final int precision;
   final String id;
 
@@ -27,12 +25,10 @@ class TokenModel extends Equatable {
 
   const TokenModel({
     required this.chainName,
-    required this.nodeUrl,
     required this.symbol,
     required this.name,
     required this.backgroundImageUrl,
     required this.logoUrl,
-    required this.balanceSubTitle,
     required this.id,
     this.precision = 8,
   });
@@ -56,12 +52,10 @@ class TokenModel extends Equatable {
 const hashedToken = TokenModel(
   id: "HashedTokenMainHSD",
   chainName: "Hashed Chain (Demo)",
-  nodeUrl: "wss://n1.hashed.systems",
   symbol: "HSD",
   name: "Hashed Token",
   // ignore: avoid_redundant_argument_values
   precision: 12,
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/hashed/background.png',
   logoUrl: 'assets/images/hashed_logo_black.png',
-  balanceSubTitle: 'Wallet Balance',
 );

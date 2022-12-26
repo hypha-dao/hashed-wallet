@@ -5,7 +5,6 @@ import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
-import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/datasource/remote/model/transaction_results.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
@@ -26,8 +25,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     // We can extend this initial validation logic in future using a switch case for any transaction type
     // for now it only validates a transfer
     if (state.isTransfer) {
-      final targetToken = hashedToken;
-      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
+      final Result<TokenBalanceModel> result = await GetAvailableBalanceUseCase().run();
       emit(InitialValidationStateMapper().mapResultToState(state, result));
     } else {
       emit(state.copyWith(pageState: PageState.success));

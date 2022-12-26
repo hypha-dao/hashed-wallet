@@ -53,14 +53,10 @@ Future<void> main() async {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     // Init Polkadot JS
-    // final network = await chainsRepository.currentNetwork();
+    final network = await chainsRepository.currentNetwork();
     // ignore: unawaited_futures
-    chainsRepository.currentNetwork().then(
-          (network) => polkadotRepository
-              .initService(
-                network,
-              )
-              .then((value) => polkadotRepository.startService()),
+    polkadotRepository.initService(network).then(
+          (value) => polkadotRepository.startService(),
         );
 
     // Called whenever the Flutter framework catches an error.

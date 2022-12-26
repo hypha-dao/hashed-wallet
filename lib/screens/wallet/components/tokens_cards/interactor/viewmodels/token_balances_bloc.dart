@@ -19,7 +19,7 @@ part 'token_balances_state.dart';
 class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
   StreamSubscription? eventBusSubscription;
 
-  TokenBalancesBloc() : super(TokenBalancesState.initial()) {
+  TokenBalancesBloc() : super(TokenBalancesState.initial(hashedToken)) {
     eventBusSubscription = eventBus.on().listen((event) async {
       if (event is OnNewTransactionEventBus) {
         await Future.delayed(const Duration(milliseconds: 500)); // the blockchain needs 0.5 seconds to process
@@ -45,9 +45,8 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
     print("on load token balances");
 
     emit(state.copyWith(pageState: PageState.loading));
-    final potentialTokens = TokenModel.allTokens;
-    final List<Result<BalanceModel>> result = await LoadTokenBalancesUseCase().run(potentialTokens);
-    emit(await TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result));
+    final List<Result<TokenBalanceModel>> result = await LoadTokenBalancesUseCase().run();
+    emit(await TokenBalancesStateMapper().mapResultToState(state, result));
     settingsStorage.selectedToken = state.selectedToken.token;
   }
 

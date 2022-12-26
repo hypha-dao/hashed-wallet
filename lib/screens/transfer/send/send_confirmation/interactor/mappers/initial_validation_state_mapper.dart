@@ -5,13 +5,13 @@ import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmo
 import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 
 class InitialValidationStateMapper extends StateMapper {
-  SendConfirmationState mapResultToState(SendConfirmationState currentState, Result<BalanceModel> result) {
+  SendConfirmationState mapResultToState(SendConfirmationState currentState, Result<TokenBalanceModel> result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
-      final BalanceModel balance = result.asValue!.value;
+      final TokenBalanceModel balance = result.asValue!.value;
       final amountRequested = currentState.transaction.quantity.amount;
-      final hasEnoughBalance = (balance.quantity - amountRequested) >= 0;
+      final hasEnoughBalance = (balance.balance.quantity - amountRequested) >= 0;
       if (hasEnoughBalance) {
         return currentState.copyWith(pageState: PageState.success);
       } else {

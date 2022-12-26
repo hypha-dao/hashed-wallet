@@ -18,7 +18,6 @@ const String _kSelectedFiatCurrency = 'selected_fiat_currency';
 const String _kSelectedToken = 'selected_token';
 const String _kInRecoveryMode = 'in_recovery_mode';
 const String _kRecoveryLink = 'recovery_link';
-const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
 const String _kIsFirstRun = 'is_first_run';
 const String _kDateSinceRateAppPrompted = 'date_since_rate_app_prompted';
@@ -69,8 +68,6 @@ class _SettingsStorage implements AbstractStorage {
 
   String get recoveryLink => _preferences.getString(_kRecoveryLink) ?? '';
 
-  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [hashedToken.id];
-
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
   int? get dateSinceRateAppPrompted => _preferences.getInt(_kDateSinceRateAppPrompted);
@@ -116,10 +113,6 @@ class _SettingsStorage implements AbstractStorage {
 
   set selectedToken(TokenModel token) {
     _preferences.setString(_kSelectedToken, token.id);
-  }
-
-  set tokensWhitelist(List<String> tokensList) {
-    _preferences.setStringList(_kTokensWhiteList, tokensList);
   }
 
   set isCitizen(bool? value) {
@@ -252,7 +245,6 @@ class _SettingsStorage implements AbstractStorage {
     // await Future.wait([
     //   // _preferences.remove(_kSelectedFiatCurrency),
     //   // _preferences.remove(_kSelectedToken),
-    //   // _preferences.remove(_kTokensWhiteList),
     //   // _preferences.remove(_kIsCitizen),
     //   // _preferences.remove(_kIsVisitor),
     // ]);
