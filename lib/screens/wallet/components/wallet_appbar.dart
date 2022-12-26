@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/components/chain_avatar.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
@@ -22,7 +23,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
           leadingWidth: 60,
           leading: Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: Image.asset('assets/images/appbar/hashed_logo.png'),
+            child: ChainAvatar(name: "", size: 50, image: state.logoUrl),
           ),
           title: InkWell(
             onTap: () => _copyToClipboard(accountService.currentAccount.address),

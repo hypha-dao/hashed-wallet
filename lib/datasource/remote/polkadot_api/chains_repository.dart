@@ -159,7 +159,7 @@ class ChainsRepository {
   final hashedNetworkData = const NetworkData(
     name: 'Hashed Network',
     info: hashedNetworkId,
-    iconUrl: '',
+    iconUrl: 'assets/images/appbar/hashed_logo.png',
     endpoints: ['wss://n1.hashed.systems'],
   );
 }

@@ -461,11 +461,16 @@ class PolkadotRepository extends KeyRepository {
 
   Future<List<TokenModel>> getTokens() async {
     final chainProperties = await getChainProperties();
+    final network = await chainsRepository.currentNetwork();
 
     final List<TokenModel> tokens = [];
-    for (int i = 0; i < chainProperties.tokenSymbol.length; i++) {
+
+    // For the time being we only support 1 token per chain
+    // Acala chain seems to have more than 1 but unclear how to get the other token balances.
+
+    for (int i = 0; i < 1 /*chainProperties.tokenSymbol.length*/; i++) {
       tokens.add(TokenModel(
-        chainName: settingsStorage.currentNetwork,
+        chainName: network.name,
         symbol: chainProperties.tokenSymbol[i],
         name: chainProperties.tokenSymbol[i],
         backgroundImageUrl: hashedToken.backgroundImageUrl,
