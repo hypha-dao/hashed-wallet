@@ -15,8 +15,9 @@ const getLastBlock = async (api) => {
 
 const init = async () => {
   // Initialize the provider to connect to the local node
-  const provider = new WsProvider(process.env.NODE_ENDPOINT);
-
+  // const provider = new WsProvider("wss://n1.hashed.systems");
+  const provider = new WsProvider("wss://acala-rpc-0.aca-api.network");
+  
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
 
@@ -26,8 +27,11 @@ const init = async () => {
 
   //await getLastBlock(api)
 
-  const metaData =  api.runtimeMetadata
-  console.log("metadata: "+JSON.stringify(metaData, null, 2))
+  const properties = await api.rpc.system.properties();
+  console.log("properties: "+JSON.stringify(properties, null, 2))
+
+  // const metaData =  api.runtimeMetadata
+  // console.log("metadata: "+JSON.stringify(metaData, null, 2))
 
   // Constuct the keyring after the API (crypto has an async init)
   const keyring = new Keyring({ type: "sr25519" });
@@ -44,7 +48,25 @@ const init = async () => {
   }
 
   // query balance
-  const { nonce, data: balance } = await api.query.system.account(steve.address);
+  const systemAccount = await api.query.system.account(steve.address);
+  console.log("account "+JSON.stringify(systemAccount, null, 2))
+
+  // query assets 
+  var ix = 0
+  const symarr = JSON.parse(JSON.stringify(properties.tokenSymbol));
+
+  console.log("tokens: "+symarr + " "+symarr.length)
+  // for (var ix=0; ix < symarr.length; ix++) {
+  //   const asset = await api.query.assets.account(ix, steve.address);
+  //   console.log("asset "+symarr[ix]+" "+JSON.stringify(asset, null, 2))
+
+  // }
+
+  const balances = await api.query.balances.account(steve.address)
+  console.log("balances "+JSON.stringify(balances, null, 2))
+
+
+  const { nonce, data: balance } = systemAccount
 
   // Retrieve the last timestamp
   const now = await api.query.timestamp.now();
