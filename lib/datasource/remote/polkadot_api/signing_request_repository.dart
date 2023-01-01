@@ -3,8 +3,8 @@ import 'dart:io';
 
 class SigningRequestRepository {
   static const urlScheme = "ssr";
-  String jsonToSigningRequestUrl(dynamic json) {
-    final string = json.encode(json);
+  String jsonToSigningRequestUrl(dynamic jsonObj) {
+    final string = json.encode(jsonObj);
     final bytes = utf8.encode(string);
     final zippedBytes = gzip.encode(bytes);
     final base64url = base64Url.encode(zippedBytes);
