@@ -1,4 +1,4 @@
-import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
 import 'package:hashed/utils/result_extension.dart';
 
@@ -11,7 +11,7 @@ class BalancesRepository extends ExtrinsicsRepository {
     required int amount,
   }) async {
     final sender = TxSenderData(from);
-    final txInfo = SubstrateTransactionModel(module: 'balances', call: 'transfer', sender: sender);
+    final txInfo = SubstrateExtrinsicModel(module: 'balances', call: 'transfer', sender: sender);
     final params = [to, amount];
     try {
       final res = await signAndSend(txInfo, params, onStatusChange: (status) {

@@ -8,9 +8,8 @@ import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/images/explore/red_exclamation_circle.dart';
 import 'package:hashed/screens/transfer/scan/components/scan_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_bloc.dart';
+import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_commands.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
-
-import 'interactor/viewmodels/scan_confirmation_commands.dart';
 
 final mockData = [
   ScanConfirmationAction(
@@ -106,6 +105,7 @@ class ScanConfirmationScreen extends StatelessWidget {
 class _ErrorWidget extends StatelessWidget {
   final String transactionSendError;
 
+  // ignore: use_super_parameters
   const _ErrorWidget(
     this.transactionSendError, {
     Key? key,

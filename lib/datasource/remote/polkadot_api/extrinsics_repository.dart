@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
-import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 
 //! ### Recovery Life Cycle
 //!
@@ -106,7 +106,7 @@ abstract class ExtrinsicsRepository {
   /// transaction to be processed.
   ///
   Future<Map<String, dynamic>> signAndSend(
-    SubstrateTransactionModel transactionModel,
+    SubstrateExtrinsicModel transactionModel,
     List params, {
     required Function(String) onStatusChange,
   }) async {

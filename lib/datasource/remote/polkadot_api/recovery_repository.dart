@@ -1,5 +1,5 @@
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
@@ -14,7 +14,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result> createRecoveryConfig(String address, GuardiansConfigModel guardians) async {
     print("create recovery: ${guardians.toJson()}");
     final sender = TxSenderData(address);
-    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'createRecovery', sender: sender);
+    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'createRecovery', sender: sender);
     final guardianAddresses = guardians.guardianAddresses;
     guardianAddresses.sort();
     final params = [guardianAddresses, guardians.threshold, guardians.delayPeriod];
@@ -63,7 +63,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result> removeRecoveryConfiguration({required String address, String? proxy}) async {
     print('removeRecovery for $address');
 
-    final txInfo = SubstrateTransactionModel(
+    final txInfo = SubstrateExtrinsicModel(
         module: 'recovery', call: 'removeRecovery', sender: address.senderData, proxy: proxy?.senderData);
     final params = [];
     try {
@@ -90,7 +90,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result<dynamic>> initiateRecovery({required String rescuer, required String lostAccount}) async {
     print('initiateRecovery for $lostAccount');
     final sender = TxSenderData(rescuer);
-    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'initiateRecovery', sender: sender);
+    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'initiateRecovery', sender: sender);
     final params = [lostAccount];
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -171,7 +171,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
       {required String account, required String lostAccount, required String recovererAccount}) async {
     print('vouch for $recovererAccount recovering $lostAccount');
     final sender = TxSenderData(account);
-    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'vouchRecovery', sender: sender);
+    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'vouchRecovery', sender: sender);
     final params = [lostAccount, recovererAccount];
     try {
       final hash = await signAndSend(txInfo, params, onStatusChange: (status) {
@@ -204,7 +204,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     }
 
     final sender = TxSenderData(rescuer);
-    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'claimRecovery', sender: sender);
+    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'claimRecovery', sender: sender);
     final params = [lostAccount];
 
     try {
@@ -226,7 +226,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
     print("recover funds of $lostAccount");
 
     final lostAccountSender = TxSenderData(lostAccount);
-    final txInfo = SubstrateTransactionModel(
+    final txInfo = SubstrateExtrinsicModel(
         module: 'balances', call: 'transferAll', sender: lostAccountSender, proxy: TxSenderData(address));
     final params = [address, false];
 
@@ -253,7 +253,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   ///
   Future<Result<dynamic>> closeRecovery({required String lostAccount, required String rescuer, String? proxy}) async {
     print("closing recovery on $lostAccount by $rescuer");
-    final txInfo = SubstrateTransactionModel(
+    final txInfo = SubstrateExtrinsicModel(
       module: 'recovery',
       call: 'closeRecovery',
       sender: lostAccount.senderData,
@@ -278,7 +278,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
   Future<Result<dynamic>> cancelRecovered({required String account, required String lostAccount}) async {
     print("cancel recovery on $lostAccount");
     final sender = TxSenderData(account);
-    final txInfo = SubstrateTransactionModel(module: 'recovery', call: 'cancelRecovered', sender: sender);
+    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'cancelRecovered', sender: sender);
     final params = [lostAccount];
 
     try {
