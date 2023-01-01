@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
-import 'package:hashed/datasource/local/models/substrate_chain_model_old.dart';
 import 'package:hashed/screens/profile_screens/switch_network/interactor/viewdata/network_data.dart';
 
 /// This class packages all calls into the original Polkawallet API code
@@ -103,97 +102,3 @@ class SubstrateService {
     }
   }
 }
-
-final List<SubstrateChainModelOld> kusamaNetworkParams =
-    nodeListKusama.map((e) => SubstrateChainModelOld.fromJson(e)).toList();
-final List<SubstrateChainModelOld> polkadotNetworkParams =
-    nodeListPolkadot.map((e) => SubstrateChainModelOld.fromJson(e)).toList();
-final List<SubstrateChainModelOld> hashedNetworkParams =
-    nodeListHashed.map((e) => SubstrateChainModelOld.fromJson(e)).toList();
-
-const nodeListHashed = [
-  {
-    "info": "hashed",
-    "paraId": 1440, // fake..
-    "text": "Hashed Network",
-    'ss58': 42,
-    "providers": {
-      "N1 Node": "wss://n1.hashed.systems",
-    }
-  },
-  // {
-  //   'name': 'Hashed N1',
-  //   'ss58': 42,
-  //   'endpoint': 'wss://n1.hashed.systems',
-  // }
-];
-
-const nodeListKusama = [
-  {
-    'name': 'Kusama (via PatractLabs)',
-    'ss58': 2,
-    'endpoint': 'wss://pub.elara.patract.io/kusama',
-  },
-  {
-    'name': 'Kusama (via Parity)',
-    'ss58': 2,
-    'endpoint': 'wss://kusama-rpc.polkadot.io/',
-  },
-  {
-    'name': 'Kusama (via OnFinality)',
-    'ss58': 2,
-    'endpoint': 'wss://kusama.api.onfinality.io/public-ws',
-  },
-  {
-    'name': 'Kusama (via RadiumBlock)',
-    'ss58': 2,
-    'endpoint': 'wss://kusama.public.curie.radiumblock.co/ws',
-  },
-  {
-    'name': 'Kusama (via Dwellir)',
-    'ss58': 2,
-    'endpoint': 'wss://kusama-rpc.dwellir.com',
-  },
-  // {
-  //   'name': 'Kusama (cross chain 9110 dev)',
-  //   'ss58': 42,
-  //   'endpoint': 'wss://kusama-1.polkawallet.io:9944',
-  // },
-  // {
-  //   'name': 'Kusama (cross chain 9100 dev)',
-  //   'ss58': 42,
-  //   'endpoint': 'wss://crosschain-dev.polkawallet.io:9906',
-  // },
-];
-const nodeListPolkadot = [
-  {
-    'name': 'Polkadot (via PatractLabs)',
-    'ss58': 0,
-    'endpoint': 'wss://pub.elara.patract.io/polkadot',
-  },
-  {
-    'name': 'Polkadot (via Parity)',
-    'ss58': 0,
-    'endpoint': 'wss://rpc.polkadot.io',
-  },
-  {
-    'name': 'Polkadot (via OnFinality)',
-    'ss58': 0,
-    'endpoint': 'wss://polkadot.api.onfinality.io/public-ws',
-  },
-  {
-    'name': 'Polkadot (via Dwellir)',
-    'ss58': 0,
-    'endpoint': 'wss://polkadot-rpc.dwellir.com',
-  },
-  // {
-  //   'name': 'Polkadot (light client - experimental)',
-  //   'ss58': 0,
-  //   'endpoint': 'light://substrate-connect/polkadot',
-  // },
-  // {
-  //   'name': 'Polkadot (aca crowdloan dev)',
-  //   'ss58': 0,
-  //   'endpoint': 'wss://karura-test-node.laminar.codes/polkadot',
-  // },
-];
