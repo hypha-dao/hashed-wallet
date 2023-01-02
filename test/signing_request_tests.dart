@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
-import 'package:hashed/datasource/remote/polkadot_api/signing_request_repository.dart';
+import 'package:hashed/datasource/local/signing_request_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
