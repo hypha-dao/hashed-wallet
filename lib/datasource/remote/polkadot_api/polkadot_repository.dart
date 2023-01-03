@@ -415,6 +415,7 @@ class PolkadotRepository extends KeyRepository {
     }
 
     if (aliveCheckSuccess) {
+      state.isConnected = true;
       state.isInitialized = true;
       _lastCheck = DateTime.now();
     } else {
