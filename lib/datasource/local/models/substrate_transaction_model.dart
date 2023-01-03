@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 
 class SubstrateTransactionModel {

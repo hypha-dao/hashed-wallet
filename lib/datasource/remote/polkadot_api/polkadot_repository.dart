@@ -415,6 +415,7 @@ class PolkadotRepository extends KeyRepository {
     }
 
     if (aliveCheckSuccess) {
+      state.isInitialized = true;
       _lastCheck = DateTime.now();
     } else {
       /// Alive check failed - we ignore a certain number of failed alive checks
