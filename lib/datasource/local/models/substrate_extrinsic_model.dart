@@ -1,3 +1,5 @@
+import 'package:hashed/datasource/local/models/tx_sender_data.dart';
+
 /// From SDK TxInfoData - it's a model class that encodes a substrate extrinsic call
 class SubstrateExtrinsicModel {
   SubstrateExtrinsicModel({
@@ -24,7 +26,7 @@ class SubstrateExtrinsicModel {
   String? txName;
 
   factory SubstrateExtrinsicModel.fromJson(Map<String, dynamic> json) {
-    final sender = TxSenderData.fromJson(json["sender"]);
+    final sender = TxSenderData.fromJsonOrPlaceholder(json["sender"]);
     final proxy = TxSenderData.fromJson(json["proxy"]);
     return SubstrateExtrinsicModel(
         module: json['module'] as String,
@@ -41,28 +43,11 @@ class SubstrateExtrinsicModel {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'module': module,
         'call': call,
-        'sender': sender?.toJson(),
+        'sender': sender?.toJsonOrPlaceholder(),
         'tip': tip,
         'isUnsigned': isUnsigned,
         'proxy': proxy?.toJson(),
         'txName': txName,
-      };
-}
-
-// TODO(n13): Clean up I don't think we ever need pub key
-// These classes are carry overs from substrate SDK - refactor them
-class TxSenderData {
-  TxSenderData(this.address);
-
-  final String? address;
-
-  // ignore: prefer_constructors_over_static_methods
-  static TxSenderData fromJson(Map<String, dynamic> json) => TxSenderData(
-        json['address'] as String?,
-      );
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'address': address,
       };
 }
 

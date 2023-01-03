@@ -1,5 +1,6 @@
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 import 'package:hashed/datasource/remote/model/active_recovery_model.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
