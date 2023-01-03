@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hashed/datasource/local/account_service.dart';
-import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
@@ -44,9 +43,10 @@ class SigningRequestRepository {
     try {
       final Map<String, dynamic> ssrJson = signingRequestUrlToJson(url);
       return SubstrateSigningRequestModel.fromJson(ssrJson);
-    } catch (err) {
+    } catch (err, s) {
       print("Unable to parse signing request URL: $url");
       print(err.toString());
+      print(s);
       return null;
     }
   }
