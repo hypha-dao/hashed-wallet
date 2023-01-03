@@ -1,38 +1,43 @@
+import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 
+const defaultTipValue = '0';
+const defaultIsUnsignedValue = false;
+
 /// From SDK TxInfoData - it's a model class that encodes a substrate extrinsic call
-class SubstrateExtrinsicModel {
-  String module;
-  String call;
-  TxSenderData? sender;
-  String? tip;
-  bool? isUnsigned;
+
+class SubstrateExtrinsicModel extends Equatable {
+  final String module;
+  final String call;
+  final TxSenderData? sender;
+  final String? tip;
+  final bool? isUnsigned;
 
   /// proxy for calling recovery.asRecovered
-  TxSenderData? proxy;
+  final TxSenderData? proxy;
 
   /// txName for calling treasury.approveProposal & treasury.rejectProposal
-  String? txName;
+  final String? txName;
 
-  SubstrateExtrinsicModel({
+  const SubstrateExtrinsicModel({
     required this.module,
     required this.call,
     required this.sender,
-    this.tip = '0',
-    this.isUnsigned = false,
+    this.tip = defaultTipValue,
+    this.isUnsigned = defaultIsUnsignedValue,
     this.proxy,
     this.txName,
   });
 
   factory SubstrateExtrinsicModel.fromJson(Map<String, dynamic> json) {
-    final sender = TxSenderData.fromJsonOrPlaceholder(json["sender"]);
-    final proxy = TxSenderData.fromJson(json["proxy"]);
+    final sender = json["sender"] != null ? TxSenderData.fromJsonOrPlaceholder(json["sender"]) : null;
+    final proxy = json["proxy"] != null ? TxSenderData.fromJson(json["proxy"]) : null;
     return SubstrateExtrinsicModel(
         module: json['module'] as String,
         call: json['call'] as String,
         sender: sender,
-        tip: json["tip"],
-        isUnsigned: json["isUnsigned"],
+        tip: json["tip"] ?? defaultTipValue,
+        isUnsigned: json["isUnsigned"] ?? defaultIsUnsignedValue,
         proxy: proxy,
         txName: json['txName']);
   }
@@ -53,15 +58,31 @@ class SubstrateExtrinsicModel {
 
   /// Note: The fields in this method correspond to fields that will be used in the
   /// JavaScript package - these field names cannot be changed.
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'module': module,
-        'call': call,
-        'sender': sender?.toJsonOrPlaceholder(),
-        'tip': tip,
-        'isUnsigned': isUnsigned,
-        'proxy': proxy?.toJson(),
-        'txName': txName,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> map = {
+      'module': module,
+      'call': call,
+    };
+    if (sender != null) {
+      map['sender'] = sender!.toJsonOrPlaceholder();
+    }
+    if (proxy != null) {
+      map['proxy'] = proxy!.toJson();
+    }
+    if (tip != null && tip != defaultTipValue) {
+      map['tip'] = tip;
+    }
+    if (isUnsigned != null && isUnsigned != defaultIsUnsignedValue) {
+      map['isUnsigned'] = isUnsigned;
+    }
+    if (txName != null) {
+      map['txName'] = txName;
+    }
+    return map;
+  }
+
+  @override
+  List<Object?> get props => [module, call, sender, tip, isUnsigned, proxy, txName];
 }
 
 // TODO(n13): These classes are carry overs from substrate SDK - refactor them
