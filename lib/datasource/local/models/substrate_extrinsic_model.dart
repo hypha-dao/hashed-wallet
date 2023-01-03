@@ -2,6 +2,18 @@ import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 
 /// From SDK TxInfoData - it's a model class that encodes a substrate extrinsic call
 class SubstrateExtrinsicModel {
+  String module;
+  String call;
+  TxSenderData? sender;
+  String? tip;
+  bool? isUnsigned;
+
+  /// proxy for calling recovery.asRecovered
+  TxSenderData? proxy;
+
+  /// txName for calling treasury.approveProposal & treasury.rejectProposal
+  String? txName;
+
   SubstrateExtrinsicModel({
     required this.module,
     required this.call,
@@ -11,19 +23,6 @@ class SubstrateExtrinsicModel {
     this.proxy,
     this.txName,
   });
-
-  String module;
-  String call;
-  TxSenderData? sender;
-  String? tip;
-
-  bool? isUnsigned;
-
-  /// proxy for calling recovery.asRecovered
-  TxSenderData? proxy;
-
-  /// txName for calling treasury.approveProposal & treasury.rejectProposal
-  String? txName;
 
   factory SubstrateExtrinsicModel.fromJson(Map<String, dynamic> json) {
     final sender = TxSenderData.fromJsonOrPlaceholder(json["sender"]);
@@ -36,6 +35,20 @@ class SubstrateExtrinsicModel {
         isUnsigned: json["isUnsigned"],
         proxy: proxy,
         txName: json['txName']);
+  }
+
+  /// Returns an extrinsic model with sender replaced by account
+  /// if sender is set to TxSenderData.signer
+  SubstrateExtrinsicModel resolvePlaceholders(String account) {
+    return SubstrateExtrinsicModel(
+      module: module,
+      call: call,
+      sender: sender == TxSenderData.signer ? TxSenderData(account) : sender,
+      tip: tip,
+      isUnsigned: isUnsigned,
+      proxy: proxy,
+      txName: txName,
+    );
   }
 
   /// Note: The fields in this method correspond to fields that will be used in the
