@@ -13,7 +13,9 @@ part 'scan_confirmation_state.dart';
 
 final mockData = [
   ScanConfirmationActionData(
-      actionName: MapEntry('Create Recovery', 'Recovery'), actionParams: {'One': 'One Value', 'Two': 'Two Value'}),
+      // ignore: prefer_const_constructors
+      actionName: MapEntry('Create Recovery', 'Recovery'),
+      actionParams: {'One': 'One Value', 'Two': 'Two Value'}),
 ];
 
 class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationState> {

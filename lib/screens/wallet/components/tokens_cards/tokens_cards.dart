@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
-import 'package:hashed/datasource/remote/polkadot_api/chains_repository.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -85,6 +84,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         child: WalletButtons(
                           title: 'Receive ${polkadotRepository.state.isConnected ? " C" : " d"}',
                           onPressed: () async {
+                            // ignore: unused_local_variable
                             final val = await polkadotRepository.getChainProperties();
                             // if (polkadotRepository.state.isConnected) {
                             //   print("stop service...");
