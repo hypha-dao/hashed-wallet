@@ -1,4 +1,5 @@
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
 import 'package:hashed/utils/result_extension.dart';
 

@@ -84,8 +84,11 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                         child: WalletButtons(
                           title: 'Receive ${polkadotRepository.state.isConnected ? " C" : " d"}',
                           onPressed: () async {
+                            print("receive");
+                            await NavigationService.of(context).navigateTo(Routes.receiveEnterData);
+
                             // ignore: unused_local_variable
-                            final val = await polkadotRepository.getChainProperties();
+                            // final val = await polkadotRepository.getChainProperties();
                             // if (polkadotRepository.state.isConnected) {
                             //   print("stop service...");
                             //   await polkadotRepository.stopService();

@@ -148,9 +148,13 @@ class ChainsRepository {
   }
 
   Future<NetworkData> currentNetwork() async {
+    return getNetworkByinfo(settingsStorage.currentNetwork);
+  }
+
+  Future<NetworkData> getNetworkByinfo(String info) async {
     final networks = await getNetworks();
     final res = networks.firstWhere(
-      (e) => e is NetworkData && e.info == settingsStorage.currentNetwork,
+      (e) => e is NetworkData && e.info == info,
       orElse: () => hashedNetworkData,
     );
     return res as NetworkData;

@@ -25,7 +25,6 @@ import 'package:hashed/screens/profile_screens/set_currency/set_currency_screen.
 import 'package:hashed/screens/profile_screens/switch_network/switch_network_screen.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
 import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
-import 'package:hashed/screens/transfer/receive/receive_selection/receive_screen.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_screen.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:hashed/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
@@ -93,7 +92,6 @@ class NavigationService {
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.scanConfirmation: (args) => const ScanConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
-    Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreenV3(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),

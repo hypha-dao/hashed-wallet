@@ -6,7 +6,7 @@ class SubstrateTransactionModel {
   final SubstrateExtrinsicModel extrinsic;
   final List parameters;
 
-  SubstrateTransactionModel({
+  const SubstrateTransactionModel({
     required this.extrinsic,
     required this.parameters,
   });

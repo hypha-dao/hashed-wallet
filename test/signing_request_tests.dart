@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 import 'package:hashed/datasource/local/signing_request_repository.dart';
 
 void main() {
@@ -46,5 +48,29 @@ void main() {
 
       expect(originalJsonString, decodedJsonString);
     });
+  });
+
+  test('encode and decode signing request model from URL', () async {
+    final repo = SigningRequestRepository();
+
+    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'createRecovery', sender: TxSenderData(rescuer));
+    final guardianAddresses = guardians;
+    guardianAddresses.sort();
+    final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [guardianAddresses, 2, 3000]);
+    final SubstrateSigningRequestModel model = SubstrateSigningRequestModel(
+      chainId: "hashed",
+      transactions: [transactionModel],
+    );
+
+    final ssrUrl = repo.toUrl(model);
+
+    print("url: $ssrUrl");
+
+    final parsedModel = repo.parseUrl(ssrUrl);
+
+    print("model ${model.toJson()}");
+    print("json parsed model ${parsedModel?.toJson()}");
+
+    expect(model.toJson(), parsedModel?.toJson());
   });
 }
