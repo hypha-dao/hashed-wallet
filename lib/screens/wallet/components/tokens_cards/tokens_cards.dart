@@ -72,6 +72,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       Expanded(
                         child: WalletButtons(
                           onPressed: () async {
+                            print("Transfer...");
                             await NavigationService.of(context).navigateTo(Routes.transfer);
                           },
                           title: 'Send',
