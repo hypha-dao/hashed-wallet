@@ -29,6 +29,7 @@ class PolkadotRepository extends KeyRepository {
   late SubstrateService? _substrateService;
   late ChainProperties? chainProperties;
   final Map<String, ChainProperties> chainPropertiesCache = {};
+  List<TokenModel>? allTokens;
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
@@ -492,6 +493,4 @@ class PolkadotRepository extends KeyRepository {
 
     return tokens;
   }
-
-  List<TokenModel>? allTokens;
 }
