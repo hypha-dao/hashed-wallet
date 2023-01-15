@@ -31,18 +31,6 @@ class TokenDataModel extends AmountDataModel {
     asset = asset;
   }
 
-  // factory TokenModel.copy(String tokenId,
-  //     {required String symbol, required int precision, required String id, required String logoUrl}) {
-  //   final res = TokenModel()
-  //     ..amount = amount;
-  //     symbol: symbol,
-  //     precision: precision,
-  //   );
-  //   id = id;
-  //   asset = logoUrl;
-  //   return res;
-  // }
-
   static TokenDataModel? from(double? amount, {TokenModel token = hashedToken}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
 
