@@ -77,14 +77,19 @@ class PolkadotRepository extends KeyRepository {
 
       state.isConnected = res;
 
-      startKeepAliveTimer();
+      if (res) {
+        startKeepAliveTimer();
 
-      print("PolkadotRepository connected $res in ${stopwatch.elapsed.inMilliseconds / 1000.0}");
+        print("PolkadotRepository connected $res in ${stopwatch.elapsed.inMilliseconds / 1000.0}");
 
-      chainProperties = await getChainProperties();
+        chainProperties = await getChainProperties();
 
-      eventBus.fire(const OnWalletRefreshEventBus());
+        allTokens = await loadChainTokens();
 
+        eventBus.fire(const OnWalletRefreshEventBus());
+      } else {
+        eventBus.fire(const OnConnectionStateEventBus(false));
+      }
       return state.isConnected;
     } catch (err) {
       print("Polkadot Service start Error: $err");
@@ -215,8 +220,7 @@ class PolkadotRepository extends KeyRepository {
 
       final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
-      final allTokens = await getTokens();
-      final token = allTokens[0];
+      final token = allTokens?[0] ?? hashedToken;
 
       if (forToken != null && forToken.symbol != token.symbol) {
         // TODO(n13): Figure out how to retrieve other token balances on a chain
@@ -439,6 +443,8 @@ class PolkadotRepository extends KeyRepository {
         } else {
           print("disconnect detected at ${DateTime.now()} - ignoring...");
         }
+      } else {
+        _lastCheck = DateTime.now();
       }
     }
   }
@@ -461,7 +467,7 @@ class PolkadotRepository extends KeyRepository {
     }
   }
 
-  Future<List<TokenModel>> getTokens() async {
+  Future<List<TokenModel>> loadChainTokens() async {
     final chainProperties = await getChainProperties();
     final network = await chainsRepository.currentNetwork();
 
@@ -482,6 +488,10 @@ class PolkadotRepository extends KeyRepository {
       ));
     }
 
+    allTokens = tokens;
+
     return tokens;
   }
+
+  List<TokenModel>? allTokens;
 }
