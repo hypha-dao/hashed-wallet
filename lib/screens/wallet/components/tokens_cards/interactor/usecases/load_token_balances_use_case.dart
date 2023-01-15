@@ -7,7 +7,7 @@ import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 class LoadTokenBalancesUseCase {
   Future<List<Result<TokenBalanceModel>>> run() async {
     print("load tokens ..");
-    final List<TokenModel> tokens = await polkadotRepository.getTokens();
+    final List<TokenModel> tokens = polkadotRepository.allTokens ?? await polkadotRepository.loadChainTokens();
     final account = accountService.currentAccount.address;
     final List<Future<Result<TokenBalanceModel>>> list = tokens
         .map((item) => polkadotRepository.getBalance(

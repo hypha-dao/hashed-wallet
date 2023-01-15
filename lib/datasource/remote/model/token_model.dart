@@ -1,10 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class TokenModel extends Equatable {
-  static List<TokenModel> allTokens = [hashedToken];
-
   final String chainName;
   final String symbol;
   final String name;
@@ -33,12 +32,12 @@ class TokenModel extends Equatable {
     this.precision = 8,
   });
 
-  factory TokenModel.fromId(String tokenId) {
-    return allTokens.firstWhere((e) => e.id == tokenId);
+  static TokenModel fromId(String tokenId) {
+    return polkadotRepository.allTokens?.firstWhere((e) => e.id == tokenId) ?? hashedToken;
   }
 
   static TokenModel? fromSymbolOrNull(String symbol) {
-    return allTokens.firstWhereOrNull((e) => e.symbol == symbol);
+    return polkadotRepository.allTokens?.firstWhereOrNull((e) => e.symbol == symbol);
   }
 
   @override
