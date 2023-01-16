@@ -26,7 +26,8 @@ class BalanceRow extends StatelessWidget {
           children: [
             Expanded(child: Container(alignment: Alignment.centerLeft, child: Text(label))),
             Expanded(
-                child: Container(alignment: Alignment.centerRight, child: Text(tokenAmount?.asFormattedString() ?? "")))
+                child: Container(
+                    alignment: Alignment.centerRight, child: Text(tokenAmount?.amountStringWithSymbol() ?? "")))
           ],
         ),
         Padding(

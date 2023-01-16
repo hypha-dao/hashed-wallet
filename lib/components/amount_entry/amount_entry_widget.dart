@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
 import 'package:hashed/components/amount_entry/interactor/viewmodels/page_commands.dart';
@@ -46,7 +46,7 @@ class AmountEntryWidget extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headline2,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         decoration: const InputDecoration(
                           hintText: "0.0",
@@ -86,30 +86,32 @@ class AmountEntryWidget extends StatelessWidget {
                               const SizedBox(height: 18)
                             ],
                           ),
-                          Positioned(
-                            bottom: -16,
-                            left: 70,
-                            child: Opacity(
-                              opacity: state.switchCurrencyEnabled ? 1 : 0.5,
-                              child: Container(
-                                height: 60,
-                                width: 60,
-                                child: IconButton(
-                                  icon: SvgPicture.asset(
-                                    'assets/images/currency_switch_button.svg',
-                                    height: 60,
-                                    width: 60,
-                                  ),
-                                  onPressed: state.switchCurrencyEnabled
-                                      ? () {
-                                          BlocProvider.of<AmountEntryBloc>(context)
-                                              .add(const OnCurrencySwitchButtonTapped());
-                                        }
-                                      : null,
-                                ),
-                              ),
-                            ),
-                          )
+
+                          /// TBD - disable currency switcher for now since we don't have Fiat rates
+                          // Positioned(
+                          //   bottom: -16,
+                          //   left: 70,
+                          //   child: Opacity(
+                          //     opacity: state.switchCurrencyEnabled ? 1 : 0.5,
+                          //     child: Container(
+                          //       height: 60,
+                          //       width: 60,
+                          //       child: IconButton(
+                          //         icon: SvgPicture.asset(
+                          //           'assets/images/currency_switch_button.svg',
+                          //           height: 60,
+                          //           width: 60,
+                          //         ),
+                          //         onPressed: state.switchCurrencyEnabled
+                          //             ? () {
+                          //                 BlocProvider.of<AmountEntryBloc>(context)
+                          //                     .add(const OnCurrencySwitchButtonTapped());
+                          //               }
+                          //             : null,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

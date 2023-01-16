@@ -4,6 +4,7 @@ import 'package:hashed/components/custom_dialog.dart';
 import 'package:hashed/components/profile_avatar.dart';
 import 'package:hashed/datasource/local/models/fiat_data_model.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/utils/short_string.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
@@ -33,7 +34,7 @@ class SendConfirmationDialog extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Image(
-            image: AssetImage(tokenAmount.asset),
+            image: AssetImage(tokenAmount.logoUrlAsset ?? hashedToken.logoUrl),
             fit: BoxFit.fill,
           ),
         ],

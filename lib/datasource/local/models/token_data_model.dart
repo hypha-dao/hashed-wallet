@@ -9,7 +9,7 @@ import 'package:hashed/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
   String? id;
-  late String asset;
+  String? logoUrlAsset;
 
   TokenDataModel(double amount, {required TokenModel token})
       : super(
@@ -18,17 +18,20 @@ class TokenDataModel extends AmountDataModel {
           precision: token.precision,
         ) {
     id = token.id;
-    asset = token.logoUrl;
+    logoUrlAsset = token.logoUrl;
   }
 
-  TokenDataModel.copy(
-      {required super.amount,
-      required super.symbol,
-      required super.precision,
-      required String id,
-      required String asset}) {
+  TokenDataModel.copy({
+    required super.amount,
+    required super.symbol,
+    required super.precision,
+    String? id,
+    String? asset,
+  }) {
+    print("copy with id $id");
+    print("copy with asset $asset");
     id = id;
-    asset = asset;
+    logoUrlAsset = asset;
   }
 
   static TokenDataModel? from(double? amount, {TokenModel token = hashedToken}) =>
@@ -59,7 +62,7 @@ class TokenDataModel extends AmountDataModel {
   }
 
   TokenDataModel copyWith(double amount) {
-    return TokenDataModel.copy(amount: amount, asset: asset, symbol: symbol, id: id!, precision: precision);
+    return TokenDataModel.copy(amount: amount, asset: logoUrlAsset, symbol: symbol, id: id, precision: precision);
   }
 }
 

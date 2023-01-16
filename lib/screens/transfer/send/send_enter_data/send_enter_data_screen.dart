@@ -100,9 +100,9 @@ class SendEnterDataScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              Text("TBD -> ${memberModel.address.shorter}"),
-                              //SearchResultRow(member: memberModel),
-                              const SizedBox(height: 16),
+                              // ignore: unnecessary_string_interpolations
+                              Text("${memberModel.address.shorter}"),
+                              const SizedBox(height: 24),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
                                 onValueChange: (value) {
@@ -110,10 +110,10 @@ class SendEnterDataScreen extends StatelessWidget {
                                 },
                                 autoFocus: state.pageState == PageState.initial,
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 12),
                               AlertInputValue(context.loc.transferSendNotEnoughBalanceAlert,
                                   isVisible: state.showAlert),
-                              const SizedBox(height: 30),
+                              const SizedBox(height: 12),
                               Column(
                                 children: [
                                   TextFormFieldLight(
