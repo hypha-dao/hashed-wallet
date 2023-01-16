@@ -64,15 +64,6 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                           const SizedBox(height: 4),
                           const DividerJungle(thickness: 2.0, height: 10),
                           const SizedBox(height: 4),
-                          if (state.details.memo != null)
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: context.loc.transferReceiveMemo,
-                                    children: [TextSpan(text: state.details.memo)]),
-                              ),
-                            ),
                           const SizedBox(height: 40),
                           Text(context.loc.transferReceiveWaiting, style: Theme.of(context).textTheme.headline6),
                           Padding(
