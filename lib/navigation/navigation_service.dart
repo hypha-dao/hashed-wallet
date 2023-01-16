@@ -25,6 +25,7 @@ import 'package:hashed/screens/profile_screens/set_currency/set_currency_screen.
 import 'package:hashed/screens/profile_screens/switch_network/switch_network_screen.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
 import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
+import 'package:hashed/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_screen.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:hashed/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
@@ -54,8 +55,9 @@ class Routes {
   static const scanConfirmation = 'scanConfirmation';
   static const transactionActions = 'transactionActions';
 
-  static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
+  static const receiveScreen = 'receiveScreen';
   static const receiveEnterData = 'receiveEnterData';
+
   static const receiveQR = 'receiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
@@ -103,6 +105,7 @@ class NavigationService {
     Routes.citizenship: (_) => const SettingsScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
     Routes.accountUnderRecoveryScreen: (_) => const AccountUnderRecoveryScreen(),
+    Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too
