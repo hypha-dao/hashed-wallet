@@ -61,9 +61,9 @@ class OnApproveGuardianRecoveryDeepLink extends AppEvent {
 }
 
 class OnSigningRequest extends AppEvent {
-  final ScanQrCodeResultData esr;
+  final ScanQrCodeResultData scanQrResultData;
 
-  const OnSigningRequest(this.esr);
+  const OnSigningRequest(this.scanQrResultData);
 
   @override
   String toString() => 'OnSigningRequest';

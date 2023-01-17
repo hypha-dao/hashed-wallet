@@ -105,8 +105,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onSigningRequest(OnSigningRequest event, Emitter<AppState> emit) {
-    throw UnimplementedError("not implemented");
-    // final args = SendConfirmationArguments.from(event.esr);
-    // emit(state.copyWith(pageCommand: NavigateToSendConfirmation(args)));
+    emit(state.copyWith(pageCommand: NavigateToScanConfirmation(event.scanQrResultData)));
   }
 }

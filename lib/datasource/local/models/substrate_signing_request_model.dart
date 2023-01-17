@@ -2,9 +2,10 @@ import 'package:hashed/datasource/local/models/substrate_transaction_model.dart'
 
 class SubstrateSigningRequestModel {
   final String chainId;
+  final String? callback;
   final List<SubstrateTransactionModel> transactions;
 
-  const SubstrateSigningRequestModel({required this.chainId, required this.transactions});
+  const SubstrateSigningRequestModel({required this.chainId, required this.transactions, this.callback});
 
   factory SubstrateSigningRequestModel.fromJson(Map<String, dynamic> json) {
     final List<SubstrateTransactionModel> transactions = List.of(

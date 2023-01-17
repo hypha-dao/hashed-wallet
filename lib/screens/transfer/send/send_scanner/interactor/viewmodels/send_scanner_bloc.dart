@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -24,7 +23,6 @@ class SendScannerBloc extends Bloc<SendScannerEvent, SendScannerState> {
       if (result is ErrorResult) {
         emit(state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString()));
       } else {
-        final scanQrCodeResult = result.asValue!.value as ScanQrCodeResultData;
         emit(state.copyWith(
           pageCommand: NavigateToRoute(Routes.scanConfirmation),
         ));

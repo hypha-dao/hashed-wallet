@@ -1,9 +1,7 @@
-import 'package:hashed/datasource/local/models/eos_transaction.dart';
-import 'package:hashed/datasource/local/util/seeds_esr.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 
 class ScanQrCodeResultData {
-  final EOSTransaction transaction;
-  final SeedsESR esr;
+  final SubstrateSigningRequestModel signingRequestModel;
 
-  ScanQrCodeResultData({required this.transaction, required this.esr});
+  ScanQrCodeResultData(this.signingRequestModel);
 }
