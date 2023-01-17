@@ -1,19 +1,21 @@
 import 'package:async/async.dart';
-import 'package:hashed/datasource/local/util/seeds_esr.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
+import 'package:hashed/datasource/local/signing_request_repository.dart';
 
 class QrCodeService {
-  Future<Result<dynamic>> processQrCode(String scanResult, String accountName) {
+  Result<SubstrateSigningRequestModel> processQrCode(String scanResult) {
     final splitUri = scanResult.split(':');
     final scheme = splitUri[0];
-    if (scheme != 'esr' && scheme != 'web+esr') {
-      print(" processQrCode : Invalid QR code");
-      return Future.value(ErrorResult('Invalid QR Code'));
+    if (scheme != 'ssr') {
+      print("processQrCode : Invalid QR code");
+      return Result.error('Invalid QR Code');
     }
 
-    final SeedsESR esr = SeedsESR(uri: scanResult);
-    return esr.resolve(account: accountName).then((value) => esr.processResolvedRequest()).catchError((onError) {
-      print(" processQrCode : Error processing QR code");
-      return ErrorResult("Error processing QR code");
-    });
+    final SubstrateSigningRequestModel? ssr = SigningRequestRepository().parseUrl(scanResult);
+    if (ssr != null) {
+      return Result.value(ssr);
+    } else {
+      return Result.error("Error processing QR code");
+    }
   }
 }

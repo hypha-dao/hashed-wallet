@@ -1,4 +1,4 @@
-import 'package:hashed/crypto/dart_esr/dart_esr.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 
 class BottomBarNavigateToIndex extends PageCommand {
@@ -8,7 +8,7 @@ class BottomBarNavigateToIndex extends PageCommand {
 }
 
 class ProcessSigningRequest extends PageCommand {
-  final Action action;
+  final SubstrateSigningRequestModel model;
 
-  ProcessSigningRequest(this.action);
+  ProcessSigningRequest(this.model);
 }
