@@ -34,7 +34,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: Text(context.loc.transferReceiveScanQRCode)),
+            appBar: AppBar(title: const Text('Scan QR Code')),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: SingleChildScrollView(
@@ -45,10 +45,13 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           const SizedBox(height: 30),
-                          QrCodeGeneratorWidget(data: state.details.invoiceLink, size: size.width * 0.8),
+                          ColoredBox(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            child: QrCodeGeneratorWidget(data: state.details.invoiceLink, size: size.width * 0.8),
+                          ),
                           const SizedBox(height: 20),
                           ShareLinkRow(
-                            label: context.loc.transferReceiveShareLink,
+                            label: "Share Link",
                             link: state.details.invoiceLinkUri == null
                                 ? state.details.invoiceLink
                                 : state.details.invoiceLinkUri.toString(),
@@ -64,23 +67,14 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                           const SizedBox(height: 4),
                           const DividerJungle(thickness: 2.0, height: 10),
                           const SizedBox(height: 4),
-                          if (state.details.memo != null)
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: context.loc.transferReceiveMemo,
-                                    children: [TextSpan(text: state.details.memo)]),
-                              ),
-                            ),
                           const SizedBox(height: 40),
-                          Text(context.loc.transferReceiveWaiting, style: Theme.of(context).textTheme.headline6),
+                          Text("Waiting for payment...", style: Theme.of(context).textTheme.headline6),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(60.0, 40, 60.0, 0),
                             child: FlatButtonLong(
                               enabled: !state.isCheckButtonLoading,
                               isLoading: state.isCheckButtonLoading,
-                              title: context.loc.transferReceiveCheckPaymentButtonTitle,
+                              title: "Done",
                               onPressed: () {
                                 BlocProvider.of<ReceiveDetailsBloc>(context).add(const OnCheckPaymentButtonPressed());
                               },

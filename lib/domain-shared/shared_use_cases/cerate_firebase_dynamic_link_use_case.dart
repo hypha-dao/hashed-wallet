@@ -15,6 +15,6 @@ class CreateFirebaseDynamicLinkUseCase {
 
     print("recover link: $uri");
 
-    return _firebaseDynamicLinkService.createDynamicLink(uri);
+    return _firebaseDynamicLinkService.createDynamicLinkFromUri(uri);
   }
 }

@@ -20,7 +20,7 @@ class ReceiveSelectionCard extends StatelessWidget {
       onTap: onTap,
       child: Ink(
         decoration: BoxDecoration(
-          //color: AppColors.darkGreen2,
+          color: Colors.amber,
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         padding: const EdgeInsets.all(16.0),

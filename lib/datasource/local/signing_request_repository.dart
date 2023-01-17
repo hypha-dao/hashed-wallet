@@ -5,6 +5,7 @@ import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
+import 'package:hashed/utils/result_extension.dart';
 
 class SigningRequestRepository {
   static const urlScheme = "ssr";
@@ -51,8 +52,14 @@ class SigningRequestRepository {
     }
   }
 
-  String toUrl(SubstrateSigningRequestModel signingRequest) {
-    return jsonToSigningRequestUrl(signingRequest.toJson());
+  Result<String> toUrl(SubstrateSigningRequestModel signingRequest) {
+    try {
+      return Result.value(jsonToSigningRequestUrl(signingRequest.toJson()));
+    } catch (error, s) {
+      print("error encoding signing request $error");
+      print(s);
+      return Result.error(error);
+    }
   }
 
   Future<Map<String, dynamic>> signAndSendSigningRequest(SubstrateSigningRequestModel signingRequestModel) async {
