@@ -24,10 +24,10 @@
 				<key>CFBundleTypeRole</key>
 				<string>Editor</string>
 				<key>CFBundleURLName</key>
-				<string>com.joinseeds.seedslight</string>
+				<string>ssr</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>com.joinseeds.seedslight</string>
+					<string>ssr</string>
 				</array>
 			</dict>
 		</array>
