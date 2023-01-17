@@ -401,7 +401,7 @@ class PolkadotRepository extends KeyRepository {
   void startKeepAliveTimer() {
     _keepAliveTimer?.cancel();
     _keepAliveTimer = Timer.periodic(const Duration(seconds: 6), (timer) async {
-      print("run keep alive check");
+      //print("run keep alive check");
       await checkIsConnected();
     });
   }
@@ -412,7 +412,7 @@ class PolkadotRepository extends KeyRepository {
 
   Future<void> checkIsConnected() async {
     final aliveCheckSuccess = await _substrateService?.runAliveCheck();
-    print("alive check $aliveCheckSuccess");
+    //print("alive check $aliveCheckSuccess");
 
     if (aliveCheckSuccess == null) {
       print("alive timer: substrate service is null");
