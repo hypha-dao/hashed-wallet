@@ -5,7 +5,6 @@ import 'package:hashed/components/amount_entry/amount_entry_widget.dart';
 import 'package:hashed/components/balance_row.dart';
 import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/full_page_loading_indicator.dart';
-import 'package:hashed/components/text_form_field_light.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';

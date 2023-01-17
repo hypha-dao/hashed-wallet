@@ -62,7 +62,8 @@ void main() {
       transactions: [transactionModel],
     );
 
-    final ssrUrl = repo.toUrl(model);
+    final ssrUrlResult = repo.toUrl(model);
+    final ssrUrl = ssrUrlResult.asValue!.value;
 
     print("url: $ssrUrl");
 

@@ -12,7 +12,9 @@ import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
+import 'package:hashed/screens/transfer/receive/receive_enter_data/interactor/mappers/create_invoice_result_mapper.dart';
 import 'package:hashed/screens/transfer/receive/receive_enter_data/interactor/mappers/user_balance_state_mapper.dart';
+import 'package:hashed/screens/transfer/receive/receive_enter_data/interactor/usecases/receive_seeds_invoice_use_case.dart';
 import 'package:hashed/utils/rate_states_extensions.dart';
 
 part 'receive_enter_data_event.dart';
@@ -41,11 +43,10 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvent, ReceiveEnterDataS
   }
 
   Future<void> _onNextButtonTapped(OnNextButtonTapped event, Emitter<ReceiveEnterDataState> emit) async {
-    print("next pressed.. ??");
-    // emit(state.copyWith(pageState: PageState.loading));
-    // final Result<ReceiveInvoiceResponse> result = await ReceiveSeedsInvoiceUseCase()
-    //     .run(ReceiveSeedsInvoiceUseCase.input(tokenAmount: state.tokenAmount, memo: state.memo));
-    // emit(CreateInvoiceResultMapper().mapResultToState(state, result));
+    emit(state.copyWith(pageState: PageState.loading));
+    final Result<ReceiveInvoiceResponse> result = await ReceiveInvoiceUseCase()
+        .run(ReceiveInvoiceUseCase.input(tokenAmount: state.tokenAmount, memo: state.memo));
+    emit(CreateInvoiceResultMapper().mapResultToState(state, result));
   }
 
   void _clearReceiveEnterDataState(ClearReceiveEnterDataState event, Emitter<ReceiveEnterDataState> emit) {

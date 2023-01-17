@@ -68,6 +68,7 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
                     ),
                   ),
                 ),
+                // ignore: use_decorated_box
                 Container(
                   decoration:
                       const BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: Colors.amber),
@@ -95,6 +96,7 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
               children: [
                 Text(context.loc.transferReceivePaidSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
+                // ignore: use_decorated_box
                 Container(
                   decoration:
                       const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), color: Colors.amber),
