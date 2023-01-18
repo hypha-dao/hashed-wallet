@@ -15,7 +15,8 @@ class ClearPageCommand extends ScanConfirmationEvent {
 }
 
 class Initial extends ScanConfirmationEvent {
-  const Initial();
+  final SubstrateSigningRequestModel? signingRequest;
+  const Initial(this.signingRequest);
 
   @override
   String toString() => 'Initial';

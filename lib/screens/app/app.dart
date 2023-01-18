@@ -42,7 +42,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: "Scan",
       icon: 'assets/images/scan.svg',
       iconSelected: 'assets/images/scan.svg',
-      screen: ScanConfirmationScreen(),
+      screen: ScanConfirmationScreen(null),
       // TODO(gguij): remove this to show the scanner
       // screen: SendScannerScreen(),
       index: 1,

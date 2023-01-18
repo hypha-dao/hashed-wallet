@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/design/lib/hashed_body_widget.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
@@ -13,31 +14,42 @@ import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 
 final mockData = [
   ScanConfirmationAction(
-      data: ScanConfirmationActionData(actionName: const MapEntry('CreateRecovery', 'Recovery'), actionParams: {
-    'first': 'First Name',
-    'second': 'second name',
-    'third': 'Third =Nik',
-  })),
+    data: ScanConfirmationActionData(pallet: "Recovery", extrinsic: "CreateRecovery", actionParams: {
+      'first': 'First Name',
+      'second': 'second name',
+      'third': 'Third =Nik',
+    }),
+  ),
   ScanConfirmationAction(
-      data: ScanConfirmationActionData(actionName: const MapEntry('CreateRecovery', 'Recovery'), actionParams: {
-    'Parameter 1': 'doe_john',
-    'Parameter 2': 'butt_roman12',
-  })),
+    data: ScanConfirmationActionData(
+      pallet: "Recovery",
+      extrinsic: "CreateRecovery",
+      actionParams: {
+        'Parameter 1': 'doe_john',
+        'Parameter 2': 'butt_roman12',
+      },
+    ),
+  ),
   ScanConfirmationAction(
-      data: ScanConfirmationActionData(actionName: const MapEntry('CreateRecovery', 'Recovery'), actionParams: {
-    'Parameter 1': 'doe_john',
-    'Parameter 2': 'butt_roman12',
-    'Parameter 3': 'Bill split payment of last week',
-  })),
+      data: ScanConfirmationActionData(
+    pallet: "Recovery",
+    extrinsic: "CreateRecovery",
+    actionParams: {
+      'Parameter 1': 'doe_john',
+      'Parameter 2': 'butt_roman12',
+      'Parameter 3': 'Bill split payment of last week',
+    },
+  )),
 ];
 
 class ScanConfirmationScreen extends StatelessWidget {
-  const ScanConfirmationScreen({super.key});
+  final SubstrateSigningRequestModel? signingRequest;
+  const ScanConfirmationScreen(this.signingRequest, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ScanConfirmationBloc()..add(const Initial()),
+      create: (context) => ScanConfirmationBloc()..add(Initial(signingRequest)),
       child: BlocListener<ScanConfirmationBloc, ScanConfirmationState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {

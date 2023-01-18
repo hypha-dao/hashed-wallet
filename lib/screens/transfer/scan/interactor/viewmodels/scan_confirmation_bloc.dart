@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
@@ -14,7 +15,8 @@ part 'scan_confirmation_state.dart';
 final mockData = [
   ScanConfirmationActionData(
       // ignore: prefer_const_constructors
-      actionName: MapEntry('Create Recovery', 'Recovery'),
+      pallet: "Recovery",
+      extrinsic: "CreateRecovery",
       actionParams: {'One': 'One Value', 'Two': 'Two Value'}),
 ];
 
