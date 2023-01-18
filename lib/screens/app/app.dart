@@ -20,6 +20,7 @@ import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart'
 import 'package:hashed/screens/app/interactor/viewmodels/app_screen_item.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_screen.dart';
+import 'package:hashed/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:hashed/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {
@@ -42,9 +43,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: "Scan",
       icon: 'assets/images/scan.svg',
       iconSelected: 'assets/images/scan.svg',
-      screen: ScanConfirmationScreen(null),
-      // TODO(gguij): remove this to show the scanner
-      // screen: SendScannerScreen(),
+      screen: SendScannerScreen(),
       index: 1,
     ),
     AppScreenItem(
