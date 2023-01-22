@@ -19,7 +19,6 @@ import 'package:hashed/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:hashed/screens/app/interactor/viewmodels/app_screen_item.dart';
 import 'package:hashed/screens/settings/settings_screen.dart';
-import 'package:hashed/screens/transfer/scan/scan_confirmation_screen.dart';
 import 'package:hashed/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:hashed/screens/wallet/wallet_screen.dart';
 
@@ -106,7 +105,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else if (pageCommand is NavigateToRoute) {
               await NavigationService.of(context).navigateTo(pageCommand.route);
             } else if (pageCommand is NavigateToRouteWithArguments) {
-              if (pageCommand is NavigateToSendConfirmation) {
+              if (pageCommand is NavigateToScanConfirmation) {
                 await NavigationService.of(context).navigateTo(Routes.verificationUnpoppable).then((_) =>
                     NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments));
               } else {
