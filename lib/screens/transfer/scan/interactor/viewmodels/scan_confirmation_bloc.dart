@@ -12,14 +12,6 @@ import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 part 'scan_confirmation_events.dart';
 part 'scan_confirmation_state.dart';
 
-final mockData = [
-  ScanConfirmationActionData(
-      // ignore: prefer_const_constructors
-      pallet: "Recovery",
-      extrinsic: "CreateRecovery",
-      actionParams: {'One': 'One Value', 'Two': 'Two Value'}),
-];
-
 class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationState> {
   ScanConfirmationBloc() : super(ScanConfirmationState.initial()) {
     on<Initial>(_initial);
@@ -31,8 +23,9 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
     emit(state.copyWith(pageState: PageState.loading));
 
     // TODO(NIK): here is where you make the calls to fetch Initial data. Inside a use case
-    final Result<List<ScanConfirmationActionData>> result =
-        await Future.delayed(const Duration(seconds: 2)).then((value) => Result.value(mockData));
+    final Result<List<ScanConfirmationActionData>> result = event.signingRequest == null
+        ? Result.error("No signing request")
+        : Result.value(event.signingRequest!.toSendConfirmationData());
     if (result.isValue) {
       emit(state.copyWith(
         // data: result.asValue!.value,

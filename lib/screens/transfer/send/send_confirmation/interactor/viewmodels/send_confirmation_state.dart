@@ -64,7 +64,7 @@ class SendConfirmationState extends Equatable {
     );
   }
 
-  factory SendConfirmationState.initial(SendConfirmationArguments arguments) {
+  factory SendConfirmationState.initial(ScanQrCodeResultData arguments) {
     return SendConfirmationState(
       pageState: PageState.initial,
       transaction: arguments.transaction,

@@ -38,6 +38,9 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           listener: (context, state) {
             final pageCommand = state.pageCommand;
             BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
+            if (pageCommand is NavigateToScanConfirmation) {
+              NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
+            }
             if (pageCommand is NavigateToRoute) {
               NavigationService.of(context).navigateTo(pageCommand.route);
             }
@@ -45,7 +48,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text(context.loc.transferSendScanQRCodePrompt, style: Theme.of(context).textTheme.button),
+              Text("Scan QR Code to Send", style: Theme.of(context).textTheme.button),
               const SizedBox(height: 82),
               _scannerWidget,
               BlocBuilder<SendScannerBloc, SendScannerState>(

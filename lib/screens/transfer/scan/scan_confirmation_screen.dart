@@ -10,37 +10,6 @@ import 'package:hashed/images/explore/red_exclamation_circle.dart';
 import 'package:hashed/screens/transfer/scan/components/scan_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_bloc.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_commands.dart';
-import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
-
-final mockData = [
-  ScanConfirmationAction(
-    data: ScanConfirmationActionData(pallet: "Recovery", extrinsic: "CreateRecovery", actionParams: {
-      'first': 'First Name',
-      'second': 'second name',
-      'third': 'Third =Nik',
-    }),
-  ),
-  ScanConfirmationAction(
-    data: ScanConfirmationActionData(
-      pallet: "Recovery",
-      extrinsic: "CreateRecovery",
-      actionParams: {
-        'Parameter 1': 'doe_john',
-        'Parameter 2': 'butt_roman12',
-      },
-    ),
-  ),
-  ScanConfirmationAction(
-      data: ScanConfirmationActionData(
-    pallet: "Recovery",
-    extrinsic: "CreateRecovery",
-    actionParams: {
-      'Parameter 1': 'doe_john',
-      'Parameter 2': 'butt_roman12',
-      'Parameter 3': 'Bill split payment of last week',
-    },
-  )),
-];
 
 class ScanConfirmationScreen extends StatelessWidget {
   final SubstrateSigningRequestModel? signingRequest;
@@ -85,6 +54,7 @@ class ScanConfirmationScreen extends StatelessWidget {
           ),
           body: BlocBuilder<ScanConfirmationBloc, ScanConfirmationState>(
             builder: (context, state) {
+              print("state actions:  ${state.actions?.length}");
               return HashedBodyWidget(
                 pageState: state.pageState,
                 success: (context) => Padding(
@@ -95,12 +65,12 @@ class ScanConfirmationScreen extends StatelessWidget {
                       ListView.separated(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return mockData[index];
+                          return state.actions![index];
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox(height: 16);
                         },
-                        itemCount: mockData.length,
+                        itemCount: state.actions!.length,
                       ),
                     ],
                   ),
