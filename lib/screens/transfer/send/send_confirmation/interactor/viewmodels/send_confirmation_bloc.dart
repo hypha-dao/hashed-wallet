@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/datasource/local/models/account.dart';
-import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/model/transaction_results.dart';
@@ -17,7 +16,7 @@ part 'send_confirmation_event.dart';
 part 'send_confirmation_state.dart';
 
 class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationState> {
-  SendConfirmationBloc(ScanQrCodeResultData arguments) : super(SendConfirmationState.initial(arguments)) {
+  SendConfirmationBloc(SendConfirmationArguments arguments) : super(SendConfirmationState.initial(arguments)) {
     on<OnInitValidations>(_onInitValidations);
     on<OnSendTransactionButtonPressed>(_onSendTransaction);
   }
