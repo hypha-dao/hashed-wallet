@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 
 class SubstrateTransactionModel {
   final SubstrateExtrinsicModel extrinsic;
@@ -26,4 +27,19 @@ class SubstrateTransactionModel {
         'extrinsic': extrinsic.toJson(),
         'params': jsonEncode(parameters),
       };
+
+  ScanConfirmationActionData toSendConfirmationActionData() {
+    var paramIndex = 1;
+    final parameterMap = <String, String>{};
+    for (final param in parameters) {
+      final name = "Parameter $paramIndex";
+      parameterMap[name] = param.toString();
+      paramIndex++;
+    }
+    return ScanConfirmationActionData(
+      pallet: extrinsic.module,
+      extrinsic: extrinsic.call,
+      actionParams: parameterMap,
+    );
+  }
 }
