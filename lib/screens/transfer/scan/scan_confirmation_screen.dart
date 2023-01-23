@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/components/flat_button_long.dart';
-import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
+import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/design/lib/hashed_body_widget.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
@@ -10,15 +10,16 @@ import 'package:hashed/images/explore/red_exclamation_circle.dart';
 import 'package:hashed/screens/transfer/scan/components/scan_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_bloc.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_commands.dart';
+import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 
 class ScanConfirmationScreen extends StatelessWidget {
-  final SubstrateSigningRequestModel? signingRequest;
-  const ScanConfirmationScreen(this.signingRequest, {super.key});
+  final ScanQrCodeResultData scanQrCodeResultData;
+  const ScanConfirmationScreen(this.scanQrCodeResultData, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ScanConfirmationBloc()..add(Initial(signingRequest)),
+      create: (context) => ScanConfirmationBloc()..add(Initial(scanQrCodeResultData)),
       child: BlocListener<ScanConfirmationBloc, ScanConfirmationState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -65,7 +66,7 @@ class ScanConfirmationScreen extends StatelessWidget {
                       ListView.separated(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return state.actions![index];
+                          return ScanConfirmationActionWidget(data: state.actions![index]);
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox(height: 16);

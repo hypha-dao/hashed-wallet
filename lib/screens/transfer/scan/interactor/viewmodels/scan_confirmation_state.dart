@@ -1,14 +1,14 @@
 part of 'scan_confirmation_bloc.dart';
 
 final mockData = [
-  ScanConfirmationAction(
+  ScanConfirmationActionWidget(
     data: ScanConfirmationActionData(pallet: "Recovery", extrinsic: "CreateRecovery", actionParams: {
       'first': 'First Name',
       'second': 'second name',
       'third': 'Third =Nik',
     }),
   ),
-  ScanConfirmationAction(
+  ScanConfirmationActionWidget(
     data: ScanConfirmationActionData(
       pallet: "Recovery",
       extrinsic: "CreateRecovery",
@@ -18,7 +18,7 @@ final mockData = [
       },
     ),
   ),
-  ScanConfirmationAction(
+  ScanConfirmationActionWidget(
       data: ScanConfirmationActionData(
     pallet: "Recovery",
     extrinsic: "CreateRecovery",
@@ -35,7 +35,7 @@ class ScanConfirmationState extends Equatable {
   final PageCommand? pageCommand;
   final bool actionButtonLoading;
   final String? transactionSendError;
-  final List<ScanConfirmationAction>? actions;
+  final List<ScanConfirmationActionData>? actions;
 
   const ScanConfirmationState(
       {required this.pageState,
@@ -57,7 +57,7 @@ class ScanConfirmationState extends Equatable {
     PageCommand? pageCommand,
     bool? actionButtonLoading,
     String? transactionSendError,
-    List<ScanConfirmationAction>? actions,
+    List<ScanConfirmationActionData>? actions,
   }) {
     return ScanConfirmationState(
       pageState: pageState ?? this.pageState,

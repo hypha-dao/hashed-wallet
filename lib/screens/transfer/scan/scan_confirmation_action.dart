@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hashed/utils/ThemeBuildContext.dart';
 
-class ScanConfirmationAction extends StatelessWidget {
+class ScanConfirmationActionWidget extends StatelessWidget {
   final ScanConfirmationActionData data;
 
-  const ScanConfirmationAction({super.key, required this.data});
+  const ScanConfirmationActionWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

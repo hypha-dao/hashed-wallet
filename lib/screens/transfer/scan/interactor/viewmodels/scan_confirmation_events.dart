@@ -15,7 +15,7 @@ class ClearPageCommand extends ScanConfirmationEvent {
 }
 
 class Initial extends ScanConfirmationEvent {
-  final SubstrateSigningRequestModel? signingRequest;
+  final ScanQrCodeResultData? signingRequest;
   const Initial(this.signingRequest);
 
   @override
