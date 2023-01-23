@@ -29,7 +29,10 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
             onTap: () => _copyToClipboard(accountService.currentAccount.address),
             child: Row(
               children: [
-                Text(accountService.currentAccount.address.shorter),
+                Text(
+                  accountService.currentAccount.address.shorter,
+                  //style: TextStyle(fontSize: 20),
+                ),
                 const SizedBox(
                   width: 8,
                 ),
@@ -37,10 +40,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
           ),
-          actions: [
-            const SizedBox(width: horizontalEdgePadding + 36),
-            const SizedBox(width: horizontalEdgePadding),
-          ],
+          actions: [],
         );
       },
     );
