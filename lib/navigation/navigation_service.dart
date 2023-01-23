@@ -134,6 +134,11 @@ class NavigationService {
     }
   }
 
+  // Go home and reset all screens - after scan.
+  Future<dynamic> goToHomeScreen() async {
+    await navigateTo(Routes.app, replace: true);
+  }
+
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     if (_appRoutes[settings.name!] != null) {
       if (_cupertinoRoutes.contains(settings.name)) {

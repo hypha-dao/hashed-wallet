@@ -20,7 +20,7 @@ class ScanTransactionSuccessDialog extends StatelessWidget {
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
           singleLargeButtonTitle: 'Done',
           onSingleLargeButtonPressed: () async {
-            await NavigationService.of(context).navigateTo(Routes.app, replace: true);
+            await NavigationService.of(context).goToHomeScreen();
           },
           children: [
             Text("Success", style: Theme.of(context).textTheme.headline4),

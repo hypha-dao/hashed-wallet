@@ -7,6 +7,7 @@ import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/images/explore/red_exclamation_circle.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/transfer/scan/components/scan_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_bloc.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_commands.dart';
@@ -32,6 +33,8 @@ class ScanConfirmationScreen extends StatelessWidget {
             eventBus.fire(ShowSnackBar.success(pageCommand.message));
           } else if (pageCommand is ShowTransactionSuccess) {
             const ScanTransactionSuccessDialog().show(context);
+          } else if (pageCommand is NavigateHome) {
+            NavigationService.of(context).goToHomeScreen();
           }
         },
         child: Scaffold(
@@ -44,8 +47,12 @@ class ScanConfirmationScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: FlatButtonLong(
                     title: state.transactionSendError == null ? 'Confirm and Send' : 'Done',
-                    onPressed: () {
-                      BlocProvider.of<ScanConfirmationBloc>(context).add(const OnSendTapped());
+                    onPressed: () async {
+                      if (state.transactionSendError == null) {
+                        BlocProvider.of<ScanConfirmationBloc>(context).add(const OnSendTapped());
+                      } else {
+                        BlocProvider.of<ScanConfirmationBloc>(context).add(const OnDoneTapped());
+                      }
                     },
                     isLoading: state.actionButtonLoading,
                   ),

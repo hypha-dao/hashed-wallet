@@ -62,7 +62,8 @@ class SigningRequestRepository {
     }
   }
 
-  Future<Map<String, dynamic>> signAndSendSigningRequest(SubstrateSigningRequestModel signingRequestModel) async {
+  Future<Result<Map<String, dynamic>>> signAndSendSigningRequest(
+      SubstrateSigningRequestModel signingRequestModel) async {
     // check chain
     if (signingRequestModel.chainId != settingsStorage.currentNetwork) {
       throw "Wrong chain - switch to the chain ${signingRequestModel.chainId} before signing this request.";
@@ -80,11 +81,16 @@ class SigningRequestRepository {
     final extrinsicModel = transaction.extrinsic.resolvePlaceholders(accountService.currentAccount.address);
     final params = transaction.parameters;
 
-    final res =
-        await polkadotRepository.balancesRepository.signAndSend(extrinsicModel, params, onStatusChange: (status) {
-      print("send onStatusChange: $status");
-    });
+    try {
+      final res =
+          await polkadotRepository.balancesRepository.signAndSend(extrinsicModel, params, onStatusChange: (status) {
+        print("send onStatusChange: $status");
+      });
 
-    return res;
+      return Result.value(res);
+    } catch (err) {
+      print("error signing request: $err");
+      return Result.error(err);
+    }
   }
 }

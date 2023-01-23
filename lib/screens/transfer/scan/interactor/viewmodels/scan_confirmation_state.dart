@@ -36,13 +36,16 @@ class ScanConfirmationState extends Equatable {
   final bool actionButtonLoading;
   final String? transactionSendError;
   final List<ScanConfirmationActionData>? actions;
+  final SubstrateSigningRequestModel? signingRequest;
 
-  const ScanConfirmationState(
-      {required this.pageState,
-      this.pageCommand,
-      required this.actionButtonLoading,
-      this.transactionSendError,
-      this.actions});
+  const ScanConfirmationState({
+    required this.pageState,
+    this.pageCommand,
+    required this.actionButtonLoading,
+    this.transactionSendError,
+    this.actions,
+    this.signingRequest,
+  });
 
   @override
   List<Object?> get props => [
@@ -58,6 +61,7 @@ class ScanConfirmationState extends Equatable {
     bool? actionButtonLoading,
     String? transactionSendError,
     List<ScanConfirmationActionData>? actions,
+    SubstrateSigningRequestModel? signingRequest,
   }) {
     return ScanConfirmationState(
       pageState: pageState ?? this.pageState,
@@ -65,6 +69,7 @@ class ScanConfirmationState extends Equatable {
       actionButtonLoading: actionButtonLoading ?? this.actionButtonLoading,
       transactionSendError: transactionSendError ?? this.transactionSendError,
       actions: actions ?? this.actions,
+      signingRequest: signingRequest ?? this.signingRequest,
     );
   }
 

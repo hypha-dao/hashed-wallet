@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
-import 'package:hashed/datasource/remote/model/token_model.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
-import 'package:hashed/utils/double_extension.dart';
 import 'package:hashed/utils/short_string.dart';
 
 class SubstrateTransactionModel {

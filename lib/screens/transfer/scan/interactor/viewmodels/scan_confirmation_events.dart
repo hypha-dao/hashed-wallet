@@ -28,3 +28,10 @@ class OnSendTapped extends ScanConfirmationEvent {
   @override
   String toString() => 'OnSendTapped';
 }
+
+class OnDoneTapped extends ScanConfirmationEvent {
+  const OnDoneTapped();
+
+  @override
+  String toString() => 'OnDoneTapped';
+}
