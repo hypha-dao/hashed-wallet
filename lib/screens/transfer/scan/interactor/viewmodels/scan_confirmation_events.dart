@@ -15,7 +15,8 @@ class ClearPageCommand extends ScanConfirmationEvent {
 }
 
 class Initial extends ScanConfirmationEvent {
-  const Initial();
+  final ScanQrCodeResultData? signingRequest;
+  const Initial(this.signingRequest);
 
   @override
   String toString() => 'Initial';
@@ -26,4 +27,11 @@ class OnSendTapped extends ScanConfirmationEvent {
 
   @override
   String toString() => 'OnSendTapped';
+}
+
+class OnDoneTapped extends ScanConfirmationEvent {
+  const OnDoneTapped();
+
+  @override
+  String toString() => 'OnDoneTapped';
 }

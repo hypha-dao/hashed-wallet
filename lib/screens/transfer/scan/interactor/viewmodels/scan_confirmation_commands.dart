@@ -5,3 +5,7 @@ abstract class ScanPageCommand extends PageCommand {}
 class ShowTransactionSuccess extends ScanPageCommand {
   ShowTransactionSuccess();
 }
+
+class NavigateHome extends ScanPageCommand {
+  NavigateHome();
+}

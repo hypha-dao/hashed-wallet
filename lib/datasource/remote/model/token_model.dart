@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,11 @@ class TokenModel extends Equatable {
 
   String getAssetString(double quantity) {
     return "${quantity.toStringAsFixed(precision)} $symbol";
+  }
+
+  double amountFromUnit(String unitAmount) {
+    final bigNum = BigInt.parse(unitAmount);
+    return bigNum.toDouble() / pow(10, precision);
   }
 }
 

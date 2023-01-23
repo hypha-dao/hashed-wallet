@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hashed/utils/ThemeBuildContext.dart';
 
-class ScanConfirmationAction extends StatelessWidget {
+class ScanConfirmationActionWidget extends StatelessWidget {
   final ScanConfirmationActionData data;
 
-  const ScanConfirmationAction({super.key, required this.data});
+  const ScanConfirmationActionWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,12 @@ class ScanConfirmationAction extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                data.actionName.key,
+                data.pallet,
                 style: context.textTheme.bodyLarge,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                data.actionName.value,
+                data.extrinsic,
                 style: context.textTheme.subtitle2,
                 overflow: TextOverflow.ellipsis,
               )
@@ -56,8 +56,10 @@ class ScanConfirmationAction extends StatelessWidget {
 }
 
 class ScanConfirmationActionData {
-  final MapEntry<String, String> actionName;
+  // final MapEntry<String, String> actionName;
+  final String pallet;
+  final String extrinsic;
   final Map<String, String> actionParams;
 
-  ScanConfirmationActionData({required this.actionName, required this.actionParams});
+  ScanConfirmationActionData({required this.pallet, required this.extrinsic, required this.actionParams});
 }

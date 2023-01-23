@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hashed/components/custom_dialog.dart';
+import 'package:hashed/navigation/navigation_service.dart';
 
 class ScanTransactionSuccessDialog extends StatelessWidget {
   const ScanTransactionSuccessDialog({super.key});
@@ -18,9 +19,8 @@ class ScanTransactionSuccessDialog extends StatelessWidget {
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
           singleLargeButtonTitle: 'Done',
-          onSingleLargeButtonPressed: () {
-            // TODO(gguij): Pop home here
-            Navigator.pop(context);
+          onSingleLargeButtonPressed: () async {
+            await NavigationService.of(context).goToHomeScreen();
           },
           children: [
             Text("Success", style: Theme.of(context).textTheme.headline4),

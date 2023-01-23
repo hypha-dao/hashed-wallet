@@ -92,7 +92,7 @@ class NavigationService {
     Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
-    Routes.scanConfirmation: (args) => const ScanConfirmationScreen(),
+    Routes.scanConfirmation: (args) => ScanConfirmationScreen(args),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreenV3(),
@@ -132,6 +132,11 @@ class NavigationService {
         return appNavigatorKey.currentState?.pushNamed(routeName, arguments: arguments);
       }
     }
+  }
+
+  // Go home and reset all screens - after scan.
+  Future<dynamic> goToHomeScreen() async {
+    await navigateTo(Routes.app, replace: true);
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {

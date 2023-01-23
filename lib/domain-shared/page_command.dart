@@ -1,6 +1,5 @@
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/navigation/navigation_service.dart';
-import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 abstract class PageCommand {}
 
@@ -31,10 +30,6 @@ class NavigateToRouteWithArguments<T> extends PageCommand {
   final T arguments;
 
   NavigateToRouteWithArguments({required this.route, required this.arguments});
-}
-
-class NavigateToSendConfirmation extends NavigateToRouteWithArguments {
-  NavigateToSendConfirmation(SendConfirmationArguments args) : super(route: Routes.scanConfirmation, arguments: args);
 }
 
 class NavigateToScanConfirmation extends NavigateToRouteWithArguments {

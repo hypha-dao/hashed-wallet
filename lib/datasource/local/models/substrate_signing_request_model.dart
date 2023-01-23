@@ -1,4 +1,5 @@
 import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 
 class SubstrateSigningRequestModel {
   final String chainId;
@@ -24,4 +25,8 @@ class SubstrateSigningRequestModel {
         'chainId': chainId,
         'transactions': List.of(transactions.map((e) => e.toJson())),
       };
+
+  List<ScanConfirmationActionData> toSendConfirmationData() {
+    return List.from(transactions.map((e) => e.toSendConfirmationActionData()));
+  }
 }
