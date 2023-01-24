@@ -62,7 +62,6 @@ class ScanConfirmationScreen extends StatelessWidget {
           ),
           body: BlocBuilder<ScanConfirmationBloc, ScanConfirmationState>(
             builder: (context, state) {
-              print("state actions:  ${state.actions?.length}");
               return HashedBodyWidget(
                 pageState: state.pageState,
                 success: (context) => Padding(
@@ -108,6 +107,9 @@ class _ErrorWidget extends StatelessWidget {
       child: Column(
         children: [
           const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
+          const SizedBox(
+            height: 10,
+          ),
           Text(transactionSendError),
         ],
       ),

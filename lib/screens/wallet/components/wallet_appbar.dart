@@ -5,7 +5,6 @@ import 'package:hashed/components/chain_avatar.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/event_bus/event_bus.dart';
 import 'package:hashed/domain-shared/event_bus/events.dart';
-import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 import 'package:hashed/utils/short_string.dart';
 
