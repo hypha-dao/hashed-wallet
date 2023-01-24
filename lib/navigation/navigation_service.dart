@@ -136,7 +136,7 @@ class NavigationService {
 
   // Go home and reset all screens - after scan.
   Future<dynamic> goToHomeScreen() async {
-    await navigateTo(Routes.app, replace: true);
+    await pushApp();
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {

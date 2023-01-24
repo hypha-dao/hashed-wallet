@@ -40,7 +40,9 @@ class ScanConfirmationScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(title: const Text("Transaction Actions")),
           bottomNavigationBar: BlocBuilder<ScanConfirmationBloc, ScanConfirmationState>(
-            buildWhen: (previous, current) => previous.actionButtonLoading != current.actionButtonLoading,
+            buildWhen: (previous, current) =>
+                previous.actionButtonLoading != current.actionButtonLoading ||
+                previous.transactionSendError != current.transactionSendError,
             builder: (context, state) {
               return SafeArea(
                 child: Padding(
