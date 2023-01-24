@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/scanner/scanner_view.dart';
+import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
+import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/datasource/local/models/tx_sender_data.dart';
+import 'package:hashed/datasource/local/signing_request_repository.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -81,11 +87,35 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                       return const SizedBox.shrink();
                   }
                 },
-              )
+              ),
+
+              /// Test code
+              // const SizedBox(height: 32),
+              // FlatButtonLong(
+              //     title: "Test",
+              //     onPressed: () {
+              //       _sendScannerBloc.add(ExecuteScanResult(SSRMockDataGenerator().generateMockSSR()));
+              //     }),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class SSRMockDataGenerator {
+  String generateMockSSR() {
+    final repo = SigningRequestRepository();
+    final txInfo = const SubstrateExtrinsicModel(module: 'balances', call: 'transfer', sender: TxSenderData.signer);
+    final hasher5 = "5Dnk6vQhAVDY9ysZr8jrqWJENDWYHaF3zorFA4dr9Mtbei77";
+    final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [hasher5, 2000000000000000]);
+    final SubstrateSigningRequestModel model = SubstrateSigningRequestModel(
+      chainId: "hashed", // "polkadot" // for testing, switch this out
+      transactions: [transactionModel],
+    );
+    final ssrUrlResult = repo.toUrl(model);
+    final ssrUrl = ssrUrlResult.asValue!.value;
+    return ssrUrl;
   }
 }

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
+import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/local/signing_request_repository.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
@@ -25,19 +26,28 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
   Future<void> _initial(Initial event, Emitter<ScanConfirmationState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
 
-    // TODO(NIK): here is where you make the calls to fetch Initial data. Inside a use case
-    final Result<List<ScanConfirmationActionData>> result = event.signingRequest == null
-        ? Result.error("No signing request")
-        : Result.value(event.signingRequest!.signingRequestModel.toSendConfirmationData());
+    Result<List<ScanConfirmationActionData>> result;
+    if (event.signingRequest == null) {
+      result = Result.error("No signing request");
+    } else {
+      if (settingsStorage.currentNetwork != event.signingRequest!.signingRequestModel.chainId) {
+        result = Result.error(
+            'You are on network ${settingsStorage.currentNetwork}. Please select network ${event.signingRequest!.signingRequestModel.chainId} to sign this transaction.');
+      } else {
+        result = Result.value(event.signingRequest!.signingRequestModel.toSendConfirmationData());
+      }
+    }
     if (result.isValue) {
       emit(state.copyWith(
         actions: result.asValue!.value,
         signingRequest: event.signingRequest!.signingRequestModel,
         pageState: PageState.success,
-        // filtered: result.asValue!.value,
       ));
     } else {
-      emit(state.copyWith(pageState: PageState.failure));
+      emit(
+        state.copyWith(
+            pageState: PageState.success, actions: [], transactionSendError: result.asError!.error.toString()),
+      );
     }
   }
 
@@ -58,7 +68,7 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
     } else {
       emit(state.copyWith(
         actionButtonLoading: false,
-        transactionSendError: 'Error',
+        transactionSendError: 'Error: ${result.asError!.error.toString()}',
       ));
     }
   }

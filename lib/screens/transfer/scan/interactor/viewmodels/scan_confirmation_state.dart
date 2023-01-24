@@ -1,14 +1,14 @@
 part of 'scan_confirmation_bloc.dart';
 
 final mockData = [
-  ScanConfirmationActionWidget(
+  const ScanConfirmationActionWidget(
     data: ScanConfirmationActionData(pallet: "Recovery", extrinsic: "CreateRecovery", actionParams: {
       'first': 'First Name',
       'second': 'second name',
       'third': 'Third =Nik',
     }),
   ),
-  ScanConfirmationActionWidget(
+  const ScanConfirmationActionWidget(
     data: ScanConfirmationActionData(
       pallet: "Recovery",
       extrinsic: "CreateRecovery",
@@ -18,7 +18,7 @@ final mockData = [
       },
     ),
   ),
-  ScanConfirmationActionWidget(
+  const ScanConfirmationActionWidget(
       data: ScanConfirmationActionData(
     pallet: "Recovery",
     extrinsic: "CreateRecovery",

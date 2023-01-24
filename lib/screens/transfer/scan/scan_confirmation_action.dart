@@ -61,5 +61,5 @@ class ScanConfirmationActionData {
   final String extrinsic;
   final Map<String, String> actionParams;
 
-  ScanConfirmationActionData({required this.pallet, required this.extrinsic, required this.actionParams});
+  const ScanConfirmationActionData({required this.pallet, required this.extrinsic, required this.actionParams});
 }
