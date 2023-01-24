@@ -90,12 +90,12 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
               ),
 
               /// Test code
-              const SizedBox(height: 32),
-              FlatButtonLong(
-                  title: "Test",
-                  onPressed: () {
-                    _sendScannerBloc.add(ExecuteScanResult(SSRMockDataGenerator().generateMockSSR()));
-                  }),
+              // const SizedBox(height: 32),
+              // FlatButtonLong(
+              //     title: "Test",
+              //     onPressed: () {
+              //       _sendScannerBloc.add(ExecuteScanResult(SSRMockDataGenerator().generateMockSSR()));
+              //     }),
             ],
           ),
         ),
