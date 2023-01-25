@@ -15,10 +15,7 @@ class SigningRequestRepository {
     final bytes = utf8.encode(string);
     final zippedBytes = gzip.encode(bytes);
     final base64url = base64Url.encode(zippedBytes);
-
     return "$urlScheme://$base64url";
-
-    // var decoded = json.decode('["foo", { "bar": 499 }]');
   }
 
   /// returns JSON object
