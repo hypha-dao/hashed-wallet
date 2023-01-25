@@ -53,7 +53,8 @@ void main() {
   test('encode and decode signing request model from URL', () async {
     final repo = SigningRequestRepository();
 
-    final txInfo = SubstrateExtrinsicModel(module: 'recovery', call: 'createRecovery', sender: TxSenderData(rescuer));
+    final txInfo =
+        const SubstrateExtrinsicModel(module: 'recovery', call: 'createRecovery', sender: TxSenderData.signer);
     final guardianAddresses = guardians;
     guardianAddresses.sort();
     final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [guardianAddresses, 2, 3000]);
@@ -61,6 +62,12 @@ void main() {
       chainId: "hashed",
       transactions: [transactionModel],
     );
+
+    print("json: ${model.toJson()}");
+
+    final encoder = new JsonEncoder.withIndent('  ');
+    final prettyprint = encoder.convert(model.toJson());
+    print(prettyprint);
 
     final ssrUrlResult = repo.toUrl(model);
     final ssrUrl = ssrUrlResult.asValue!.value;
