@@ -65,7 +65,7 @@ void main() {
 
     print("json: ${model.toJson()}");
 
-    final encoder = new JsonEncoder.withIndent('  ');
+    final encoder = const JsonEncoder.withIndent('  ');
     final prettyprint = encoder.convert(model.toJson());
     print(prettyprint);
 
