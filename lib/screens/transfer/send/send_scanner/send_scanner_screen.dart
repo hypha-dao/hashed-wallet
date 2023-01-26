@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/scanner/scanner_view.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
@@ -88,7 +89,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                 },
               ),
 
-              /// Test code
+              // Test code
               // const SizedBox(height: 32),
               // FlatButtonLong(
               //     title: "Test",

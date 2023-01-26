@@ -89,9 +89,7 @@ class WebViewRunner {
 
       _web = HeadlessInAppWebView(
         // initialUrlRequest: URLRequest(url: Uri.parse(homeUrl)),
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(),
-        ),
+        initialSettings: InAppWebViewSettings(),
         onWebViewCreated: (controller) {
           print('HeadlessInAppWebView created!');
         },
@@ -164,7 +162,7 @@ class WebViewRunner {
       );
 
       await _web!.run();
-      _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse(homeUrl)));
+      _web!.webViewController.loadUrl(urlRequest: URLRequest(url: WebUri(homeUrl)));
     } else {
       throw "Web view initiated already";
     }
