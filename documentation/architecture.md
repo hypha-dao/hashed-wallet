@@ -33,7 +33,7 @@ Use cases abstract actions that are asynchronous.
 
 Private keys are kept in secure storage on both platforms. 
 
-### Milestone 2 Codebase
+### Milestone 3 Codebase
 
 All code is formatted according to Flutter/Dart recommended linter settings. The only exception to this is third party code that was included as-is in, such as some code from Polkawallet, and some crypto libraries. 
 
