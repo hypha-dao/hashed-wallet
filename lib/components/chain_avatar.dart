@@ -34,7 +34,6 @@ class ChainAvatar extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     if (image != null) {
-      print("Chain avatar render image ${image!}");
       if (image!.startsWith("http")) {
         if (image!.endsWith(".svg")) {
           return SvgPicture.network(image!, fit: BoxFit.contain);
