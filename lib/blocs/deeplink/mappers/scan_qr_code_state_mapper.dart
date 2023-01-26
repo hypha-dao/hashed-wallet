@@ -4,7 +4,7 @@ import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
 import 'package:hashed/utils/string_extension.dart';
 
-class EosioSigningRequestStateMapper extends StateMapper {
+class ScanQRCodeStateMapper extends StateMapper {
   DeeplinkState mapSigningRequestToState(DeeplinkState currentState, Result result) {
     if (result.isError) {
       return currentState;

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:hashed/blocs/deeplink/mappers/deep_link_state_mapper.dart';
-import 'package:hashed/blocs/deeplink/mappers/eosio_signing_request_state_mapper.dart';
+import 'package:hashed/blocs/deeplink/mappers/scan_qr_code_state_mapper.dart';
 import 'package:hashed/blocs/deeplink/model/deep_link_data.dart';
 import 'package:hashed/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:hashed/blocs/deeplink/model/invite_link_data.dart';
@@ -79,6 +79,6 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
 
   Future<void> _handleIncomingSigningRequest(HandleIncomingSigningRequest event, Emitter<DeeplinkState> emit) async {
     final result = await GetSigningRequestUseCase().run(event.link);
-    emit(EosioSigningRequestStateMapper().mapSigningRequestToState(state, result));
+    emit(ScanQRCodeStateMapper().mapSigningRequestToState(state, result));
   }
 }
