@@ -111,6 +111,7 @@ class PolkadotRepository extends KeyRepository {
     state.isInitialized = false;
     state.isConnected = false;
     initialized = false;
+    allTokens = null;
 
     return true;
   }
@@ -213,7 +214,7 @@ class PolkadotRepository extends KeyRepository {
   // api.query.system.account(steve.address)
   Future<Result<TokenBalanceModel>> getBalance(String address, {TokenModel? forToken}) async {
     try {
-      print("get balance for $address");
+      print("get balance for $address ${forToken?.chainName}");
       if (!state.isConnected) {
         print("getBalance: service not ready...");
         return Result.error("Not ready");
@@ -221,7 +222,7 @@ class PolkadotRepository extends KeyRepository {
 
       final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
-      final token = allTokens?[0] ?? hashedToken;
+      final token = allTokens?[0] ?? forToken ?? hashedToken;
 
       if (forToken != null && forToken.symbol != token.symbol) {
         // TODO(n13): Figure out how to retrieve other token balances on a chain
@@ -469,8 +470,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<List<TokenModel>> loadChainTokens() async {
-    final chainProperties = await getChainProperties();
     final network = await chainsRepository.currentNetwork();
+    final chainProperties = await getChainProperties();
 
     final List<TokenModel> tokens = [];
 
