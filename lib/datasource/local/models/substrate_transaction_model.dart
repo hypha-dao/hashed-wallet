@@ -16,10 +16,10 @@ class SubstrateTransactionModel {
   });
 
   factory SubstrateTransactionModel.fromJson(Map<String, dynamic> json) {
-    final extrinsic = SubstrateExtrinsicModel.fromJson(json["extrinsic"]);
+    // final extrinsic = SubstrateExtrinsicModel.fromJson(json["extrinsic"]);
     final params = jsonDecode(json["params"]) as List;
     return SubstrateTransactionModel(
-      extrinsic: extrinsic,
+      extrinsic: SubstrateExtrinsicModel.fromJson(json),
       parameters: params,
     );
   }
@@ -27,7 +27,7 @@ class SubstrateTransactionModel {
   /// Note: The fields in this method correspond to fields that will be used in the
   /// JavaScript package - these field names cannot be changed.
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'extrinsic': extrinsic.toJson(),
+        ...extrinsic.toJson(),
         'params': jsonEncode(parameters),
       };
 
