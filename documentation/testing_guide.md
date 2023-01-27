@@ -54,10 +54,23 @@ For milestone 3, we are testing switching the chain in Settings, and creating an
 All the steps marked [M3] are being done in the video presentation.
 
 ### [M3] Switch Chain
+1. Navigate to Settings -> Switch Network
+2. Tap on Switch Network
+3. Select a chain different from the currently selected chain
+4. Watch for the bottom notification saying the switch succeeded
+5. Navigate back to home screen, verify icon and chain name are correct, and balance
 
 ### [M3] Create a QR code ssr link, share it
+1. Tap on 'Receive' on the main wallet screen
+2. Enter an amount of tokens to receive
+3. On the QR code screen, save the screenshot
+4. Try the 'share' button which shares the ssr:// link
 
 ### [M3] Scan a QR code, sign and send transaction
+1. Tap on the QR icon on the bottom bar (center icon)
+2. Scan a valid QR code
+3. Verify the transactions are correct
+4. Tap sign and send to send off the transaction
 
 ### Guardians Setup  (Already in milestone 1)
 
