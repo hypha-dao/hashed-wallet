@@ -6,5 +6,6 @@ Part 1: Switch Chains, create QR code
 
 Part 2: Scan QR code, errors, and sign and send success.
 
-- [Part 2/2](https://youtube.com/shorts/A8d5XWYBs1k?feature=share)
+- [Part 2/2](https://youtu.be/a8GlhufJu6I)
+
 
