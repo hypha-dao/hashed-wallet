@@ -50,6 +50,9 @@ flutter run
 
 For milestone 3, we are testing switching the chain in Settings, and creating and scanning QR codes and signing and sending transactions:
 
+The specification for the QR code and ssr:// link YRL can be found here:
+[Substrate Signing Request (SSR) Spec](https://github.com/hypha-dao/hashed-wallet/wiki/Substrate-Signing-Request-Specification)
+
 ### Video Presentations
 All the steps marked [M3] are being done in the video presentation.
 
