@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:hashed/components/dots_indicator.dart';
+import 'package:hashed/components/flat_button_long_outlined.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
@@ -11,6 +13,7 @@ import 'package:hashed/screens/wallet/components/tokens_cards/components/currenc
 import 'package:hashed/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
 import 'package:hashed/screens/wallet/components/wallet_buttons.dart';
 import 'package:hashed/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TokenCards extends StatefulWidget {
   const TokenCards({super.key});
@@ -86,63 +89,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                           title: 'Receive ${polkadotRepository.state.isConnected ? " C" : " d"}',
                           onPressed: () async {
                             print("receive");
-                            await NavigationService.of(context).navigateTo(Routes.receiveEnterData);
-
-                            // ignore: unused_local_variable
-                            // final val = await polkadotRepository.getChainProperties();
-                            // if (polkadotRepository.state.isConnected) {
-                            //   print("stop service...");
-                            //   await polkadotRepository.stopService();
-                            //   print("stop service done.");
-                            // } else {
-                            //   print("stop service...");
-                            //   await polkadotRepository.stopService();
-
-                            //   final currentNetwork = await chainsRepository.currentNetwork();
-                            //   print("start service...${currentNetwork.name} ${currentNetwork.endpoints}");
-                            //   await polkadotRepository.initService(currentNetwork, force: true);
-                            //   print("init done.");
-                            //   await polkadotRepository.startService();
-                            //   print("start service done");
-                            // }
-
-                            // final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
-                            // final valid = await polkadotRepository.validateAddress(address);
-                            // print("is valud: $valid");
-
-                            // final address = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
-
-                            // final address = "5DDEc9t4iZYb4aQ7Gqzxvda6MkRQDQM3WDPJeK1bb5h8LFVb";
-                            // final res = await polkadotRepository.recoveryRepository.getProxies(address);
-
-                            // final recovery = res.asValue!.value;
-                            // // ignore: unnecessary_brace_in_string_interps
-                            // print("recovery: ${recovery} ");
-
-                            /// get last block
-                            // final res = await polkadotRepository.getLastBlockNumber();
-                            // print("last block: ${res.asValue!.value}");
-
-                            // get recovery
-                            // final lostAccount = "5HGZfBpqUUqGY7uRCYA6aRwnRHJVhrikn8to31GcfNcifkym";
-                            // final rescuer = "5G6XUFXZsdUYdB84eEjvPP33tFF1DjbSg7MPsNAx3mVDnxaW";
-                            // final res = await polkadotRepository.recoveryRepository
-                            //     .getActiveRecoveriesForLostaccount(rescuer, lostAccount);
-
-                            // final recovery = res.asValue!.value;
-                            // print("recovery: ${recovery!.toJson()} ");
-
-                            // print("firebase deep link: ${link.asValue?.value}");
-
-                            // create link
-                            // final link = await CreateFirebaseDynamicLinkUseCase().createDynamicLink(
-                            //     GuardianRecoveryRequestData(lostAccount: "0x0111", rescuer: "0x0222"));
-
-                            // print("firebase deep link: ${link.asValue?.value}");
-
-                            // get active recoveries
-                            // polkadotRepository.recoveryRepository
-                            //     .getActiveRecoveries(accountService.currentAccount.address);
+                            _showActionSheet(context);
                           },
                           buttonType: ButtonsType.receiveButton,
                         ),
@@ -154,6 +101,101 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
             );
           },
         ),
+      ),
+    );
+  }
+
+  void _shareAccountAddress() {
+    Share.share(accountService.currentAccount.address);
+  }
+
+  /// Might use Android bottom sheet if cupertino looks bad on Android..
+  // ignore: unused_element
+  void _showActionSheetAndroid(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.titleLarge;
+    final itemStyle = Theme.of(context).textTheme.button;
+    // ignore: unawaited_futures
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            height: 200,
+            child: Center(
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    'Receive',
+                    style: textStyle,
+                  ),
+                  const SizedBox(height: 16),
+                  InkWell(
+                    child: Text("Share Address", style: itemStyle),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _shareAccountAddress();
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  InkWell(
+                    child: const Text("QR Code"),
+                    onTap: () => NavigationService.of(context).navigateTo(Routes.receiveEnterData),
+                  ),
+                  const SizedBox(height: 16),
+                  FlatButtonLongOutlined(
+                    title: 'Cancel',
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text('Receive'),
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
+        ),
+        // message: const Text('Message'),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              _shareAccountAddress();
+            },
+            child: Text(
+              'Share Address',
+              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+            ),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              NavigationService.of(context).navigateTo(Routes.receiveEnterData);
+            },
+            child: Text(
+              'QR Code',
+              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+            ),
+          ),
+        ],
       ),
     );
   }

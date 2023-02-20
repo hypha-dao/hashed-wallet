@@ -12,7 +12,7 @@ import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/settings/interactor/viewmodels/page_commands.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
