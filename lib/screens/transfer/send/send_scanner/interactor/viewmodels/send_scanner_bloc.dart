@@ -23,7 +23,8 @@ class SendScannerBloc extends Bloc<SendScannerEvent, SendScannerState> {
         emit(state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString()));
       } else {
         final scanQrCodeResultData = result.asValue!.value;
-        emit(state.copyWith(pageCommand: NavigateToScanConfirmation(scanQrCodeResultData)));
+        emit(state.copyWith(
+            pageState: PageState.initial, pageCommand: NavigateToScanConfirmation(scanQrCodeResultData)));
       }
     }
   }
