@@ -21,5 +21,8 @@ class TokenBalanceModel {
   final BalanceModel balance;
   final TokenModel token;
 
+  double get quantity => balance.quantity;
+  String get asAssetString => token.getAssetString(balance.quantity);
+
   TokenBalanceModel(this.balance, this.token);
 }

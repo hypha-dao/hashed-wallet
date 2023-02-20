@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
@@ -30,6 +29,7 @@ class PolkadotRepository extends KeyRepository {
   late ChainProperties? chainProperties;
   final Map<String, ChainProperties> chainPropertiesCache = {};
   List<TokenModel>? allTokens;
+  TokenModel? get currentToken => allTokens?[0];
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
@@ -233,10 +233,10 @@ class PolkadotRepository extends KeyRepository {
 
       final free = resJson["data"]["free"];
       final freeString = "$free";
-      final bigNum = BigInt.parse(freeString);
-      final double result = bigNum.toDouble() / pow(10, token.precision);
 
-      return Result.value(TokenBalanceModel(BalanceModel(result), token));
+      final result = token.balanceFromUnit(freeString);
+
+      return Result.value(result);
     } catch (error) {
       print("Error getting balance $error");
       print(error);

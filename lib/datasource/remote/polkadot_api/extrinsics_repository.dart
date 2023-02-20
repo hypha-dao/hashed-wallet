@@ -1,8 +1,11 @@
 // This code extracted from the SDK
 import 'dart:convert';
 
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/web_view_runner.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
+import 'package:hashed/utils/result_extension.dart';
 
 //! ### Recovery Life Cycle
 //!
@@ -123,6 +126,24 @@ abstract class ExtrinsicsRepository {
       throw Exception(res['error']);
     }
     return res;
+  }
+
+  /// Same as signAndSend, but estimating fees
+  Future<Result<TxFeeEstimateResult>> estimateFees(SubstrateTransactionModel transaction) async {
+    final txInfo = transaction.extrinsic.resolvePlaceholders(accountService.currentAccount.address);
+    final params = transaction.parameters;
+
+    final code = 'keyring.txFeeEstimate(api, ${jsonEncode(txInfo.toJson())}, ${jsonEncode(params)})';
+
+    final dynamic res = await _webView.evalJavascript(code);
+    // res: {weight: 146473000, class: Normal, partialFee: 159496393}
+
+    if (res['error'] != null) {
+      return Result.error(res['error']);
+    }
+    final estimate = TxFeeEstimateResult.fromJson(res);
+
+    return Result.value(estimate);
   }
 
   String _createMessageUid() {

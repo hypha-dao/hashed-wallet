@@ -9,6 +9,8 @@ import 'package:hashed/datasource/local/signing_request_repository.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/result_to_state_mapper.dart';
+import 'package:hashed/screens/transfer/scan/interactor/usecases/estimate_fee_use_case.dart';
+import 'package:hashed/screens/transfer/scan/interactor/usecases/get_balance_use_case.dart';
 import 'package:hashed/screens/transfer/scan/interactor/viewmodels/scan_confirmation_commands.dart';
 import 'package:hashed/screens/transfer/scan/scan_confirmation_action.dart';
 
@@ -36,6 +38,20 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
       } else {
         result = Result.value(event.signingRequest!.signingRequestModel.toSendConfirmationData());
       }
+    }
+
+    final feeResult = await EstimateFeeUseCase().run(event.signingRequest!.signingRequestModel.transactions.first);
+    final balanceResult = await GetBalanceUseCase().run();
+    if (feeResult.isValue && balanceResult.isValue) {
+      final fee = feeResult.asValue!.value;
+      final balance = balanceResult.asValue!.value;
+      final canAffordFee = fee.quantity <= balance.quantity;
+      if (!canAffordFee) {
+        result = Result.error(
+            "Transaction fee exceeds available balance\nFee: ${fee.asAssetString}\nBalance: ${balance.asAssetString}");
+      }
+    } else {
+      print("error getting fee or balance.");
     }
     if (result.isValue) {
       emit(state.copyWith(

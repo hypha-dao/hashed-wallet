@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/models/tx_sender_data.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
 
 const defaultTipValue = '0';
 const defaultIsUnsignedValue = false;
@@ -106,4 +108,9 @@ class TxFeeEstimateResult {
         'weight': weight,
         'partialFee': partialFee,
       };
+
+  // convert tx fee to a token balance model
+  TokenBalanceModel toTokenBalanceModel(TokenModel token) {
+    return token.balanceFromUnit("$partialFee");
+  }
 }
