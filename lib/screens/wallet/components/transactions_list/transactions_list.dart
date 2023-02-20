@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/domain-shared/page_state.dart';
-import 'package:hashed/screens/wallet/components/transaction_details_bottom_sheet.dart';
 import 'package:hashed/screens/wallet/components/transactions_list/components/transaction_info_row.dart';
 import 'package:hashed/screens/wallet/components/transactions_list/components/transaction_loading_row.dart';
 import 'package:hashed/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
@@ -49,7 +48,8 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
                 final pageCommand = state.pageCommand;
                 BlocProvider.of<TransactionsListBloc>(context).add(const ClearTransactionListPageComand());
                 if (pageCommand is ShowTransactionDetails) {
-                  TransactionDetailsBottomSheet(pageCommand.transaction).show(context);
+                  throw "not implemented";
+                  // TransactionDetailsBottomSheet(pageCommand.transaction).show(context);
                 }
               },
               builder: (context, state) {
