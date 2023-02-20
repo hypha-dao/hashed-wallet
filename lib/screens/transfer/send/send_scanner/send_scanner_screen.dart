@@ -11,7 +11,6 @@ import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_bloc.dart';
-import 'package:hashed/utils/build_context_extension.dart';
 
 class SendScannerScreen extends StatefulWidget {
   const SendScannerScreen({super.key});
@@ -36,7 +35,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.loc.transferSendScanQRCode)),
+      appBar: AppBar(title: const Text('Scan QR Code')),
       body: BlocProvider(
         create: (_) => _sendScannerBloc,
         child: BlocListener<SendScannerBloc, SendScannerState>(
