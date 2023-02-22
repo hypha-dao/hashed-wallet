@@ -10,6 +10,7 @@ part 'send_scanner_state.dart';
 
 class SendScannerBloc extends Bloc<SendScannerEvent, SendScannerState> {
   SendScannerBloc() : super(SendScannerState.initial()) {
+    on<InitializeScanner>(_init);
     on<ExecuteScanResult>(_executeScanResult);
     on<ClearSendScannerPageCommand>((_, emit) => emit(state.copyWith()));
   }
@@ -23,9 +24,12 @@ class SendScannerBloc extends Bloc<SendScannerEvent, SendScannerState> {
         emit(state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString()));
       } else {
         final scanQrCodeResultData = result.asValue!.value;
-        emit(state.copyWith(
-            pageState: PageState.initial, pageCommand: NavigateToScanConfirmation(scanQrCodeResultData)));
+        emit(state.copyWith(pageCommand: NavigateToScanConfirmation(scanQrCodeResultData)));
       }
     }
+  }
+
+  Future<void> _init(InitializeScanner event, Emitter<SendScannerState> emit) async {
+    emit(SendScannerState.initial());
   }
 }

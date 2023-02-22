@@ -40,11 +40,13 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
         create: (_) => _sendScannerBloc,
         child: BlocListener<SendScannerBloc, SendScannerState>(
           listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
+          listener: (context, state) async {
             final pageCommand = state.pageCommand;
             BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
             if (pageCommand is NavigateToScanConfirmation) {
-              NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
+              await NavigationService.of(context).navigateTo(pageCommand.route, arguments: pageCommand.arguments);
+              // 'reload' this view - but only after the new page is up
+              _sendScannerBloc.add(const InitializeScanner());
             }
             if (pageCommand is NavigateToRoute) {
               NavigationService.of(context).navigateTo(pageCommand.route);
@@ -110,7 +112,8 @@ class SSRMockDataGenerator {
     final hasher5 = "5Dnk6vQhAVDY9ysZr8jrqWJENDWYHaF3zorFA4dr9Mtbei77";
     final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [hasher5, 2000000000000000]);
     final SubstrateSigningRequestModel model = SubstrateSigningRequestModel(
-      chainId: "hashed", // "polkadot" // for testing, switch this out
+      chainId: "hashed", // select chain
+      // chainId: "polkadot",
       transactions: [transactionModel],
     );
     final ssrUrlResult = repo.toUrl(model);

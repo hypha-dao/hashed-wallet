@@ -16,6 +16,13 @@ class ExecuteScanResult extends SendScannerEvent {
   String toString() => 'ExecuteScanResult: { scanResult: $scanResult }';
 }
 
+class InitializeScanner extends SendScannerEvent {
+  const InitializeScanner();
+
+  @override
+  String toString() => 'InitializeScanner';
+}
+
 class ClearSendScannerPageCommand extends SendScannerEvent {
   const ClearSendScannerPageCommand();
 
