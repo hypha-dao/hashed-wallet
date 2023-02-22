@@ -56,6 +56,12 @@ class ChainsRepository {
       print("not founds: $info");
       return "";
     }
+    // we move to just storing URLs there
+    if (imageName.startsWith('http')) {
+      // assume url
+      return imageName;
+    }
+
     final String? path = cachedLogoPaths!.firstWhereOrNull((e) => e.contains(imageName));
     if (path == null) {
       print("error: logo not found: $info  $imageName");
@@ -164,6 +170,6 @@ class ChainsRepository {
     name: 'Hashed Network',
     info: hashedNetworkId,
     iconUrl: 'assets/images/appbar/hashed_logo.png',
-    endpoints: ['wss://n1.hashed.systems'],
+    endpoints: ['wss://n1.main.hashed.systems/'],
   );
 }
