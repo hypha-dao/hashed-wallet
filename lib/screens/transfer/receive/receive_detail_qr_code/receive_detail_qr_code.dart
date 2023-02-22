@@ -7,7 +7,6 @@ import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/qr_code_generator_widget.dart';
 import 'package:hashed/components/share_link_row.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
-import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/components/receive_paid_success_dialog.dart';
 import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
 import 'package:hashed/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details_bloc.dart';
 import 'package:hashed/utils/build_context_extension.dart';
@@ -26,11 +25,6 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
         listenWhen: (_, current) => current.receivePaidSuccessArgs != null,
         listener: (context, state) {
           Navigator.of(context).pop(); // pop this screen
-          showDialog<void>(
-            context: context,
-            barrierDismissible: false, // user must tap button
-            builder: (_) => ReceivePaidSuccessDialog(state.receivePaidSuccessArgs!),
-          );
         },
         builder: (context, state) {
           return Scaffold(
@@ -68,7 +62,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                           const DividerJungle(thickness: 2.0, height: 10),
                           const SizedBox(height: 4),
                           const SizedBox(height: 40),
-                          Text("Waiting for payment...", style: Theme.of(context).textTheme.headline6),
+                          Text("Waiting for payment", style: Theme.of(context).textTheme.headline6),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(60.0, 40, 60.0, 0),
                             child: FlatButtonLong(
@@ -76,7 +70,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                               isLoading: state.isCheckButtonLoading,
                               title: "Done",
                               onPressed: () {
-                                BlocProvider.of<ReceiveDetailsBloc>(context).add(const OnCheckPaymentButtonPressed());
+                                Navigator.of(context).pop();
                               },
                             ),
                           ),
