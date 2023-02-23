@@ -95,6 +95,7 @@ class PolkadotRepository extends KeyRepository {
     } catch (err) {
       print("Polkadot Service start Error: $err");
       state.isConnected = false;
+      startKeepAliveTimer();
 
       rethrow;
     }
