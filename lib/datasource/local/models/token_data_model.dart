@@ -56,6 +56,11 @@ class TokenDataModel extends AmountDataModel {
     return (amount * pow(10, precision)).toInt();
   }
 
+  double amountFromUnit(String unitAmount) {
+    final bigNum = BigInt.parse(unitAmount);
+    return bigNum.toDouble() / pow(10, precision);
+  }
+
   // display formatted number and symbol, example "10.00 SEEDS", "1,234.56 SEEDS"
   String amountStringWithSymbol() {
     return "${amountString()} $symbol";

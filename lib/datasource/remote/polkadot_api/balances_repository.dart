@@ -1,4 +1,5 @@
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
+import 'package:hashed/datasource/local/models/substrate_transaction_model.dart';
 import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 import 'package:hashed/datasource/remote/polkadot_api/extrinsics_repository.dart';
 import 'package:hashed/utils/result_extension.dart';
@@ -26,6 +27,22 @@ class BalancesRepository extends ExtrinsicsRepository {
       return Result.value(res["hash"]);
     } catch (err) {
       print('sendTransfer ERROR $err');
+      return Result.error(err);
+    }
+  }
+
+  Future<Result<TxFeeEstimateResult>> estimateTransferFees({
+    required String from,
+    required String to,
+    required int amount,
+  }) async {
+    final sender = TxSenderData(from);
+    final txInfo = SubstrateExtrinsicModel(module: 'balances', call: 'transfer', sender: sender);
+    final params = [to, amount];
+    try {
+      return estimateFees(SubstrateTransactionModel(extrinsic: txInfo, parameters: params));
+    } catch (err) {
+      print('estimateFees ERROR $err');
       return Result.error(err);
     }
   }
