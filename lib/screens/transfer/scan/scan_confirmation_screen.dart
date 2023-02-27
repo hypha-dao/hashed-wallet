@@ -81,6 +81,13 @@ class ScanConfirmationScreen extends StatelessWidget {
                         },
                         itemCount: state.actions!.length,
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          "Estimated fee: ${state.fee?.asAssetString}",
+                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                        ),
+                      ),
                     ],
                   ),
                 ),

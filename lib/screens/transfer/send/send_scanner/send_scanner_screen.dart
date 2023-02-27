@@ -109,11 +109,12 @@ class SSRMockDataGenerator {
   String generateMockSSR() {
     final repo = SigningRequestRepository();
     final txInfo = const SubstrateExtrinsicModel(module: 'balances', call: 'transfer', sender: TxSenderData.signer);
-    final hasher5 = "5Dnk6vQhAVDY9ysZr8jrqWJENDWYHaF3zorFA4dr9Mtbei77";
-    final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [hasher5, 2000000000000000]);
+    final hasher5 = "5Dnk6vQhAVDY9ysZr8jrqWJENDWYHaF3zorFA4dr9Mtbei77"; // for HASHED tokens
+    final nikTest2Acct = "5CRviLekLUMLVCw8pFhEpXSwJYhs9re7WYDyvPyVTKDsysA6"; // for DOT
+    final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [nikTest2Acct, 200000000]);
     final SubstrateSigningRequestModel model = SubstrateSigningRequestModel(
-      chainId: "hashed", // select chain
-      // chainId: "polkadot",
+      // chainId: "hashed", // select chain
+      chainId: "polkadot",
       transactions: [transactionModel],
     );
     final ssrUrlResult = repo.toUrl(model);

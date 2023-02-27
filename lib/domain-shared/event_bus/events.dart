@@ -12,8 +12,7 @@ abstract class BusEvent<T> {
 }
 
 class OnNewTransactionEventBus extends BusEvent<OnNewTransactionEventBus> {
-  final SendTransaction? transactionModel;
-  const OnNewTransactionEventBus(this.transactionModel);
+  const OnNewTransactionEventBus();
 }
 
 class OnFiatCurrencyChangedEventBus extends BusEvent<OnNewTransactionEventBus> {

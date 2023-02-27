@@ -21,7 +21,7 @@ class SendTransactionMapper extends StateMapper {
         resultResponse,
         currentState.ratesState,
       );
-      eventBus.fire(OnNewTransactionEventBus(transaction));
+      eventBus.fire(const OnNewTransactionEventBus());
 
       return currentState.copyWith(pageState: PageState.success, pageCommand: pageCommand);
     }
