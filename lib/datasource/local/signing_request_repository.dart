@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
@@ -60,7 +59,7 @@ class SigningRequestRepository {
   }
 
   Future<Result<Map<String, dynamic>>> signAndSendSigningRequest(
-      SubstrateSigningRequestModel signingRequestModel) async {
+      SubstrateSigningRequestModel signingRequestModel, String senderAddress) async {
     // check chain
     if (signingRequestModel.chainId != settingsStorage.currentNetwork) {
       throw "Wrong chain - switch to the chain ${signingRequestModel.chainId} before signing this request.";
@@ -75,7 +74,7 @@ class SigningRequestRepository {
     final transaction = signingRequestModel.transactions[0];
 
     // resolve sender
-    final extrinsicModel = transaction.extrinsic.resolvePlaceholders(accountService.currentAccount.address);
+    final extrinsicModel = transaction.extrinsic.resolvePlaceholders(senderAddress);
     final params = transaction.parameters;
 
     try {

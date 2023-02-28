@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
@@ -80,7 +81,8 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
   FutureOr<void> _onSendTapped(OnSendTapped event, Emitter<ScanConfirmationState> emit) async {
     emit(state.copyWith(actionButtonLoading: true));
 
-    final result = await SigningRequestRepository().signAndSendSigningRequest(state.signingRequest!);
+    final result = await SigningRequestRepository()
+        .signAndSendSigningRequest(state.signingRequest!, accountService.currentAccount.address);
 
     eventBus.fire(const OnNewTransactionEventBus());
 
