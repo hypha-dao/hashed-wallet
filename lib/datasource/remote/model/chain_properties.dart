@@ -1,11 +1,12 @@
 class ChainProperties {
-  /// Note: header has a bunch of other fields, but we only use number
   final int ss58Format;
   final List<int> tokenDecimals;
   final List<String> tokenSymbol;
+
+  // all the following are optional and can be null
   final String? displayName;
-  final String network;
-  final int prefix;
+  final String? network;
+  final int? prefix;
   final String? standardAccount;
   final String? website;
 
@@ -14,11 +15,14 @@ class ChainProperties {
     required this.tokenDecimals,
     required this.tokenSymbol,
     this.displayName,
-    required this.network,
-    required this.prefix,
+    this.network,
+    this.prefix,
     this.standardAccount,
     this.website,
   });
+
+  // DOT
+  // {ss58Format: 0, tokenDecimals: [10], tokenSymbol: [DOT]}
 
   factory ChainProperties.fromJson(Map<String, dynamic> json) {
     return ChainProperties(

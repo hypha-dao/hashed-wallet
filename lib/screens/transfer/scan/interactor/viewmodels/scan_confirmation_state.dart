@@ -37,6 +37,7 @@ class ScanConfirmationState extends Equatable {
   final String? transactionSendError;
   final List<ScanConfirmationActionData>? actions;
   final SubstrateSigningRequestModel? signingRequest;
+  final TokenBalanceModel? fee;
 
   const ScanConfirmationState({
     required this.pageState,
@@ -45,6 +46,7 @@ class ScanConfirmationState extends Equatable {
     this.transactionSendError,
     this.actions,
     this.signingRequest,
+    this.fee,
   });
 
   @override
@@ -53,6 +55,9 @@ class ScanConfirmationState extends Equatable {
         pageCommand,
         actionButtonLoading,
         transactionSendError,
+        actions,
+        signingRequest,
+        fee,
       ];
 
   ScanConfirmationState copyWith({
@@ -62,15 +67,16 @@ class ScanConfirmationState extends Equatable {
     String? transactionSendError,
     List<ScanConfirmationActionData>? actions,
     SubstrateSigningRequestModel? signingRequest,
+    TokenBalanceModel? fee,
   }) {
     return ScanConfirmationState(
-      pageState: pageState ?? this.pageState,
-      pageCommand: pageCommand,
-      actionButtonLoading: actionButtonLoading ?? this.actionButtonLoading,
-      transactionSendError: transactionSendError ?? this.transactionSendError,
-      actions: actions ?? this.actions,
-      signingRequest: signingRequest ?? this.signingRequest,
-    );
+        pageState: pageState ?? this.pageState,
+        pageCommand: pageCommand,
+        actionButtonLoading: actionButtonLoading ?? this.actionButtonLoading,
+        transactionSendError: transactionSendError ?? this.transactionSendError,
+        actions: actions ?? this.actions,
+        signingRequest: signingRequest ?? this.signingRequest,
+        fee: fee ?? this.fee);
   }
 
   factory ScanConfirmationState.initial() {

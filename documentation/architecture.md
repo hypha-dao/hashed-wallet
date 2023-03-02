@@ -33,14 +33,14 @@ Use cases abstract actions that are asynchronous.
 
 Private keys are kept in secure storage on both platforms. 
 
-### Milestone 2 Codebase
+### Milestone 3 Codebase
 
 All code is formatted according to Flutter/Dart recommended linter settings. The only exception to this is third party code that was included as-is in, such as some code from Polkawallet, and some crypto libraries. 
 
-Polkawallet code was cleaned from the codebase and the parts we used integrated. 
+Polkawallet code reduced and refactored. 
 
-Most EOSIO code has been removed at this point.
+All EOSIO code has been removed.
 
-The new code is visible in the screens - startup screen, sign in screen, create account screen, Settings screen, and guardians screens. 
+The new code is visible in the screens - Settings, Receive, Scan QR Code. 
 
 

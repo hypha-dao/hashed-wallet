@@ -7,7 +7,6 @@ import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/local/models/tx_sender_data.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
 import 'package:hashed/datasource/local/signing_request_repository.dart';
-import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/base_use_case.dart';
 import 'package:hashed/utils/result_extension.dart';
 
@@ -19,8 +18,7 @@ class ReceiveInvoiceUseCase extends InputUseCase<ReceiveInvoiceResponse, _Input>
 
   @override
   Future<Result<ReceiveInvoiceResponse>> run(_Input input) async {
-    final chainProperties = await polkadotRepository.getChainProperties();
-    final chainId = chainProperties.network;
+    final chainId = settingsStorage.currentNetwork;
     final sender = TxSenderData.signer;
     final extrinsic = SubstrateExtrinsicModel(module: 'balances', call: 'transfer', sender: sender);
     print("current acct ${settingsStorage.currentAccount}");

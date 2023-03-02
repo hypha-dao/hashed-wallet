@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hashed/components/custom_dialog.dart';
 import 'package:hashed/components/profile_avatar.dart';
+import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/fiat_data_model.dart';
 import 'package:hashed/datasource/local/models/token_data_model.dart';
 import 'package:hashed/datasource/remote/model/token_model.dart';
+import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/utils/short_string.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
@@ -14,9 +18,10 @@ class SendConfirmationDialog extends StatelessWidget {
   final String? toName;
   final String toAccount;
   final String? memo;
+  final String? fee;
   final VoidCallback onSendButtonPressed;
 
-  const SendConfirmationDialog({
+  SendConfirmationDialog({
     super.key,
     required this.tokenAmount,
     this.fiatAmount,
@@ -24,8 +29,27 @@ class SendConfirmationDialog extends StatelessWidget {
     this.toName,
     required this.toAccount,
     this.memo,
+    this.fee,
     required this.onSendButtonPressed,
   });
+
+  late final Stream<String> _feeStream = (() {
+    late final StreamController<String> controller;
+    controller = StreamController<String>(
+      onListen: () async {
+        final result = await polkadotRepository.balancesRepository.estimateTransferFees(
+            from: accountService.currentAccount.address, to: toAccount, amount: tokenAmount.unitAmount());
+        if (result.isValue) {
+          final val = result.asValue!.value;
+          final amount = tokenAmount.amountFromUnit("${val.partialFee}");
+          final tokenModel = tokenAmount.copyWith(amount);
+          controller.add(tokenModel.amountStringWithSymbol());
+        }
+        await controller.close();
+      },
+    );
+    return controller.stream;
+  })();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +91,29 @@ class SendConfirmationDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Network Fee", textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
-            Text("TBD", textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
+            StreamBuilder<String>(
+                stream: _feeStream,
+                initialData: "...",
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return const SizedBox();
+                    case ConnectionState.active:
+                      return const SizedBox();
+                    case ConnectionState.waiting:
+                      return SizedBox(
+                        width: 10,
+                        height: 10,
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          strokeWidth: 1,
+                        ),
+                      );
+                    case ConnectionState.done:
+                      return Text(snapshot.data ?? "?",
+                          textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2);
+                  }
+                }),
           ],
         ),
         const SizedBox(height: 40.0),

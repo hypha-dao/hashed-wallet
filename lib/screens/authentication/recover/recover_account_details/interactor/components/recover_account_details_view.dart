@@ -7,7 +7,7 @@ import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/screens/authentication/recover/recover_account_details/interactor/viewmodels/recover_account_details_bloc.dart';
 import 'package:hashed/utils/ThemeBuildContext.dart';
 import 'package:hashed/utils/short_string.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RecoverAccountDetailsView extends StatelessWidget {
   const RecoverAccountDetailsView({super.key});

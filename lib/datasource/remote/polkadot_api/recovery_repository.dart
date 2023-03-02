@@ -162,7 +162,7 @@ class RecoveryRepository extends ExtrinsicsRepository {
 
       return Result.value(recovery);
     } catch (err, stacktrace) {
-      print('getActiveRecoveries error: $err');
+      print('getActiveRecoveriesForLostaccount error: $err');
       print(stacktrace);
       return Result.error(err);
     }

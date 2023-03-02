@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:hashed/datasource/remote/model/generic_transaction_model.dart';
 import 'package:hashed/utils/read_times_tamp.dart';
 import 'package:hashed/utils/string_extension.dart';
 
@@ -46,28 +45,5 @@ class TransactionModel extends Equatable {
       transactionId: json['trx_id'],
       //json["block_num"], // can add this later - neat but changes cache structure
     );
-  }
-
-  static TransactionModel? fromTransaction(GenericTransactionModel genericModel) {
-    if (genericModel.transaction.isTransfer) {
-      final action = genericModel.transaction.actions.first;
-      final data = action.data;
-      final String? from = data?['from'];
-      final String? to = data?['to'];
-      final String? quantity = data?['quantity'];
-      final String memo = data?['memo'] ?? "";
-      if (from != null && to != null && quantity != null) {
-        return TransactionModel(
-          from: from,
-          to: to,
-          quantity: quantity,
-          memo: memo,
-          timestamp: genericModel.timestamp ?? DateTime.now().toUtc(),
-          transactionId: genericModel.transactionId,
-        );
-      }
-    }
-
-    return null;
   }
 }

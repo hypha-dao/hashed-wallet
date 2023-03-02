@@ -10,6 +10,8 @@ class SwitchNetworkUseCase {
     }
     print("switch network to $selected");
 
+    settingsStorage.currentNetwork = selected.info;
+
     try {
       await polkadotRepository.stopService();
       await polkadotRepository.initService(selected);

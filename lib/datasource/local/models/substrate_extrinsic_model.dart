@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/models/tx_sender_data.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
+import 'package:hashed/datasource/remote/model/token_model.dart';
 
 const defaultTipValue = '0';
 const defaultIsUnsignedValue = false;
@@ -12,6 +14,7 @@ class SubstrateExtrinsicModel extends Equatable {
   final TxSenderData? sender;
   final String? tip;
   final bool? isUnsigned;
+  final String? callbackUrl;
 
   /// proxy for calling recovery.asRecovered
   final TxSenderData? proxy;
@@ -27,19 +30,22 @@ class SubstrateExtrinsicModel extends Equatable {
     this.isUnsigned = defaultIsUnsignedValue,
     this.proxy,
     this.txName,
+    this.callbackUrl,
   });
 
   factory SubstrateExtrinsicModel.fromJson(Map<String, dynamic> json) {
     final sender = json["sender"] != null ? TxSenderData.fromJsonOrPlaceholder(json["sender"]) : null;
     final proxy = json["proxy"] != null ? TxSenderData.fromJson(json["proxy"]) : null;
     return SubstrateExtrinsicModel(
-        module: json['module'] as String,
-        call: json['call'] as String,
-        sender: sender,
-        tip: json["tip"] ?? defaultTipValue,
-        isUnsigned: json["isUnsigned"] ?? defaultIsUnsignedValue,
-        proxy: proxy,
-        txName: json['txName']);
+      module: json['module'] as String,
+      call: json['call'] as String,
+      sender: sender,
+      tip: json["tip"] ?? defaultTipValue,
+      isUnsigned: json["isUnsigned"] ?? defaultIsUnsignedValue,
+      proxy: proxy,
+      txName: json['txName'],
+      callbackUrl: json['callback'],
+    );
   }
 
   /// Returns an extrinsic model with sender replaced by account
@@ -78,6 +84,9 @@ class SubstrateExtrinsicModel extends Equatable {
     if (txName != null) {
       map['txName'] = txName;
     }
+    if (callbackUrl != null) {
+      map['callback'] = callbackUrl;
+    }
     return map;
   }
 
@@ -99,4 +108,9 @@ class TxFeeEstimateResult {
         'weight': weight,
         'partialFee': partialFee,
       };
+
+  // convert tx fee to a token balance model
+  TokenBalanceModel toTokenBalanceModel(TokenModel token) {
+    return token.balanceFromUnit("$partialFee");
+  }
 }

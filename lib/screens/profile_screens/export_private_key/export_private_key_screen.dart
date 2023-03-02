@@ -6,7 +6,7 @@ import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 import 'package:hashed/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_bloc.dart';
 import 'package:hashed/screens/profile_screens/export_private_key/interactor/viewmodels/export_private_key_page_commands.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ExportPrivateKeyScreen extends StatelessWidget {
   const ExportPrivateKeyScreen({super.key});

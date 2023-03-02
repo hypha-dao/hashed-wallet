@@ -13,7 +13,6 @@ import 'package:hashed/domain-shared/event_bus/events.dart';
 import 'package:hashed/domain-shared/page_state.dart';
 import 'package:hashed/domain-shared/ui_constants.dart';
 // ignore: unused_import
-import 'package:hashed/screens/transfer/send/send_confirmation/components/generic_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
 import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:hashed/datasource/remote/model/balance_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 
 class TokenModel extends Equatable {
@@ -52,6 +53,11 @@ class TokenModel extends Equatable {
   double amountFromUnit(String unitAmount) {
     final bigNum = BigInt.parse(unitAmount);
     return bigNum.toDouble() / pow(10, precision);
+  }
+
+  TokenBalanceModel balanceFromUnit(String unitAmount) {
+    final bigNum = BigInt.parse(unitAmount);
+    return TokenBalanceModel(BalanceModel(bigNum.toDouble() / pow(10, precision)), this);
   }
 }
 

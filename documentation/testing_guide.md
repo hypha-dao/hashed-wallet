@@ -32,7 +32,7 @@ Install [Flutter](https://docs.flutter.dev/get-started/install)
 1. [install the Android Emulator and Android Studio](https://developer.android.com/studio/run/emulator)
 2. [Run the Emulator](https://developer.android.com/studio/run/emulator)
 
-### Run the app (Milestone 2)
+### Run the app (Milestone 3)
 
 Open a command line terminal, and run the following commands
 
@@ -41,27 +41,39 @@ Make sure that either iOS Simulator or Android Emulator are up and running, then
 ```
 git clone git@github.com:hypha-dao/hashed-wallet.git
 cd hashed-wallet
-git checkout v1.0.0_M2 
+git checkout v1.0.0_M3 
 flutter pub get
 flutter run
 ```
 
 ## Testing the app once running
 
-For milestone 2, we are testing recovery of an account, so we have 3 different roles played by 5 different accounts:
+For milestone 3, we are testing switching the chain in Settings, and creating and scanning QR codes and signing and sending transactions:
 
-STEVE - the lost account 
-
-Guardians - G0, G1, and G2, Steve's guardians (friends)
-
-Rescuer - the account rescuing Steve's account
-
-I am providing Steve, G0, G1, and G2, and Rescuer accounts, see Element chat. 
-
-The tester is free to test this with other accounts also through, only needs to create a lost account, a rescuer account, and N guardian accounts. 
+The specification for the QR code and ssr:// link YRL can be found here:
+[Substrate Signing Request (SSR) Spec](https://github.com/hypha-dao/hashed-wallet/wiki/Substrate-Signing-Request-Specification)
 
 ### Video Presentations
-All the following steps are being done in the video presentation (2 videos). It's a lot of functionality, that's why it's 10 minutes long. 
+All the steps marked [M3] are being done in the video presentation.
+
+### [M3] Switch Chain
+1. Navigate to Settings -> Switch Network
+2. Tap on Switch Network
+3. Select a chain different from the currently selected chain
+4. Watch for the bottom notification saying the switch succeeded
+5. Navigate back to home screen, verify icon and chain name are correct, and balance
+
+### [M3] Create a QR code ssr link, share it
+1. Tap on 'Receive' on the main wallet screen
+2. Enter an amount of tokens to receive
+3. On the QR code screen, save the screenshot
+4. Try the 'share' button which shares the ssr:// link
+
+### [M3] Scan a QR code, sign and send transaction
+1. Tap on the QR icon on the bottom bar (center icon)
+2. Scan a valid QR code
+3. Verify the transactions are correct
+4. Tap sign and send to send off the transaction
 
 ### Guardians Setup  (Already in milestone 1)
 
@@ -75,7 +87,7 @@ However, if you want to test with your own accounts, follow the guardians setup 
 4. Add desired addresses as guardians
 5. Click "Activate"
 
-### Recovery Setup (New in milestone 2)
+### Recovery Setup (Already in milestone 2)
 
 1. Login as rescuer account (provided in secure chat)
 2. -> Settings
@@ -94,13 +106,13 @@ However, if you want to test with your own accounts, follow the guardians setup 
 15. Close recovery
 
 
-### Vouch using shared link (New in milestone 2)
+### Vouch using shared link (Already in milestone 2)
 
 1. Login as guardian account (provided in secure chat)
 2. Click on the link shared by rescuer
 3. In the dialog, click "Vouch"
 
-### Cancel malicious recovery (New in milestone 2)
+### Cancel malicious recovery (Already in milestone 2)
 
 1. Login as Steve
 2. In the dialog, click the "Cancel Recovery" button

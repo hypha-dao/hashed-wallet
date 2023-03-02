@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/flutter_js/substrate_service.dart';
@@ -30,6 +29,7 @@ class PolkadotRepository extends KeyRepository {
   late ChainProperties? chainProperties;
   final Map<String, ChainProperties> chainPropertiesCache = {};
   List<TokenModel>? allTokens;
+  TokenModel? get currentToken => allTokens?[0];
 
   bool get isInitialized => state.isInitialized;
   bool get isConnected => state.isConnected;
@@ -95,6 +95,7 @@ class PolkadotRepository extends KeyRepository {
     } catch (err) {
       print("Polkadot Service start Error: $err");
       state.isConnected = false;
+      startKeepAliveTimer();
 
       rethrow;
     }
@@ -111,6 +112,7 @@ class PolkadotRepository extends KeyRepository {
     state.isInitialized = false;
     state.isConnected = false;
     initialized = false;
+    allTokens = null;
 
     return true;
   }
@@ -213,7 +215,7 @@ class PolkadotRepository extends KeyRepository {
   // api.query.system.account(steve.address)
   Future<Result<TokenBalanceModel>> getBalance(String address, {TokenModel? forToken}) async {
     try {
-      print("get balance for $address");
+      print("get balance for $address ${forToken?.chainName}");
       if (!state.isConnected) {
         print("getBalance: service not ready...");
         return Result.error("Not ready");
@@ -221,7 +223,7 @@ class PolkadotRepository extends KeyRepository {
 
       final resJson = await _substrateService?.webView.evalJavascript('api.query.system.account("$address")');
 
-      final token = allTokens?[0] ?? hashedToken;
+      final token = allTokens?[0] ?? forToken ?? hashedToken;
 
       if (forToken != null && forToken.symbol != token.symbol) {
         // TODO(n13): Figure out how to retrieve other token balances on a chain
@@ -232,10 +234,10 @@ class PolkadotRepository extends KeyRepository {
 
       final free = resJson["data"]["free"];
       final freeString = "$free";
-      final bigNum = BigInt.parse(freeString);
-      final double result = bigNum.toDouble() / pow(10, token.precision);
 
-      return Result.value(TokenBalanceModel(BalanceModel(result), token));
+      final result = token.balanceFromUnit(freeString);
+
+      return Result.value(result);
     } catch (error) {
       print("Error getting balance $error");
       print(error);
@@ -469,8 +471,8 @@ class PolkadotRepository extends KeyRepository {
   }
 
   Future<List<TokenModel>> loadChainTokens() async {
-    final chainProperties = await getChainProperties();
     final network = await chainsRepository.currentNetwork();
+    final chainProperties = await getChainProperties();
 
     final List<TokenModel> tokens = [];
 
