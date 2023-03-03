@@ -46,7 +46,7 @@ class AmountEntryWidget extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.headline2,
+                        style: Theme.of(context).textTheme.displayMedium,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         decoration: const InputDecoration(
                           hintText: "0.0",
@@ -81,7 +81,7 @@ class AmountEntryWidget extends StatelessWidget {
                                 state.currentCurrencyInput == CurrencyInput.token
                                     ? state.tokenAmount.symbol
                                     : state.fiatAmount?.symbol ?? "",
-                                style: Theme.of(context).textTheme.subtitle2,
+                                style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(height: 18)
                             ],

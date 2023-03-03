@@ -60,7 +60,7 @@ class RecoverAccountOverviewView extends StatelessWidget {
                   if (state.recoveredAccounts.isNotEmpty)
                     Text(
                       "Recovered Accounts",
-                      style: context.textTheme.headline6,
+                      style: context.textTheme.titleLarge,
                     ),
                   const SizedBox(height: 16),
                   ...state.recoveredAccounts.map((e) => AccountCard(

@@ -21,7 +21,7 @@ class ActivateGuardiansConfirmationDialog extends StatelessWidget {
       onLeftButtonPressed: onDismiss,
       children: [
         const SizedBox(height: 20),
-        Text("Activate Guardians?", style: Theme.of(context).textTheme.headline6),
+        Text("Activate Guardians?", style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 30),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 30),

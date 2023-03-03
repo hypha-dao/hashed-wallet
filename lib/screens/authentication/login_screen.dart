@@ -22,14 +22,14 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(context.loc.loginFirstTimeHere, style: Theme.of(context).textTheme.subtitle2),
+                    Text(context.loc.loginFirstTimeHere, style: Theme.of(context).textTheme.titleSmall),
                     const SizedBox(height: 10),
                     FlatButtonLong(
                       onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
                       title: "Create Account",
                     ),
                     const SizedBox(height: 40),
-                    Text("Already have an account?", style: Theme.of(context).textTheme.subtitle2),
+                    Text("Already have an account?", style: Theme.of(context).textTheme.titleSmall),
                     const SizedBox(height: 10),
                     FlatButtonLong(
                       onPressed: () => NavigationService.of(context).navigateTo(Routes.importKey),

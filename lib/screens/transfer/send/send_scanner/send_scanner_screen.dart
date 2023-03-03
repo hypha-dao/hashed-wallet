@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hashed/components/flat_button_long.dart';
 import 'package:hashed/components/scanner/scanner_view.dart';
 import 'package:hashed/datasource/local/models/substrate_extrinsic_model.dart';
 import 'package:hashed/datasource/local/models/substrate_signing_request_model.dart';
@@ -49,13 +48,14 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
               _sendScannerBloc.add(const InitializeScanner());
             }
             if (pageCommand is NavigateToRoute) {
-              NavigationService.of(context).navigateTo(pageCommand.route);
+              // ignore: use_build_context_synchronously
+              await NavigationService.of(context).navigateTo(pageCommand.route);
             }
           },
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text("Scan QR Code to Send", style: Theme.of(context).textTheme.button),
+              Text("Scan QR Code to Send", style: Theme.of(context).textTheme.labelLarge),
               const SizedBox(height: 82),
               _scannerWidget,
               BlocBuilder<SendScannerBloc, SendScannerState>(
@@ -78,7 +78,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               state.errorMessage!,
-                              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: Colors.orangeAccent),
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.orangeAccent),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -109,6 +109,7 @@ class SSRMockDataGenerator {
   String generateMockSSR() {
     final repo = SigningRequestRepository();
     final txInfo = const SubstrateExtrinsicModel(module: 'balances', call: 'transfer', sender: TxSenderData.signer);
+    // ignore: unused_local_variable
     final hasher5 = "5Dnk6vQhAVDY9ysZr8jrqWJENDWYHaF3zorFA4dr9Mtbei77"; // for HASHED tokens
     final nikTest2Acct = "5CRviLekLUMLVCw8pFhEpXSwJYhs9re7WYDyvPyVTKDsysA6"; // for DOT
     final transactionModel = SubstrateTransactionModel(extrinsic: txInfo, parameters: [nikTest2Acct, 200000000]);

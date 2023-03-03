@@ -62,7 +62,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                           const DividerJungle(thickness: 2.0, height: 10),
                           const SizedBox(height: 4),
                           const SizedBox(height: 40),
-                          Text("Waiting for payment", style: Theme.of(context).textTheme.headline6),
+                          Text("Waiting for payment", style: Theme.of(context).textTheme.titleLarge),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(60.0, 40, 60.0, 0),
                             child: FlatButtonLong(

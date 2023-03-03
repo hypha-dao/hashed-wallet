@@ -6,10 +6,8 @@ import 'package:hashed/blocs/authentication/viewmodels/authentication_bloc.dart'
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
 import 'package:hashed/datasource/local/settings_storage.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:hashed/domain-shared/page_command.dart';
 import 'package:hashed/domain-shared/page_state.dart';
-import 'package:hashed/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:hashed/navigation/navigation_service.dart';
 import 'package:hashed/screens/settings/interactor/viewmodels/page_commands.dart';
 import 'package:share_plus/share_plus.dart';
@@ -20,13 +18,8 @@ part 'settings_state.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final AuthenticationBloc _authenticationBloc;
   late StreamSubscription<bool> _hasGuardianNotificationPending;
-  final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   SettingsBloc(this._authenticationBloc) : super(SettingsState.initial(false)) {
-    _hasGuardianNotificationPending = GuardiansNotificationUseCase()
-        .hasGuardianNotificationPending
-        .listen((value) => add(ShouldShowNotificationBadge(value: value)));
-
     on<SetUpInitialValues>(_setUpInitialValues);
     on<ShouldShowNotificationBadge>((event, emit) => emit(state.copyWith(hasNotification: event.value)));
     on<OnGuardiansCardTapped>(_onGuardiansCardTapped);
@@ -50,10 +43,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     return super.close();
   }
 
-  Stream<bool> get isGuardianContractInitialized {
-    return _repository.isGuardiansInitialized(accountService.currentAccount.address);
-  }
-
   void _setUpInitialValues(SetUpInitialValues event, Emitter<SettingsState> emit) {
     emit(state.copyWith(
       pageState: PageState.success,
@@ -65,7 +54,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> _onGuardiansCardTapped(OnGuardiansCardTapped event, Emitter<SettingsState> emit) async {
     emit(state.copyWith()); //reset
     if (state.hasNotification) {
-      await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(accountService.currentAccount.address);
+      // await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(accountService.currentAccount.address);
     }
     emit(state.copyWith(pageCommand: NavigateToRoute(Routes.guardianTabs)));
   }

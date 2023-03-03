@@ -38,7 +38,7 @@ class ReceiveSendButtons extends StatelessWidget {
                         const Icon(Icons.arrow_upward),
                         Container(
                           padding: const EdgeInsets.only(left: 4, top: 4),
-                          child: Text(context.loc.walletSendButtonTitle, style: Theme.of(context).textTheme.button),
+                          child: Text(context.loc.walletSendButtonTitle, style: Theme.of(context).textTheme.labelLarge),
                         ),
                       ],
                     ),
@@ -66,7 +66,8 @@ class ReceiveSendButtons extends StatelessWidget {
                         const Icon(Icons.arrow_downward),
                         Container(
                           padding: const EdgeInsets.only(left: 4, top: 4),
-                          child: Text(context.loc.walletReceiveButtonTitle, style: Theme.of(context).textTheme.button),
+                          child:
+                              Text(context.loc.walletReceiveButtonTitle, style: Theme.of(context).textTheme.labelLarge),
                         ),
                       ],
                     ),

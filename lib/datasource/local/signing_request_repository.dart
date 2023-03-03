@@ -42,7 +42,7 @@ class SigningRequestRepository {
       return SubstrateSigningRequestModel.fromJson(ssrJson);
     } catch (err, s) {
       print("Unable to parse signing request URL: $url");
-      print(err.toString());
+      print(err);
       print(s);
       return null;
     }

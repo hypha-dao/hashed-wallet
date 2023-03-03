@@ -113,7 +113,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
   // ignore: unused_element
   void _showActionSheetAndroid(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.titleLarge;
-    final itemStyle = Theme.of(context).textTheme.button;
+    final itemStyle = Theme.of(context).textTheme.labelLarge;
     // ignore: unawaited_futures
     showModalBottomSheet<void>(
       context: context,

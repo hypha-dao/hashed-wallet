@@ -51,7 +51,7 @@ class GuardianSecurityCard extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       "Key Guardians",
-                                      style: context.textTheme.button,
+                                      style: context.textTheme.labelLarge,
                                     ),
                                   ),
                                   const SizedBox(width: 10),

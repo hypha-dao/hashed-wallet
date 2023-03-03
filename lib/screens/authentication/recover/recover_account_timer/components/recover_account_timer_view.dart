@@ -41,32 +41,32 @@ class RecoverAccountTimerView extends StatelessWidget {
                       Row(
                         children: [
                           Text(state.currentRemainingTime?.hoursFormatted ?? '00',
-                              style: Theme.of(context).textTheme.headline4),
+                              style: Theme.of(context).textTheme.headlineMedium),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 6),
-                            child: Text(':', style: Theme.of(context).textTheme.headline4),
+                            child: Text(':', style: Theme.of(context).textTheme.headlineMedium),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           Text(state.currentRemainingTime?.minFormatted ?? '00',
-                              style: Theme.of(context).textTheme.headline4),
+                              style: Theme.of(context).textTheme.headlineMedium),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 6),
-                            child: Text(':', style: Theme.of(context).textTheme.headline4),
+                            child: Text(':', style: Theme.of(context).textTheme.headlineMedium),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           Text('${state.currentRemainingTime?.secFormatted ?? '00'} ',
-                              style: Theme.of(context).textTheme.headline4),
+                              style: Theme.of(context).textTheme.headlineMedium),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 14),
-                        child: Text('Hours Left', style: Theme.of(context).textTheme.subtitle2),
+                        child: Text('Hours Left', style: Theme.of(context).textTheme.titleSmall),
                       )
                     ],
                   ),
