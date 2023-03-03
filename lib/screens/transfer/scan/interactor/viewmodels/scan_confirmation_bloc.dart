@@ -94,7 +94,7 @@ class ScanConfirmationBloc extends Bloc<ScanConfirmationEvent, ScanConfirmationS
     } else {
       emit(state.copyWith(
         actionButtonLoading: false,
-        transactionSendError: 'Error: ${result.asError!.error.toString()}',
+        transactionSendError: 'Error: ${result.asError!.error}',
       ));
     }
   }

@@ -25,7 +25,7 @@ class TransactionActionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('transfer'.inCaps),
-                  Text('balances', style: Theme.of(context).textTheme.subtitle2),
+                  Text('balances', style: Theme.of(context).textTheme.titleSmall),
                 ],
               ),
               const Divider(),
@@ -39,7 +39,7 @@ class TransactionActionCard extends StatelessWidget {
                         children: [
                           Text(i.key.inCaps),
                           const SizedBox(width: 4),
-                          Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
+                          Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.titleSmall)),
                         ],
                       ),
                     ),

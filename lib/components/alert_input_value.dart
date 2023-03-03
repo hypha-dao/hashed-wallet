@@ -18,7 +18,7 @@ class AlertInputValue extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
-                child: Text(text, style: Theme.of(context).textTheme.subtitle2),
+                child: Text(text, style: Theme.of(context).textTheme.titleSmall),
               ),
             ],
           ),

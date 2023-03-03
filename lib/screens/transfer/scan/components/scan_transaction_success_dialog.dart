@@ -23,16 +23,16 @@ class ScanTransactionSuccessDialog extends StatelessWidget {
             await NavigationService.of(context).goToHomeScreen();
           },
           children: [
-            Text("Success", style: Theme.of(context).textTheme.headline4),
+            Text("Success", style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 30.0),
             Text(
               'Your action has been successfully processed.',
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
             Text(
               'Select Done to go back to the Wallet HomeScreen.',
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
           ],

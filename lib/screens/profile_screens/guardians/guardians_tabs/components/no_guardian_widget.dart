@@ -13,7 +13,7 @@ class NoGuardiansWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
+          Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleSmall),
           IconButton(
               onPressed: onPressed,
               icon: Icon(

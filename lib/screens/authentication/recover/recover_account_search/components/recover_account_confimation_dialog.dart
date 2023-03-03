@@ -23,7 +23,7 @@ class RecoverAccountConfirmationDialog extends StatelessWidget {
       onLeftButtonPressed: onDismiss,
       children: [
         const SizedBox(height: 20),
-        Text("Recover Account?", style: Theme.of(context).textTheme.headline6),
+        Text("Recover Account?", style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),

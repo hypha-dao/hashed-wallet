@@ -95,7 +95,7 @@ class SettingsCard extends StatelessWidget {
                             Flexible(
                                 child: Text(
                               description,
-                              style: context.textTheme.subtitle2!.copyWith(
+                              style: context.textTheme.titleSmall!.copyWith(
                                 color: (textColor ?? context.colorScheme.onSurface).withAlpha(180),
                               ),
                             ))

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hashed/datasource/local/account_service.dart';
 import 'package:hashed/datasource/local/models/account.dart';
-import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+// import 'package:hashed/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:hashed/datasource/remote/model/guardians_config_model.dart';
 import 'package:hashed/datasource/remote/polkadot_api/polkadot_repository.dart';
 import 'package:hashed/domain-shared/page_command.dart';
@@ -19,12 +19,12 @@ part 'guardians_state.dart';
 
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   final GetGuardiansConfigUseCase _getGuardiansDataUseCase = GetGuardiansConfigUseCase();
-  final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
+  // final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   GuardiansBloc() : super(GuardiansState.initial()) {
     on<Initial>(_initial);
     on<OnMyGuardianActionButtonTapped>(_onMyGuardianActionButtonTapped);
-    on<OnStopRecoveryForUser>(_onStopRecoveryForUser);
+    // on<OnStopRecoveryForUser>(_onStopRecoveryForUser);
     on<OnRemoveGuardianTapped>(_onRemoveGuardianTapped);
     on<OnGuardianAdded>(_onGuardianAdded);
     on<OnResetConfirmed>(_onResetConfirmed);
@@ -32,9 +32,9 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  Future<void> _onStopRecoveryForUser(OnStopRecoveryForUser event, Emitter<GuardiansState> emit) async {
-    await _repository.stopRecoveryForUser(accountService.currentAccount.address);
-  }
+  // Future<void> _onStopRecoveryForUser(OnStopRecoveryForUser event, Emitter<GuardiansState> emit) async {
+  //   await _repository.stopRecoveryForUser(accountService.currentAccount.address);
+  // }
 
   Future<void> _onRemoveGuardianTapped(OnRemoveGuardianTapped event, Emitter<GuardiansState> emit) async {
     final guards = state.myGuardians;

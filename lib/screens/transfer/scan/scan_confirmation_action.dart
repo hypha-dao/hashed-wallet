@@ -26,7 +26,7 @@ class ScanConfirmationActionWidget extends StatelessWidget {
               ),
               Text(
                 data.extrinsic,
-                style: context.textTheme.subtitle2,
+                style: context.textTheme.titleSmall,
                 overflow: TextOverflow.ellipsis,
               )
             ],
@@ -40,11 +40,11 @@ class ScanConfirmationActionWidget extends StatelessWidget {
                     children: [
                       Text(
                         e.key,
-                        style: context.textTheme.subtitle2?.copyWith(color: Colors.white.withOpacity(0.8)),
+                        style: context.textTheme.titleSmall?.copyWith(color: Colors.white.withOpacity(0.8)),
                       ),
                       Text(
                         e.value,
-                        style: context.textTheme.subtitle2,
+                        style: context.textTheme.titleSmall,
                       )
                     ],
                   ))

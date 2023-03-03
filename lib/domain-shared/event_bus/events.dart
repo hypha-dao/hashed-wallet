@@ -1,5 +1,4 @@
 import 'package:hashed/components/snack.dart';
-import 'package:hashed/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:meta/meta.dart';
 
 /// --- EVENT BUS EVENTS

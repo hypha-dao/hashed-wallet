@@ -25,7 +25,7 @@ class GuardianRowWidget extends StatelessWidget {
         ),
         title: Text(
           guardianModel.name != null ? guardianModel.name! : guardianModel.address,
-          style: Theme.of(context).textTheme.button,
+          style: Theme.of(context).textTheme.labelLarge,
         ),
         subtitle: Text(guardianModel.name != null ? guardianModel.address : ""),
         onTap: () {});

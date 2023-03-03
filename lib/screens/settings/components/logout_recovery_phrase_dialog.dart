@@ -18,7 +18,7 @@ class LogoutRecoveryPhraseDialog extends StatelessWidget {
         return CustomDialog(
           icon: SvgPicture.asset("assets/images/settings/logout_icon.svg"),
           children: [
-            Text('Logout'.i18n, style: Theme.of(context).textTheme.button),
+            Text('Logout'.i18n, style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 30.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -28,7 +28,7 @@ class LogoutRecoveryPhraseDialog extends StatelessWidget {
                     'Save private Recovery Phrase in secure place - to be able to restore access to your wallet later'
                         .i18n,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 36.0),
                   FlatButtonLong(

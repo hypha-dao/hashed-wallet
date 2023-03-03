@@ -58,14 +58,14 @@ class RecoverAccountDetailsView extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Text(state.approvedAccounts.length.toString(), style: context.textTheme.headline6),
-                      Text("/${state.totalGuardiansCount}", style: context.textTheme.headline6),
+                      Text(state.approvedAccounts.length.toString(), style: context.textTheme.titleLarge),
+                      Text("/${state.totalGuardiansCount}", style: context.textTheme.titleLarge),
                       const SizedBox(width: 24),
                       Flexible(
                         child: Text.rich(TextSpan(
                           text: 'Guardians signed, you need',
                           children: [
-                            TextSpan(text: ' ${state.threshold} ', style: context.textTheme.headline6),
+                            TextSpan(text: ' ${state.threshold} ', style: context.textTheme.titleLarge),
                             const TextSpan(text: "to recover."),
                           ],
                         )),

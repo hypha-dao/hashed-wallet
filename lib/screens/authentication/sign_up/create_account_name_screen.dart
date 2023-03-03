@@ -87,9 +87,9 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                             initialValue: state.auth?.wordsString ?? "",
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: Theme.of(context).textTheme.titleMedium,
                             decoration: InputDecoration(
-                              suffixStyle: Theme.of(context).textTheme.subtitle2,
+                              suffixStyle: Theme.of(context).textTheme.titleSmall,
                               suffixIcon: const Icon(Icons.copy_all),
                               contentPadding: const EdgeInsets.all(16.0),
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
