@@ -26,14 +26,14 @@ class ChainProperties {
 
   factory ChainProperties.fromJson(Map<String, dynamic> json) {
     return ChainProperties(
-      ss58Format: json["ss58Format"],
-      tokenDecimals: List<int>.from(json["tokenDecimals"]),
-      tokenSymbol: List<String>.from(json["tokenSymbol"]),
-      displayName: json["displayName"],
-      network: json["network"],
-      prefix: json["prefix"],
-      standardAccount: json["standardAccount"],
-      website: json["website"],
+      ss58Format: json["ss58Format"] as int,
+      tokenDecimals: List<int>.from(json["tokenDecimals"] as Iterable<int>),
+      tokenSymbol: List<String>.from(json["tokenSymbol"] as Iterable<int>),
+      displayName: json["displayName"] as String?,
+      network: json["network"] as String?,
+      prefix: json["prefix"] as int?,
+      standardAccount: json["standardAccount"] as String?,
+      website: json["website"] as String?,
     );
   }
 }

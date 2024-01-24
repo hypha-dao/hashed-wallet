@@ -18,7 +18,7 @@ class SigningRequestRepository {
   }
 
   /// returns JSON object
-  dynamic signingRequestUrlToJson(String url) {
+  Map<String, dynamic> signingRequestUrlToJson(String url) {
     final urlComponents = url.split("://");
     if (urlComponents.length == 2) {
       if (urlComponents[0] == urlScheme) {
@@ -26,7 +26,7 @@ class SigningRequestRepository {
         final zippedBytes = base64Url.decode(payload);
         final bytes = gzip.decode(zippedBytes);
         final string = utf8.decode(bytes);
-        final result = json.decode(string);
+        final result = json.decode(string) as Map<String, dynamic>;
         return result;
       } else {
         throw "Unsupported URL scheme: ${urlComponents[0]}";

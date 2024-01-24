@@ -7,7 +7,7 @@ class RatesStateMapper extends StateMapper {
   static const husdTokenId = 'husd.hypha#HUSD';
   static const telosTokenId = 'eosio.token#TLOS';
   static const seedsTokenId = 'token.seeds#SEEDS';
-  RatesState mapResultToState(RatesState currentState, List<Result> results) {
+  RatesState mapResultToState(RatesState currentState, List<Result<FiatRateModel>> results) {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch balance...');
     } else {

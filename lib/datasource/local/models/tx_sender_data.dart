@@ -20,8 +20,9 @@ class TxSenderData {
         'address': address,
       };
 
-  factory TxSenderData.fromJsonOrPlaceholder(dynamic jsonOrPlaceholder) =>
-      jsonOrPlaceholder == signerAddressPlaceholder ? signer : TxSenderData.fromJson(jsonOrPlaceholder);
+  factory TxSenderData.fromJsonOrPlaceholder(dynamic jsonOrPlaceholder) => jsonOrPlaceholder == signerAddressPlaceholder
+      ? signer
+      : TxSenderData.fromJson(jsonOrPlaceholder as Map<String, dynamic>);
 
   // either we return a proper JSON object or a signer placeholder
   dynamic toJsonOrPlaceholder() => this == signer

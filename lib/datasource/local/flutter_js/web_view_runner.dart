@@ -121,11 +121,11 @@ class WebViewRunner {
           try {
             final msg = jsonDecode(message.message);
 
-            final String? path = msg['path'];
+            final String? path = msg['path'] as String?;
             if (_msgCompleters[path!] != null) {
               final Completer handler = _msgCompleters[path]!;
 
-              final error = msg['error'];
+              final Object? error = msg['error'];
 
               if (error != null) {
                 handler.completeError(error);

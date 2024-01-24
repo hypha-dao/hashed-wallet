@@ -17,13 +17,13 @@ class Account extends Equatable {
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      name: json["name"],
-      address: json["address"],
+      name: json["name"] as String?,
+      address: json["address"] as String,
     );
   }
 
   static List<Account> listFromJson(String jsonString) {
-    final List items = json.decode(jsonString) as List;
+    final items = json.decode(jsonString) as List<Map<String, dynamic>>;
     return items.map((e) => Account.fromJson(e)).toList();
   }
 

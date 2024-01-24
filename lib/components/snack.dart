@@ -6,7 +6,7 @@ class Snack extends SnackBar {
   final String title;
   final ScaffoldMessengerState scaffoldMessengerState;
 
-  factory Snack(title, scaffoldMessengerState) {
+  factory Snack(String title, ScaffoldMessengerState scaffoldMessengerState) {
     final Duration duration = const Duration(seconds: 4);
 
     return Snack._(title, scaffoldMessengerState, duration: duration);

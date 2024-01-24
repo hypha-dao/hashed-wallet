@@ -31,7 +31,7 @@ class MembersRepository extends HttpRepository {
     return http
         .post(mongoUrl, headers: headers, body: params)
         .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['items'].toList();
+              final allAccounts = body['items'].toList() as List<Map<String, dynamic>>;
               return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));

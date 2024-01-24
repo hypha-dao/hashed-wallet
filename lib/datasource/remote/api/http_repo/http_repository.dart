@@ -11,7 +11,7 @@ abstract class HttpRepository {
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
 
-  FutureOr<Result<T>> mapHttpResponse<T>(http.Response response, Function modelMapper) {
+  FutureOr<Result<T>> mapHttpResponse<T>(http.Response response, T Function(dynamic) modelMapper) {
     switch (response.statusCode) {
       case 200:
         {
@@ -27,7 +27,7 @@ abstract class HttpRepository {
 
   ErrorResult mapHttpError(dynamic error) {
     print('mapHttpError: $error');
-    return ErrorResult(error);
+    return ErrorResult(error as Object);
   }
 
   String createRequest({

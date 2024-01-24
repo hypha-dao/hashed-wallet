@@ -31,13 +31,13 @@ class ActiveRecoveryModel extends Equatable {
   });
 
   factory ActiveRecoveryModel.fromJson(Map<String, dynamic> json) {
-    final lostAccount = json["lostAccount"];
-    final rescuer = json["rescuer"];
+    final lostAccount = json["lostAccount"] as String;
+    final rescuer = json["rescuer"] as String;
 
     final dynamic data = json["data"];
-    final int created = data['created'];
-    final int deposit = data['deposit'];
-    final friends = List<String>.from(data["friends"]);
+    final created = data['created'] as int;
+    final deposit = data['deposit'] as int;
+    final friends = List<String>.from(data["friends"] as List);
 
     return ActiveRecoveryModel(
       lostAccount: lostAccount,
@@ -55,9 +55,9 @@ class ActiveRecoveryModel extends Equatable {
     required String lostAccount,
     required Map<String, dynamic> json,
   }) {
-    final int created = json['created'];
-    final int deposit = json['deposit'];
-    final friends = List<String>.from(json["friends"]);
+    final created = json['created'] as int;
+    final deposit = json['deposit'] as int;
+    final friends = List<String>.from(json["friends"] as List<String>);
 
     return ActiveRecoveryModel(
       lostAccount: lostAccount,

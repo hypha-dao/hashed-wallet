@@ -10,7 +10,7 @@ class RatesRepository extends HttpRepository {
     return http
         .get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=$fxApiKey"))
         .then((http.Response response) => mapHttpResponse<FiatRateModel>(response, (dynamic body) {
-              return FiatRateModel.fromJson(body);
+              return FiatRateModel.fromJson(body as Map<String, dynamic>);
             }))
         .catchError((error) => mapHttpError(error));
   }
